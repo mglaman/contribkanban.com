@@ -6,7 +6,10 @@
         <div class="kanban-board">
             <div class="kanban-board--list" data-ng-repeat="list in boardLists" data-ng-controller="listCtrl">
                 <div class="kanban-board--list__header">
-                    <h2>{{ list.label }}</h2>
+                    <h2>
+                        <span class="fa fa-spin" data-ng-class="{'fa-spinner': processing === true}">&nbsp;</span>
+                        <span>{{ list.label }}</span>
+                    </h2>
                 </div>
                 <div class="kanban-board--items">
                     <div class="kanban-board--item" data-ng-repeat="issue in listIssues | issueIdFilter:list.ids" style="border-left-color: {{ issue.status | statusColorFilter }}">
