@@ -1,18 +1,31 @@
 <div class="col-sm-7 well well-sm projects--list">
-    <div data-ng-controller="projectFormCtrl">
-        <form novalidate>
-            <div class="input-group pull-right">
-                <div class="form-group pull-left">
-                    <input class="form-control" type="text" data-ng-model="project.machine_name" placeholder="Project machine name"/>
-                </div>
+    <div class="container-fluid">
+        <div class="browse--form row">
+            <div class="form-group col-sm-6">
+                <input type="text" tabindex="1" data-ng-model="projectSearch" placeholder="Find a project" class="form-control"/>
+            </div>
+            <div class="col-sm-6" data-ng-controller="projectFormCtrl">
+                <form class="form-inline" novalidate>
+                    <div class="input-group pull-right">
+                        <div class="form-group pull-left">
+                            <input class="form-control" type="text" data-ng-model="project.machine_name" placeholder="Project machine name"/>
+                        </div>
                 <span class="input-group-btn pull-left">
                     <input class="btn btn-primary" type="submit" data-ng-click="newProject(project)" value="Add Project"/>
                 </span>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
-    <div data-ng-repeat="project in projects">
-        <h3><span><a href="#/board/{{ project.nid }}">{{ project.title }}</a></span></h3>
+    <div class="container-fluid">
+        <div class="browse--projects row">
+            <div class="col-sm-12">
+                <div data-ng-repeat="project in projects | filter:projectSearch">
+                    <h3><span><a href="#/board/{{ project.nid }}">{{ project.title }}</a></span></h3>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="col-sm-5">
