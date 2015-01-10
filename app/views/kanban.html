@@ -4,7 +4,7 @@
     </div>
     <div class="kanban-board--container">
         <div class="kanban-board">
-            <div class="kanban-board--list" data-ng-repeat="list in boardLists" data-ng-controller="listCtrl">
+            <div class="kanban-board--list" data-ng-repeat="list in boardLists track by list.name" data-ng-controller="listCtrl">
                 <div class="kanban-board--list__header">
                     <h2>
                         <span class="fa fa-spin" data-ng-class="{'fa-spinner': processing === true}">&nbsp;</span>
@@ -12,7 +12,7 @@
                     </h2>
                 </div>
                 <div class="kanban-board--items">
-                    <div class="kanban-board--item" data-ng-repeat="issue in listIssues | issueIdFilter:list.ids" style="border-left-color: {{ issue.status | statusColorFilter }}">
+                    <div class="kanban-board--item" data-ng-repeat="issue in listIssues | issueIdFilter:list.ids track by issue.nid" style="border-left-color: {{ issue.status | statusColorFilter }}">
                        <a class="kanban-board--issue__link" href="https://www.drupal.org/node/{{ issue.nid}}" target="_blank">#{{ issue.nid}}</a>
                         <span class="kanban-board--issue__title">{{ issue.summary }}</span>
                     </div>

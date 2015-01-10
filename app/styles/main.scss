@@ -117,4 +117,10 @@ a {
   font-size: 13px;
   word-break: normal;
   box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.13);
+  @include transition(transform 0.1s ease);
+  transform: translateZ(0);
+  &:hover, &:active, &:focus {
+    transform: scale(1.05);
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.33);
+  }
 }
