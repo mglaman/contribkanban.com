@@ -6,7 +6,8 @@ projectKanbanApp.controller(
     '$routeParams',
     'issueService',
     'projectService',
-    function($scope, $routeParams, issueService, projectService) {
+    'Angularytics',
+    function($scope, $routeParams, issueService, projectService, Angularytics) {
       // Hardcoded for now based on states
       $scope.boardLists = [
         {name: 'backlog', label: 'Postponed', ids: [4,16]},
@@ -23,6 +24,7 @@ projectKanbanApp.controller(
       projectService.loadProject($routeParams.project).then(function(object) {
         $scope.page.setTitle(object.title);
         $scope.project = object;
+        Angularytics.trackEvent('Project', 'Viewed project: ' + object.title);
       });
     }
   ])

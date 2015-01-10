@@ -11,7 +11,7 @@
                             <input class="form-control" type="text" data-ng-model="project.machine_name" placeholder="Project machine name"/>
                         </div>
                 <span class="input-group-btn pull-left">
-                    <input class="btn btn-primary" type="submit" data-ng-click="newProject(project)" value="Add Project"/>
+                    <input class="btn btn-primary" type="submit" data-ng-click="newProject(project) | trackEvent:'Projects':'Added a project'" value="Add Project"/>
                 </span>
                     </div>
                 </form>
