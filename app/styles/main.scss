@@ -7,11 +7,17 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
-html, body {
+a {
+  @include transition(color 0.2s ease);
 }
 
 .navbar {
   text-align: center;
+}
+.navbar-brand {
+  font-size: 28px;
+  font-weight: 100;
+  letter-spacing: -2.1px;
 }
 
 .projects--list {
