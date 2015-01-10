@@ -9,7 +9,7 @@
                     <h2>{{ list.label }}</h2>
                 </div>
                 <div class="kanban-board--items">
-                    <div class="kanban-board--item" data-ng-repeat="issue in boardIssues | issueIdFilter:list.ids" style="border-left-color: {{ issue.status | statusColorFilter }}">
+                    <div class="kanban-board--item" data-ng-repeat="issue in listIssues | issueIdFilter:list.ids" style="border-left-color: {{ issue.status | statusColorFilter }}">
                        <a class="kanban-board--issue__link" href="https://www.drupal.org/node/{{ issue.nid}}" target="_blank">#{{ issue.nid}}</a>
                         <span class="kanban-board--issue__title">{{ issue.summary }}</span>
                     </div>

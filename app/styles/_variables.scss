@@ -13,7 +13,7 @@ $color--secondary--light-yellow: #E6FCB6;
 $color--secondary--grey: #666666;
 $color--secondary--black: #222222;
 
-$body-bg: $color--primary--light-blue;
+$body-bg: lighten($color--secondary--pale-grey, 20%);
 
 // Bootstrap typography
 $font-family-sans-serif: 'Roboto', sans-serif;
@@ -22,9 +22,9 @@ $text-color: $color--secondary--black;
 $link-color: $color--primary--dark-blue;
 
 // Bootstrap Navbar
-$navbar-height: 35px;
+$navbar-height: 65px;
 $navbar-border-radius: 0;
-$navbar-default-bg: $color--primary--dark-blue;
-$navbar-default-border: $color--primary--light-blue;
+$navbar-default-bg: $color--primary--light-blue;
+$navbar-default-border: $color--primary--dark-blue;
 $navbar-default-link-color: #fff;
 $navbar-default-link-hover-color: $color--primary--light-blue;

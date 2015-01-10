@@ -1,17 +1,33 @@
-<div class="col-sm-8 well well-sm projects--list">
+<div class="col-sm-7 well well-sm projects--list">
+    <div data-ng-controller="projectFormCtrl">
+        <form novalidate>
+            <div class="input-group pull-right">
+                <div class="form-group pull-left">
+                    <input class="form-control" type="text" data-ng-model="project.machine_name" placeholder="Project machine name"/>
+                </div>
+                <span class="input-group-btn pull-left">
+                    <input class="btn btn-primary" type="submit" data-ng-click="newProject(project)" value="Add Project"/>
+                </span>
+            </div>
+        </form>
+    </div>
     <div data-ng-repeat="project in projects">
         <h3><span><a href="#/board/{{ project.nid }}">{{ project.title }}</a></span></h3>
     </div>
 </div>
-<div class="col-sm-4">
-    <h1>Welcome!</h1>
-    <p>I guess if you want children beaten, you have to do it yourself. What are you hacking off? Is it my torso?! 'It is!' My precious torso! I was all of history's great robot actors - Acting Unit 0.8; Thespomat; David Duchovny! My fellow Earthicans, as I have explained in my book 'Earth in the Balance'', and the much more popular ''Harry Potter and the Balance of Earth', we need to defend our planet against pollution. Also dark wizards. Look, everyone wants to be like Germany, but do we really have the pure strength of 'will'? Moving along…</p>
-    <div data-ng-controller="projectFormCtrl">
-        <form novalidate>
-            <div class="form-group">
-                <input class="form-control" type="text" data-ng-model="project.machine_name" placeholder="Project machine name"/>
-                <input class="btn btn-primary" type="submit" data-ng-click="newProject(project)" value="Add Project"/>
-            </div>
-        </form>
-    </div>
+<div class="col-sm-5">
+    <h1>Welcome to Contrib Kanban!</h1>
+    <p>This is a huge work in progress created by <a href="http://glamanate.com">Matt Glaman</a></p>
+    <p>The goal is to provide the <a href="http://www.drupal.org">Drupal.org</a> community with a simpler way to sprint on projects.</p>
+    <p>At the moment each project has the same lists, and in the future maintainers will be able to customize these lists by issue state and tags.</p>
+    <p>Break down of the lists</p>
+    <ul>
+        <li><strong>Backlog</strong>: Postponed & Needs more info</li>
+        <li><strong>Active</strong></li>
+        <li><strong>Needs Review</strong></li>
+        <li><strong>Needs Work</strong></li>
+        <li><strong>RTBC</strong></li>
+        <li><strong>Fixed</strong>: Currently just Fixed, no Closed (fixed) for now.</li>
+        <li><strong>Won't Fix</strong> Hidden, due to possible performance/number of calls. Anything closed and not fixed.</li>
+    </ul>
 </div>
