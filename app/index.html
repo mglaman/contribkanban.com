@@ -1,8 +1,8 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" data-ng-app="projectKanbanApp">
 <head>
     <meta charset="utf-8">
-    <title>Contrib Kanban | by Matt Glaman for the community.</title>
+    <title data-ng-bind="page.title"></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link rel="shortcut icon" href="/favicon.ico">
@@ -21,15 +21,17 @@
     <script src="bower_components/modernizr/modernizr.js"></script>
     <!-- endbuild -->
 </head>
-<body data-ng-app="projectKanbanApp">
-<nav class="navbar navbar-default navbar-static-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a href="#/browse" class="navbar-brand">Project Kanban</a>
+<body>
+<div class="page" data-appviewport>
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="#/browse" class="navbar-brand">Contrib Kanban</a>
+            </div>
         </div>
-    </div>
-</nav>
-<div class="container-fluid" data-ng-view></div>
+    </nav>
+    <div class="container-fluid" data-ng-view></div>
+</div>
 
 <!-- build:js(.) scripts/vendor.js -->
 <!-- bower:js -->

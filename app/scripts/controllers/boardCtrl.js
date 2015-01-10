@@ -9,7 +9,7 @@ projectKanbanApp.controller(
     function($scope, $routeParams, issueService, projectService) {
       // Hardcoded for now based on states
       $scope.boardLists = [
-        {name: 'backlog', label: 'Backlog', ids: [4,16]},
+        {name: 'backlog', label: 'Postponed', ids: [4,16]},
         {name: 'active', label: 'Active', ids: [1]},
         {name: 'cnr', label: 'Needs Review', ids: [8]},
         {name: 'cnw', label: 'Needs Work', ids: [13]},
@@ -20,16 +20,23 @@ projectKanbanApp.controller(
         // {name: 'done', label: 'Fixed', ids: [2,7]}
         {name: 'done', label: 'Fixed', ids: [2]}
       ];
-
-      $scope.boardIssues = [];
-      /*
-      issueService.requestIssues($routeParams.project).then(function(issues) {
-          $scope.boardIssues = issues;
-        }
-      );
-*/
       projectService.loadProject($routeParams.project).then(function(object) {
+        $scope.page.setTitle(object.title);
         $scope.project = object;
       });
     }
-  ]);
+  ])
+  .directive('boardviewport', ['$window', function($window) {
+    return {
+      restrict: 'A',
+      link: function (scope, element) {
+        scope.initializeWindowSize = function () {
+          $(element).css('height', $window.innerHeight - 70);
+        };
+        scope.initializeWindowSize();
+        angular.element($window).bind('resize', function () {
+          scope.initializeWindowSize();
+        });
+      }
+    };
+  }]);
