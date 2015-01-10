@@ -9,9 +9,9 @@ projectKanbanApp.factory('projectService', ['$http', '$q', function($http, $q) {
 
   var project = {};
 
-  factory.requestProject = function(machine_name) {
+  factory.requestProject = function(machineName) {
     var deferred = $q.defer();
-    $http.get(baseURL + machine_name)
+    $http.get(baseURL + machineName)
       .success(function (d) {
         // We did a search
         var returnedObject = d.list[0];
@@ -34,8 +34,8 @@ projectKanbanApp.factory('projectService', ['$http', '$q', function($http, $q) {
     return deferred.promise;
   };
 
-  factory.addProject = function(machine_name) {
-    return $http.get(baseURL + machine_name).then(function(response) {
+  factory.addProject = function(machineName) {
+    return $http.get(baseURL + machineName).then(function(response) {
       return response.data;
     });
   };
@@ -46,15 +46,12 @@ projectKanbanApp.factory('projectService', ['$http', '$q', function($http, $q) {
     parseQuery.equalTo('nid', nid);
     parseQuery.first({
       success: function(object) {
-        if (typeof object != 'undefined') {
+        if (typeof object !== undefined) {
           deferred.resolve(object.attributes);
         }
       }
     });
     return deferred.promise;
-  };
-
-  factory.loadAll = function(range) {
   };
 
   factory.getProject = function() {
