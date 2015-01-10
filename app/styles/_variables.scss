@@ -1,0 +1,30 @@
+// Colors in reference to https://www.drupal.org/node/1051644
+
+// D.o Primary Colors
+$color--primary--dark-blue: #0678BE;
+$color--primary--light-blue: #53B0EB;
+$color--primary--lime-green: #96BC44;
+
+// D.o Secondary Colors
+$color--secondary--navy-blue: #064771;
+$color--secondary--light-navy-blue: #0D7DC1;
+$color--secondary--pale-grey: #F6F6F2;
+$color--secondary--light-yellow: #E6FCB6;
+$color--secondary--grey: #666666;
+$color--secondary--black: #222222;
+
+$body-bg: $color--primary--light-blue;
+
+// Bootstrap typography
+$font-family-sans-serif: 'Roboto', sans-serif;
+$font-family-serif: $font-family-sans-serif;
+$text-color: $color--secondary--black;
+$link-color: $color--primary--dark-blue;
+
+// Bootstrap Navbar
+$navbar-height: 35px;
+$navbar-border-radius: 0;
+$navbar-default-bg: $color--primary--dark-blue;
+$navbar-default-border: $color--primary--light-blue;
+$navbar-default-link-color: #fff;
+$navbar-default-link-hover-color: $color--primary--light-blue;

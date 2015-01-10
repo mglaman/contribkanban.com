@@ -1,0 +1,20 @@
+<div class="kanban-board__wrapper">
+    <div class="kanban-board--header">
+        <h1>{{ project.title }}</h1>
+    </div>
+    <div class="kanban-board--container">
+        <div class="kanban-board">
+            <div class="kanban-board--list" data-ng-repeat="list in boardLists" data-ng-controller="listCtrl">
+                <div class="kanban-board--list__header">
+                    <h2>{{ list.label }}</h2>
+                </div>
+                <div class="kanban-board--items">
+                    <div class="kanban-board--item" data-ng-repeat="issue in boardIssues | issueIdFilter:list.ids" style="border-left-color: {{ issue.status | statusColorFilter }}">
+                       <a class="kanban-board--issue__link" href="https://www.drupal.org/node/{{ issue.nid}}" target="_blank">#{{ issue.nid}}</a>
+                        <span class="kanban-board--issue__title">{{ issue.summary }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
