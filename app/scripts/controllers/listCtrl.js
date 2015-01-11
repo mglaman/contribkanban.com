@@ -12,7 +12,11 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
     if (counter < $scope.ids.length) {
       // That lack of pagination tho.
       issueService.requestIssues($scope.$parent.project.nid, $scope.ids[counter]).then(function(issues) {
-          $scope.listIssues = issues;
+          if ($scope.listIssues.length == 0) {
+            $scope.listIssues = issues;
+          } else {
+            $scope.listIssues.concat(issues);
+          }
         }
       );
       counter++;

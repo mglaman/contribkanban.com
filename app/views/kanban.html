@@ -4,7 +4,7 @@
         <form class="form-inline">
             <div class="form-group">
                 <label for="projectBranches" class="sr-only">Project branches</label>
-                <select id="projectBranches" class="form-control pull-left input-sm" data-ng-options="release.label for release in releaseBranches track by release.name" data-ng-model="selected">
+                <select id="projectBranches" class="form-control pull-left input-sm" data-ng-options="release.label for release in releaseBranches track by release.name" data-ng-model="projectRelease">
                     <option value="">-- Branch --</option>
                 </select>
             </div>
@@ -20,9 +20,10 @@
                     </h2>
                 </div>
                 <div class="kanban-board--items">
-                    <div class="kanban-board--item" data-ng-repeat="issue in listIssues | issueIdFilter:list.ids track by issue.nid" style="border-left-color: {{ issue.status | statusColorFilter }}">
+                    <div class="kanban-board--item" data-ng-repeat="issue in listIssues | issueIdFilter:list.ids | issueBranchFilter:projectRelease track by issue.nid" style="border-left-color: {{ issue.status | statusColorFilter }}">
                        <a class="kanban-board--issue__link" href="https://www.drupal.org/node/{{ issue.nid}}" target="_blank">#{{ issue.nid}}</a>
                         <span class="kanban-board--issue__title">{{ issue.summary }}</span>
+                        <br /><span>{{ issue.version }}</span>
                     </div>
                 </div>
             </div>

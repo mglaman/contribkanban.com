@@ -13,6 +13,22 @@ projectKanbanApp.filter('issueIdFilter', function() {
   }
 });
 
+projectKanbanApp.filter('issueBranchFilter', function () {
+  return function(issues, branch) {
+    return issues.filter(function(issue) {
+      // If no branch...
+      if (branch === undefined) {
+        return true;
+      } else {
+        console.log(branch.name);
+        console.log(issue.version);
+        console.log(issue.version.indexOf(branch.name));
+        return !issue.version.indexOf(branch.name);
+      }
+    });
+  }
+});
+
 projectKanbanApp.filter('statusLabelFilter', function() {
   var statusCodes = {
     1: 'Active',
