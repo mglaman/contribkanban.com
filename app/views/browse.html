@@ -21,7 +21,7 @@
     <div class="container-fluid">
         <div class="browse--projects row">
             <div class="col-sm-12">
-                <div data-ng-repeat="project in projects | filter:projectSearch track by project.machine_name">
+                <div data-ng-repeat="project in projects | orderBy:'title' | filter:projectSearch track by project.machine_name">
                     <h3><span><a href="#/board/{{ project.nid }}">{{ project.title }}</a></span></h3>
                 </div>
             </div>
