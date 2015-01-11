@@ -23,7 +23,9 @@
                     <div class="kanban-board--item" data-ng-repeat="issue in listIssues | issueIdFilter:list.ids | issueBranchFilter:projectRelease track by issue.nid" style="border-left-color: {{ issue.status | statusColorFilter }}">
                        <a class="kanban-board--issue__link" href="https://www.drupal.org/node/{{ issue.nid}}" target="_blank">#{{ issue.nid}}</a>
                         <span class="kanban-board--issue__title">{{ issue.summary }}</span>
-                        <br /><span>{{ issue.version }}</span>
+                        <div class="kanban-board--issue_tags">
+                            <span class="kanban-board--issue__version">{{ issue.version }}</span>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -23,7 +23,6 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
       $timeout(getListIssues, 1000);
     }
     else {
-      //console.log($scope.listIssues);
       $scope.processing = false;
     }
   };

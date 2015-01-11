@@ -151,3 +151,18 @@ a {
     cursor: pointer;
   }
 }
+
+.kanban-board--issue_tags {
+  margin: 5px 0;
+  span {
+    padding: 2px 6px;
+    background-color: rgba($color--secondary--navy-blue, 0.45);
+    text-transform: uppercase;
+    font-variant: small-caps;
+    font-size: 10px;
+    color: white;
+  }
+}
+
+.kanban-board--issue__version {
+}
