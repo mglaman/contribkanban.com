@@ -7,6 +7,8 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
+@import "scolly";
+
 html {
   max-height: 100%;
 }
@@ -126,6 +128,7 @@ a {
 }
 
 .kanban-board--item {
+  cursor: default;
   padding: 5px 10px;
   margin: 0 5px 10px 5px;
   background: #ffffff;
@@ -138,7 +141,10 @@ a {
   @include transition(transform 0.1s ease);
   transform: translateZ(0);
   &:hover, &:active, &:focus {
-    transform: scale(1.05);
+    transform: scale(1.02);
     box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.33);
+  }
+  a {
+    cursor: pointer;
   }
 }
