@@ -19,10 +19,8 @@ projectKanbanApp.factory('projectService', ['$http', '$q', function($http, $q) {
         if (releases.length > 0) {
           angular.forEach(releases, function (object, key) {
             var vcsLabelParts = object.field_release_vcs_label.split('-');
-
-
             branchLabels.push({
-              name: vcsLabelParts[0] + '-' + object.field_release_version_major + '.',
+              name: vcsLabelParts[0] + '-' + object.field_release_version_major + '.x',
               label: object.field_release_vcs_label
             });
           });

@@ -4,10 +4,11 @@ projectKanbanApp.controller(
   'boardCtrl', [
     '$scope',
     '$routeParams',
+    '$location',
     'issueService',
     'projectService',
     'Angularytics',
-    function($scope, $routeParams, issueService, projectService, Angularytics) {
+    function($scope, $routeParams, $location, issueService, projectService, Angularytics) {
       $scope.project = {};
       $scope.releaseBranches = [];
 
@@ -30,9 +31,15 @@ projectKanbanApp.controller(
         $scope.project = object;
         projectService.requestProjectRelease(object.nid).then(function(releases) {
           $scope.releaseBranches = releases;
+          $scope.projectRelease = $routeParams.branch || '';
         });
         Angularytics.trackEvent('Project', 'Viewed project: ' + object.title);
       });
+
+      $scope.updateBoardRoute = function() {
+        var pathParts = $location.path().split('/');
+        $location.path('/' + pathParts[1] + '/' + pathParts[2] + '/' + $scope.projectRelease);
+      };
     }
   ])
   .directive('boardviewport', ['$window', function($window) {

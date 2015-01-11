@@ -20,10 +20,7 @@ projectKanbanApp.filter('issueBranchFilter', function () {
       if (branch === undefined) {
         return true;
       } else {
-        console.log(branch.name);
-        console.log(issue.version);
-        console.log(issue.version.indexOf(branch.name));
-        return !issue.version.indexOf(branch.name);
+        return !issue.version.indexOf(branch.slice(0, -1));
       }
     });
   }

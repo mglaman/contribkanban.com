@@ -4,7 +4,7 @@
         <form class="form-inline">
             <div class="form-group">
                 <label for="projectBranches" class="sr-only">Project branches</label>
-                <select id="projectBranches" class="form-control pull-left input-sm" data-ng-options="release.label for release in releaseBranches track by release.name" data-ng-model="projectRelease">
+                <select id="projectBranches" class="form-control pull-left input-sm" data-ng-options="release.name as release.label for release in releaseBranches" data-ng-model="projectRelease" data-ng-change="updateBoardRoute()">
                     <option value="">-- Branch --</option>
                 </select>
             </div>
