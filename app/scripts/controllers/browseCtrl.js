@@ -6,7 +6,8 @@ projectKanbanApp.controller(
     '$routeParams',
     '$location',
     'projectService',
-    function($scope, $routeParams, $location, projectService) {
+    'Angularytics',
+    function($scope, $routeParams, $location, projectService, Angularytics) {
       $scope.location = $location;
       $scope.projects = [];
 

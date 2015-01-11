@@ -31,7 +31,7 @@
             </div>
             <div class="navbar-form navbar-right">
                 <div class="input-group-sm pull-right">
-                    <button data-ng-click="openHelp()" class="btn btn-default navbar-help">
+                    <button data-ng-click="openHelp() | trackEvent:'Button':'Help modal'" class="btn btn-default navbar-help">
                         <span class="fa fa-question" aria-hidden="true"></span>
                         <span class="sr-only">Help</span>
                     </button>
