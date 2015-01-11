@@ -3,6 +3,7 @@
 projectKanbanApp.factory('issueService', ['$http', '$q', function($http, $q) {
   var factory = {};
   var baseURL = 'https://www.drupal.org/api-d7/node.json?type=project_issue&field_project=';
+  var apiSort = '&sort=changed&direction=DESC';
 
   var apiToStorage = function(object) {
     return {
@@ -23,7 +24,7 @@ projectKanbanApp.factory('issueService', ['$http', '$q', function($http, $q) {
     cache = (cache === undefined);
 
     var deferred = $q.defer();
-    $http.get(baseURL + nid + '&field_issue_status=' + status, {cache: cache})
+    $http.get(baseURL + nid + '&field_issue_status=' + status + apiSort, {cache: cache})
       .success(function (response) {
         // We did a search
         var reponseIssues = [];

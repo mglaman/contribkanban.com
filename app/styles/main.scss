@@ -115,17 +115,15 @@ a {
 }
 
 .kanban-board--list__header {
-  -moz-box-flex: 0;
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 auto;
-  -webkit-flex: 0 0 auto;
-  flex: 0 0 auto;
-  padding: 3px 26px 2px 6px;
+  padding: 10px 0 0 0;
   position: relative;
-  min-height: 19px;
+  min-height: 35px;
+  fa {
+    font-size: 70%;
+  }
   h2 {
     margin-top: 0;
-    font-size: 20px;
+    font-size: 16px;
     color: $color--secondary--grey;
   }
 }

@@ -5,20 +5,24 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
   $scope.ids = $scope.list.ids;
   $scope.listIssues = [];
   $scope.processing = true;
+  var counter = 0;
+
+  var apiCall = function(status) {
+    issueService.requestIssues($scope.$parent.project.nid, status).then(function(issues) {
+        // Move issues to scope
+        if ($scope.listIssues.length == 0) {
+          $scope.listIssues = issues;
+        } else {
+          $scope.listIssues.concat(issues);
+        }
+      }
+    );
+  };
 
   // Get the issues for this state.
-  var counter = 0;
   var getListIssues = function() {
     if (counter < $scope.ids.length) {
-      // That lack of pagination tho.
-      issueService.requestIssues($scope.$parent.project.nid, $scope.ids[counter]).then(function(issues) {
-          if ($scope.listIssues.length == 0) {
-            $scope.listIssues = issues;
-          } else {
-            $scope.listIssues.concat(issues);
-          }
-        }
-      );
+      apiCall($scope.ids[counter]);
       counter++;
       $timeout(getListIssues, 1000);
     }

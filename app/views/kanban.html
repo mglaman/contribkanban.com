@@ -15,7 +15,7 @@
             <div class="kanban-board--list scrolly" data-ng-repeat="list in boardLists track by list.name" data-ng-controller="listCtrl">
                 <div class="kanban-board--list__header">
                     <h2>
-                        <span class="fa fa-spin" data-ng-class="{'fa-spinner': processing === true}">&nbsp;</span>
+                        <span class="fa" data-ng-class="{'fa-spin fa-spinner': processing === true}">&nbsp;</span>
                         <span>{{ list.label }}</span>
                     </h2>
                 </div>
