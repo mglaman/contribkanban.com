@@ -8,6 +8,9 @@ projectKanbanApp.controller(
     'projectService',
     'Angularytics',
     function($scope, $routeParams, issueService, projectService, Angularytics) {
+      $scope.project = {};
+      $scope.releaseBranches = [];
+
       // Hardcoded for now based on states
       $scope.boardLists = [
         {name: 'backlog', label: 'Postponed', ids: [4,16]},
@@ -21,9 +24,13 @@ projectKanbanApp.controller(
         // {name: 'done', label: 'Fixed', ids: [2,7]}
         {name: 'done', label: 'Fixed', ids: [2]}
       ];
+
       projectService.loadProject($routeParams.project).then(function(object) {
         $scope.page.setTitle(object.title);
         $scope.project = object;
+        projectService.requestProjectRelease(object.nid).then(function(releases) {
+          $scope.releaseBranches = releases;
+        });
         Angularytics.trackEvent('Project', 'Viewed project: ' + object.title);
       });
     }

@@ -1,6 +1,14 @@
 <div class="kanban-board__wrapper" data-boardviewport>
     <div class="kanban-board--header">
-        <h1><a href="https://www.drupal.org/project/{{ project.machine_name }}" target="_blank">{{ project.title }}</a></h1>
+        <h1 class="pull-left"><a href="https://www.drupal.org/project/{{ project.machine_name }}" target="_blank">{{ project.title }}</a></h1>
+        <form class="form-inline">
+            <div class="form-group">
+                <label for="projectBranches" class="sr-only">Project branches</label>
+                <select id="projectBranches" class="form-control pull-left input-sm" data-ng-options="release.label for release in releaseBranches track by release.name" data-ng-model="selected">
+                    <option value="">-- Branch --</option>
+                </select>
+            </div>
+        </form>
     </div>
     <div class="kanban-board--container">
         <div class="kanban-board scrolly">
