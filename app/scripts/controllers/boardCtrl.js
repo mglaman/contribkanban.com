@@ -38,7 +38,12 @@ projectKanbanApp.controller(
 
       $scope.updateBoardRoute = function() {
         var pathParts = $location.path().split('/');
-        $location.path('/' + pathParts[1] + '/' + pathParts[2] + '/' + $scope.projectRelease, false);
+        if ($scope.projectRelease == null) {
+          $location.path('/' + pathParts[1] + '/' + pathParts[2], false);
+
+        } else {
+          $location.path('/' + pathParts[1] + '/' + pathParts[2] + '/' + $scope.projectRelease, false);
+        }
       };
     }
   ])

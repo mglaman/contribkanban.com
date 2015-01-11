@@ -118,7 +118,9 @@ a {
   padding: 10px 0 0 0;
   position: relative;
   min-height: 35px;
-  fa {
+  .fa {
+    position: relative;
+    top: -3px;
     font-size: 70%;
   }
   h2 {
