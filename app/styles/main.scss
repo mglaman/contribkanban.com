@@ -31,6 +31,13 @@ a {
   letter-spacing: -2.1px;
 }
 
+.navbar-help {
+  border-radius: 30px;
+  font-size: 18px;
+  color: $color--primary--dark-blue;
+  padding: 3px 11px;
+}
+
 .projects--list {
   h3 {
     margin: 0 0 10px;

@@ -23,10 +23,18 @@
 </head>
 <body>
 <div class="page" data-appviewport>
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-default navbar-static-top" data-ng-controller="headerCtrl">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a href="#/browse" class="navbar-brand">Contrib Kanban</a>
+                <a href="#/browse" class="navbar-brand">{{ branding }}</a>
+            </div>
+            <div class="navbar-form navbar-right">
+                <div class="input-group-sm pull-right">
+                    <button data-ng-click="openHelp()" class="btn btn-default navbar-help">
+                        <span class="fa fa-question" aria-hidden="true"></span>
+                        <span class="sr-only">Help</span>
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
@@ -52,6 +60,7 @@
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
 <script src="bower_components/angularytics/dist/angularytics.min.js"></script>
+<script src="bower_components/angular-modal-service/dst/angular-modal-service.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 
@@ -77,6 +86,8 @@
 <script src="scripts/controllers/browseCtrl.js"></script>
 <script src="scripts/controllers/projectFormCtrl.js"></script>
 <script src="scripts/controllers/listCtrl.js"></script>
+<script src="scripts/controllers/headerCtrl.js"></script>
+<script src="scripts/controllers/modalCtrl.js"></script>
 <script src="scripts/filters/statusFilter.js"></script>
 <script src="scripts/services/ParseService.js"></script>
 <script src="scripts/services/projectService.js"></script>
