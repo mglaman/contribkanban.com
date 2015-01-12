@@ -10,7 +10,6 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
 
   $scope.filterIssues = function(ids) {
     return function(issue) {
-      console.log(issue);
       for(var i in ids) {
         if (issue[$scope.param.substring(12)] == ids[i]) {
           return true;

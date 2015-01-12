@@ -48,6 +48,14 @@ projectKanbanApp.controller(
                 {name: 'bugs',      label: 'Backlog: Bug Reports',      param: 'field_issue_category',  ids: [1]},
                 {name: 'cnw',       label: 'Needs Work',                param: 'field_issue_status',    ids: [13]},
               ]
+            } else if($routeParams.project == '2229057') {
+              $scope.boardLists = [
+                {name: 'features',  label: 'Backlog: Feature requests', param: 'field_issue_category',  ids: [3]},
+                {name: 'support',   label: 'Backlog: Support requests', param: 'field_issue_category',  ids: [4]},
+                {name: 'bugs',      label: 'Backlog: Bug Reports',      param: 'field_issue_category',  ids: [1]},
+                {name: 'reviewd',       label: 'Reviewed',              param: 'field_issue_status',    ids: [14]},
+                {name: 'fixed',       label: 'Fixed',              param: 'field_issue_status',    ids: [2]}
+              ]
             } else {
               $scope.boardLists = boardListDefaults;
             }
