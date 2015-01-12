@@ -14,6 +14,11 @@ projectKanbanApp.controller(
       $scope.queryProjects = function() {
         var Project = Parse.Object.extend('Project');
         var parseQuery = new Parse.Query(Project);
+        // If passed a type, filter by that.
+        if ($routeParams.type !== undefined) {
+          parseQuery.equalTo('projectType', 'project_' + $routeParams.type);
+        }
+
         parseQuery.find({
           success: function(results) {
             $scope.$apply(function() {
