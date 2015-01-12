@@ -2,7 +2,6 @@
 
 projectKanbanApp.factory('projectService', ['$http', '$q', function($http, $q) {
   var factory = {};
-  //taxonomy_vocabulary_9=31228
   var baseURL = 'https://www.drupal.org/api-d7/node.json?field_project_machine_name=';
   var releaseURL = 'https://www.drupal.org/api-d7/node.json?type=project_release&field_release_update_status=0&field_release_version_extra=dev&field_release_project=';
 
@@ -18,9 +17,8 @@ projectKanbanApp.factory('projectService', ['$http', '$q', function($http, $q) {
         var releases = d.list;
         if (releases.length > 0) {
           angular.forEach(releases, function (object, key) {
-            var vcsLabelParts = object.field_release_vcs_label.split('-');
             branchLabels.push({
-              name: vcsLabelParts[0] + '-' + object.field_release_version_major + '.x',
+              name: object.field_release_vcs_label,
               label: object.field_release_vcs_label
             });
           });
