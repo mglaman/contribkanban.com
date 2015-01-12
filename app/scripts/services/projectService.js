@@ -66,7 +66,7 @@ projectKanbanApp.factory('projectService', ['$http', '$q', function($http, $q) {
     parseQuery.equalTo('nid', nid);
     parseQuery.first({
       success: function(object) {
-        if (typeof object !== undefined) {
+        if (object !== undefined) {
           deferred.resolve(object.attributes);
         }
       }
@@ -76,6 +76,23 @@ projectKanbanApp.factory('projectService', ['$http', '$q', function($http, $q) {
 
   factory.getProject = function() {
     return project;
+  };
+
+  factory.loadProjectConfig = function(nid) {
+    var deferred = $q.defer();
+    var ParseObject = Parse.Object.extend('ProjectConfig');
+    var parseQuery = new Parse.Query(ParseObject);
+    parseQuery.equalTo('nid', nid);
+    parseQuery.first({
+      success: function(object) {
+        if (object !== undefined) {
+          deferred.resolve(object.attributes);
+        } else {
+          deferred.resolve(null);
+        }
+      }
+    });
+    return deferred.promise;
   };
 
   return factory;

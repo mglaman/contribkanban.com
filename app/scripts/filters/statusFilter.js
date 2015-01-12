@@ -17,9 +17,13 @@ projectKanbanApp.filter('issueBranchFilter', function () {
   return function(issues, branch) {
     return issues.filter(function(issue) {
       // If no branch...
-      if (branch === undefined || branch === null) {
+      if (branch === undefined || branch == null) {
         return true;
-      } else {
+      }
+      else {
+        if (issue.version === undefined || issue.version == null) {
+          return false;
+        }
         return !issue.version.indexOf(branch.slice(0, -1));
       }
     });

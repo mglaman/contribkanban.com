@@ -1,13 +1,6 @@
 'use strict';
 
-projectKanbanApp.controller(
-  'browseCtrl', [
-    '$scope',
-    '$routeParams',
-    '$location',
-    'projectService',
-    'Angularytics',
-    function($scope, $routeParams, $location, projectService, Angularytics) {
+projectKanbanApp.controller('browseCtrl', ['$scope', '$routeParams', '$location', 'projectService', function($scope, $routeParams, $location, projectService) {
       $scope.location = $location;
       $scope.projects = [];
 

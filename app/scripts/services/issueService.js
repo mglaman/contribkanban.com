@@ -19,12 +19,13 @@ projectKanbanApp.factory('issueService', ['$http', '$q', function($http, $q) {
     }
   };
 
-  factory.requestIssues = function(nid, status, cache) {
+  factory.requestIssues = function(nid, paramKey, paramValue, cache) {
+    var deferred = $q.defer();
+
     // Normalize cache bool.
     cache = (cache === undefined);
 
-    var deferred = $q.defer();
-    $http.get(baseURL + nid + '&field_issue_status=' + status + apiSort, {cache: cache})
+    $http.get(baseURL + nid + '&' + paramKey + '=' + paramValue + apiSort, {cache: cache})
       .success(function (response) {
         // We did a search
         var reponseIssues = [];
