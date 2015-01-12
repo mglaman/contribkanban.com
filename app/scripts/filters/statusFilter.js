@@ -30,6 +30,20 @@ projectKanbanApp.filter('issueBranchFilter', function () {
   }
 });
 
+projectKanbanApp.filter('issuePriorityFilter', function () {
+  return function(issues, priority) {
+    return issues.filter(function(issue) {
+      // If no priority...
+      if (priority === undefined || priority == null) {
+        return true;
+      }
+      else {
+        return issue.priority == priority;
+      }
+    });
+  }
+});
+
 projectKanbanApp.filter('statusLabelFilter', function() {
   var statusCodes = {
     1: 'Active',

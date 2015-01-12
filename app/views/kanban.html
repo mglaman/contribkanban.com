@@ -7,6 +7,14 @@
                 <select id="projectBranches" class="form-control pull-left input-sm" data-ng-options="release.name as release.label for release in releaseBranches" data-ng-model="projectRelease" data-ng-change="updateBoardRoute()">
                     <option value="">-- Branch --</option>
                 </select>
+                <label for="issuePriorities" class="sr-only">Issue priorities</label>
+                <select id="issuePriorities" class="form-control pull-left input-sm" data-ng-model="issuePriority">
+                    <option value="">-- Priority --</option>
+                    <option value="100">Minor</option>
+                    <option value="200">Normal</option>
+                    <option value="300">Major</option>
+                    <option value="400">Critical</option>
+                </select>
             </div>
         </form>
     </div>
@@ -20,7 +28,7 @@
                     </h2>
                 </div>
                 <div class="kanban-board--items">
-                    <div class="kanban-board--item" data-ng-repeat="issue in listIssues | orderBy:issue.priority:true | filter:filterIssues(list.ids) | issueBranchFilter:projectRelease track by issue.nid" style="border-left-color: {{ issue.status | statusColorFilter }}">
+                    <div class="kanban-board--item" data-ng-repeat="issue in listIssues | orderBy:issue.priority:true | issuePriorityFilter:issuePriority | filter:filterIssues(list.ids) | issueBranchFilter:projectRelease track by issue.nid" style="border-left-color: {{ issue.status | statusColorFilter }}">
                        <a class="kanban-board--issue__link" href="https://www.drupal.org/node/{{ issue.nid}}" target="_blank">#{{ issue.nid}}</a>
                         <span class="kanban-board--issue__title">{{ issue.summary }}</span>
                         <div class="kanban-board--issue_tags">
