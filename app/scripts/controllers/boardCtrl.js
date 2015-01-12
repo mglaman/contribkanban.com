@@ -36,11 +36,21 @@ projectKanbanApp.controller(
         $scope.page.setTitle(object.title);
 
         // Initiate the board's lists.
-        projectService.loadProjectConfig(object.nid).then(function(object) {
-          if (object !== null) {
-            $scope.boardLists = object;
+        projectService.loadProjectConfig(object.nid).then(function(configObject) {
+          if (configObject !== null) {
+            $scope.boardLists = configObject;
           } else {
-            $scope.boardLists = boardListDefaults;
+            // Test
+            if ($routeParams.project == '1303302') {
+              $scope.boardLists = [
+                {name: 'features',  label: 'Backlog: Feature requests', param: 'field_issue_category',  ids: [3]},
+                {name: 'support',   label: 'Backlog: Support requests', param: 'field_issue_category',  ids: [4]},
+                {name: 'bugs',      label: 'Backlog: Bug Reports',      param: 'field_issue_category',  ids: [1]},
+                {name: 'cnw',       label: 'Needs Work',                param: 'field_issue_status',    ids: [13]},
+              ]
+            } else {
+              $scope.boardLists = boardListDefaults;
+            }
           }
         });
 

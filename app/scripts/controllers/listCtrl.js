@@ -8,6 +8,18 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
   $scope.processing = true;
   var counter = 0;
 
+  $scope.filterIssues = function(ids) {
+    return function(issue) {
+      console.log(issue);
+      for(var i in ids) {
+        if (issue[$scope.param.substring(12)] == ids[i]) {
+          return true;
+        }
+      }
+      return false;
+    };
+  };
+
   var apiCall = function(status) {
     issueService.requestIssues($scope.$parent.project.nid, $scope.param, status).then(function(issues) {
         // Move issues to scope

@@ -29,9 +29,12 @@ projectKanbanApp.factory('issueService', ['$http', '$q', function($http, $q) {
       .success(function (response) {
         // We did a search
         var reponseIssues = [];
+
         angular.forEach(response.list, function(v,k) {
           reponseIssues.push(apiToStorage(v));
         });
+        console.log(baseURL + nid + '&' + paramKey + '=' + paramValue + apiSort);
+        console.log(reponseIssues);
         deferred.resolve(reponseIssues);
       });
     return deferred.promise;

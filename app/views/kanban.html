@@ -20,7 +20,7 @@
                     </h2>
                 </div>
                 <div class="kanban-board--items">
-                    <div class="kanban-board--item" data-ng-repeat="issue in listIssues | issueIdFilter:list.ids | issueBranchFilter:projectRelease track by issue.nid" style="border-left-color: {{ issue.status | statusColorFilter }}">
+                    <div class="kanban-board--item" data-ng-repeat="issue in listIssues | filter:filterIssues(list.ids) | issueBranchFilter:projectRelease track by issue.nid" style="border-left-color: {{ issue.status | statusColorFilter }}">
                        <a class="kanban-board--issue__link" href="https://www.drupal.org/node/{{ issue.nid}}" target="_blank">#{{ issue.nid}}</a>
                         <span class="kanban-board--issue__title">{{ issue.summary }}</span>
                         <div class="kanban-board--issue_tags">
