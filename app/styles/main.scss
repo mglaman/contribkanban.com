@@ -52,6 +52,12 @@ a {
 }
 
 .projects--list {
+  .browse--projects {
+    margin-top: 15px;
+    @media (min-width: $screen-md-min) {
+      column-count: 2;
+    }
+  }
   h3 {
     margin: 0 0 10px;
     font-weight: 100;

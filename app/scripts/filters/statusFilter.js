@@ -34,7 +34,7 @@ projectKanbanApp.filter('issuePriorityFilter', function () {
   return function(issues, priority) {
     return issues.filter(function(issue) {
       // If no priority...
-      if (priority === undefined || priority == null) {
+      if (priority === undefined || priority == null || priority == '') {
         return true;
       }
       else {

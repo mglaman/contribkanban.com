@@ -19,9 +19,9 @@
         </div>
     </div>
     <div class="container-fluid">
-        <div class="browse--projects row">
-            <div class="col-sm-12">
-                <div data-ng-repeat="project in projects | orderBy:'title' | filter:projectSearch track by project.machine_name">
+        <div class="row">
+            <div class="browse--projects">
+                <div class="browse--projects--project" data-ng-repeat="project in projects | orderBy:'title' | filter:projectSearch track by project.machine_name">
                     <h3><span><a href="#/board/{{ project.nid }}">{{ project.title }}</a></span></h3>
                 </div>
             </div>
@@ -40,4 +40,15 @@
     <p>
         <strong>Note!</strong> Core support is undergoing an overhaul to support Core components instead of the project at large.
     </p>
+    <div class="well well-sm">
+        <!-- Node Responsive -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1551015534754654"
+             data-ad-slot="7144362751"
+             data-ad-format="auto"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
 </div>
