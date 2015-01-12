@@ -13,7 +13,7 @@ projectKanbanApp.factory('issueService', ['$http', '$q', function($http, $q) {
       status: object.field_issue_status,
       category: object.field_issue_category,
       component: object.field_issue_component,
-      priority: object.field_issue_priority,
+      priority: parseInt(object.field_issue_priority),
       tags: object.taxonomy_vocabulary_9 || {},
       version: object.field_issue_version
     }
@@ -33,8 +33,6 @@ projectKanbanApp.factory('issueService', ['$http', '$q', function($http, $q) {
         angular.forEach(response.list, function(v,k) {
           reponseIssues.push(apiToStorage(v));
         });
-        console.log(baseURL + nid + '&' + paramKey + '=' + paramValue + apiSort);
-        console.log(reponseIssues);
         deferred.resolve(reponseIssues);
       });
     return deferred.promise;

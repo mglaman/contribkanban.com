@@ -165,12 +165,17 @@ a {
 .kanban-board--issue_tags {
   margin: 5px 0;
   span {
+    display: inline-block;
+    margin: 2px;
     padding: 2px 6px;
-    background-color: rgba($color--secondary--navy-blue, 0.45);
     text-transform: uppercase;
     font-variant: small-caps;
-    font-size: 10px;
-    color: white;
+    font-size: 11px;
+    color: #4d4d4d;
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, .13);
+  }
+  .bg-default {
+    background-color: rgba($color--secondary--navy-blue, 0.35);
   }
 }
 
