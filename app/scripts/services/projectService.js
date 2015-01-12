@@ -46,7 +46,8 @@ projectKanbanApp.factory('projectService', ['$http', '$q', function($http, $q) {
           hasIssues: returnedObject.field_project_has_issue_queue,
           projectCategory: returnedObject.taxonomy_vocabulary_3,
           projectActivity: returnedObject.taxonomy_vocabulary_44,
-          projectMaintainership: returnedObject.taxonomy_vocabulary_46
+          projectMaintainership: returnedObject.taxonomy_vocabulary_46,
+          projectComponents: returnedObject.field_project_components || []
         };
 
         deferred.resolve(project);
