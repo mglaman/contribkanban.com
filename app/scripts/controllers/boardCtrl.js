@@ -8,7 +8,8 @@ projectKanbanApp.controller(
     'issueService',
     'projectService',
     'Angularytics',
-    function($scope, $routeParams, $location, issueService, projectService, Angularytics) {
+    'DoubleClick',
+    function($scope, $routeParams, $location, issueService, projectService, Angularytics, DoubleClick) {
       $scope.project = {};
       $scope.projectType = '';
       $scope.releaseBranches = [];
@@ -70,6 +71,7 @@ projectKanbanApp.controller(
 
         // Ping Google.
         Angularytics.trackEvent('Project', 'Viewed project: ' + object.title);
+        DoubleClick.refreshAds('div-gpt-ad-1421106878492-0');
       });
 
       $scope.updateBoardRoute = function() {

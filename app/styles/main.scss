@@ -71,7 +71,7 @@ a {
 }
 .kanban-board--header {
   padding-top: 5px;
-  height: 45px;
+  height: 75px;
   h1 {
     cursor: default;
     margin: 0;
@@ -186,5 +186,6 @@ a {
   }
 }
 
-.kanban-board--issue__version {
+.may-as-well-get-something-out-of-this-eh div {
+  margin: 0 auto;
 }
