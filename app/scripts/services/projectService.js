@@ -87,7 +87,7 @@ projectKanbanApp.factory('projectService', ['$http', '$q', 'parseProjectService'
     parseQuery.first({
       success: function(object) {
         if (object !== undefined) {
-          deferred.resolve(object.attributes);
+          deferred.resolve(object);
         } else {
           deferred.resolve(null);
         }

@@ -33,12 +33,16 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
         } else {
           $scope.listIssues.concat(issues);
         }
+        $scope.processing = false;
       }
     );
   };
 
   // Get the issues for this state.
   var getListIssues = function() {
+    apiCall(null);
+    // @todo: Support pagination. Convert old status cycling.
+    /*
     if (counter <= $scope.list.statuses.length) {
       apiCall($scope.list.statuses[counter]);
       counter++;
@@ -46,7 +50,7 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
     }
     else {
       $scope.processing = false;
-    }
+    }*/
   };
   $timeout(getListIssues, 500);
 }])
