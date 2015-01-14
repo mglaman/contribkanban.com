@@ -19,13 +19,24 @@ projectKanbanApp.factory('issueService', ['$http', '$q', function($http, $q) {
     }
   };
 
-  factory.requestIssues = function(nid, paramKey, paramValue, cache) {
+  factory.requestIssues = function(projectNid, status, tag, category, cache) {
     var deferred = $q.defer();
 
     // Normalize cache bool.
     cache = (cache === undefined);
 
-    $http.get(baseURL + nid + '&' + paramKey + '=' + paramValue + apiSort, {cache: cache})
+    var apiQuery = baseURL + projectNid;
+    apiQuery += '&field_issue_status=' + status;
+
+    if (category) {
+      apiQuery += '&field_issue_category=' + category;
+    }
+    if (tag){
+      apiQuery += '&taxonomy_vocabulary_9=' + tag;
+    }
+    console.log(apiQuery);
+
+    $http.get(apiQuery + apiSort, {cache: cache})
       .success(function (response) {
         // We did a search
         var reponseIssues = [];

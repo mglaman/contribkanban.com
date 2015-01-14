@@ -1,17 +1,16 @@
 'use strict';
 
 projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', function($scope, $timeout, issueService) {
-  $scope.list = $scope.$parent.list;
+
   $scope.param = $scope.list.param;
-  $scope.ids = $scope.list.ids;
   $scope.listIssues = [];
   $scope.processing = true;
   var counter = 0;
 
-  $scope.filterIssues = function(ids) {
+  $scope.filterIssues = function(statuses) {
     return function(issue) {
-      for(var i in ids) {
-        if (issue[$scope.param.substring(12)] == ids[i]) {
+      for(var i in statuses) {
+        if (issue['status'] == statuses[i]) {
           return true;
         }
       }
@@ -24,7 +23,7 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
   };
 
   var apiCall = function(status) {
-    issueService.requestIssues($scope.$parent.project.nid, $scope.param, status).then(function(issues) {
+    issueService.requestIssues($scope.project.nid, status, $scope.list.tag, $scope.list.category).then(function(issues) {
         // Move issues to scope
         if ($scope.listIssues.length == 0) {
           $scope.listIssues = issues;
@@ -37,8 +36,8 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
 
   // Get the issues for this state.
   var getListIssues = function() {
-    if (counter < $scope.ids.length) {
-      apiCall($scope.ids[counter]);
+    if (counter < $scope.list.statuses.length) {
+      apiCall($scope.list.statuses[counter]);
       counter++;
       $timeout(getListIssues, 1000);
     }
