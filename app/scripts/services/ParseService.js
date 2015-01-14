@@ -116,7 +116,6 @@ projectKanbanApp
        * @returns {Parse.Promise}
        */
       factory.loadApiURL = function (url) {
-        console.log(url.replace('.json', ''));
         return this.attributeQuery('self', url.replace('.json', ''));
       };
 

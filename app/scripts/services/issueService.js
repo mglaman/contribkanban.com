@@ -2,7 +2,7 @@
 
 projectKanbanApp.factory('issueService', ['$http', '$q', 'parseIssueQueriesService', function($http, $q, parseIssueQueriesService) {
   var factory = {};
-  var baseURL = 'https://www.drupal.org/api-d7/node.json?type=project_issue&field_project=';
+  var baseURL = 'https://www.drupal.org/api-d7/node.json?limit=50&type=project_issue&field_project=';
   var apiSort = '&sort=changed&direction=DESC';
 
   var apiToStorage = function(object) {
@@ -19,7 +19,7 @@ projectKanbanApp.factory('issueService', ['$http', '$q', 'parseIssueQueriesServi
     }
   };
 
-  factory.requestIssues = function(projectNid, status, tag, category, cache) {
+  factory.requestIssues = function(projectNid, status, tag, category, parentIssue, cache) {
     var deferred = $q.defer();
     var cachedInParse = false;
 
@@ -27,13 +27,18 @@ projectKanbanApp.factory('issueService', ['$http', '$q', 'parseIssueQueriesServi
     cache = (cache === undefined);
 
     var apiQuery = baseURL + projectNid;
-    apiQuery += '&field_issue_status=' + status;
 
+    if (status) {
+      apiQuery += '&field_issue_status=' + status;
+    }
     if (category) {
       apiQuery += '&field_issue_category=' + category;
     }
     if (tag){
       apiQuery += '&taxonomy_vocabulary_9=' + tag;
+    }
+    if (parentIssue) {
+      apiQuery += '&field_issue_parent=' + parentIssue;
     }
 
     apiQuery += apiSort;
@@ -41,7 +46,6 @@ projectKanbanApp.factory('issueService', ['$http', '$q', 'parseIssueQueriesServi
     parseIssueQueriesService.loadApiURL(apiQuery).then(function (object) {
       // Check if query cache exists
       if (object !== undefined) {
-
         // It does exist, check if older than 10 minutes
         var now = new Date();
         if ((now.getTime() - object.updatedAt.getTime()) < 600000) {

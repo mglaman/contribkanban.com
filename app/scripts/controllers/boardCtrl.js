@@ -21,42 +21,48 @@ projectKanbanApp.controller(
           label: 'Postponed',
           tag: '',
           category: '',
-          statuses: [4, 16]
+          statuses: [4, 16],
+          parentIssue: ''
         },
         {
           name: 'active',
           label: 'Active',
           tag: '',
           category: '',
-          statuses: [1]
+          statuses: [1],
+          parentIssue: ''
         },
         {
           name: 'cnr',
           label: 'Needs Review',
           tag: '',
           category: '',
-          statuses: [8]
+          statuses: [8],
+          parentIssue: ''
         },
         {
           name: 'cnw',
           label: 'Needs Work',
           tag: '',
           category: '',
-          statuses: [13]
+          statuses: [13],
+          parentIssue: ''
         },
         {
           name: 'rtbc',
           label: 'Reviewed & Tested',
           tag: '',
           category: '',
-          statuses: [14, 15]
+          statuses: [14, 15],
+          parentIssue: ''
         },
         {
           name: 'done',
           label: 'Fixed',
           tag: '',
           category: '',
-          statuses: [2]
+          statuses: [2],
+          parentIssue: ''
         }
         // Due to possible performance and query limitations, dropping this.
         // {name: 'wontfix', label: "Won't Fix", statuses: [5,6,3,18]},
@@ -89,46 +95,94 @@ projectKanbanApp.controller(
                   label: 'Backlog: Feature requests',
                   tag: '',
                   category: '3',
-                  statuses: [1, 4, 16]
+                  statuses: [1, 4, 16],
+                  parentIssue: ''
                 },
                 {
                   name: 'support',
                   label: 'Backlog: Support requests',
                   tag: '',
                   category: '4',
-                  statuses: [1, 4, 16]
+                  statuses: [1, 4, 16],
+                  parentIssue: ''
                 },
                 {
                   name: 'bugs',
                   label: 'Backlog: Bug Reports',
                   tag: '',
                   category: '1',
-                  statuses: [1, 4, 16]
+                  statuses: [1, 4, 16],
+                  parentIssue: ''
                 },
                 {
                   name: 'cnw',
                   label: 'Needs Work',
                   tag: '',
                   category: '',
-                  statuses: [13]
+                  statuses: [13],
+                  parentIssue: ''
                 },
                 {
                   name: 'cnr',
                   label: 'Needs Review',
                   tag: '',
                   category: '',
-                  statuses: [8]
+                  statuses: [8],
+                  parentIssue: ''
                 },
                 {
                   name: 'fixed',
                   label: 'RTBC/Fixed',
                   tag: '',
                   category: '',
-                  statuses: [14, 2]
+                  statuses: [14, 2],
+                  parentIssue: ''
                 }
               ]
-            }
-            else {
+            } else if($routeParams.project == '1312756') {
+              $scope.boardLists = [
+                {
+                  name: 'features',
+                  label: 'Backlog: Feature requests',
+                  tag: '',
+                  category: '3',
+                  statuses: [1,4,8,13,14,16],
+                  parentIssue: ''
+                },
+                {
+                  name: 'support',
+                  label: 'Backlog: Support',
+                  tag: '',
+                  category: '4',
+                  statuses: [1,4,8,13,14,16],
+                  parentIssue: ''
+                },
+                {
+                  name: 'bugs',
+                  label: 'Backlog: Bugs',
+                  tag: '',
+                  category: '3',
+                  statuses: [1,4,8,13,14,16],
+                  parentIssue: ''
+                },
+                {
+                  name: 'releasePlan',
+                  label: '7.x-1.6',
+                  tag: '',
+                  category: '',
+                  statuses: [1,4,8,13,14,16],
+                  parentIssue: '2244541'
+                },
+                {
+                  name: 'releasePlanFixed',
+                  label: '7.x-1.6 committed',
+                  tag: '',
+                  category: '',
+                  statuses: [2, 7],
+                  parentIssue: '2244541'
+                }
+              ];
+            } else {
               $scope.boardLists = boardListDefaults;
             }
           }

@@ -9,6 +9,9 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
 
   $scope.filterIssues = function(statuses) {
     return function(issue) {
+      if (statuses.length == 0) {
+        return true;
+      }
       for(var i in statuses) {
         if (issue['status'] == statuses[i]) {
           return true;
@@ -23,7 +26,7 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
   };
 
   var apiCall = function(status) {
-    issueService.requestIssues($scope.project.nid, status, $scope.list.tag, $scope.list.category).then(function(issues) {
+    issueService.requestIssues($scope.project.nid, status, $scope.list.tag, $scope.list.category, $scope.list.parentIssue).then(function(issues) {
         // Move issues to scope
         if ($scope.listIssues.length == 0) {
           $scope.listIssues = issues;
@@ -36,16 +39,16 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
 
   // Get the issues for this state.
   var getListIssues = function() {
-    if (counter < $scope.list.statuses.length) {
+    if (counter <= $scope.list.statuses.length) {
       apiCall($scope.list.statuses[counter]);
       counter++;
-      $timeout(getListIssues, 1000);
+      $timeout(getListIssues, 1200);
     }
     else {
       $scope.processing = false;
     }
   };
-  $timeout(getListIssues, 1000);
+  $timeout(getListIssues, 500);
 }])
   .filter('priorityLabelFilter', function() {
     var statusCodes = {
