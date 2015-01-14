@@ -1,6 +1,6 @@
 'use strict';
 
-projectKanbanApp.factory('issueService', ['$http', '$q', function($http, $q) {
+projectKanbanApp.factory('issueService', ['$http', '$q', 'parseIssueQueriesService', function($http, $q, parseIssueQueriesService) {
   var factory = {};
   var baseURL = 'https://www.drupal.org/api-d7/node.json?type=project_issue&field_project=';
   var apiSort = '&sort=changed&direction=DESC';
@@ -21,6 +21,7 @@ projectKanbanApp.factory('issueService', ['$http', '$q', function($http, $q) {
 
   factory.requestIssues = function(projectNid, status, tag, category, cache) {
     var deferred = $q.defer();
+    var cachedInParse = false;
 
     // Normalize cache bool.
     cache = (cache === undefined);
@@ -34,19 +35,48 @@ projectKanbanApp.factory('issueService', ['$http', '$q', function($http, $q) {
     if (tag){
       apiQuery += '&taxonomy_vocabulary_9=' + tag;
     }
-    console.log(apiQuery);
 
-    $http.get(apiQuery + apiSort, {cache: cache})
-      .success(function (response) {
-        // We did a search
-        var reponseIssues = [];
+    apiQuery += apiSort;
 
-        angular.forEach(response.list, function(v,k) {
-          reponseIssues.push(apiToStorage(v));
-        });
-        deferred.resolve(reponseIssues);
-      });
+    parseIssueQueriesService.loadApiURL(apiQuery).then(function (object) {
+      // Check if query cache exists
+      if (object !== undefined) {
+
+        // It does exist, check if older than 10 minutes
+        var now = new Date();
+        if ((now.getTime() - object.updatedAt.getTime()) < 600000) {
+          deferred.resolve(responseListProcess(object.attributes.list));
+        } else {
+          // Update the row
+          $http.get(apiQuery, {cache: cache})
+            .success(function (response) {
+              object.set('list', response.list);
+              object.save();
+              deferred.resolve(responseListProcess(response.list));
+            });
+        }
+      } else {
+        // New request
+        $http.get(apiQuery, {cache: cache})
+          .success(function (response) {
+            parseIssueQueriesService.addRow(response);
+            deferred.resolve(responseListProcess(response.list));
+          });
+      }
+    }, function () {
+      // error reaching parse.
+    });
     return deferred.promise;
+  };
+
+  var responseListProcess = function(list) {
+    var responseIssues = [];
+
+    angular.forEach(list, function(v,k) {
+      responseIssues.push(apiToStorage(v));
+    });
+
+    return responseIssues;
   };
 
   return factory;
