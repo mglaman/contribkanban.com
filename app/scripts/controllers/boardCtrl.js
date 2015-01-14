@@ -28,10 +28,13 @@ projectKanbanApp.controller(
         // {name: 'done', label: 'Fixed', param: 'field_issue_status', ids: [2,7]}
       ];
 
-      projectService.loadProject($routeParams.project).then(function(object) {
+      projectService.loadProject($routeParams.project).then(function(parseObject) {
         // Update the scope's project variable.
+        var object = parseObject.attributes;
         $scope.project = object;
         $scope.projectType = object.projectType;
+        $scope.releaseBranches = object.releaseBranches;
+        $scope.projectRelease = $routeParams.branch || '';
 
         // Set the page title to be the project's name.
         $scope.page.setTitle(object.title);
@@ -61,12 +64,6 @@ projectKanbanApp.controller(
               $scope.boardLists = boardListDefaults;
             }
           }
-        });
-
-        // Discover project releases for filtering.
-        projectService.requestProjectRelease(object.nid).then(function(releases) {
-          $scope.releaseBranches = releases;
-          $scope.projectRelease = $routeParams.branch || '';
         });
 
         // Ping Google.

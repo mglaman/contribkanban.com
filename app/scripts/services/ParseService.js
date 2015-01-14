@@ -7,7 +7,7 @@
  */
 projectKanbanApp.factory('parseProjectService', ['$http', '$q', function($http, $q) {
   var factory = {};
-  var ParseObject = Parse.Object.extend('Project');
+  factory.ParseObject = Parse.Object.extend('Project');
 
   /**
    * Adds a new Project object row
@@ -15,6 +15,11 @@ projectKanbanApp.factory('parseProjectService', ['$http', '$q', function($http, 
    * @returns {Parse.Promise}
    */
   factory.addRow = function(object) {
+    var newObject = new factory.ParseObject();
+    return newObject.save(object);
+  };
+
+  factory.updateRow = function(object) {
     var newObject = new ParseObject();
     return newObject.save(object);
   };
@@ -24,20 +29,15 @@ projectKanbanApp.factory('parseProjectService', ['$http', '$q', function($http, 
    *
    * @param attribute
    * @param value
-   * @returns {ng.IPromise<T>}
+   * @returns {Parse.Promise}
    */
   factory.attributeQuery = function(attribute, value) {
     var deferred = $q.defer();
-    var parseQuery = new Parse.Query(ParseObject);
+    var parseQuery = new Parse.Query(factory.ParseObject);
     parseQuery.equalTo(attribute, value);
     parseQuery.first({
       success: function(object) {
-        if (typeof object != 'undefined') {
-          deferred.resolve(object.attributes);
-        }
-        else {
-          deferred.resolve(object);
-        }
+        deferred.resolve(object);
       }
     });
     return deferred.promise;
@@ -47,7 +47,7 @@ projectKanbanApp.factory('parseProjectService', ['$http', '$q', function($http, 
    * Queries Project class by node ID.
    *
    * @param nid
-   * @returns {ng.IPromise.<T>}
+   * @returns {Parse.Promise}
    */
   factory.loadByNid = function(nid) {
     return this.attributeQuery('nid', nid);
@@ -56,7 +56,7 @@ projectKanbanApp.factory('parseProjectService', ['$http', '$q', function($http, 
   /**
    * Queries Project class by machine name.
    * @param machineName
-   * @returns {ng.IPromise.<T>}
+   * @returns {Parse.Promise}
    */
   factory.loadByMachineName = function(machineName) {
     var wtf = this.attributeQuery('machine_name', machineName);

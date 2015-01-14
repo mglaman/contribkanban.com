@@ -13,21 +13,28 @@ projectKanbanApp.controller('projectFormCtrl', ['$scope', 'projectService', 'par
     parseProjectService.attributeQuery('machine_name', project.machine_name)
       .then(
       function(object){
-        console.log(object);
         // If the project does not exist, save it.
-        if (typeof object == 'undefined') {
+        if (object === undefined) {
           projectService.requestProject(project.machine_name).then(function(response) {
             // New Parse object.
             parseProjectService.addRow(response).then(function(parseObject) {
               // Update the scope.
               $scope.updateScopeProject(parseObject.attributes);
               project.machine_name = null;
+            }, function () {
+
             });
           });
         }
         else {
-          $scope.updateScopeProject(object.attributes);
+          projectService.requestProject(project.machine_name).then(function(response) {
+            object.set('releaseBranches', response.releaseBranches);
+            object.save();
+            $scope.updateScopeProject(object.attributes);
+            project.machine_name = null;
+          });
         }
+
       });
   }
 }]);

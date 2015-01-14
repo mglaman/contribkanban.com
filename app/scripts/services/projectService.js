@@ -1,14 +1,17 @@
 'use strict';
 
-projectKanbanApp.factory('projectService', ['$http', '$q', function($http, $q) {
+projectKanbanApp.factory('projectService', ['$http', '$q', 'parseProjectService', function($http, $q, parseProjectService) {
   var factory = {};
   var baseURL = 'https://www.drupal.org/api-d7/node.json?field_project_machine_name=';
   var releaseURL = 'https://www.drupal.org/api-d7/node.json?type=project_release&field_release_update_status=0&field_release_version_extra=dev&field_release_project=';
-
-  var ParseObject = Parse.Object.extend('Project');
-
   var project = {};
 
+  /**
+   * Returns project release nodes.
+   *
+   * @param nid
+   * @returns {ng.IPromise<T>}
+   */
   factory.requestProjectRelease = function(nid) {
     var deferred = $q.defer();
     var branchLabels = [];
@@ -29,6 +32,11 @@ projectKanbanApp.factory('projectService', ['$http', '$q', function($http, $q) {
     return deferred.promise;
   };
 
+  /**
+   *
+   * @param machineName
+   * @returns {ng.IPromise<T>}
+   */
   factory.requestProject = function(machineName) {
     var deferred = $q.defer();
     $http.get(baseURL + machineName)
@@ -50,29 +58,21 @@ projectKanbanApp.factory('projectService', ['$http', '$q', function($http, $q) {
           projectComponents: returnedObject.field_project_components || []
         };
 
-        deferred.resolve(project);
+        factory.requestProjectRelease(project.nid).then(function(releases) {
+          project.releaseBranches = releases;
+          deferred.resolve(project);
+        });
       });
     return deferred.promise;
   };
 
-  factory.addProject = function(machineName) {
-    return $http.get(baseURL + machineName).then(function(response) {
-      return response.data;
-    });
-  };
-
+  /**
+   *
+   * @param nid
+   * @returns {Parse.Promise}
+   */
   factory.loadProject = function(nid) {
-    var deferred = $q.defer();
-    var parseQuery = new Parse.Query(ParseObject);
-    parseQuery.equalTo('nid', nid);
-    parseQuery.first({
-      success: function(object) {
-        if (object !== undefined) {
-          deferred.resolve(object.attributes);
-        }
-      }
-    });
-    return deferred.promise;
+    return parseProjectService.attributeQuery('nid', nid);
   };
 
   factory.getProject = function() {
