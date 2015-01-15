@@ -27,28 +27,37 @@
     <nav class="navbar navbar-default navbar-static-top" data-ng-controller="headerCtrl">
         <div class="container-fluid">
             <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#appNav">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
                 <a href="#/browse" class="navbar-brand">{{ branding }}</a>
             </div>
-            <ul class="nav navbar-nav">
-                <li><a href="#/browse/core">Core</a> </li>
-                <li><a href="#/browse/distribution">Profile</a> </li>
-                <li><a href="#/browse/module">Modules</a> </li>
-                <li><a href="#/browse/theme">Themes</a> </li>
-                <li><a href="#/browse/sprint">Sprints</a> </li>
-            </ul>
-            <div class="navbar-form navbar-right">
-                <div class="input-group-sm pull-right">
-                    <button data-ng-click="openHelp() | trackEvent:'Button':'Help modal'" class="btn btn-default navbar-help">
-                        <span class="fa fa-question" aria-hidden="true"></span>
-                        <span class="sr-only">Help</span>
-                    </button>
-                    <a href="https://github.com/mglaman/contribkanban-issues" target="_blank">
-                        <button class="btn btn-default navbar-bugs">
-                            <span class="fa fa-bug" aria-hidden="true"></span>
-                            <span class="sr-only">Bugs</span>
+            <div class="collapse navbar-collapse" id="appNav">
+                <ul class="nav navbar-nav">
+                    <li><a href="#/browse/core">Core</a> </li>
+                    <li><a href="#/browse/distribution">Profile</a> </li>
+                    <li><a href="#/browse/module">Modules</a> </li>
+                    <li><a href="#/browse/theme">Themes</a> </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-form navbar-right">
+                    <li class="input-group-sm">
+                        <button data-ng-click="openHelp() | trackEvent:'Button':'Help modal'" class="btn btn-default navbar-help">
+                            <span class="fa fa-question" aria-hidden="true"></span>
+                            <span class="sr-only">Help</span>
                         </button>
-                    </a>
-                </div>
+                    </li>
+                    <li class="input-group-sm navbar-bugs">
+                        <a href="https://github.com/mglaman/contribkanban-issues" target="_blank">
+                            <button class="btn btn-default ">
+                                <span class="fa fa-bug" aria-hidden="true"></span>
+                                <span class="sr-only">Bugs</span>
+                            </button>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>

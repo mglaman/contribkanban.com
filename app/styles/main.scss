@@ -35,6 +35,18 @@ a {
         }
       }
     }
+    .navbar-bugs {
+      padding: 0 3px;
+      a {
+        padding: 0;
+      }
+    }
+    .navbar-help {
+      border-radius: 50px;
+      font-size: 18px;
+      color: $color--primary--dark-blue;
+      padding: 3px 11px;
+    }
   }
 }
 .navbar-brand {
@@ -43,13 +55,6 @@ a {
   letter-spacing: -2.1px;
 }
 
-.navbar-bugs,
-.navbar-help {
-  border-radius: 50px;
-  font-size: 18px;
-  color: $color--primary--dark-blue;
-  padding: 3px 11px;
-}
 
 .projects--list {
   .browse--projects {
