@@ -9,6 +9,7 @@ projectKanbanApp.controller('browseCtrl', [
     function ($scope, $routeParams, $location, projectService, parseProjectService) {
       $scope.location = $location;
       $scope.projects = [];
+      $scope.routePath = 'board';
 
       $scope.queryProjects = function () {
         var Project = parseProjectService.ParseObject;

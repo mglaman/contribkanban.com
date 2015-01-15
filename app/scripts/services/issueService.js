@@ -2,7 +2,7 @@
 
 projectKanbanApp.factory('issueService', ['$http', '$q', 'parseIssueQueriesService', function($http, $q, parseIssueQueriesService) {
   var factory = {};
-  var baseURL = 'https://www.drupal.org/api-d7/node.json?limit=50&type=project_issue&field_project=';
+  var baseURL = 'https://www.drupal.org/api-d7/node.json?limit=50&type=project_issue';
   var apiSort = '&sort=changed&direction=DESC';
 
   var apiToStorage = function(object) {
@@ -26,7 +26,10 @@ projectKanbanApp.factory('issueService', ['$http', '$q', 'parseIssueQueriesServi
     // Normalize cache bool.
     cache = (cache === undefined);
 
-    var apiQuery = baseURL + projectNid;
+    var apiQuery = baseURL;
+    if (projectNid) {
+      apiQuery += '&field_project=' + projectNid;
+    }
 
     if (status) {
       apiQuery += '&field_issue_status=' + status;
@@ -42,6 +45,7 @@ projectKanbanApp.factory('issueService', ['$http', '$q', 'parseIssueQueriesServi
     }
 
     apiQuery += apiSort;
+    //console.log(apiQuery);
 
     parseIssueQueriesService.loadApiURL(apiQuery).then(function (object) {
       // Check if query cache exists

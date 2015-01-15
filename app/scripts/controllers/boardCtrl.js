@@ -11,6 +11,7 @@ projectKanbanApp.controller(
     'DoubleClick',
     function ($scope, $routeParams, $location, issueService, projectService, Angularytics, DoubleClick) {
       $scope.project = {};
+      $scope.projectID = '';
       $scope.projectType = '';
       $scope.releaseBranches = [];
       $scope.boardLists = [];
@@ -74,6 +75,7 @@ projectKanbanApp.controller(
         // Update the scope's project variable.
         var object = parseObject.attributes;
         $scope.project = object;
+        $scope.projectID = object.nid;
         $scope.projectType = object.projectType;
         $scope.releaseBranches = object.releaseBranches;
         $scope.projectRelease = $routeParams.branch || '';

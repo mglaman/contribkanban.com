@@ -26,7 +26,7 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
   };
 
   var apiCall = function(status) {
-    issueService.requestIssues($scope.project.nid, status, $scope.list.tag, $scope.list.category, $scope.list.parentIssue).then(function(issues) {
+    issueService.requestIssues($scope.projectID, status, $scope.list.tag, $scope.list.category, $scope.list.parentIssue).then(function(issues) {
         // Move issues to scope
         if ($scope.listIssues.length == 0) {
           $scope.listIssues = issues;

@@ -121,4 +121,51 @@ projectKanbanApp
 
       return factory;
     }
+  ])
+  .factory('parseSprintService', [
+    '$http', '$q', function ($http, $q) {
+      var factory = {};
+      factory.ParseObject = Parse.Object.extend('Boards');
+
+      /**
+       * Adds a new Boards object row
+       * @param object
+       * @returns {Parse.Promise}
+       */
+      factory.addRow = function (object) {
+        var newObject = new factory.ParseObject();
+        return newObject.save(object);
+      };
+
+      /**
+       * Queries Boards class by attribute.
+       *
+       * @param attribute
+       * @param value
+       * @returns {Parse.Promise}
+       */
+      factory.attributeQuery = function (attribute, value) {
+        var deferred = $q.defer();
+        var parseQuery = new Parse.Query(factory.ParseObject);
+        parseQuery.equalTo(attribute, value);
+        parseQuery.first({
+          success: function (object) {
+            deferred.resolve(object);
+          }
+        });
+        return deferred.promise;
+      };
+
+      /**
+       * Queries Boards class by node ID.
+       *
+       * @param nid
+       * @returns {Parse.Promise}
+       */
+      factory.loadApiURL = function (nid) {
+        return this.attributeQuery('nid', nid);
+      };
+
+      return factory;
+    }
   ]);

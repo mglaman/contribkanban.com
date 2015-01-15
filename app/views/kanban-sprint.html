@@ -1,0 +1,49 @@
+<div class="kanban-board__wrapper" data-boardviewport>
+    <div class="kanban-board--header clearfix">
+        <div class="row">
+            <div class="col-md-7">
+                <h1 class="pull-left">{{ sprint.title }}</h1>
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="issuePriorities" class="sr-only">Issue priorities</label>
+                        <select id="issuePriorities" class="form-control pull-left input-sm" data-ng-model="issuePriority">
+                            <option value="">-- Priority --</option>
+                            <option value="100">Minor</option>
+                            <option value="200">Normal</option>
+                            <option value="300">Major</option>
+                            <option value="400">Critical</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-5">
+                <div class="pull-right">
+                    <div data-ng-dfp-ad="div-gpt-ad-1421106878492-0"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="kanban-board--container">
+        <div class="kanban-board scrolly">
+            <div class="kanban-board--list scrolly" data-ng-repeat="list in boardLists track by list.name" data-ng-controller="listCtrl">
+                <div class="kanban-board--list__header">
+                    <h2>
+                        <span class="fa" data-ng-class="{'fa-spin fa-spinner': processing === true}">&nbsp;</span>
+                        <span>{{ list.label }}</span>
+                    </h2>
+                </div>
+                <div class="kanban-board--items">
+                    <div class="kanban-board--item" data-ng-repeat="issue in listIssues | orderBy:issue.priority:true | issuePriorityFilter:issuePriority | filter:filterIssues(list.statuses) track by issue.nid" style="border-left-color: {{ issue.status | statusColorFilter }}">
+                       <a class="kanban-board--issue__link" href="https://www.drupal.org/node/{{ issue.nid}}" target="_blank">#{{ issue.nid}}</a>
+                        <span class="kanban-board--issue__title">{{ issue.summary }}</span>
+                        <div class="kanban-board--issue_tags">
+                            <span class="kanban-board--issue__version bg-default">{{ issue.version }}</span>
+                            <span class="kanban-board--issue__priority bg-{{ issue.priority | priorityClassFilter }}">{{ issue.priority | priorityLabelFilter }}</span>
+                            <span class="kanban-board--issue__component bg-default">{{ issue.component }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
