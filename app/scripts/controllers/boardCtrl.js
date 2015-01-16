@@ -95,7 +95,7 @@ projectKanbanApp.controller(
                 {
                   name: 'features',
                   label: 'Backlog: Feature requests',
-                  tag: '',
+                  tag: [],
                   category: '3',
                   statuses: [1, 4, 16],
                   parentIssue: ''
@@ -103,7 +103,7 @@ projectKanbanApp.controller(
                 {
                   name: 'support',
                   label: 'Backlog: Support requests',
-                  tag: '',
+                  tag: [],
                   category: '4',
                   statuses: [1, 4, 16],
                   parentIssue: ''
@@ -111,7 +111,7 @@ projectKanbanApp.controller(
                 {
                   name: 'bugs',
                   label: 'Backlog: Bug Reports',
-                  tag: '',
+                  tag: [],
                   category: '1',
                   statuses: [1, 4, 16],
                   parentIssue: ''
@@ -119,7 +119,7 @@ projectKanbanApp.controller(
                 {
                   name: 'cnw',
                   label: 'Needs Work',
-                  tag: '',
+                  tag: [],
                   category: '',
                   statuses: [13],
                   parentIssue: ''
@@ -127,7 +127,7 @@ projectKanbanApp.controller(
                 {
                   name: 'cnr',
                   label: 'Needs Review',
-                  tag: '',
+                  tag: [],
                   category: '',
                   statuses: [8],
                   parentIssue: ''
@@ -135,7 +135,7 @@ projectKanbanApp.controller(
                 {
                   name: 'fixed',
                   label: 'RTBC/Fixed',
-                  tag: '',
+                  tag: [],
                   category: '',
                   statuses: [14, 2],
                   parentIssue: ''

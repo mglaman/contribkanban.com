@@ -73,7 +73,6 @@ projectKanbanApp.controller(
           $scope.sprint = object;
           // Set the page title to be the project's name.
           $scope.page.setTitle(object.title);
-
           $scope.boardLists = boardListDefaults(object.tid);
 
           // Ping Google.

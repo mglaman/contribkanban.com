@@ -25,8 +25,8 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
 
   };
 
-  var apiCall = function(status) {
-    issueService.requestIssues($scope.projectID, status, $scope.list.tag, $scope.list.category, $scope.list.parentIssue).then(function(issues) {
+  var apiCall = function(status, tag) {
+    issueService.requestIssues($scope.projectID, status, tag, $scope.list.category, $scope.list.parentIssue).then(function(issues) {
         // Move issues to scope
         if ($scope.listIssues.length == 0) {
           $scope.listIssues = issues;
@@ -40,17 +40,35 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
 
   // Get the issues for this state.
   var getListIssues = function() {
-    apiCall(null);
-    // @todo: Support pagination. Convert old status cycling.
-    /*
-    if (counter <= $scope.list.statuses.length) {
-      apiCall($scope.list.statuses[counter]);
-      counter++;
-      $timeout(getListIssues, 1200);
+    //apiCall(null, $scope.list.tag);
+    if ($scope.list.parentIssue) {
+      apiCall(null, $scope.list.tag.length);
     }
-    else {
-      $scope.processing = false;
-    }*/
+    else if ($scope.list.tag.length > 0) {
+      if (counter < $scope.list.tag.length) {
+        apiCall(null, $scope.list.tag[counter]);
+        console.log($scope.list.tag[counter]);
+        counter++;
+        $timeout(getListIssues, 1200);
+      }
+      else {
+        $timeout(getListIssues, 600000);
+        $scope.processing = false;
+      }
+    }
+    else if ($scope.list.statuses.length > 0) {
+      if (counter < $scope.list.statuses.length) {
+        apiCall($scope.list.statuses[counter]);
+        counter++;
+        $timeout(getListIssues, 1200);
+      }
+      else {
+        $timeout(getListIssues, 600000);
+        $scope.processing = false;
+      }
+    }
+
+    // @todo: Support pagination. Convert old status cycling.
   };
   $timeout(getListIssues, 500);
 }])
