@@ -27,12 +27,10 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
 
   var apiCall = function(status, tag) {
     issueService.requestIssues($scope.projectID, status, tag, $scope.list.category, $scope.list.parentIssue).then(function(issues) {
-        // Move issues to scope
-        if ($scope.listIssues.length == 0) {
-          $scope.listIssues = issues;
-        } else {
-          $scope.listIssues.concat(issues);
-        }
+        angular.forEach(issues, function(val, key) {
+          $scope.listIssues.push(val);
+        });
+        $scope.$apply();
         $scope.processing = false;
       }
     );
@@ -40,6 +38,7 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
 
   // Get the issues for this state.
   var getListIssues = function() {
+    $scope.processing = true;
     //apiCall(null, $scope.list.tag);
     if ($scope.list.parentIssue) {
       apiCall(null, $scope.list.tag.length);
@@ -47,7 +46,6 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
     else if ($scope.list.tag.length > 0) {
       if (counter < $scope.list.tag.length) {
         apiCall(null, $scope.list.tag[counter]);
-        console.log($scope.list.tag[counter]);
         counter++;
         $timeout(getListIssues, 1200);
       }
