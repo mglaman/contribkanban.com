@@ -30,7 +30,6 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
         angular.forEach(issues, function(val, key) {
           $scope.listIssues.push(val);
         });
-        $scope.$apply();
         $scope.processing = false;
       }
     );
