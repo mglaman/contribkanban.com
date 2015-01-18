@@ -18,6 +18,7 @@
                         <label for="issueNeeds" class="sr-only">Issue needs</label>
                         <select id="issueNeeds" class="form-control pull-left input-sm" data-ng-model="issueNeedsTag" data-ng-change="updateBoardRoute()">
                             <option value="">-- Issue tasks --</option>
+                            <option value="36358">Needs reroll</option>
                             <option value="310">Needs usability review</option>
                             <option value="374">Needs issue summary update</option>
                             <option value="488">Needs documentation</option>
@@ -46,7 +47,7 @@
                     </h2>
                 </div>
                 <div class="kanban-board--items">
-                    <div class="kanban-board--item" data-ng-repeat="issue in listIssues | orderBy:issue.priority | issueNeedsFilter:issueNeedsTag | issuePriorityFilter:issuePriority | filter:filterIssues(list.statuses) track by $index" style="border-left-color: {{ issue.status | statusColorFilter }}">
+                    <div class="kanban-board--item" data-openissue data-ng-repeat="issue in listIssues | orderBy:issue.priority | issueNeedsFilter:issueNeedsTag | issuePriorityFilter:issuePriority | filter:filterIssues(list.statuses) track by $index" style="border-left-color: {{ issue.status | statusColorFilter }}">
                        <a class="kanban-board--issue__link" href="https://www.drupal.org/node/{{ issue.nid}}" target="_blank">#{{ issue.nid}}</a>
                         <span class="kanban-board--issue__title">{{ issue.summary }}</span>
                         <div class="kanban-board--issue_tags">
