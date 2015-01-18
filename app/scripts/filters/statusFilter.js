@@ -44,6 +44,25 @@ projectKanbanApp.filter('issuePriorityFilter', function () {
   }
 });
 
+projectKanbanApp.filter('issueNeedsFilter', function () {
+  return function(issues, needsTid) {
+    return issues.filter(function(issue) {
+      // If no priority...
+      if (needsTid === undefined || needsTid == null || needsTid == '') {
+        return true;
+      }
+      else {
+        for (var i = 0; i < issue.tags.length; i++) {
+          if (issue.tags[i].id == needsTid) {
+            return true;
+          }
+        }
+        return false;
+      }
+    });
+  }
+});
+
 projectKanbanApp.filter('statusLabelFilter', function() {
   var statusCodes = {
     1: 'Active',

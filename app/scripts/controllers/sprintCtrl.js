@@ -13,25 +13,10 @@ projectKanbanApp.controller(
       $scope.sprint = {};
       $scope.projectID = null;
       $scope.boardLists = [];
+      $scope.issueNeedsTag = $routeParams.needs || '';
 
       var boardListDefaults = function(tagID) {
         return [
-          {
-            name: 'backlog',
-            label: 'Postponed',
-            tag: tagID,
-            category: '',
-            statuses: [4, 16],
-            parentIssue: ''
-          },
-          {
-            name: 'active',
-            label: 'Active',
-            tag: tagID,
-            category: '',
-            statuses: [1],
-            parentIssue: ''
-          },
           {
             name: 'cnr',
             label: 'Needs Review',
@@ -46,6 +31,14 @@ projectKanbanApp.controller(
             tag: tagID,
             category: '',
             statuses: [13],
+            parentIssue: ''
+          },
+          {
+            name: 'active',
+            label: 'Active',
+            tag: tagID,
+            category: '',
+            statuses: [1],
             parentIssue: ''
           },
           {
@@ -83,6 +76,17 @@ projectKanbanApp.controller(
         }, function () {
 
         });
+
+      $scope.updateBoardRoute = function () {
+        var pathParts = $location.path().split('/');
+        if ($scope.issueNeedsTag == null) {
+          $location.path('/' + pathParts[1] + '/' + pathParts[2], false);
+
+        }
+        else {
+          $location.path('/' + pathParts[1] + '/' + pathParts[2] + '/' + $scope.issueNeedsTag, false);
+        }
+      };
     }
   ])
   .directive('boardviewport', [

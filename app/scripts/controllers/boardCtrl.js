@@ -34,19 +34,19 @@ projectKanbanApp.controller(
           parentIssue: ''
         },
         {
-          name: 'cnr',
-          label: 'Needs Review',
-          tag: '',
-          category: '',
-          statuses: [8],
-          parentIssue: ''
-        },
-        {
           name: 'cnw',
           label: 'Needs Work',
           tag: '',
           category: '',
           statuses: [13],
+          parentIssue: ''
+        },
+        {
+          name: 'cnr',
+          label: 'Needs Review',
+          tag: '',
+          category: '',
+          statuses: [8],
           parentIssue: ''
         },
         {
