@@ -88,33 +88,4 @@ projectKanbanApp.controller(
         }
       };
     }
-  ])
-  .directive('boardviewport', [
-    '$window', function ($window) {
-      return {
-        restrict: 'A',
-        link: function (scope, element) {
-          scope.initializeWindowSize = function () {
-            $(element).css('height', $window.innerHeight - 70);
-          };
-          scope.initializeWindowSize();
-          angular.element($window).bind('resize', function () {
-            scope.initializeWindowSize();
-          });
-        }
-      };
-    }
-  ])
-  .directive('openissue', [
-    '$window', function($window) {
-      return {
-        restrict: 'AC',
-        link: function($scope, $element) {
-          $element.on('click', function(e) {
-            $window.open('https://www.drupal.org/node/' + $scope.issue.nid);
-          });
-
-        }
-      }
-    }
   ]);

@@ -72,35 +72,4 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', 'issue
     // @todo: Support pagination. Convert old status cycling.
   };
   $timeout(getListIssues, 500);
-}])
-  .filter('priorityLabelFilter', function() {
-    var statusCodes = {
-      400: 'Critical',
-      300: 'Major',
-      200: 'Normal',
-      100: 'Minor'
-    };
-
-    return function(input) {
-      if (!input) {
-        return '';
-      }
-
-      return statusCodes[input];
-    }
-  })
-  .filter('priorityClassFilter', function() {
-    var statusCodes = {
-      400: 'danger',
-      300: 'warning',
-      200: 'info',
-      100: 'active'
-    };
-    return function(input) {
-      if (!input) {
-        return '';
-      }
-
-      return statusCodes[input];
-    }
-  });
+}]);

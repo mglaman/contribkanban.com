@@ -116,3 +116,36 @@ projectKanbanApp.filter('statusColorFilter', function() {
     return statusCodes[input];
   }
 });
+
+projectKanbanApp.filter('priorityLabelFilter', function() {
+  var statusCodes = {
+    400: 'Critical',
+    300: 'Major',
+    200: 'Normal',
+    100: 'Minor'
+  };
+
+  return function(input) {
+    if (!input) {
+      return '';
+    }
+
+    return statusCodes[input];
+  }
+});
+
+projectKanbanApp.filter('priorityClassFilter', function() {
+  var statusCodes = {
+    400: 'danger',
+    300: 'warning',
+    200: 'info',
+    100: 'active'
+  };
+  return function(input) {
+    if (!input) {
+      return '';
+    }
+
+    return statusCodes[input];
+  }
+})
