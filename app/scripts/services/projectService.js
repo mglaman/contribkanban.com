@@ -25,9 +25,11 @@ projectKanbanApp.factory('projectService', ['$http', '$q', 'parseProjectService'
               label: object.field_release_vcs_label
             });
           });
-
-          deferred.resolve(branchLabels);
         }
+        deferred.resolve(branchLabels);
+      })
+      .error(function (d) {
+        console.log(d);
       });
     return deferred.promise;
   };

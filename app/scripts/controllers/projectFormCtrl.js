@@ -35,6 +35,9 @@ projectKanbanApp.controller('projectFormCtrl', ['$scope', 'projectService', 'par
           });
         }
 
-      });
+      },
+    function(error) {
+      console.log(error)
+    });
   }
 }]);
