@@ -12,6 +12,7 @@ projectKanbanApp.controller('browseCtrl', [
       $scope.routePath = 'board';
 
       $scope.queryProjects = function () {
+        $scope.projects = [];
         var Project = parseProjectService.ParseObject;
         var parseQuery = new Parse.Query(Project);
         // If passed a type, filter by that.
@@ -20,24 +21,15 @@ projectKanbanApp.controller('browseCtrl', [
         }
 
         parseQuery.find({}).then(function (results) {
-          var rows = [];
           angular.forEach(results, function(val, key) {
-            rows.push(val.attributes);
+            $scope.projects.push(val.attributes);
           });
-          angular.copy(rows, $scope.projects);
           $scope.$apply();
         }, function () {
 
         });
       };
-
-      $scope.$watch(function() {
-        return projectService.getProject();
-      }, function(nVal, oVal) {
-        if (nVal) {
-          $scope.queryProjects();
-        }
-      });
+      $scope.queryProjects();
     }
   ]
 );

@@ -15,6 +15,7 @@ projectKanbanApp.controller(
       $scope.projectType = '';
       $scope.releaseBranches = [];
       $scope.boardLists = [];
+      $scope.projectRelease = $routeParams.branch || '';
 
       var boardListDefaults = [
         {
@@ -78,79 +79,28 @@ projectKanbanApp.controller(
         $scope.projectID = object.nid;
         $scope.projectType = object.projectType;
         $scope.releaseBranches = object.releaseBranches;
-        $scope.projectRelease = $routeParams.branch || '';
 
         // Set the page title to be the project's name.
         $scope.page.setTitle(object.title);
+        $scope.setBoardLists();
 
-        // Initiate the board's lists.
-        projectService.loadProjectConfig(object.nid).then(function (configObject) {
-          if (configObject !== null) {
-            $scope.boardLists = configObject.attributes.listConfig;
-          }
-          else {
-            // Test
-            if ($routeParams.project == '1303302') {
-              $scope.boardLists = [
-                {
-                  name: 'features',
-                  label: 'Backlog: Feature requests',
-                  tag: [],
-                  category: '3',
-                  statuses: [1, 4, 16],
-                  parentIssue: ''
-                },
-                {
-                  name: 'support',
-                  label: 'Backlog: Support requests',
-                  tag: [],
-                  category: '4',
-                  statuses: [1, 4, 16],
-                  parentIssue: ''
-                },
-                {
-                  name: 'bugs',
-                  label: 'Backlog: Bug Reports',
-                  tag: [],
-                  category: '1',
-                  statuses: [1, 4, 16],
-                  parentIssue: ''
-                },
-                {
-                  name: 'cnw',
-                  label: 'Needs Work',
-                  tag: [],
-                  category: '',
-                  statuses: [13],
-                  parentIssue: ''
-                },
-                {
-                  name: 'cnr',
-                  label: 'Needs Review',
-                  tag: [],
-                  category: '',
-                  statuses: [8],
-                  parentIssue: ''
-                },
-                {
-                  name: 'fixed',
-                  label: 'RTBC/Fixed',
-                  tag: [],
-                  category: '',
-                  statuses: [14, 2],
-                  parentIssue: ''
-                }
-              ]
-            } else {
-              $scope.boardLists = boardListDefaults;
-            }
-          }
-        });
 
         // Ping Google.
         Angularytics.trackEvent('Project', 'Viewed project: ' + object.title);
         DoubleClick.refreshAds('div-gpt-ad-1421106878492-0');
       });
+
+      $scope.setBoardLists = function() {
+        // Initiate the board's lists.
+        projectService.loadProjectConfig($scope.projectID).then(function (configObject) {
+          if (configObject !== null) {
+            $scope.boardLists = configObject.attributes.listConfig;
+          }
+          else {
+            $scope.boardLists = boardListDefaults;
+          }
+        });
+      };
 
       $scope.updateBoardRoute = function () {
         var pathParts = $location.path().split('/');
