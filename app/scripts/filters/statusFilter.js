@@ -17,7 +17,9 @@ projectKanbanApp.filter('issueBranchFilter', function () {
   return function(issues, branch) {
     return issues.filter(function(issue) {
       // If no branch...
-      if (branch === undefined || branch == null) {
+      console.log(branch);
+      console.log(issue);
+      if (branch === undefined || branch == null || branch == '') {
         return true;
       }
       else {
