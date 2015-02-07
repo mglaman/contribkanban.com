@@ -1,6 +1,6 @@
 'use strict';
 
-projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', function($scope, $timeout, issueService) {
+projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', 'issueService', function($scope, $timeout, $window, issueService) {
 
   $scope.param = $scope.list.param;
   $scope.listIssues = [];
@@ -23,6 +23,10 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', 'issueService', f
 
   $scope.filterIssuePriority = function() {
 
+  };
+
+  $scope.openIssue = function(nid) {
+    $window.open('https://www.drupal.org/node/' + nid, '_blank');
   };
 
   var apiCall = function(status, tag) {

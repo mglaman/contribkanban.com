@@ -179,17 +179,4 @@ projectKanbanApp.controller(
         }
       };
     }
-  ])
-  .directive('openissue', [
-    '$window', function($window) {
-      return {
-        restrict: 'AC',
-        link: function($scope, $element) {
-          $element.on('click', function(e) {
-            $window.open('https://www.drupal.org/node/' + $scope.issue.nid);
-          });
-
-        }
-      }
-    }
   ]);
