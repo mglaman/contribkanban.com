@@ -42,10 +42,25 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', 'issue
   // Get the issues for this state.
   var getListIssues = function() {
     $scope.processing = true;
-    //apiCall(null, $scope.list.tag);
+
+    // If there is a parent issue, we're just querying for children.
     if ($scope.list.parentIssue) {
       apiCall(null, $scope.list.tag.length);
+    } else {
+      // Cycle through all statuses
+      if (counter < $scope.list.statuses.length) {
+        apiCall($scope.list.statuses[counter], $scope.list.tag);
+        console.log($scope.list);
+        counter++;
+        $timeout(getListIssues, 1200);
+      }
+      else {
+        $timeout(getListIssues, 600000);
+        $scope.processing = false;
+      }
     }
+
+    /*
     else if ($scope.list.tag.length > 0) {
       if (counter < $scope.list.tag.length) {
         apiCall(null, $scope.list.tag[counter]);
@@ -67,7 +82,7 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', 'issue
         $timeout(getListIssues, 600000);
         $scope.processing = false;
       }
-    }
+    }*/
 
     // @todo: Support pagination. Convert old status cycling.
   };
