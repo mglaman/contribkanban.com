@@ -16,6 +16,8 @@ module.exports = function (grunt) {
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
 
+  grunt.loadNpmTasks('grunt-string-replace');
+
   // Configurable paths
   var config = {
     app: 'app',
@@ -25,8 +27,34 @@ module.exports = function (grunt) {
   // Define the configuration for all the tasks
   grunt.initConfig({
 
+    envConfig: grunt.file.readJSON('config.json'),
+
     // Project settings
     config: config,
+
+    'string-replace': {
+      dist: {
+        options: {
+          saveUnchanged: false,
+          replacements: [
+            {
+              pattern: /PARSE_APP_ID/ig,
+              replacement: '<%= envConfig.parseAppID %>'
+            },
+            {
+              pattern: /PARSE_JS_KEY/ig,
+              replacement: '<%= envConfig.parseJSKey %>'
+            }
+          ]
+        },
+        files: [{
+          expand: true,
+          cwd: '<%= config.app %>/scripts',
+          src: '**/*.js',
+          dest: '<%= config.app %>/scripts'
+        }]
+      }
+    },
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
@@ -398,6 +426,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'string-replace',
       'wiredep',
       'concurrent:server',
       'autoprefixer',
@@ -428,6 +457,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'string-replace',
     'wiredep',
     'useminPrepare',
     'concurrent:dist',
