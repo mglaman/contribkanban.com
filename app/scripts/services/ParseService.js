@@ -28,7 +28,8 @@ projectKanbanApp
          * @returns {Parse.Promise}
          */
         saveObject: function (type, object) {
-          var newObject = this.parseObject(type);
+          var parseObject = this.parseObject(type);
+          var newObject = new parseObject();
           return newObject.save(object);
         },
 
