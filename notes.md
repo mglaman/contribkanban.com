@@ -1,1 +1,0 @@
-http://stackoverflow.com/questions/19589086/ng-repeat-and-ng-controller-on-the-same-dom-element
