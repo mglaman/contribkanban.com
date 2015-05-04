@@ -1,6 +1,6 @@
 'use strict';
 
-projectKanbanApp.factory('projectService', ['$http', '$q', 'parseProjectService', function($http, $q, parseProjectService) {
+projectKanbanApp.factory('projectService', ['$http', '$q', 'parseService', function($http, $q, parseService) {
   var factory = {};
   var baseURL = 'https://www.drupal.org/api-d7/node.json?field_project_machine_name=';
   var releaseURL = 'https://www.drupal.org/api-d7/node.json?type=project_release&field_release_update_status=0&field_release_version_extra=dev&field_release_project=';
@@ -74,7 +74,7 @@ projectKanbanApp.factory('projectService', ['$http', '$q', 'parseProjectService'
    * @returns {Parse.Promise}
    */
   factory.loadProject = function(nid) {
-    return parseProjectService.attributeQuery('nid', nid);
+    return parseService.attributeQuery('Project', 'nid', nid);
   };
 
   factory.getProject = function() {

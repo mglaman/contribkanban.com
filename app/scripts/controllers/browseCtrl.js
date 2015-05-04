@@ -4,21 +4,23 @@ projectKanbanApp.controller('browseCtrl', [
     '$scope',
     '$routeParams',
     '$location',
+    'parseService',
     'projectService',
-    'parseProjectService',
-    function ($scope, $routeParams, $location, projectService, parseProjectService) {
+    function ($scope, $routeParams, $location, parseService) {
       $scope.location = $location;
       $scope.projects = [];
       $scope.routePath = 'board';
 
       $scope.queryProjects = function () {
         $scope.projects = [];
-        var Project = parseProjectService.ParseObject;
-        var parseQuery = new Parse.Query(Project);
+
+        var parseQuery = parseService.objectQuery('Project');
+
         // If passed a type, filter by that.
         if ($routeParams.type !== undefined) {
           parseQuery.equalTo('projectType', 'project_' + $routeParams.type);
         }
+        parseQuery.limit(200);
 
         parseQuery.find({}).then(function (results) {
           angular.forEach(results, function(val, key) {

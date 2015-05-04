@@ -5,11 +5,12 @@ projectKanbanApp.controller(
     '$scope',
     '$routeParams',
     '$location',
+    'parseService',
     'issueService',
     'projectService',
     'Angularytics',
     'DoubleClick',
-    function ($scope, $routeParams, $location, issueService, projectService, Angularytics, DoubleClick) {
+    function ($scope, $routeParams, $location, parseService, issueService, projectService, Angularytics, DoubleClick) {
       $scope.project = {};
       $scope.projectID = '';
       $scope.projectType = '';
@@ -72,27 +73,29 @@ projectKanbanApp.controller(
         // {name: 'done', label: 'Fixed', tag: '', statuses: [2,7]}
       ];
 
-      projectService.loadProject($routeParams.project).then(function (parseObject) {
-        // Update the scope's project variable.
-        var object = parseObject.attributes;
-        $scope.project = object;
-        $scope.projectID = object.nid;
-        $scope.projectType = object.projectType;
-        $scope.releaseBranches = object.releaseBranches;
+      // projectService.loadProject($routeParams.project)
+      parseService.attributeQuery('Project', 'nid', $routeParams.project)
+        .then(function (parseObject) {
+          // Update the scope's project variable.
+          var object = parseObject.attributes;
+          $scope.project = object;
+          $scope.projectID = object.nid;
+          $scope.projectType = object.projectType;
+          $scope.releaseBranches = object.releaseBranches;
 
-        // Set the page title to be the project's name.
-        $scope.page.setTitle(object.title);
-        $scope.setBoardLists();
+          // Set the page title to be the project's name.
+          $scope.page.setTitle(object.title);
+          $scope.setBoardLists();
 
 
-        // Ping Google.
-        Angularytics.trackEvent('Project', 'Viewed project: ' + object.title);
-        DoubleClick.refreshAds('div-gpt-ad-1421106878492-0');
+          // Ping Google.
+          Angularytics.trackEvent('Project', 'Viewed project: ' + object.title);
+          DoubleClick.refreshAds('div-gpt-ad-1421106878492-0');
       });
 
       $scope.setBoardLists = function() {
         // Initiate the board's lists.
-        projectService.loadProjectConfig($scope.projectID).then(function (configObject) {
+        parseService.attributeQuery('ProjectConfig', 'nid', $scope.project.nid).then(function (configObject) {
           if (configObject !== null) {
             $scope.boardLists = configObject.attributes.listConfig;
           }

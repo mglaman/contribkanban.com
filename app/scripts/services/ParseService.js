@@ -6,70 +6,68 @@
  * Provides a service for interacting with Parse.com and Project class.
  */
 projectKanbanApp
-  .factory('parseProjectService', [
-    '$http', '$q', function ($http, $q) {
-      var factory = {};
-      factory.ParseObject = Parse.Object.extend('Project');
+  .factory('parseService', [ '$q',
+    function ($q) {
+      return {
 
-      /**
-       * Adds a new Project object row
-       * @param object
-       * @returns {Parse.Promise}
-       */
-      factory.addRow = function (object) {
-        var newObject = new factory.ParseObject();
-        return newObject.save(object);
+        /**
+         * Returns a Parse.com object.
+         *
+         * @param classType
+         * @returns {*}
+         */
+        parseObject: function (classType) {
+          return Parse.Object.extend(classType);
+        },
+
+        /**
+         * Adds a new object.
+         *
+         * @param type
+         * @param object
+         * @returns {Parse.Promise}
+         */
+        saveObject: function (type, object) {
+          var newObject = this.parseObject(type);
+          return newObject.save(object);
+        },
+
+        /**
+         * Returns a new class query.
+         *
+         * @param type
+         * @returns {Parse.Query}
+         */
+        objectQuery: function(type) {
+          var parseObject = this.parseObject(type);
+          return new Parse.Query(parseObject);
+        },
+
+        /**
+         * Queries classes by an attribute.
+         *
+         * @param type
+         * @param attribute
+         * @param value
+         * @returns {Deferred}
+         */
+        attributeQuery: function(type, attribute, value) {
+          var deferred = $q.defer();
+          var parseQuery = new Parse.Query(this.parseObject(type));
+          parseQuery.equalTo(attribute, value);
+          parseQuery.first({
+            success: function (object) {
+              if (object !== undefined) {
+                deferred.resolve(object);
+              } else {
+                deferred.resolve(null);
+              }
+            }
+          });
+          return deferred.promise;
+        }
       };
-
-      factory.updateRow = function (object) {
-        var newObject = new ParseObject();
-        return newObject.save(object);
-      };
-
-      /**
-       * Queries Project class by attribute.
-       *
-       * @param attribute
-       * @param value
-       * @returns {Parse.Promise}
-       */
-      factory.attributeQuery = function (attribute, value) {
-        var deferred = $q.defer();
-        var parseQuery = new Parse.Query(factory.ParseObject);
-        parseQuery.equalTo(attribute, value);
-        parseQuery.first({
-          success: function (object) {
-            deferred.resolve(object);
-          }
-        });
-        return deferred.promise;
-      };
-
-      /**
-       * Queries Project class by node ID.
-       *
-       * @param nid
-       * @returns {Parse.Promise}
-       */
-      factory.loadByNid = function (nid) {
-        return this.attributeQuery('nid', nid);
-      };
-
-      /**
-       * Queries Project class by machine name.
-       * @param machineName
-       * @returns {Parse.Promise}
-       */
-      factory.loadByMachineName = function (machineName) {
-        var wtf = this.attributeQuery('machine_name', machineName);
-        console.log(wtf);
-        return wtf;
-        //return this.attributeQuery('machine_name', machineName);
-      };
-
-      return factory;
-    }
-  ])
+    }])
   .factory('parseIssueQueriesService', [
     '$http', '$q', function ($http, $q) {
       var factory = {};
