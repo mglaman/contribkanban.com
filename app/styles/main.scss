@@ -195,3 +195,27 @@ a {
 .may-as-well-get-something-out-of-this-eh div {
   margin: 0 auto;
 }
+
+.kanban-board--filters {
+ .form-control {
+   display: inline-block;
+   width: auto;
+ }
+}
+
+// There's not much here for styling, so quick non-mobile first stub.
+@media only screen and (max-width : 768px) {
+  .kanban-board--supplementary {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    .pull-right {
+      float: none !important;
+      div {
+        margin: 0 auto;
+      }
+    }
+  }
+}
