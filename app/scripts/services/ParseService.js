@@ -1,12 +1,13 @@
 'use strict';
 
 /**
- * parseProjectService Factory.
+ * parseService Factory.
  *
- * Provides a service for interacting with Parse.com and Project class.
+ * Provides a service for interacting with Parse.com.
  */
 projectKanbanApp
-  .factory('parseService', [ '$q',
+  .factory('parseService', [
+    '$q',
     function ($q) {
       return {
 
@@ -39,7 +40,7 @@ projectKanbanApp
          * @param type
          * @returns {Parse.Query}
          */
-        objectQuery: function(type) {
+        objectQuery: function (type) {
           var parseObject = this.parseObject(type);
           return new Parse.Query(parseObject);
         },
@@ -52,7 +53,7 @@ projectKanbanApp
          * @param value
          * @returns {Deferred}
          */
-        attributeQuery: function(type, attribute, value) {
+        attributeQuery: function (type, attribute, value) {
           var deferred = $q.defer();
           var parseQuery = new Parse.Query(this.parseObject(type));
           parseQuery.equalTo(attribute, value);
@@ -60,7 +61,8 @@ projectKanbanApp
             success: function (object) {
               if (object !== undefined) {
                 deferred.resolve(object);
-              } else {
+              }
+              else {
                 deferred.resolve(null);
               }
             }
@@ -68,4 +70,5 @@ projectKanbanApp
           return deferred.promise;
         }
       };
-    }]);
+    }
+  ]);

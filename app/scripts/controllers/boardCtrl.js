@@ -95,7 +95,7 @@ projectKanbanApp.controller(
 
       $scope.setBoardLists = function() {
         // Initiate the board's lists.
-        parseService.attributeQuery('ProjectConfig', 'nid', $scope.project.nid).then(function (configObject) {
+        parseService.attributeQuery('ProjectConfig', 'nid', $scope.projectID).then(function (configObject) {
           if (configObject !== null) {
             $scope.boardLists = configObject.attributes.listConfig;
           }
