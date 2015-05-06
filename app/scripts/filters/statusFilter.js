@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * @todo: Document this.
+ */
 projectKanbanApp.filter('issueIdFilter', function() {
   return function(issues, ids) {
     return issues.filter(function(issue) {
@@ -13,6 +16,9 @@ projectKanbanApp.filter('issueIdFilter', function() {
   }
 });
 
+/**
+ * @todo: Document this.
+ */
 projectKanbanApp.filter('issueBranchFilter', function () {
   return function(issues, branch) {
     return issues.filter(function(issue) {
@@ -30,6 +36,9 @@ projectKanbanApp.filter('issueBranchFilter', function () {
   }
 });
 
+/**
+ * @todo: Document this.
+ */
 projectKanbanApp.filter('issuePriorityFilter', function () {
   return function(issues, priority) {
     return issues.filter(function(issue) {
@@ -44,6 +53,9 @@ projectKanbanApp.filter('issuePriorityFilter', function () {
   }
 });
 
+/**
+ * @todo: Document this.
+ */
 projectKanbanApp.filter('issueNeedsFilter', function () {
   return function(issues, needsTid) {
     return issues.filter(function(issue) {
@@ -63,6 +75,9 @@ projectKanbanApp.filter('issueNeedsFilter', function () {
   }
 });
 
+/**
+ * Turns status codes into labels.
+ */
 projectKanbanApp.filter('statusLabelFilter', function() {
   var statusCodes = {
     1: 'Active',
@@ -89,6 +104,9 @@ projectKanbanApp.filter('statusLabelFilter', function() {
   }
 });
 
+/**
+ * Turns status codes into colors.
+ */
 projectKanbanApp.filter('statusColorFilter', function() {
   var statusCodes = {
     1: '#f9f9f9',
@@ -115,6 +133,9 @@ projectKanbanApp.filter('statusColorFilter', function() {
   }
 });
 
+/**
+ * Turns priority codes into labels.
+ */
 projectKanbanApp.filter('priorityLabelFilter', function() {
   var statusCodes = {
     400: 'Critical',
@@ -132,6 +153,9 @@ projectKanbanApp.filter('priorityLabelFilter', function() {
   }
 });
 
+/**
+ * Turns priority codes into labels.
+ */
 projectKanbanApp.filter('priorityClassFilter', function() {
   var statusCodes = {
     400: 'danger',
@@ -146,4 +170,4 @@ projectKanbanApp.filter('priorityClassFilter', function() {
 
     return statusCodes[input];
   }
-})
+});
