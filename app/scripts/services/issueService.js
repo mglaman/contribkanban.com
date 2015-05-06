@@ -1,6 +1,6 @@
 'use strict';
 
-projectKanbanApp.factory('issueService', ['$http', '$q', 'parseIssueQueriesService', function($http, $q, parseIssueQueriesService) {
+projectKanbanApp.factory('issueService', ['$http', '$q', 'parseService', function($http, $q, parseService) {
   var factory = {};
   var baseURL = 'https://www.drupal.org/api-d7/node.json?limit=50&type=project_issue';
   var apiSort = '&sort=changed&direction=DESC';
@@ -21,7 +21,6 @@ projectKanbanApp.factory('issueService', ['$http', '$q', 'parseIssueQueriesServi
 
   factory.requestIssues = function(projectNid, status, tag, category, parentIssue, cache) {
     var deferred = $q.defer();
-    var cachedInParse = false;
 
     // Normalize cache bool.
     cache = (cache === undefined);
@@ -45,11 +44,10 @@ projectKanbanApp.factory('issueService', ['$http', '$q', 'parseIssueQueriesServi
     }
 
     apiQuery += apiSort;
-    //console.log(apiQuery);
 
-    parseIssueQueriesService.loadApiURL(apiQuery).then(function (object) {
+    parseService.attributeQuery('IssueQueries', 'self', apiQuery.replace('.json', '')).then(function (object) {
       // Check if query cache exists
-      if (object !== undefined) {
+      if (object !== null) {
         // It does exist, check if older than 10 minutes
         var now = new Date();
         if ((now.getTime() - object.updatedAt.getTime()) < 600000) {
@@ -67,7 +65,7 @@ projectKanbanApp.factory('issueService', ['$http', '$q', 'parseIssueQueriesServi
         // New request
         $http.get(apiQuery, {cache: cache})
           .success(function (response) {
-            parseIssueQueriesService.addRow(response);
+            parseService.saveObject('IssueQueries', response);
             deferred.resolve(responseListProcess(response.list));
           });
       }

@@ -50,7 +50,6 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', 'issue
       // Cycle through all statuses
       if (counter < $scope.list.statuses.length) {
         apiCall($scope.list.statuses[counter], $scope.list.tag);
-        console.log($scope.list);
         counter++;
         $timeout(getListIssues, 1200);
       }

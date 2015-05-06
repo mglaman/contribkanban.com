@@ -6,10 +6,10 @@ projectKanbanApp.controller(
     '$routeParams',
     '$location',
     'issueService',
-    'parseSprintService',
+    'parseService',
     'Angularytics',
     'DoubleClick',
-    function ($scope, $routeParams, $location, issueService, parseSprintService, Angularytics, DoubleClick) {
+    function ($scope, $routeParams, $location, issueService, parseService, Angularytics, DoubleClick) {
       $scope.sprint = {};
       $scope.projectID = null;
       $scope.boardLists = [];
@@ -60,7 +60,7 @@ projectKanbanApp.controller(
         ]
       };
 
-      parseSprintService.attributeQuery('nid', $routeParams.sprint).then(
+      parseService.attributeQuery('Boards', 'nid', $routeParams.sprint).then(
         function (parseObject) {
           var object = parseObject.attributes;
           $scope.sprint = object;
