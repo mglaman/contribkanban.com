@@ -4,7 +4,7 @@
 
 This application was my attempt at learning AngularJS and providing a useful tool to the Drupal community. The goal is to provide the Drupal.org community with a simpler way to sprint on projects.
 
-Looking for more? Check out my Chrome application [Drupal Issue Tracking]((https://chrome.google.com/webstore/detail/drupal-issue-tracking/gigmieclehjecoglmlmgokcekfklonmb))
+Looking for more? Check out my Chrome application [Drupal Issue Tracking](https://chrome.google.com/webstore/detail/drupal-issue-tracking/gigmieclehjecoglmlmgokcekfklonmb)
 
 ### Contributing
 
