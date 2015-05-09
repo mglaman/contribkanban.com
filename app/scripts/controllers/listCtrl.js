@@ -37,7 +37,8 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', 'issue
       $scope.list.category,
       $scope.list.parentIssue,
       $scope.list.priority,
-      $scope.list.version
+      $scope.list.version,
+      $scope.list.component
     ).then(function(issues) {
         angular.forEach(issues, function(val, key) {
           $scope.listIssues.push(val);

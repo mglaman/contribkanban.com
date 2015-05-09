@@ -53,10 +53,11 @@ projectKanbanApp.factory('issueService', [
      * @param parentIssue
      * @param priority
      * @param version
+     * @param component
      * @param cache
      * @returns {*}
      */
-    factory.requestIssues = function (projectNid, status, tag, category, parentIssue, priority, version, cache) {
+    factory.requestIssues = function (projectNid, status, tag, category, parentIssue, priority, version, component, cache) {
       var deferred = $q.defer();
 
       // Normalize cache bool.
@@ -100,6 +101,11 @@ projectKanbanApp.factory('issueService', [
       // If there was a version, add it as a query option.
       if (version) {
         apiQuery += '&field_issue_version=' + version;
+      }
+
+      // If there was a version, add it as a query option.
+      if (component) {
+        apiQuery += '&field_issue_component=' + component;
       }
 
       apiQuery += apiSort;
