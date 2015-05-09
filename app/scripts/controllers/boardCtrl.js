@@ -13,6 +13,7 @@ projectKanbanApp.controller(
     function ($scope, $routeParams, $location, parseService, issueService, projectService, Angularytics, DoubleClick) {
       $scope.project = {};
       $scope.projectID = '';
+      $scope.projectMachineName = $routeParams.project;
       $scope.projectType = '';
       $scope.releaseBranches = [];
       $scope.boardLists = [];
@@ -74,7 +75,7 @@ projectKanbanApp.controller(
       ];
 
       // projectService.loadProject($routeParams.project)
-      parseService.attributeQuery('Project', 'nid', $routeParams.project)
+      parseService.attributeQuery('Project', 'machine_name', $routeParams.project)
         .then(function (parseObject) {
           // Update the scope's project variable.
           var object = parseObject.attributes;
@@ -95,7 +96,7 @@ projectKanbanApp.controller(
 
       $scope.setBoardLists = function() {
         // Initiate the board's lists.
-        parseService.attributeQuery('ProjectConfig', 'nid', $scope.projectID).then(function (configObject) {
+        parseService.attributeQuery('ProjectConfig', 'machine_name', $scope.projectMachineName).then(function (configObject) {
           if (configObject !== null) {
             $scope.boardLists = configObject.attributes.listConfig;
           }

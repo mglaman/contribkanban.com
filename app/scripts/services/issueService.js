@@ -51,10 +51,12 @@ projectKanbanApp.factory('issueService', [
      * @param tag
      * @param category
      * @param parentIssue
+     * @param priority
+     * @param version
      * @param cache
      * @returns {*}
      */
-    factory.requestIssues = function (projectNid, status, tag, category, parentIssue, cache) {
+    factory.requestIssues = function (projectNid, status, tag, category, parentIssue, priority, version, cache) {
       var deferred = $q.defer();
 
       // Normalize cache bool.
@@ -88,6 +90,16 @@ projectKanbanApp.factory('issueService', [
       // If there was a parent issue, add it as a query option.
       if (parentIssue) {
         apiQuery += '&field_issue_parent=' + parentIssue;
+      }
+
+      // If there was a priority, add it as a query option.
+      if (priority) {
+        apiQuery += '&field_issue_priority=' + priority;
+      }
+
+      // If there was a version, add it as a query option.
+      if (version) {
+        apiQuery += '&field_issue_version=' + version;
       }
 
       apiQuery += apiSort;
@@ -137,7 +149,7 @@ projectKanbanApp.factory('issueService', [
       angular.forEach(list, function (v, k) {
         responseIssues.push(apiToStorage(v));
       });
-
+      console.log(responseIssues);
       return responseIssues;
     };
 

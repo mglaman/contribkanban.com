@@ -30,7 +30,15 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', 'issue
   };
 
   var apiCall = function(status, tag) {
-    issueService.requestIssues($scope.projectID, status, tag, $scope.list.category, $scope.list.parentIssue).then(function(issues) {
+    issueService.requestIssues(
+      $scope.projectID,
+      status,
+      tag,
+      $scope.list.category,
+      $scope.list.parentIssue,
+      $scope.list.priority,
+      $scope.list.version
+    ).then(function(issues) {
         angular.forEach(issues, function(val, key) {
           $scope.listIssues.push(val);
         });

@@ -22,7 +22,7 @@
         <div class="row">
             <div class="browse--projects">
                 <div class="browse--projects--project" data-ng-repeat="project in projects | orderBy:'title' | filter:projectSearch track by $index">
-                    <h3><span><a href="#/{{ routePath }}/{{ project.nid }}">{{ project.title }}</a></span></h3>
+                    <h3><span><a href="#/{{ routePath }}/{{ project.machine_name }}">{{ project.title }}</a></span></h3>
                 </div>
             </div>
         </div>
