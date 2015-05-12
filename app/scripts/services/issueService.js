@@ -4,21 +4,18 @@
  * issueService Factory
  */
 projectKanbanApp.factory('issueService', [
-  '$http', '$q', 'parseService', function ($http, $q, parseService) {
+  '$http', '$q', 'parseService', 'urlService', function ($http, $q, parseService, urlService) {
     var factory = {};
 
     /**
      * Base API URL for retrieving issues
-     * @type {string}
+     * @type {urlService}
      */
-    var baseURL = 'https://www.drupal.org/api-d7/node.json?limit=50&type=project_issue';
+//    var baseURL = 'https://www.drupal.org/api-d7/node.json?limit=50&type=project_issue';
+    var baseURL = new urlService().setEntityEndpoint('node')
+      .addParameter('limit', '50')
+      .addParameter('type', 'project_issue');
 
-    /**
-     * Sort URL query string for API.
-     *
-     * @type {string}
-     */
-    var apiSort = '&sort=changed&direction=DESC';
 
     /**
      * Helper function to convert Drupal.org API object to Parse.com object.
@@ -67,48 +64,58 @@ projectKanbanApp.factory('issueService', [
 
       // If there was a projectNid, add it as a query option.
       if (projectNid) {
-        apiQuery += '&field_project=' + projectNid;
+//        apiQuery += '&field_project=' + projectNid;
+        apiQuery.addParameter('field_project', projectNid);
       }
 
       // If there was a status, add it as a query option.
       // @todo: Should we validate this (when custom boards exposed)
       if (status) {
-        apiQuery += '&field_issue_status=' + status;
+//        apiQuery += '&field_issue_status=' + status;
+        apiQuery.addParameter('field_issue_status', status);
       }
 
       // If there was a category, add it as a query option.
       // @todo: Should we validate this (when custom boards exposed)
       if (category) {
-        apiQuery += '&field_issue_category=' + category;
+//        apiQuery += '&field_issue_category=' + category;
+        apiQuery.addParameter('field_issue_category', category);
       }
 
       // If there was a tag, add it as a query option.
       // @todo: Should we validate this (when custom boards exposed)
       if (tag) {
-        apiQuery += '&taxonomy_vocabulary_9=' + tag;
+//        apiQuery += '&taxonomy_vocabulary_9=' + tag;
+        apiQuery.addParameter('taxonomy_vocabulary_9', tag);
       }
 
       // If there was a parent issue, add it as a query option.
       if (parentIssue) {
-        apiQuery += '&field_issue_parent=' + parentIssue;
+//        apiQuery += '&field_issue_parent=' + parentIssue;
+        apiQuery.addParameter('field_issue_parent', parentIssue);
       }
 
       // If there was a priority, add it as a query option.
       if (priority) {
-        apiQuery += '&field_issue_priority=' + priority;
+//        apiQuery += '&field_issue_priority=' + priority;
+        apiQuery.addParameter('field_issue_priority', priority);
       }
 
       // If there was a version, add it as a query option.
       if (version) {
-        apiQuery += '&field_issue_version=' + version;
+//        apiQuery += '&field_issue_version=' + version;
+        apiQuery.addParameter('field_issue_version', version);
       }
 
       // If there was a version, add it as a query option.
       if (component) {
-        apiQuery += '&field_issue_component=' + component;
+//        apiQuery += '&field_issue_component=' + component;
+        apiQuery.addParameter('field_issue_component', component);
       }
 
-      apiQuery += apiSort;
+      apiQuery
+        .addParameter('sort', 'changed')
+        .addParameter('direction', 'DESC');
 
       // First check Parse if there is a cached response matching this URL.
       parseService.attributeQuery('IssueQueries', 'self', apiQuery.replace('.json', '')).then(function (object) {

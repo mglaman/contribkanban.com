@@ -1,6 +1,6 @@
 'use strict';
 
-projectKanbanApp.controller('projectFormCtrl', [
+projectKanbanApp.controller('sprintFormCtrl', [
   '$scope',
   'parseService',
   'projectService',
@@ -10,9 +10,16 @@ projectKanbanApp.controller('projectFormCtrl', [
       project.tag_name = null;
     };
 
-    $scope.newProject = function (project) {
+    /*
+     $http({
+     method: 'GET',
+     url: 'https://www.drupal.org/api-d7/taxonomy_term.json?name=' + $scope.tagSelected
+     })
+     */
+
+    $scope.newBoard = function (project) {
       // Query Parse if machine name exists.
-      parseService.attributeQuery('Project', 'machine_name', project.tag_name).then(
+      parseService.attributeQuery('Board', 'tid', project.tag_name).then(
         function (object) {
           // If the project does not exist, save it.
           if (object === null) {
@@ -25,14 +32,7 @@ projectKanbanApp.controller('projectFormCtrl', [
               }, function () {
               });
             });
-          } else {
-            projectService.requestProject(project.tag_name).then(function (response) {
-              object.set('releaseBranches', response.releaseBranches);
-              object.save();
-              $scope.updateScopeProject(object.attributes, project);
-            });
           }
-
         },
         function (error) {
           console.log(error)

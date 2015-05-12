@@ -75,7 +75,7 @@ projectKanbanApp.controller(
       ];
 
       // projectService.loadProject($routeParams.project)
-      parseService.attributeQuery('Project', 'machine_name', $routeParams.project)
+      projectService.loadProjectByMachineName($routeParams.project)
         .then(function (parseObject) {
           // Update the scope's project variable.
           var object = parseObject.attributes;
@@ -96,7 +96,8 @@ projectKanbanApp.controller(
 
       $scope.setBoardLists = function() {
         // Initiate the board's lists.
-        parseService.attributeQuery('ProjectConfig', 'machine_name', $scope.projectMachineName).then(function (configObject) {
+        projectService.loadProjectConfig($scope.projectID)
+          .then(function (configObject) {
           if (configObject !== null) {
             $scope.boardLists = configObject.attributes.listConfig;
           }

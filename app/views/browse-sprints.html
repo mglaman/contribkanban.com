@@ -2,16 +2,16 @@
     <div class="container-fluid">
         <div class="browse--form row">
             <div class="form-group col-sm-6">
-                <input type="text" tabindex="1" data-ng-model="projectSearch" placeholder="Find a project" class="form-control"/>
+                <input type="text" tabindex="1" data-ng-model="projectSearch" placeholder="Find a sprint" class="form-control"/>
             </div>
-            <div class="col-sm-6" data-ng-controller="projectFormCtrl">
+            <div class="col-sm-6" data-ng-controller="sprintFormCtrl">
                 <form class="form-inline" novalidate>
                     <div class="input-group pull-right">
                         <div class="form-group pull-left">
-                            <input class="form-control" type="text" data-ng-model="project.machine_name" placeholder="Project machine name"/>
+                            <input class="form-control" type="text" data-ng-model="project.tag_name" placeholder="Drupal.org tag name..."/>
                         </div>
                 <span class="input-group-btn pull-left">
-                    <input class="btn btn-primary" type="submit" data-ng-click="newProject(project) | trackEvent:'Projects':'Added a project'" value="Add Project"/>
+                    <input class="btn btn-primary" type="submit" data-ng-click="newBoard(project) | trackEvent:'Projects':'Added a project'" value="Add Project"/>
                 </span>
                     </div>
                 </form>
