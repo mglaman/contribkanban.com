@@ -162,7 +162,6 @@ projectKanbanApp.factory('issueService', [
       angular.forEach(list, function (v, k) {
         responseIssues.push(apiToStorage(v));
       });
-      console.log(responseIssues);
       return responseIssues;
     };
 
