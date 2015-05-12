@@ -20,6 +20,7 @@ projectKanbanApp.controller('browseCtrl', [
         if ($routeParams.type !== undefined) {
           parseQuery.equalTo('projectType', 'project_' + $routeParams.type);
         }
+        // @todo: Need to come up with a paging solution.
         parseQuery.limit(200);
 
         parseQuery.find({}).then(function (results) {

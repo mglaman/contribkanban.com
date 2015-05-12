@@ -13,7 +13,7 @@ var projectKanbanApp = angular.module('projectKanbanApp', ['ngRoute', 'angularyt
     // Browsing my regular project types.
     $routeProvider.when('/browse/sprint', {
       title: 'Browse Sprints',
-      templateUrl: 'views/browse.html',
+      templateUrl: 'views/browse-sprints.html',
       controller: 'browseSprintCtrl'
     });
     $routeProvider.when('/browse/:type?', {
@@ -50,7 +50,9 @@ var projectKanbanApp = angular.module('projectKanbanApp', ['ngRoute', 'angularyt
       }
     };
     $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
-      $rootScope.page.setTitle( current.$$route.title || '');
+      if (current.$$route.title !== undefined) {
+        $rootScope.page.setTitle( current.$$route.title || '');
+      }
     });
 
     var original = $location.path;

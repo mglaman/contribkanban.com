@@ -1,0 +1,43 @@
+<div class="col-sm-8 well well-sm projects--list">
+    <div class="container-fluid">
+        <div class="browse--form row">
+            <div class="form-group col-sm-6">
+                <input type="text" tabindex="1" data-ng-model="projectSearch" placeholder="Find a sprint" class="form-control"/>
+            </div>
+            <div class="col-sm-6" data-ng-controller="sprintFormCtrl">
+                <form class="form-inline" novalidate>
+                    <div class="input-group pull-right">
+                        <div class="form-group pull-left">
+                            <input class="form-control" type="text" data-ng-model="project.tag_name" placeholder="Drupal.org tag name..."/>
+                        </div>
+                <span class="input-group-btn pull-left">
+                    <input class="btn btn-primary" type="submit" data-ng-click="newBoard(project) | trackEvent:'Projects':'Added a project'" value="Add Project"/>
+                </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="browse--projects">
+                <div class="browse--projects--project" data-ng-repeat="project in projects | orderBy:'title' | filter:projectSearch track by $index">
+                    <h4><span><a href="#/{{ routePath }}/{{ project.tag_name }}">{{ project.title }}</a></span></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-4">
+    <h1>Welcome to Contrib Kanban!</h1>
+    <p>This is a huge work in progress created by <a href="http://glamanate.com">Matt Glaman</a></p>
+    <p>The goal is to provide the <a href="http://www.drupal.org">Drupal.org</a> community with a simpler way to sprint on projects.</p>
+    <p>
+        <a class="btn btn-success fa fa-gittip" href="https://gratipay.com/mglaman/" target="_blank">
+            <span>&nbsp;Support this project via Gratipay</span>
+        </a>
+    </p>
+    <div class="well well-sm may-as-well-get-something-out-of-this-eh">
+        <div data-ng-dfp-ad="div-gpt-ad-1421103564732-0"></div>
+    </div>
+</div>
