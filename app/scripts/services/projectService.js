@@ -13,15 +13,13 @@ projectKanbanApp.factory('projectService', [
      * Base API URL for retrieving projects
      * @type {urlService}
      */
-//    var baseURL = 'https://www.drupal.org/api-d7/node.json?field_project_machine_name=';
-    var baseURL = new urlService().setEntityEndpoint('node');
+    var baseURL = urlService.setEntityEndpoint('node');
 
     /**
      * Base API URL for retrieving project release nodes.
      * @type {urlService}
      */
-//    var releaseURL = 'https://www.drupal.org/api-d7/node.json?type=project_release&field_release_update_status=0&field_release_version_extra=dev&field_release_project=';
-    var releaseURL = new urlService().setEntityEndpoint('node')
+    var releaseURL = urlService.setEntityEndpoint('node')
       .addParameter('type', 'project_release')
       .addParameter('field_release_update_status', '0')
       .addParameter('field_release_version_extra', 'dev');
@@ -35,7 +33,7 @@ projectKanbanApp.factory('projectService', [
     factory.requestProjectRelease = function (nid) {
       var deferred = $q.defer();
       var branchLabels = [];
-      $http.get(releaseURL.addParameter('field_release_project', nid))
+      $http.get(releaseURL.addParameter('field_release_project', nid).getEndpointUrl())
         .success(function (d) {
           var releases = d.list;
           if (releases.length > 0) {
@@ -62,13 +60,13 @@ projectKanbanApp.factory('projectService', [
      */
     factory.requestProject = function (machineName) {
       var deferred = $q.defer();
-      $http.get(baseURL.addParameter('field_project_machine_name', machineName))
+      $http.get(baseURL.addParameter('field_project_machine_name', machineName).getEndpointUrl())
         .success(function (d) {
           // We did a search
           var returnedObject = d.list[0];
           var project = {
             changed: returnedObject.changed || '',
-            tag_name: returnedObject.field_project_machine_name,
+            machine_name: returnedObject.field_project_machine_name,
             type: returnedObject.field_project_type,
             versionFormat: returnedObject.field_release_version_format,
             nid: returnedObject.nid,

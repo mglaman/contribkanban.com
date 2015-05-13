@@ -21,6 +21,10 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', 'issue
     };
   };
 
+  $scope.filterIssuePriority = function() {
+
+  };
+
   $scope.openIssue = function(nid) {
     $window.open('https://www.drupal.org/node/' + nid, '_blank');
   };

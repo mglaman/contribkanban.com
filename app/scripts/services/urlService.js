@@ -1,8 +1,7 @@
 'use strict';
 
 projectKanbanApp
-  .service('urlService', [
-    '', function () {
+  .service('urlService', function () {
       /**
        * Base API URL for retrieving projects
        * @type {string}
@@ -51,5 +50,4 @@ projectKanbanApp
           return builderUrl;
         }
       };
-    }
-  ]);
+    });

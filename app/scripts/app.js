@@ -13,7 +13,7 @@ var projectKanbanApp = angular.module('projectKanbanApp', ['ngRoute', 'angularyt
     // Browsing my regular project types.
     $routeProvider.when('/browse/sprint', {
       title: 'Browse Sprints',
-      templateUrl: 'views/browse-sprints.html',
+      templateUrl: 'views/browse.html',
       controller: 'browseSprintCtrl'
     });
     $routeProvider.when('/browse/:type?', {

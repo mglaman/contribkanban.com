@@ -11,8 +11,7 @@ projectKanbanApp.factory('issueService', [
      * Base API URL for retrieving issues
      * @type {urlService}
      */
-//    var baseURL = 'https://www.drupal.org/api-d7/node.json?limit=50&type=project_issue';
-    var baseURL = new urlService().setEntityEndpoint('node')
+    var baseURL = urlService.setEntityEndpoint('node')
       .addParameter('limit', '50')
       .addParameter('type', 'project_issue');
 
@@ -64,52 +63,44 @@ projectKanbanApp.factory('issueService', [
 
       // If there was a projectNid, add it as a query option.
       if (projectNid) {
-//        apiQuery += '&field_project=' + projectNid;
         apiQuery.addParameter('field_project', projectNid);
       }
 
       // If there was a status, add it as a query option.
       // @todo: Should we validate this (when custom boards exposed)
       if (status) {
-//        apiQuery += '&field_issue_status=' + status;
         apiQuery.addParameter('field_issue_status', status);
       }
 
       // If there was a category, add it as a query option.
       // @todo: Should we validate this (when custom boards exposed)
       if (category) {
-//        apiQuery += '&field_issue_category=' + category;
         apiQuery.addParameter('field_issue_category', category);
       }
 
       // If there was a tag, add it as a query option.
       // @todo: Should we validate this (when custom boards exposed)
       if (tag) {
-//        apiQuery += '&taxonomy_vocabulary_9=' + tag;
         apiQuery.addParameter('taxonomy_vocabulary_9', tag);
       }
 
       // If there was a parent issue, add it as a query option.
       if (parentIssue) {
-//        apiQuery += '&field_issue_parent=' + parentIssue;
         apiQuery.addParameter('field_issue_parent', parentIssue);
       }
 
       // If there was a priority, add it as a query option.
       if (priority) {
-//        apiQuery += '&field_issue_priority=' + priority;
         apiQuery.addParameter('field_issue_priority', priority);
       }
 
       // If there was a version, add it as a query option.
       if (version) {
-//        apiQuery += '&field_issue_version=' + version;
         apiQuery.addParameter('field_issue_version', version);
       }
 
       // If there was a version, add it as a query option.
       if (component) {
-//        apiQuery += '&field_issue_component=' + component;
         apiQuery.addParameter('field_issue_component', component);
       }
 
@@ -118,7 +109,7 @@ projectKanbanApp.factory('issueService', [
         .addParameter('direction', 'DESC');
 
       // First check Parse if there is a cached response matching this URL.
-      parseService.attributeQuery('IssueQueries', 'self', apiQuery.replace('.json', '')).then(function (object) {
+      parseService.attributeQuery('IssueQueries', 'self', apiQuery.getEndpointUrl()).then(function (object) {
         // Check if query cache exists
         if (object !== null) {
           // It does exist, check if older than 10 minutes
@@ -128,7 +119,7 @@ projectKanbanApp.factory('issueService', [
           }
           else {
             // Update the row
-            $http.get(apiQuery, {cache: cache})
+            $http.get(apiQuery.getEndpointUrl(), {cache: cache})
               .success(function (response) {
                 object.set('list', response.list);
                 object.save();
@@ -138,7 +129,7 @@ projectKanbanApp.factory('issueService', [
         }
         else {
           // New request
-          $http.get(apiQuery, {cache: cache})
+          $http.get(apiQuery.getEndpointUrl(), {cache: cache})
             .success(function (response) {
               parseService.saveObject('IssueQueries', response);
               deferred.resolve(responseListProcess(response.list));
