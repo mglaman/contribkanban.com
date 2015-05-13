@@ -7,14 +7,6 @@ projectKanbanApp.factory('issueService', [
   '$http', '$q', 'parseService', 'urlService', function ($http, $q, parseService, urlService) {
     var factory = {};
 
-    /**
-     * Base API URL for retrieving issues
-     * @type {UrlService}
-     */
-    var baseURL = new urlService().setEntityEndpoint('node')
-      .addParameter('limit', '50')
-      .addParameter('type', 'project_issue');
-
 
     /**
      * Helper function to convert Drupal.org API object to Parse.com object.
@@ -59,7 +51,9 @@ projectKanbanApp.factory('issueService', [
       // Normalize cache bool.
       cache = (cache === undefined);
 
-      var apiQuery = baseURL;
+      var apiQuery = new urlService().setEntityEndpoint('node')
+        .addParameter('limit', '50')
+        .addParameter('type', 'project_issue');
 
       // If there was a projectNid, add it as a query option.
       if (projectNid) {
