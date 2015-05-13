@@ -8,7 +8,7 @@ var projectKanbanApp = angular.module('projectKanbanApp', ['ngRoute', 'angularyt
       .defineSlot('/122240946/CKB-BOARD-HEADER', [468, 60], 'div-gpt-ad-1421106878492-0');
 
     // Initialize Parse
-    Parse.initialize("PARSE_APP_ID", "PARSE_JS_KEY");
+    Parse.initialize("9tjijJ4jwAQeyIhaF2o0ju8IMtzd7X5JeM5ujsRX", "JmoMBRlRmmtLqJMzJZdaa1ovSV9G8zpZvSL3GQVj");
 
     // Browsing my regular project types.
     $routeProvider.when('/browse/sprint', {

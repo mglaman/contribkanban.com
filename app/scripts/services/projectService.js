@@ -11,15 +11,15 @@ projectKanbanApp.factory('projectService', [
 
     /**
      * Base API URL for retrieving projects
-     * @type {urlService}
+     * @type {UrlService}
      */
-    var baseURL = urlService.setEntityEndpoint('node');
+    var baseURL = new urlService().setEntityEndpoint('node');
 
     /**
      * Base API URL for retrieving project release nodes.
-     * @type {urlService}
+     * @type {UrlService}
      */
-    var releaseURL = urlService.setEntityEndpoint('node')
+    var releaseURL = new urlService().setEntityEndpoint('node')
       .addParameter('type', 'project_release')
       .addParameter('field_release_update_status', '0')
       .addParameter('field_release_version_extra', 'dev');

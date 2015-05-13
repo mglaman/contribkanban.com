@@ -9,9 +9,9 @@ projectKanbanApp.factory('issueService', [
 
     /**
      * Base API URL for retrieving issues
-     * @type {urlService}
+     * @type {UrlService}
      */
-    var baseURL = urlService.setEntityEndpoint('node')
+    var baseURL = new urlService().setEntityEndpoint('node')
       .addParameter('limit', '50')
       .addParameter('type', 'project_issue');
 
@@ -129,9 +129,10 @@ projectKanbanApp.factory('issueService', [
         }
         else {
           // New request
+          console.log(apiQuery.getEndpointUrl());
           $http.get(apiQuery.getEndpointUrl(), {cache: cache})
             .success(function (response) {
-              parseService.saveObject('IssueQueries', response);
+              //parseService.saveObject('IssueQueries', response);
               deferred.resolve(responseListProcess(response.list));
             });
         }
