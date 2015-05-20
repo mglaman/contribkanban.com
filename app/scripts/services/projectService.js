@@ -100,11 +100,11 @@ projectKanbanApp.factory('projectService', [
     /**
      * Returns a project board configuration.
      *
-     * @param nid
+     * @param machineName
      * @returns {Parse.Promise}
      */
-    factory.loadProjectConfig = function (nid) {
-      return parseService.attributeQuery('ProjectConfig', 'nid', nid);
+    factory.loadProjectConfig = function (machineName) {
+      return parseService.attributeQuery('ProjectConfig', 'machine_name', machineName);
     };
 
     /**
