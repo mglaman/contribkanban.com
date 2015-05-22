@@ -101,10 +101,12 @@ projectKanbanApp.factory('projectService', [
      * Returns a project board configuration.
      *
      * @param machineName
-     * @returns {Parse.Promise}
+     * @param projectType
+     * @returns {HttpPromise}
      */
-    factory.loadProjectConfig = function (machineName) {
-      return parseService.attributeQuery('ProjectConfig', 'machine_name', machineName);
+    factory.loadProjectConfig = function (machineName, projectType) {
+      var type = projectType.split('project_').pop();
+      return $http.get('config/boards/' + type + '/' + machineName + '.json');
     };
 
     /**

@@ -96,15 +96,13 @@ projectKanbanApp.controller(
 
       $scope.setBoardLists = function() {
         // Initiate the board's lists.
-        projectService.loadProjectConfig($scope.projectMachineName)
-          .then(function (configObject) {
-          if (configObject !== null) {
-            $scope.boardLists = configObject.attributes.listConfig;
-          }
-          else {
+        projectService.loadProjectConfig($scope.projectMachineName, $scope.projectType)
+          .success(function(data, status, headers, config) {
+            $scope.boardLists = data;
+          })
+          .error(function(data, status, headers, config) {
             $scope.boardLists = boardListDefaults;
-          }
-        });
+          });
       };
 
       $scope.updateBoardRoute = function () {

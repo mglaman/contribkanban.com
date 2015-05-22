@@ -1,0 +1,73 @@
+[
+  {
+    "category": "",
+    "label": "1.0.0 release done",
+    "name": "releasePlanFixed",
+    "parentIssue": "2218539",
+    "statuses": [
+      2,
+      7
+    ],
+    "tag": ""
+  },
+  {
+    "category": "",
+    "label": "1.0.0 release plan",
+    "name": "releasePlan",
+    "parentIssue": "2218539",
+    "statuses": [
+      1,
+      4,
+      8,
+      13,
+      14,
+      16
+    ],
+    "tag": ""
+  },
+  {
+    "category": "1",
+    "label": "Backlog: Bugs",
+    "name": "bugs",
+    "parentIssue": "",
+    "statuses": [
+      1,
+      4,
+      8,
+      13,
+      14,
+      16
+    ],
+    "tag": ""
+  },
+  {
+    "category": "3",
+    "label": "Backlog: Feature requests",
+    "name": "features",
+    "parentIssue": "",
+    "statuses": [
+      1,
+      4,
+      8,
+      13,
+      14,
+      16
+    ],
+    "tag": ""
+  },
+  {
+    "category": "4",
+    "label": "Backlog: Support",
+    "name": "support",
+    "parentIssue": "",
+    "statuses": [
+      1,
+      4,
+      8,
+      13,
+      14,
+      16
+    ],
+    "tag": ""
+  }
+]
