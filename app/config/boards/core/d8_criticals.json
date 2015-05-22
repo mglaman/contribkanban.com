@@ -1,0 +1,68 @@
+[
+  {
+    "category": "",
+    "label": "Postponed",
+    "name": "backlog",
+    "parentIssue": "",
+    "priority": 400,
+    "statuses": [
+      4,
+      16
+    ],
+    "tag": "",
+    "version": "8.0.x-dev"
+  },
+  {
+    "category": "",
+    "label": "Active",
+    "name": "active",
+    "parentIssue": "",
+    "priority": 400,
+    "statuses": [1],
+    "tag": "",
+    "version": "8.0.x-dev"
+  },
+  {
+    "category": "",
+    "label": "Needs Work",
+    "name": "cnw",
+    "parentIssue": "",
+    "priority": 400,
+    "statuses": [13],
+    "tag": "",
+    "version": "8.0.x-dev"
+  },
+  {
+    "category": "",
+    "label": "Needs Review",
+    "name": "cnr",
+    "parentIssue": "",
+    "priority": 400,
+    "statuses": [8],
+    "tag": "",
+    "version": "8.0.x-dev"
+  },
+  {
+    "category": "",
+    "label": "Reviewed & Tested",
+    "name": "rtbc",
+    "parentIssue": "",
+    "priority": 400,
+    "statuses": [
+      14,
+      15
+    ],
+    "tag": "",
+    "version": "8.0.x-dev"
+  },
+  {
+    "category": "",
+    "label": "Fixed",
+    "name": "done",
+    "parentIssue": "",
+    "priority": 400,
+    "statuses": [2],
+    "tag": "",
+    "version": "8.0.x-dev"
+  }
+]

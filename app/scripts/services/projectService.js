@@ -101,10 +101,12 @@ projectKanbanApp.factory('projectService', [
      * Returns a project board configuration.
      *
      * @param machineName
+     * @param projectType
      * @returns {HttpPromise}
      */
-    factory.loadProjectConfig = function (machineName) {
-      return $http.get('config/boards/' + machineName + '.json');
+    factory.loadProjectConfig = function (machineName, projectType) {
+      var type = projectType.split('project_').pop();
+      return $http.get('config/boards/' + type + '/' + machineName + '.json');
     };
 
     /**

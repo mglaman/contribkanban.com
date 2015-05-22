@@ -96,7 +96,7 @@ projectKanbanApp.controller(
 
       $scope.setBoardLists = function() {
         // Initiate the board's lists.
-        projectService.loadProjectConfig($scope.projectMachineName)
+        projectService.loadProjectConfig($scope.projectMachineName, $scope.projectType)
           .success(function(data, status, headers, config) {
             $scope.boardLists = data;
           })
