@@ -123,7 +123,7 @@ projectKanbanApp.factory('issueService', [
         }
         else {
           // New request
-          console.log(apiQuery.getEndpointUrl());
+//          console.log(apiQuery.getEndpointUrl());
           $http.get(apiQuery.getEndpointUrl(), {cache: cache})
             .success(function (response) {
               //parseService.saveObject('IssueQueries', response);
