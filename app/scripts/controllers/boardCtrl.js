@@ -91,7 +91,6 @@ projectKanbanApp.controller(
 
           // Ping Google.
           Angularytics.trackEvent('Project', 'Viewed project: ' + object.title);
-          DoubleClick.refreshAds('div-gpt-ad-1421106878492-0');
       });
 
       $scope.setBoardLists = function() {
