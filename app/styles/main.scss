@@ -30,29 +30,27 @@ a {
     >li {
       > {
         a {
-          font-size: 18px;
-          font-weight: 100;
+          font-size: 14px;
+          font-weight: 500;
         }
       }
     }
-    .navbar-bugs {
-      padding: 0 3px;
-      a {
-        padding: 0;
-      }
-    }
-    .navbar-help {
-      border-radius: 50px;
-      font-size: 18px;
+    .navbar-buttons {
+      font-size: 14px;
       color: $color--primary--dark-blue;
-      padding: 3px 11px;
+      padding: 3px 9px;
+      margin: 4px 4px 0;
     }
   }
 }
+.navbar-form > .input-group-sm > a {
+  padding: 0;
+}
 .navbar-brand {
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 100;
-  letter-spacing: -2.1px;
+  letter-spacing: -1px;
+  line-height: 18px;
 }
 
 
