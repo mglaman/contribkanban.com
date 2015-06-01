@@ -46,9 +46,9 @@
   },
   {
     "category": "",
-    "label": "7.x-1.6",
+    "label": "7.x-1.7",
     "name": "releasePlan",
-    "parentIssue": "2244541",
+    "parentIssue": "2493105",
     "statuses": [
       1,
       4,
@@ -61,9 +61,9 @@
   },
   {
     "category": "",
-    "label": "7.x-1.6 committed",
+    "label": "7.x-1.7 committed",
     "name": "releasePlanFixed",
-    "parentIssue": "2244541",
+    "parentIssue": "2493105",
     "statuses": [
       2,
       7
