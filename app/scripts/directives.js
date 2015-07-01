@@ -32,4 +32,19 @@ projectKanbanApp
         }
       };
     }
-  ]);
+  ])
+  .directive('issue', ['$http', '$q', function ($http, $q) {
+    return {
+      restrict: 'A',
+      templateUrl: 'views/issue.html',
+      link: function (scope, element) {
+        if (scope.issue.assigned.id != '') {
+          var apiQuery = 'https://www.drupal.org/api-d7/user/' + scope.issue.assigned.id + '.json';
+
+          $http.get(apiQuery, {cache: true}).success(function (response) {
+            scope.issue.assigned.id =  response.name;
+          });
+        }
+      }
+    };
+  }]);

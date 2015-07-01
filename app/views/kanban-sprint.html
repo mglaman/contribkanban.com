@@ -48,13 +48,7 @@
                 </div>
                 <div class="kanban-board--items">
                     <div class="kanban-board--item" data-ng-click="openIssue(issue.nid)" data-ng-repeat="issue in listIssues | orderBy:issue.priority | issueNeedsFilter:issueNeedsTag | issuePriorityFilter:issuePriority | filter:filterIssues(list.statuses) track by $index" style="border-left-color: {{ issue.status | statusColorFilter }}">
-                       <a class="kanban-board--issue__link" href="https://www.drupal.org/node/{{ issue.nid}}" target="_blank">#{{ issue.nid}}</a>
-                        <span class="kanban-board--issue__title">{{ issue.summary }}</span>
-                        <div class="kanban-board--issue_tags">
-                            <span class="kanban-board--issue__version bg-default">{{ issue.version }}</span>
-                            <span class="kanban-board--issue__priority bg-{{ issue.priority | priorityClassFilter }}">{{ issue.priority | priorityLabelFilter }}</span>
-                            <span class="kanban-board--issue__component bg-default">{{ issue.component }}</span>
-                        </div>
+                        <div data-issue></div>
                     </div>
                 </div>
             </div>
