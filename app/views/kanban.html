@@ -6,7 +6,7 @@
                 <form class="form-inline kanban-board--filters">
                     <div class="clearfix form-group">
                         <label for="projectBranches" class="sr-only">Project branches</label>
-                        <select id="projectBranches" class="form-control pull-left input-sm" data-ng-options="release.name as release.label for release in releaseBranches" data-ng-model="projectRelease" data-ng-change="updateBoardRoute()">
+                        <select id="projectBranches" class="form-control pull-left input-sm" data-ng-options="release.name for release in releaseBranches track by release.label" data-ng-model="projectRelease" data-ng-change="updateBoardRoute()">
                             <option value="">-- Branch --</option>
                         </select>
                         <label for="issuePriorities" class="sr-only">Issue priorities</label>
