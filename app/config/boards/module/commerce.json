@@ -1,0 +1,56 @@
+[
+  {
+    "category": "",
+    "label": "Postponed",
+    "name": "backlog",
+    "parentIssue": "",
+    "statuses": [
+      4,
+      16
+    ],
+    "tag": "31228"
+  },
+  {
+    "category": "",
+    "label": "Active",
+    "name": "active",
+    "parentIssue": "",
+    "statuses": [1],
+    "tag": "31228"
+  },
+  {
+    "category": "",
+    "label": "Needs Work",
+    "name": "cnw",
+    "parentIssue": "",
+    "statuses": [13],
+    "tag": "31228"
+  },
+  {
+    "category": "",
+    "label": "Needs Review",
+    "name": "cnr",
+    "parentIssue": "",
+    "statuses": [8],
+    "tag": "31228"
+  },
+  {
+    "category": "",
+    "label": "Reviewed & Tested",
+    "name": "rtbc",
+    "parentIssue": "",
+    "statuses": [
+      14,
+      15
+    ],
+    "tag": "31228"
+  },
+  {
+    "category": "",
+    "label": "Fixed",
+    "name": "done",
+    "parentIssue": "",
+    "statuses": [2],
+    "tag": "31228"
+  }
+]
