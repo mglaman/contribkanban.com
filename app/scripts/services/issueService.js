@@ -100,7 +100,7 @@ projectKanbanApp.factory('issueService', [
       }
 
       apiQuery
-        .addParameter('sort', 'changed')
+        .addParameter('sort', 'field_issue_priority')
         .addParameter('direction', 'DESC');
 
       // First check Parse if there is a cached response matching this URL.
