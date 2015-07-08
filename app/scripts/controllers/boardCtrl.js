@@ -17,7 +17,7 @@ projectKanbanApp.controller(
       $scope.projectType = '';
       $scope.releaseBranches = [];
       $scope.boardLists = [];
-      $scope.projectRelease = $routeParams.branch || '';
+      $scope.projectRelease = {name: $routeParams.branch, label: $routeParams.branch } || {};
 
       var boardListDefaults = [
         {
@@ -111,7 +111,7 @@ projectKanbanApp.controller(
 
         }
         else {
-          $location.path('/' + pathParts[1] + '/' + pathParts[2] + '/' + $scope.projectRelease, false);
+          $location.path('/' + pathParts[1] + '/' + pathParts[2] + '/' + $scope.projectRelease.name, false);
         }
       };
     }
