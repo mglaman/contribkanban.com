@@ -1,6 +1,9 @@
-"http://{default}/":
+"https://{default}/":
     type: upstream
     upstream: "frontend:php"
+"http://{default}/":
+    type: redirect
+    to: "https://{default}"
 "http://www.{default}/":
     type: redirect
-    to: "http://{default}/"
+    to: "https://{default}/"
