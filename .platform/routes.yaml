@@ -1,9 +1,12 @@
+"http://contribkanban.com":
+  to: https://{default}
+  type: redirect
+"http://{default}/":
+  type: redirect
+  to: "https://{default}"
+"https://contribkanban.com":
+  to: https://{default}
+  type: redirect
 "https://{default}/":
     type: upstream
     upstream: "frontend:php"
-"http://{default}/":
-    type: redirect
-    to: "https://{default}"
-"http://www.{default}/":
-    type: redirect
-    to: "https://{default}/"
