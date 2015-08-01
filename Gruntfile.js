@@ -242,27 +242,28 @@ module.exports = function (grunt) {
     // The following *-min tasks produce minified files in the dist folder
     // Due to libpng-dev not installed on Platform.sh, can't use imagemin.
     // "grunt-contrib-imagemin": "^0.8.0",
-    imagemin: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= config.app %>/images',
-          src: '{,*/}*.{gif,jpeg,jpg,png}',
-          dest: '<%= config.dist %>/images'
-        }]
-      }
-    },
-
-    svgmin: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= config.app %>/images',
-          src: '{,*/}*.svg',
-          dest: '<%= config.dist %>/images'
-        }]
-      }
-    },
+    // "grunt-svgmin": "^0.4.0",
+    // imagemin: {
+    //   dist: {
+    //     files: [{
+    //       expand: true,
+    //       cwd: '<%= config.app %>/images',
+    //       src: '{,*/}*.{gif,jpeg,jpg,png}',
+    //       dest: '<%= config.dist %>/images'
+    //     }]
+    //   }
+    // },
+    //
+    // svgmin: {
+    //   dist: {
+    //     files: [{
+    //       expand: true,
+    //       cwd: '<%= config.app %>/images',
+    //       src: '{,*/}*.svg',
+    //       dest: '<%= config.dist %>/images'
+    //     }]
+    //   }
+    // },
 
     htmlmin: {
       dist: {
