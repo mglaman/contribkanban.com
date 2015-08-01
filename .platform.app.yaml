@@ -1,0 +1,33 @@
+name: frontend
+toolstack: "php:symfony"
+relationships:
+    "database": "cache:redis"
+web:
+  document_root: "/dist"
+  index_files:
+    - "index.html"
+  whitelist:
+    - "\\.html?$"
+    - "\\.css$"
+    - "\\.js$"
+    - \.ttf$
+    - \.eot$
+    - \.woff$
+    - \.otf$
+
+disk: 2048
+# Need to chmown in build to fix npm issue, see https://github.com/npm/npm/issues/6309
+hooks:
+  build: |
+    npm --version
+    chown -R $USER:$USER ~/.npm.
+    npm install
+    bower install
+    grunt build
+  deploy:
+dependencies:
+  ruby:
+    sass: "3.4.7"
+  nodejs:
+      grunt-cli: "~0.1.13"
+      bower: "~1.3.3"
