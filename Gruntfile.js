@@ -329,7 +329,7 @@ module.exports = function (grunt) {
             'config/**/*'
           ]
         }, {
-          src: 'node_modules/apache-server-configs/dist/.htaccess',
+          src: '<%= config.app %>/.htaccess',
           dest: '<%= config.dist %>/.htaccess'
         }, {
           expand: true,
