@@ -77,6 +77,18 @@ projectKanbanApp.controller(
       // projectService.loadProject($routeParams.project)
       projectService.loadProjectByMachineName($routeParams.project)
         .then(function (parseObject) {
+          if (parseObject == null) {
+            projectService.requestProject($routeParams.project).then(function (response) {
+              // New Parse object.
+              parseService.saveObject('Project', response).then(function (parseObject) {
+                // Reload so user can see board.
+                window.location.reload();
+              }, function () {
+              });
+            });
+          }
+
+
           // Update the scope's project variable.
           var object = parseObject.attributes;
           $scope.project = object;

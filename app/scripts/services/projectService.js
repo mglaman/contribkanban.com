@@ -64,25 +64,29 @@ projectKanbanApp.factory('projectService', [
         .success(function (d) {
           // We did a search
           var returnedObject = d.list[0];
-          var project = {
-            changed: returnedObject.changed || '',
-            machine_name: returnedObject.field_project_machine_name,
-            type: returnedObject.field_project_type,
-            versionFormat: returnedObject.field_release_version_format,
-            nid: returnedObject.nid,
-            title: returnedObject.title,
-            projectType: returnedObject.type,
-            hasIssues: returnedObject.field_project_has_issue_queue,
-            projectCategory: returnedObject.taxonomy_vocabulary_3,
-            projectActivity: returnedObject.taxonomy_vocabulary_44,
-            projectMaintainership: returnedObject.taxonomy_vocabulary_46,
-            projectComponents: returnedObject.field_project_components || []
-          };
+          if (returnedObject === undefined) {
+            alert('Invalid project machine name');
+          } else {
+            var project = {
+              changed: returnedObject.changed || '',
+              machine_name: returnedObject.field_project_machine_name,
+              type: returnedObject.field_project_type,
+              versionFormat: returnedObject.field_release_version_format,
+              nid: returnedObject.nid,
+              title: returnedObject.title,
+              projectType: returnedObject.type,
+              hasIssues: returnedObject.field_project_has_issue_queue,
+              projectCategory: returnedObject.taxonomy_vocabulary_3,
+              projectActivity: returnedObject.taxonomy_vocabulary_44,
+              projectMaintainership: returnedObject.taxonomy_vocabulary_46,
+              projectComponents: returnedObject.field_project_components || []
+            };
 
-          factory.requestProjectRelease(project.nid).then(function (releases) {
-            project.releaseBranches = releases;
-            deferred.resolve(project);
-          });
+            factory.requestProjectRelease(project.nid).then(function (releases) {
+              project.releaseBranches = releases;
+              deferred.resolve(project);
+            });
+          }
         });
       return deferred.promise;
     };
