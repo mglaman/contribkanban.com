@@ -1,9 +1,9 @@
-<a class="kanban-board--issue__link" href="https://www.drupal.org/node/{{ issue.nid}}" target="_blank">#{{ issue.nid}}</a>
-<span class="kanban-board--issue__title">{{ issue.summary }}</span>
+<issue-nid-link></issue-nid-link>
+<issue-title></issue-title>
 <div class="kanban-board--issue_tags">
-    <span class="kanban-board--issue__version bg-success">{{ issue.version }}</span>
-    <span class="kanban-board--issue__priority bg-{{ issue.priority | priorityClassFilter }}">{{ issue.priority | priorityLabelFilter }}</span>
-    <span class="kanban-board--issue__component bg-default">{{ issue.component }}</span>
-    <span class="kanban-board--issue__component btn-primary" ng-hide="issue.assigned.id == ''">ASSIGNED: {{ issue.assigned.id }}</span>
-    <span class="kanban-board--issue__component btn-{{ issue.category | categoryClassFilter }}">{{ issue.category | categoryLabelFilter }}</span>
+    <issue-meta-version></issue-meta-version>
+    <issue-meta-priority></issue-meta-priority>
+    <issue-meta-component></issue-meta-component>
+    <issue-meta-assigned></issue-meta-assigned>
+    <issue-meta-category></issue-meta-category>
 </div>

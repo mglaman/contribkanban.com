@@ -24,7 +24,8 @@ projectKanbanApp.factory('issueService', [
         priority: parseInt(object.field_issue_priority),
         tags: object.taxonomy_vocabulary_9 || {},
         version: object.field_issue_version,
-        assigned: object.field_issue_assigned || {id: ''}
+        assigned: object.field_issue_assigned || {id: ''},
+        project: object.field_project.id
       }
     };
 

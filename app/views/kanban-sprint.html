@@ -48,7 +48,7 @@
                 </div>
                 <div class="kanban-board--items">
                     <div class="kanban-board--item" data-ng-click="openIssue(issue.nid)" data-ng-repeat="issue in listIssues | orderBy:issue.priority | issueNeedsFilter:issueNeedsTag | issuePriorityFilter:issuePriority | filter:filterIssues(list.statuses) track by $index" style="border-left-color: {{ issue.status | statusColorFilter }}">
-                        <div data-issue></div>
+                        <div data-issue-sprint></div>
                     </div>
                 </div>
             </div>
