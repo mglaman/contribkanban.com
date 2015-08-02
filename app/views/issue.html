@@ -5,4 +5,5 @@
     <span class="kanban-board--issue__priority bg-{{ issue.priority | priorityClassFilter }}">{{ issue.priority | priorityLabelFilter }}</span>
     <span class="kanban-board--issue__component bg-default">{{ issue.component }}</span>
     <span class="kanban-board--issue__component btn-primary" ng-hide="issue.assigned.id == ''">ASSIGNED: {{ issue.assigned.id }}</span>
+    <span class="kanban-board--issue__component btn-{{ issue.category | categoryClassFilter }}">{{ issue.category | categoryLabelFilter }}</span>
 </div>

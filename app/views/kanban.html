@@ -19,6 +19,14 @@
                           <option value="300">Major</option>
                           <option value="400">Critical</option>
                       </select>
+                      <label for="issueCategory" class="sr-only">Issue Category</label>
+                      <select id="issueCategory" class="form-control pull-left input-sm" data-ng-model="issueCategory">
+                        <option value="">-- Category --</option>
+                        <option value="1">Bug report</option>
+                        <option value="2">Task</option>
+                        <option value="3">Feature request</option>
+                        <option value="4">Support request</option>
+                      </select>
                   </div>
               </form>
             </div>
@@ -34,7 +42,7 @@
                     </h2>
                 </div>
                 <div class="kanban-board--items">
-                    <div class="kanban-board--item" data-ng-click="openIssue(issue.nid)" data-ng-repeat="issue in listIssues | orderBy:issue.priority:true | issuePriorityFilter:issuePriority | filter:filterIssues(list.statuses) | issueBranchFilter:projectRelease.name track by $index" style="border-left-color: {{ issue.status | statusColorFilter }}">
+                    <div class="kanban-board--item" data-ng-click="openIssue(issue.nid)" data-ng-repeat="issue in listIssues | orderBy:issue.priority:true | issuePriorityFilter:issuePriority | issueCategoryFilter:issueCategory | filter:filterIssues(list.statuses) | issueBranchFilter:projectRelease.name track by $index" style="border-left-color: {{ issue.status | statusColorFilter }}">
                         <div data-issue></div>
                     </div>
                 </div>

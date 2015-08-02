@@ -56,6 +56,23 @@ projectKanbanApp.filter('issuePriorityFilter', function () {
 /**
  * @todo: Document this.
  */
+projectKanbanApp.filter('issueCategoryFilter', function () {
+  return function(issues, category) {
+    return issues.filter(function(issue) {
+      // If no category...
+      if (category === undefined || category == null || category == '') {
+        return true;
+      }
+      else {
+        return issue.category == category;
+      }
+    });
+  }
+});
+
+/**
+ * @todo: Document this.
+ */
 projectKanbanApp.filter('issueNeedsFilter', function () {
   return function(issues, needsTid) {
     return issues.filter(function(issue) {
@@ -162,6 +179,45 @@ projectKanbanApp.filter('priorityClassFilter', function() {
     300: 'warning',
     200: 'info',
     100: 'active'
+  };
+  return function(input) {
+    if (!input) {
+      return '';
+    }
+
+    return statusCodes[input];
+  }
+});
+
+/**
+ * Turns category codes into labels.
+ */
+projectKanbanApp.filter('categoryLabelFilter', function() {
+  var statusCodes = {
+    1: 'Bug',
+    2: 'Task',
+    3: 'Feature',
+    4: 'Support'
+  };
+
+  return function(input) {
+    if (!input) {
+      return '';
+    }
+
+    return statusCodes[input];
+  }
+});
+
+/**
+ * Turns priority codes into labels.
+ */
+projectKanbanApp.filter('categoryClassFilter', function() {
+  var statusCodes = {
+    1: 'danger',
+    2: 'info',
+    3: 'info',
+    4: 'active'
   };
   return function(input) {
     if (!input) {
