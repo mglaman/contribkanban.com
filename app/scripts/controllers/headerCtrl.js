@@ -1,7 +1,9 @@
 'use strict';
 
-projectKanbanApp.controller('headerCtrl', ['$scope', 'ModalService', function ($scope, ModalService) {
+projectKanbanApp.controller('headerCtrl', ['$scope', '$location', 'ModalService', function ($scope, $location, ModalService) {
   $scope.branding = 'Contrib Kanban';
+  $scope.embed = $location.search().embed || false;
+
 
   $scope.openHelp = function() {
     ModalService.showModal({
