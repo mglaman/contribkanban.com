@@ -10,6 +10,7 @@ web:
     - "\\.html?$"
     - "\\.css$"
     - "\\.js$"
+    - "\\.json$"
     - \.ttf$
     - \.eot$
     - \.woff$
