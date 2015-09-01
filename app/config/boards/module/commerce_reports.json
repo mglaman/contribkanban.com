@@ -3,7 +3,7 @@
     "category": "",
     "label": "4.0 beta3 done",
     "name": "releasePlanFixed",
-    "parentIssue": "2481493",
+    "parentIssue": "2561031",
     "statuses": [
       2,
       7
@@ -14,7 +14,7 @@
     "category": "",
     "label": "4.0 beta3 plan",
     "name": "releasePlan",
-    "parentIssue": "2481493",
+    "parentIssue": "2561031",
     "statuses": [
       1,
       4,
