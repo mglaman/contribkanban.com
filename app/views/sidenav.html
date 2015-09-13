@@ -1,0 +1,27 @@
+<md-toolbar class="md-accent">
+    <div class="md-toolbar-tools">
+        <h3>Menu</h3>
+    </div>
+</md-toolbar>
+<md-content flex layout="column" role="navigation">
+    <md-menu-content>
+        <md-menu-item><md-button href="#/browse/core" ng-click="toggleSidenav()">Core</md-button></md-menu-item>
+        <md-menu-item><md-button href="#/browse/module" ng-click="toggleSidenav()">Modules</md-button></md-menu-item>
+        <md-menu-item><md-button href="#/browse/theme" ng-click="toggleSidenav()">Themes</md-button></md-menu-item>
+        <md-menu-item><md-button href="#/browse/sprint" ng-click="toggleSidenav()">Sprint</md-button></md-menu-item>
+    </md-menu-content>
+    <md-menu-content>
+        <md-menu-item>
+            <md-button ng-click="openHelp() | trackEvent:'Button':'Help modal'; toggleSidenav()" class="btn btn-default navbar-buttons navbar-help">
+                <span class="fa fa-question" aria-hidden="true"></span>
+                <span class="sr-only">Help</span>
+            </md-button>
+        </md-menu-item>
+        <md-menu-item>
+            <md-button href="https://github.com/mglaman/contribkanban.com" target="_blank" ng-click="toggleSidenav()">
+                <span class="fa fa-bug" aria-hidden="true"></span>
+                <span class="sr-only">Bugs</span>
+            </md-button>
+        </md-menu-item>
+    </md-menu-content>
+</md-content>

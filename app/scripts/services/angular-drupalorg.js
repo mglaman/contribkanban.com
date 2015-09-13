@@ -1,4 +1,5 @@
 (function() {
+  /*global angular*/
   'use strict';
 
   var module = angular.module('angularDrupalOrg', ['ngResource']);
@@ -10,7 +11,7 @@
     };
   });
 
-  module.factory('DrupalOrgService', ['$resource', function ($resource) {
+  module.factory('DrupalOrgService', ['$resource', function () {
     var factory = {};
     factory.apiUrl = 'https://www.drupal.org/api-d7';
     factory.apiSort = '&sort=changed&direction=DESC';

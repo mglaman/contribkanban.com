@@ -12,6 +12,7 @@
           type='text/css'>
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
     <!-- endbower -->
     <!-- endbuild -->
@@ -23,69 +24,38 @@
     <!-- endbuild -->
 </head>
 <body>
-<div class="page" data-appviewport>
-    <nav class="navbar navbar-default navbar-static-top" data-ng-controller="headerCtrl" ng-hide="embed">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#appNav">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="#/browse" class="navbar-brand">{{ branding }}</a>
+<div class="page" data-appviewport role="main" layout="column" flex>
+    <div ng-controller="headerCtrl" ng-hide="embed">
+        <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2 ng-isolate-scope md-closed" md-component-id="left" tabindex="-1">
+            <ng-include src="'views/sidenav.html'"></ng-include>
+        </md-sidenav>
+        <md-toolbar class="site-content-toolbar">
+            <div class="md-toolbar-tools" ng-click="toggleSidenav()" tabindex="-1" role="button">
+                <md-button class="md-icon-button" aria-label="Settings">
+                    <md-icon md-svg-icon="assets/icons/menu.svg"></md-icon>
+                </md-button>
+                <div layout="row" flex class="fill-height">
+                    <h2><span>{{ branding }}</span></h2>
+                </div>
+                <span flex></span>
             </div>
-            <div class="collapse navbar-collapse" id="appNav">
-                <ul class="nav navbar-nav">
-                    <li><a href="#/browse/core">Core</a> </li>
-                    <li><a href="#/browse/distribution">Profile</a> </li>
-                    <li><a href="#/browse/module">Modules</a> </li>
-                    <li><a href="#/browse/theme">Themes</a> </li>
-                    <li><a href="#/browse/sprint">Sprints</a> </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-form navbar-right">
-                    <li class="input-group-sm">
-                        <button data-ng-click="openHelp() | trackEvent:'Button':'Help modal'" class="btn btn-default navbar-buttons navbar-help">
-                            <span class="fa fa-question" aria-hidden="true"></span>
-                            <span class="sr-only">Help</span>
-                        </button>
-                    </li>
-                    <li class="input-group-sm">
-                        <a href="https://github.com/mglaman/contribkanban.com" target="_blank">
-                            <button class="btn btn-default navbar-buttons navbar-bugs">
-                                <span class="fa fa-bug" aria-hidden="true"></span>
-                                <span class="sr-only">Bugs</span>
-                            </button>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+        </md-toolbar>
+    </div>
     <div class="container-fluid" data-ng-view></div>
 </div>
 
 <!-- build:js(.) scripts/vendor.js -->
 <!-- bower:js -->
 <script src="bower_components/jquery/dist/jquery.js"></script>
-<script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js"></script>
-<script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js"></script>
-<script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button.js"></script>
-<script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/carousel.js"></script>
-<script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js"></script>
-<script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/dropdown.js"></script>
-<script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js"></script>
-<script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js"></script>
-<script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js"></script>
-<script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal.js"></script>
-<script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip.js"></script>
-<script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js"></script>
-<script src="bower_components/parse/parse.min.js"></script>
 <script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-aria/angular-aria.js"></script>
+<script src="bower_components/angular-material/angular-material.js"></script>
+<script src="bower_components/angular-modal-service/dst/angular-modal-service.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
 <script src="bower_components/angularytics/dist/angularytics.min.js"></script>
-<script src="bower_components/angular-modal-service/dst/angular-modal-service.js"></script>
 <script src="bower_components/ngDfp/angular-dfp.js"></script>
+<script src="bower_components/parse/parse.min.js"></script>
 <!-- endbower -->
 <!-- endbuild -->
 

@@ -1,7 +1,8 @@
+/*global projectKanbanApp*/
 'use strict';
 
 projectKanbanApp
-  .factory('urlService', function () {
+  .factory('UrlService', function () {
 
     function UrlService() {
       /**
@@ -55,7 +56,7 @@ projectKanbanApp
 
       this.build = function () {
         return new UrlService();
-      }
+      };
     }
 
     return UrlService;

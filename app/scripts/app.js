@@ -1,7 +1,7 @@
 'use strict';
 
-var projectKanbanApp = angular.module('projectKanbanApp', ['ngRoute', 'angularytics', 'angularModalService', 'ngDfp'])
-  .config(['$compileProvider', '$routeProvider', 'AngularyticsProvider', 'DoubleClickProvider', function($compileProvider, $routeProvider, AngularyticsProvider, DoubleClickProvider) {
+var projectKanbanApp = angular.module('projectKanbanApp', ['ngRoute', 'angularytics', 'angularModalService', 'ngDfp', 'ngMaterial'])
+  .config(['$compileProvider', '$routeProvider', '$mdThemingProvider', 'AngularyticsProvider', 'DoubleClickProvider', function($compileProvider, $routeProvider, $mdThemingProvider, AngularyticsProvider, DoubleClickProvider) {
     AngularyticsProvider.setEventHandlers(['Console', 'GoogleUniversal']);
 
     DoubleClickProvider.defineSlot('/122240946/CD-DEPLOY-SQUARE', [300, 250], 'div-gpt-ad-1421103564732-0')
@@ -40,6 +40,10 @@ var projectKanbanApp = angular.module('projectKanbanApp', ['ngRoute', 'angularyt
     });
 
     $compileProvider.debugInfoEnabled(false);
+
+    $mdThemingProvider.theme('default')
+      .primaryPalette('light-blue')
+      .accentPalette('blue-grey');
   }])
   .run(['$route', '$rootScope', '$location', 'Angularytics', function($route, $rootScope, $location, Angularytics) {
     Angularytics.init();
