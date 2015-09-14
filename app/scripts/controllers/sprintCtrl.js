@@ -14,6 +14,29 @@ projectKanbanApp.controller(
       $scope.projectID = null;
       $scope.boardLists = [];
       $scope.issueNeedsTag = $routeParams.needs || '';
+      $scope.priorities = {
+        100: 'Minor',
+        200: 'Normal',
+        300: 'Major',
+        400: 'Critical'
+      };
+      $scope.categories = {
+        1: 'Bug report',
+        2: 'Task',
+        3: 'Feature request',
+        4: 'Support request',
+        5: 'Plan'
+      };
+      $scope.needs = {
+        36358: 'Needs reroll',
+        310: 'Needs usability review',
+        374: 'Needs issue summary update',
+        488: 'Needs documentation',
+        978: 'Needs screenshots',
+        5144: 'Needs manual testing',
+        7066: 'Needs accessibility review',
+        29726: 'Needs change record'
+      };
 
       var boardListDefaults = function(tagID) {
         return [

@@ -1,36 +1,35 @@
 <md-content layout="row" layout-padding="">
     <div class="projects--list flex-66" layout="column" flex>
-        <div class="container-fluid">
-            <div class="browse--form row">
-                <div class="form-group col-sm-6">
-                    <input type="text" tabindex="1" data-ng-model="projectSearch" placeholder="Find a project" class="form-control"/>
-                </div>
-                <div class="col-sm-6" data-ng-controller="projectFormCtrl">
-                    <form class="form-inline" novalidate>
-                        <div class="input-group pull-right">
-                            <div class="form-group pull-left">
-                                <input class="form-control" type="text" data-ng-model="project.machine_name" placeholder="Project machine name"/>
-                            </div>
-                <span class="input-group-btn pull-left">
-                    <input class="btn btn-primary" type="submit" data-ng-click="newProject(project) | trackEvent:'Projects':'Added a project'" value="Add Project"/>
-                </span>
-                        </div>
-                    </form>
-                </div>
+        <md-content flex layout="row">
+            <md-input-container class="flex-50">
+                <label>Find a project</label>
+                <input type="text" tabindex="1" data-ng-model="projectSearch" class="form-control" style="width: 100%;"/>
+            </md-input-container>
+            <span flex></span>
+            <div class="col-sm-6" data-ng-controller="projectFormCtrl" layout="row">
+                <md-input-container>
+                    <label>Project machine name</label>
+                    <input class="form-control" type="text" data-ng-model="project.machine_name"/>
+                </md-input-container>
+                <md-button class="btn md-accent" ng-click="newProject(project) | trackEvent:'Projects':'Added a project'">
+                    Add Project
+                </md-button>
             </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="browse--projects">
-                    <div class="browse--projects--project" data-ng-repeat="project in projects | orderBy:'title' | filter:projectSearch track by $index">
-                        <h4><span><a href="#/{{ routePath }}/{{ project.machine_name }}">{{ project.title }}</a></span></h4>
+        </md-content>
+        <md-content flex layout="column">
+            <md-list class="projects--list">
+                <md-list-item class="md-2-line" ng-repeat="project in projects | orderBy:'title' | filter:projectSearch track by $index">
+                    <div class="md-list-item-text" layout="column" layout-padding>
+                        <h3><a href="#/{{ routePath }}/{{ project.machine_name }}" style="color:inherit; text-decoration: none;">{{ project.title }}</a></h3>
+                        <a class="" href="#/{{ routePath }}/{{ project.machine_name }}"><span class="md-caption">View</span></a>
                     </div>
-                </div>
-            </div>
-        </div>
+                    <md-divider></md-divider>
+                </md-list-item>
+            </md-list>
+        </md-content>
     </div>
     <div layout="column" flex class="flex-33">
-        <h1>Welcome to Contrib Kanban!</h1>
+        <h1 class="md-headline">Welcome to Contrib Kanban!</h1>
         <p>This is a huge work in progress created by <a href="http://glamanate.com">Matt Glaman</a></p>
         <p>The goal is to provide the <a href="http://www.drupal.org">Drupal.org</a> community with a simpler way to sprint on projects.</p>
         <p>

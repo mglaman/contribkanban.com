@@ -18,6 +18,19 @@ projectKanbanApp.controller(
       $scope.releaseBranches = [];
       $scope.boardLists = [];
       $scope.projectRelease = {name: $routeParams.branch, label: $routeParams.branch } || {};
+      $scope.priorities = {
+        100: 'Minor',
+        200: 'Normal',
+        300: 'Major',
+        400: 'Critical'
+      };
+      $scope.categories = {
+        1: 'Bug report',
+        2: 'Task',
+        3: 'Feature request',
+        4: 'Support request',
+        5: 'Plan'
+      };
 
       var boardListDefaults = [
         {

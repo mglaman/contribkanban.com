@@ -126,7 +126,7 @@ projectKanbanApp.filter('statusLabelFilter', function() {
  */
 projectKanbanApp.filter('statusColorFilter', function() {
   var statusCodes = {
-    1: '#f9f9f9',
+    1: '#fcfcfc',
     2: '#d7ffd8',
     3: '#fddddd',
     4: '#eff1f3',
