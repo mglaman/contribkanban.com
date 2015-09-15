@@ -106,9 +106,9 @@ md-list-item {
     font-size: 70%;
   }
   h2 {
-    margin-top: 0;
-    font-size: 16px;
-    color: $color--secondary--grey;
+//    margin-top: 0;
+//    font-size: 16px;
+////    color: $color--secondary--grey;
   }
 }
 
@@ -129,10 +129,10 @@ md-list-item {
   span {
     display: inline-block;
     margin: 2px;
-    padding: 2px 6px;
+    padding: 4px 6px;
     text-transform: uppercase;
     font-variant: small-caps;
-    font-size: 11px;
+    font-size: 12px;
 //    color: #4d4d4d;
     box-shadow: 1px 1px 0 rgba(0, 0, 0, .13);
   }
@@ -143,4 +143,17 @@ md-list-item {
 
 .may-as-well-get-something-out-of-this-eh div {
   margin: 0 auto;
+}
+
+.bg-success {
+	background: #82B1FF;
+}
+.btn-primary {
+	background: #2196F3;
+}
+.btn-danger {
+	background: #F44336;
+}
+.btn-info {
+	background: #00BCD4;
 }
