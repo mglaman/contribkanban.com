@@ -8,14 +8,13 @@ projectKanbanApp.controller(
     'issueService',
     'parseService',
     'Angularytics',
-    'DrupalOrgService',
-    function ($scope, $routeParams, $location, issueService, parseService, Angularytics, DrupalOrgService) {
+    function ($scope, $routeParams, $location, issueService, parseService, Angularytics) {
       $scope.sprint = {};
       $scope.projectID = null;
       $scope.boardLists = [];
       $scope.issueNeedsTag = $routeParams.needs || '';
-      $scope.priorities = DrupalOrgService.issuePriorities;
-      $scope.categories = DrupalOrgService.issueCategories;
+      $scope.priorities = issueService.issuePriorities;
+      $scope.categories = issueService.issueCategories;
       $scope.needs = {
         36358: 'Needs reroll',
         310: 'Needs usability review',
