@@ -12,7 +12,7 @@ projectKanbanApp.controller('browseCtrl', [
       $scope.projects = [];
       $scope.routePath = 'board';
 
-      var queryProjects = function () {
+      $scope.queryProjects = function () {
         var deferred = $q.defer();
         var parseQuery = parseService.objectQuery('Project');
 
@@ -36,7 +36,7 @@ projectKanbanApp.controller('browseCtrl', [
 
         return deferred.promise;
       };
-      queryProjects().then(function (projectBuffer) {
+      $scope.queryProjects().then(function (projectBuffer) {
         $scope.projects = projectBuffer;
       })
     }
