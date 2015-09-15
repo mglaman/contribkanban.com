@@ -9,8 +9,7 @@ projectKanbanApp.controller(
     'issueService',
     'projectService',
     'Angularytics',
-    'DoubleClick',
-    function ($scope, $routeParams, $location, parseService, issueService, projectService, Angularytics, DoubleClick) {
+    function ($scope, $routeParams, $location, parseService, issueService, projectService, Angularytics) {
       $scope.project = {};
       $scope.projectID = '';
       $scope.projectMachineName = $routeParams.project;
@@ -18,6 +17,8 @@ projectKanbanApp.controller(
       $scope.releaseBranches = [];
       $scope.boardLists = [];
       $scope.projectRelease = {name: $routeParams.branch, label: $routeParams.branch } || {};
+      $scope.priorities = issueService.issuePriorities;
+      $scope.categories = issueService.issueCategories;
 
       var boardListDefaults = [
         {

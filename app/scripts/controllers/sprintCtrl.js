@@ -8,12 +8,23 @@ projectKanbanApp.controller(
     'issueService',
     'parseService',
     'Angularytics',
-    'DoubleClick',
-    function ($scope, $routeParams, $location, issueService, parseService, Angularytics, DoubleClick) {
+    function ($scope, $routeParams, $location, issueService, parseService, Angularytics) {
       $scope.sprint = {};
       $scope.projectID = null;
       $scope.boardLists = [];
       $scope.issueNeedsTag = $routeParams.needs || '';
+      $scope.priorities = issueService.issuePriorities;
+      $scope.categories = issueService.issueCategories;
+      $scope.needs = {
+        36358: 'Needs reroll',
+        310: 'Needs usability review',
+        374: 'Needs issue summary update',
+        488: 'Needs documentation',
+        978: 'Needs screenshots',
+        5144: 'Needs manual testing',
+        7066: 'Needs accessibility review',
+        29726: 'Needs change record'
+      };
 
       var boardListDefaults = function(tagID) {
         return [
@@ -70,8 +81,6 @@ projectKanbanApp.controller(
 
           // Ping Google.
           Angularytics.trackEvent('Project', 'Viewed sprint: ' + object.title);
-          DoubleClick.refreshAds('div-gpt-ad-1421106878492-0');
-
 
         }, function () {
 

@@ -1,3 +1,4 @@
+/*global projectKanbanApp, angular, alert*/
 'use strict';
 
 /**
@@ -6,20 +7,20 @@
  * Factory for working with projects.
  */
 projectKanbanApp.factory('projectService', [
-  '$http', '$q', 'parseService', 'urlService', function ($http, $q, parseService, urlService) {
+  '$http', '$q', 'parseService', 'UrlService', function ($http, $q, parseService, UrlService) {
     var factory = {};
 
     /**
      * Base API URL for retrieving projects
      * @type {UrlService}
      */
-    var baseURL = new urlService().setEntityEndpoint('node');
+    var baseURL = new UrlService().setEntityEndpoint('node');
 
     /**
      * Base API URL for retrieving project release nodes.
      * @type {UrlService}
      */
-    var releaseURL = new urlService().setEntityEndpoint('node')
+    var releaseURL = new UrlService().setEntityEndpoint('node')
       .addParameter('type', 'project_release')
       .addParameter('field_release_update_status', '0')
       .addParameter('field_release_version_extra', 'dev');
@@ -37,7 +38,7 @@ projectKanbanApp.factory('projectService', [
         .success(function (d) {
           var releases = d.list;
           if (releases.length > 0) {
-            angular.forEach(releases, function (object, key) {
+            angular.forEach(releases, function (object) {
               branchLabels.push({
                 name: object.field_release_vcs_label,
                 label: object.field_release_vcs_label

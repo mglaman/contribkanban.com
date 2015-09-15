@@ -1,40 +1,38 @@
-<div class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-ng-click="close()" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">About Contrib Kanban</h4>
-            </div>
-            <div class="modal-body">
-                <h4>What's this built out of?</h4>
-                <p>Shoe strings and tree sap.</p>
-                <p><small>Actually, it's an AngularJS app tapping into the Drupal.org REST APIs. We're then harnessing Parse for data storage.</small></p>
-                <hr />
-                <h4>Adding a project</h4>
-                <p>Scraping Drupal.org and adding each project would be.. well expensive and timely. If you don't see your project, simply enter the machine name into the form on the homepage and add it.</p>
-                <hr />
-                <h4>Board lists</h4>
-                <p>Currently the kanban board lists are set to the Drupal.org issue states. In the future there will be support for project maintainers to customize these lists to reflect issue tags and control sprint boards/</p>
-                <ul>
-                    <li><strong>Postoned</strong>: Postponed & Needs more info</li>
-                    <li><strong>Active</strong></li>
-                    <li><strong>Needs Review</strong></li>
-                    <li><strong>Needs Work</strong></li>
-                    <li><strong>RTBC</strong></li>
-                    <li><strong>Fixed</strong>: Currently just Fixed, no Closed (fixed) for now.</li>
-                    <li><strong>Won't Fix</strong> Hidden, due to possible performance/number of calls. Anything closed and not fixed.</li>
-                </ul>
-                <hr />
-                <h4>Issues are missing?</h4>
-                <p>Currently pagination is not supported in this app (API supports it) solely on the fact that I don't want to bog down the API with irrelevant requests. A single query returns 100 nodes, which should suffice for the most part.</p>
-                <p>This app instead requests the issues to be sorted by most recently modified. That means fresh issues will always display.</p>
-                <hr />
-                <h4>Ideas/Suggestions</h4>
-                <p>Open an issue or fork and make a pull request! Here's the <a href="https://github.com/mglaman/contribkanban.com">GitHub repo!</a></p>
-            </div>
-            <div class="modal-footer">
-
-            </div>
-        </div>
-    </div>
-</div>
+<md-dialog aria-label="About Contrib Kanban" style="min-width: 60%;">
+  <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2 class="">About Contrib Kanban</h2>
+        <span flex></span>
+        <md-button class="md-icon-button">
+            <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+  </md-toolbar>
+  <md-content flex layout="column" layout-padding layout-margin>
+    <h4 class="md-headline">What's this built out of?</h4>
+    <p>Shoe strings and tree sap.</p>
+    <p><small>Actually, it's an AngularJS app tapping into the Drupal.org REST APIs. We're then harnessing Parse for data storage.</small></p>
+    <md-divider></md-divider>
+    <h4 class="md-headline">Adding a project</h4>
+    <p>Scraping Drupal.org and adding each project would be.. well expensive and timely. If you don't see your project, simply enter the machine name into the form on the homepage and add it.</p>
+    <md-divider></md-divider>
+    <h4 class="md-headline">Board lists</h4>
+    <p>Currently the kanban board lists are set to the Drupal.org issue states. In the future there will be support for project maintainers to customize these lists to reflect issue tags and control sprint boards/</p>
+    <ul>
+        <li><strong>Postoned</strong>: Postponed &amp; Needs more info</li>
+        <li><strong>Active</strong></li>
+        <li><strong>Needs Review</strong></li>
+        <li><strong>Needs Work</strong></li>
+        <li><strong>RTBC</strong></li>
+        <li><strong>Fixed</strong>: Currently just Fixed, no Closed (fixed) for now.</li>
+        <li><strong>Won't Fix</strong> Hidden, due to possible performance/number of calls. Anything closed and not fixed.</li>
+    </ul>
+    <md-divider></md-divider>
+    <h4 class="md-headline">Issues are missing?</h4>
+    <p>Currently pagination is not supported in this app (API supports it) solely on the fact that I don't want to bog down the API with irrelevant requests. A single query returns 100 nodes, which should suffice for the most part.</p>
+    <p>This app instead requests the issues to be sorted by most recently modified. That means fresh issues will always display.</p>
+    <md-divider></md-divider>
+    <h4 class="md-headline">Ideas/Suggestions</h4>
+    <p>Open an issue or fork and make a pull request! Here's the <a href="https://github.com/mglaman/contribkanban.com">GitHub repo!</a></p>
+  </md-content>
+</md-dialog>

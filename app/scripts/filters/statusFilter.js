@@ -43,7 +43,7 @@ projectKanbanApp.filter('issuePriorityFilter', function () {
   return function(issues, priority) {
     return issues.filter(function(issue) {
       // If no priority...
-      if (priority === undefined || priority == null || priority == '') {
+      if (priority === undefined || priority == null || priority == '' || priority == 0) {
         return true;
       }
       else {
@@ -60,7 +60,7 @@ projectKanbanApp.filter('issueCategoryFilter', function () {
   return function(issues, category) {
     return issues.filter(function(issue) {
       // If no category...
-      if (category === undefined || category == null || category == '') {
+      if (category === undefined || category == null || category == '' || category == 0) {
         return true;
       }
       else {
@@ -126,7 +126,7 @@ projectKanbanApp.filter('statusLabelFilter', function() {
  */
 projectKanbanApp.filter('statusColorFilter', function() {
   var statusCodes = {
-    1: '#f9f9f9',
+    1: '#fcfcfc',
     2: '#d7ffd8',
     3: '#fddddd',
     4: '#eff1f3',

@@ -23,7 +23,7 @@ projectKanbanApp
         restrict: 'A',
         link: function (scope, element) {
           scope.initializeWindowSize = function () {
-            $(element).css('height', $window.innerHeight - 50);
+            $(element).css('height', $window.innerHeight - 64);
           };
           scope.initializeWindowSize();
           angular.element($window).bind('resize', function () {

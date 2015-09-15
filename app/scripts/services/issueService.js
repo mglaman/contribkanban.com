@@ -1,12 +1,28 @@
+/*global projectKanbanApp, angular*/
 'use strict';
 
 /**
  * issueService Factory
  */
 projectKanbanApp.factory('issueService', [
-  '$http', '$q', 'parseService', 'urlService', function ($http, $q, parseService, urlService) {
+  '$http', '$q', 'parseService', 'UrlService', function ($http, $q, parseService, UrlService) {
     var factory = {};
 
+    factory.issuePriorities = {
+      0: 'Any',
+      100: 'Minor',
+      200: 'Normal',
+      300: 'Major',
+      400: 'Critical'
+    };
+    factory.issueCategories = {
+      0: 'Any',
+      1: 'Bug report',
+      2: 'Task',
+      3: 'Feature request',
+      4: 'Support request',
+      5: 'Plan'
+    };
 
     /**
      * Helper function to convert Drupal.org API object to Parse.com object.
@@ -26,7 +42,7 @@ projectKanbanApp.factory('issueService', [
         version: object.field_issue_version,
         assigned: object.field_issue_assigned || {id: ''},
         project: object.field_project.id
-      }
+      };
     };
 
     /**
@@ -53,7 +69,7 @@ projectKanbanApp.factory('issueService', [
       // Normalize cache bool.
       cache = (cache === undefined);
 
-      var apiQuery = new urlService().setEntityEndpoint('node')
+      var apiQuery = new UrlService().setEntityEndpoint('node')
         .addParameter('limit', '50')
         .addParameter('type', 'project_issue');
 
@@ -147,7 +163,7 @@ projectKanbanApp.factory('issueService', [
     var responseListProcess = function (list) {
       var responseIssues = [];
 
-      angular.forEach(list, function (v, k) {
+      angular.forEach(list, function (v) {
         responseIssues.push(apiToStorage(v));
       });
       return responseIssues;

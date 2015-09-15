@@ -1,3 +1,4 @@
+/*global projectKanbanApp, Parse*/
 'use strict';
 
 /**

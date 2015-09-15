@@ -1,16 +1,20 @@
 'use strict';
 
-projectKanbanApp.controller('headerCtrl', ['$scope', '$location', 'ModalService', function ($scope, $location, ModalService) {
+projectKanbanApp.controller('headerCtrl', ['$scope', '$location', '$mdSidenav', '$mdDialog', function ($scope, $location, $mdSidenav, $mdDialog) {
   $scope.branding = 'Contrib Kanban';
   $scope.embed = $location.search().embed || false;
 
+  $scope.toggleSidenav = function () {
+    $mdSidenav('left').toggle();
+  };
 
   $scope.openHelp = function() {
-    ModalService.showModal({
-      templateUrl: "views/help.html",
-      controller: "ModalController"
-    }).then(function(modal) {
-      modal.element.modal();
+    $mdDialog.show({
+      templateUrl: 'views/help.html',
+      controller: function () {},
+      parent: angular.element(document.body),
+      // targetEvent: ev,
+      clickOutsideToClose:true,
     });
   };
 }]);

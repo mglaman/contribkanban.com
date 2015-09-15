@@ -1,10 +1,7 @@
-$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
-
 @import "variables";
 @import "mixins";
 
 // bower:scss
-@import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
 @import "scolly";
@@ -20,51 +17,25 @@ body {
 }
 
 a {
+  color: rgb(3,169,244);
+  text-decoration: none;
+  font-weight: 400;
+  border-bottom: 1px solid rgba(64, 84, 178, 0.25);
   @include transition(color 0.2s ease);
-}
-
-.navbar {
-  text-align: center;
-  margin-bottom: 0;
-  .nav {
-    >li {
-      > {
-        a {
-          font-size: 14px;
-          font-weight: 500;
-        }
-      }
-    }
-    .navbar-buttons {
-      font-size: 14px;
-      color: $color--primary--dark-blue;
-      padding: 3px 9px;
-      margin: 4px 4px 0;
-    }
+  &:hover {
+    color: #106CC8;
   }
-}
-.navbar-form > .input-group-sm > a {
-  padding: 0;
-}
-.navbar-brand {
-  font-size: 20px;
-  font-weight: 100;
-  letter-spacing: -1px;
-  line-height: 18px;
 }
 
 
 .projects--list {
-  .browse--projects {
-    margin-top: 15px;
-    @media (min-width: $screen-md-min) {
-      column-count: 3;
-    }
+  a {
+    border-bottom: 0;
   }
-  h3 {
-    margin: 0 0 10px;
-    font-weight: 100;
-  }
+}
+
+md-list-item {
+  position: relative;
 }
 
 .kanban-board__wrapper {
@@ -73,19 +44,8 @@ a {
   height: 100%;
 }
 .kanban-board--header {
-  padding-top: 5px;
-  padding-bottom: 10px;
-  //height: 75px;
-  h1 {
-    cursor: default;
-    margin: 0;
-    padding: 10px 5px 10px;
-    font-size: 22px;
-    font-weight: normal;
-    color: $color--primary--dark-blue;
-    line-height: 10px;
-    margin-right: 15px;
-  }
+  padding: 0 7px;
+  height: 75px;
 }
 
 .kanban-board--container {
@@ -95,11 +55,6 @@ a {
 
 .kanban-board {
   @include flexbox-align(start);
-  @include display-flexbox;
-  -moz-box-orient: horizontal;
-  -webkit-box-orient: horizontal;
-  -ms-flex-direction: row;
-  -webkit-flex-direction: row;
   flex-direction: row;
   margin-bottom: 10px;
   overflow-x: auto;
@@ -109,22 +64,12 @@ a {
 }
 
 .kanban-board--list {
-  background: $color--secondary--pale-grey;
-  border: 1px solid rgba($color--secondary--grey, 0.45);
-  box-shadow:0 0 1px $color--secondary--grey;
+  background: rgba($color--secondary--pale-grey, 0.14);
   border-radius: 3px;
   @include box-sizing(border-box);
-  @include display-flexbox;
-  -moz-box-orient: vertical;
-  -webkit-box-orient: vertical;
-  -ms-flex-direction: column;
-  -webkit-flex-direction: column;
-  flex-direction: column;
   -moz-box-flex: 0;
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 290px;
-  -webkit-flex: 0 0 290px;
-  flex: 0 0 290px;
+  @include flexbox-width(0 0 320px);
   margin: 0 5px;
   max-height: 100%;
   padding: 4px 3px 3px;
@@ -136,7 +81,7 @@ a {
 }
 
 .kanban-board--list__header {
-  padding: 10px 0 0 0;
+  padding: 5px 0 0 0;
   position: relative;
   min-height: 35px;
   .fa {
@@ -144,26 +89,12 @@ a {
     top: -3px;
     font-size: 70%;
   }
-  h2 {
-    margin-top: 0;
-    font-size: 16px;
-    color: $color--secondary--grey;
+  .md-subhead {
+    margin: 0;
   }
 }
 
-.kanban-board--item {
-  cursor: pointer;
-  padding: 5px 10px;
-  margin: 0 5px 10px 5px;
-  background: #ffffff;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  border-left: 10px solid transparent;
-  font-size: 14px;
-  font-weight: 400;
-  text-rendering: optimizeLegibility;
-  word-break: normal;
-  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.13);
+.kanban-board--items md-card {
   @include transition(transform 0.1s ease);
   transform: translateZ(0);
   &:hover, &:active, &:focus {
@@ -180,15 +111,15 @@ a {
   span {
     display: inline-block;
     margin: 2px;
-    padding: 2px 6px;
+    padding: 4px 6px;
     text-transform: uppercase;
     font-variant: small-caps;
-    font-size: 11px;
+    font-size: 12px;
 //    color: #4d4d4d;
     box-shadow: 1px 1px 0 rgba(0, 0, 0, .13);
   }
   .bg-default {
-    background-color: rgba($color--secondary--navy-blue, 0.35);
+    background-color: rgba($color--secondary--navy-blue, 0.25);
   }
 }
 
@@ -196,10 +127,26 @@ a {
   margin: 0 auto;
 }
 
-.kanban-board--filters {
- .form-control {
-   display: inline-block;
-   width: auto;
-   margin-left: 10px;
- }
+// @todo: Come up with better colors for tags.
+.bg-success {
+  background: #A5D6A7;
+}
+.bg-warning {
+  background: #FFF59D;
+}
+.btn-primary {
+  color: white;
+  font-weight: bold;
+  background: #2196F3;
+}
+.btn-danger, .bg-danger {
+  background: #F44336;
+  color: white;
+  font-weight: bold;
+}
+.btn-info {
+  background: #90CAF9;
+}
+.bg-info {
+  background: #E3F2FD;
 }
