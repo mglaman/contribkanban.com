@@ -9,8 +9,8 @@ projectKanbanApp.controller(
     'issueService',
     'projectService',
     'Angularytics',
-    'DoubleClick',
-    function ($scope, $routeParams, $location, parseService, issueService, projectService, Angularytics, DoubleClick) {
+    'DrupalOrgService',
+    function ($scope, $routeParams, $location, parseService, issueService, projectService, Angularytics, DrupalOrgService) {
       $scope.project = {};
       $scope.projectID = '';
       $scope.projectMachineName = $routeParams.project;
@@ -18,21 +18,8 @@ projectKanbanApp.controller(
       $scope.releaseBranches = [];
       $scope.boardLists = [];
       $scope.projectRelease = {name: $routeParams.branch, label: $routeParams.branch } || {};
-      $scope.priorities = {
-        0: 'Any',
-        100: 'Minor',
-        200: 'Normal',
-        300: 'Major',
-        400: 'Critical'
-      };
-      $scope.categories = {
-        0: 'Any',
-        1: 'Bug report',
-        2: 'Task',
-        3: 'Feature request',
-        4: 'Support request',
-        5: 'Plan'
-      };
+      $scope.priorities = DrupalOrgService.issuePriorities;
+      $scope.categories = DrupalOrgService.issueCategories;
 
       var boardListDefaults = [
         {

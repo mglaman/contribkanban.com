@@ -8,25 +8,14 @@ projectKanbanApp.controller(
     'issueService',
     'parseService',
     'Angularytics',
-    'DoubleClick',
-    function ($scope, $routeParams, $location, issueService, parseService, Angularytics, DoubleClick) {
+    'DrupalOrgService',
+    function ($scope, $routeParams, $location, issueService, parseService, Angularytics, DrupalOrgService) {
       $scope.sprint = {};
       $scope.projectID = null;
       $scope.boardLists = [];
       $scope.issueNeedsTag = $routeParams.needs || '';
-      $scope.priorities = {
-        100: 'Minor',
-        200: 'Normal',
-        300: 'Major',
-        400: 'Critical'
-      };
-      $scope.categories = {
-        1: 'Bug report',
-        2: 'Task',
-        3: 'Feature request',
-        4: 'Support request',
-        5: 'Plan'
-      };
+      $scope.priorities = DrupalOrgService.issuePriorities;
+      $scope.categories = DrupalOrgService.issueCategories;
       $scope.needs = {
         36358: 'Needs reroll',
         310: 'Needs usability review',
@@ -93,8 +82,6 @@ projectKanbanApp.controller(
 
           // Ping Google.
           Angularytics.trackEvent('Project', 'Viewed sprint: ' + object.title);
-          DoubleClick.refreshAds('div-gpt-ad-1421106878492-0');
-
 
         }, function () {
 
