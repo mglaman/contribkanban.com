@@ -6,7 +6,6 @@ projectKanbanApp.controller('browseCtrl', [
     '$routeParams',
     '$location',
     'parseService',
-    'projectService',
     function ($q, $scope, $routeParams, $location, parseService) {
       $scope.location = $location;
       $scope.projects = [];

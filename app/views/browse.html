@@ -1,12 +1,12 @@
-<md-content layout="row" layout-padding="">
-    <div class="projects--list flex-66" layout="column" flex>
-        <md-card flex layout="row" layout-padding>
-            <md-input-container class="flex-50">
+<md-content layout="row" layout-sm="column" layout-padding="">
+    <div class="projects--list" layout="column" flex flex-gt-sm="flex-66">
+        <md-card flex layout="row" layout-sm="column" layout-padding flex-order-sm="2">
+            <md-input-container flex-gt-sm="flex-50">
                 <label>Find a project</label>
                 <input type="text" tabindex="1" data-ng-model="projectSearch" class="form-control" style="width: 100%;"/>
             </md-input-container>
             <span flex></span>
-            <div class="col-sm-6" data-ng-controller="projectFormCtrl" layout="row">
+            <div data-ng-controller="projectFormCtrl" layout="row" hide-sm>
                 <md-input-container>
                     <label>Project machine name</label>
                     <input class="form-control" type="text" data-ng-model="project.machine_name"/>
@@ -28,7 +28,7 @@
             </md-list>
         </md-card>
     </div>
-    <div layout="column" flex class="flex-33">
+    <div layout="column" flex flex-gt-sm="flex-33">
         <md-card>
             <md-card-content>
                 <h1 class="md-title">Welcome to Contrib Kanban!</h1>

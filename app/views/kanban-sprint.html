@@ -1,11 +1,11 @@
 <div class="kanban-board__wrapper" data-boardviewport>
     <div class="kanban-board--header clearfix">
-        <div layout="row" layout-padding>
-            <div layout="column" class="flex-66">
+        <div layout="row" layout-sm="column">
+            <div layout="column" layout-gt-sm="flex-66">
                 <h1 style="font-weight: 400;">{{ sprint.title }}</a></h1>
             </div>
-            <div layout="column" class="flex-33" layout-align="end end">
-                <div layout="row">
+            <div layout="column" layout-sm="column" layout-gt-sm="flex-33" layout-align-gt-sm="end end" hide-sm>
+                <div layout="row" layout-sm="column">
                     <md-input-container>
                         <label for="issuePriorities" class="sr-only">Issue priorities</label>
                         <md-select id="issuePriorities" class="form-control pull-left input-sm" ng-model="issuePriority">
