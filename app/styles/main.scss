@@ -104,6 +104,13 @@ md-list-item {
   a {
     cursor: pointer;
   }
+  md-card-content {
+    padding: 5px 16px;
+  }
+  .md-subhead {
+    font-size: 15px;
+    line-height: 22px;
+  }
 }
 
 .kanban-board--issue_tags {
