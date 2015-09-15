@@ -119,7 +119,7 @@ md-list-item {
     box-shadow: 1px 1px 0 rgba(0, 0, 0, .13);
   }
   .bg-default {
-    background-color: rgba($color--secondary--navy-blue, 0.35);
+    background-color: rgba($color--secondary--navy-blue, 0.25);
   }
 }
 
@@ -127,18 +127,26 @@ md-list-item {
   margin: 0 auto;
 }
 
+// @todo: Come up with better colors for tags.
 .bg-success {
-	background: #82B1FF;
+  background: #A5D6A7;
+}
+.bg-warning {
+  background: #FFF59D;
 }
 .btn-primary {
-	background: #2196F3;
+  color: white;
+  font-weight: bold;
+  background: #2196F3;
 }
 .btn-danger, .bg-danger {
-	background: #F44336;
+  background: #F44336;
+  color: white;
+  font-weight: bold;
 }
 .btn-info {
-	background: #00BCD4;
+  background: #90CAF9;
 }
 .bg-info {
-  background: white;
+  background: #E3F2FD;
 }
