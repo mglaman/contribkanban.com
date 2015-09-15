@@ -29,15 +29,21 @@
         <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2 ng-isolate-scope md-closed" md-component-id="left" tabindex="-1">
             <ng-include src="'views/sidenav.html'"></ng-include>
         </md-sidenav>
-        <md-toolbar class="site-content-toolbar">
-            <div class="md-toolbar-tools" ng-click="toggleSidenav()" tabindex="-1" role="button">
-                <md-button class="md-icon-button" aria-label="Settings">
-                    <md-icon md-svg-icon="assets/icons/menu.svg"></md-icon>
+        <md-toolbar class="site-content-toolbar" style="color: #ffffff;">
+            <div class="md-toolbar-tools">
+                <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleSidenav()" tabindex="-1" role="button">
+                    <md-icon md-svg-icon="assets/icons/menu.svg" style="color: white;"></md-icon>
                 </md-button>
                 <div layout="row" flex class="fill-height">
                     <h2><span>{{ branding }}</span></h2>
                 </div>
                 <span flex></span>
+                <md-button ng-click="openHelp() | trackEvent:'Button':'Help modal';" aria-label="Help" class="md-icon-button">
+                    <md-icon md-svg-icon="assets/icons/help.svg" style="color: white;"></md-icon>
+                </md-button>
+                <md-button href="https://github.com/mglaman/contribkanban.com" target="_blank" aria-label="Report a bug" class="md-icon-button">
+                    <md-icon md-svg-icon="assets/icons/bug.svg" style="color: white;"></md-icon>
+                </md-button>
             </div>
         </md-toolbar>
     </div>
