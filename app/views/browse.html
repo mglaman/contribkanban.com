@@ -1,13 +1,12 @@
 <md-content layout="row" layout-sm="column" layout-padding="">
     <div class="projects--list" layout="column" flex flex-gt-sm="flex-66">
         <md-card flex layout="row" layout-sm="column" layout-padding flex-order-sm="2">
-            <md-input-container flex-gt-sm="flex-50">
+            <md-input-container flex flex-lg="50">
                 <label>Find a project</label>
                 <input type="text" tabindex="1" data-ng-model="projectSearch" class="form-control" style="width: 100%;"/>
             </md-input-container>
-            <span flex></span>
-            <div data-ng-controller="projectFormCtrl" layout="row" hide-sm>
-                <md-input-container>
+            <div data-ng-controller="projectFormCtrl" layout="row" hide-sm hide-md>
+                <md-input-container style="padding: 16px;">
                     <label>Project machine name</label>
                     <input class="form-control" type="text" data-ng-model="project.machine_name"/>
                 </md-input-container>
