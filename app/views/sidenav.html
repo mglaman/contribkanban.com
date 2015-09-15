@@ -14,14 +14,14 @@
     <md-menu-content>
         <md-menu-item>
             <md-button ng-click="openHelp() | trackEvent:'Button':'Help modal'; toggleSidenav()" class="btn btn-default navbar-buttons navbar-help">
-                <span class="fa fa-question" aria-hidden="true"></span>
+                <md-icon md-svg-icon="assets/icons/help.svg"></md-icon>
                 <span class="sr-only">Help</span>
             </md-button>
         </md-menu-item>
         <md-menu-item>
             <md-button href="https://github.com/mglaman/contribkanban.com" target="_blank" ng-click="toggleSidenav()">
-                <span class="fa fa-bug" aria-hidden="true"></span>
-                <span class="sr-only">Bugs</span>
+                <md-icon md-svg-icon="assets/icons/bug.svg"></md-icon>
+                <span>Bugs</span>
             </md-button>
         </md-menu-item>
     </md-menu-content>

@@ -43,7 +43,7 @@ projectKanbanApp.filter('issuePriorityFilter', function () {
   return function(issues, priority) {
     return issues.filter(function(issue) {
       // If no priority...
-      if (priority === undefined || priority == null || priority == '') {
+      if (priority === undefined || priority == null || priority == '' || priority == 0) {
         return true;
       }
       else {
@@ -60,7 +60,7 @@ projectKanbanApp.filter('issueCategoryFilter', function () {
   return function(issues, category) {
     return issues.filter(function(issue) {
       // If no category...
-      if (category === undefined || category == null || category == '') {
+      if (category === undefined || category == null || category == '' || category == 0) {
         return true;
       }
       else {

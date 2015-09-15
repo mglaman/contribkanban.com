@@ -4,9 +4,9 @@
             <div layout="column" class="flex-66">
                 <h1><a href="https://www.drupal.org/project/{{ project.machine_name }}" target="_blank">{{ project.title }}</a></h1>
             </div>
-            <div layout="column" class="flex-33">
+            <div layout="column" class="flex-33" layout-align="end end">
                 <div layout="row">
-                    <md-input-container>
+                    <md-input-container ng-hide="releaseBranches === undefined">
                         <label for="projectBranches">Project branches</label>
                         <md-select id="projectBranches" class="form-control pull-left input-sm" ng-model="projectRelease" ng-change="updateBoardRoute()">
                             <md-option ng-repeat="release in releaseBranches track by release.label" ng-value="release">{{ release.name }}</md-option>
@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="kanban-board--container">
-        <div class="kanban-board scrolly">
+        <div class="kanban-board scrolly" flex layout="row">
             <div class="kanban-board--list scrolly md-whiteframe-z2" flex layout="column" data-ng-repeat="list in boardLists track by $index" data-ng-controller="listCtrl">
                 <div class="kanban-board--list__header">
                     <h2 class="md-subhead">
