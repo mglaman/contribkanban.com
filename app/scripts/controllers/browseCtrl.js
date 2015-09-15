@@ -1,19 +1,19 @@
 'use strict';
 
 projectKanbanApp.controller('browseCtrl', [
+    '$q',
     '$scope',
     '$routeParams',
     '$location',
     'parseService',
     'projectService',
-    function ($scope, $routeParams, $location, parseService) {
+    function ($q, $scope, $routeParams, $location, parseService) {
       $scope.location = $location;
       $scope.projects = [];
       $scope.routePath = 'board';
 
-      $scope.queryProjects = function () {
-        $scope.projects = [];
-
+      var queryProjects = function () {
+        var deferred = $q.defer();
         var parseQuery = parseService.objectQuery('Project');
 
         // If passed a type, filter by that.
@@ -24,15 +24,21 @@ projectKanbanApp.controller('browseCtrl', [
         parseQuery.limit(200);
 
         parseQuery.find({}).then(function (results) {
+          var projectBuffer = [];
           angular.forEach(results, function(val, key) {
-            $scope.projects.push(val.attributes);
+            projectBuffer.push(val.attributes);
           });
-          $scope.$apply();
+
+          deferred.resolve(projectBuffer);
         }, function () {
 
         });
+
+        return deferred.promise;
       };
-      $scope.queryProjects();
+      queryProjects().then(function (projectBuffer) {
+        $scope.projects = projectBuffer;
+      })
     }
   ]
 );
