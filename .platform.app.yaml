@@ -15,13 +15,12 @@ web:
     - \.eot$
     - \.woff$
     - \.otf$
+    - \.svg$
 
 disk: 2048
-# Need to chmown in build to fix npm issue, see https://github.com/npm/npm/issues/6309
 hooks:
   build: |
     npm --version
-    chown -R $USER:$USER ~/.npm.
     npm install
     bower install
     grunt build
