@@ -30,7 +30,7 @@
     </div>
     <div class="kanban-board--container">
         <div class="kanban-board scrolly">
-            <div class="kanban-board--list scrolly" data-ng-repeat="list in boardLists track by list.name" data-ng-controller="listCtrl">
+            <div class="kanban-board--list scrolly md-whiteframe-z2" flex layout="column" data-ng-repeat="list in boardLists track by list.name" data-ng-controller="listCtrl">
                 <div class="kanban-board--list__header">
                     <h2>
                         <span class="fa" data-ng-class="{'fa-spin fa-spinner': processing === true}">&nbsp;</span>

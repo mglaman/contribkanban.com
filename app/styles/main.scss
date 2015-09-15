@@ -44,8 +44,9 @@ md-list-item {
   height: 100%;
 }
 .kanban-board--header {
-  padding-top: 5px;
-  padding-bottom: 10px;
+  //padding-top: 5px;
+  //padding-bottom: 10px;
+  padding: 0 5px;
   height: 75px;
 }
 
@@ -70,22 +71,14 @@ md-list-item {
 }
 
 .kanban-board--list {
-  background: $color--secondary--pale-grey;
-  border: 1px solid rgba($color--secondary--grey, 0.45);
-  box-shadow:0 0 1px $color--secondary--grey;
+  background: rgba($color--secondary--pale-grey, 0.14);
+  //border: 1px solid rgba($color--secondary--grey, 0.45);
+  //box-shadow:0 0 1px $color--secondary--grey;
   border-radius: 3px;
   @include box-sizing(border-box);
-  @include display-flexbox;
-  -moz-box-orient: vertical;
-  -webkit-box-orient: vertical;
-  -ms-flex-direction: column;
-  -webkit-flex-direction: column;
-  flex-direction: column;
   -moz-box-flex: 0;
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 290px;
-  -webkit-flex: 0 0 290px;
-  flex: 0 0 290px;
+  @include flexbox-width(0 0 320px);
   margin: 0 5px;
   max-height: 100%;
   padding: 4px 3px 3px;
@@ -105,10 +98,8 @@ md-list-item {
     top: -3px;
     font-size: 70%;
   }
-  h2 {
-//    margin-top: 0;
-//    font-size: 16px;
-////    color: $color--secondary--grey;
+  .md-subhead {
+    margin: 0;
   }
 }
 

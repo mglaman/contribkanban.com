@@ -1,3 +1,8 @@
+@mixin flexbox-width($width) {
+  -ms-flex: $width;
+  -webkit-flex: $width;
+  flex: $width;
+}
 @mixin flexbox-align($position) {
   -ms-flex-align: $position;
   -moz-box-align: $position;
