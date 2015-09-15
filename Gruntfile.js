@@ -327,7 +327,8 @@ module.exports = function (grunt) {
             'images/{,*/}*.webp',
             '{,*/}*.html',
             'styles/fonts/{,*/}*.*',
-            'config/**/*'
+            'config/**/*',
+            'assets/**/*'
           ]
         }, {
           src: '<%= config.app %>/.htaccess',
