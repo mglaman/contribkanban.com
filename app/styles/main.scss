@@ -118,35 +118,30 @@ md-list-item {
 //    color: #4d4d4d;
     box-shadow: 1px 1px 0 rgba(0, 0, 0, .13);
   }
-  .bg-default {
-    background-color: rgba($color--secondary--navy-blue, 0.25);
+  .bg-default, .btn-default {
+    background-color: #F5F5F5
   }
-}
-
-.may-as-well-get-something-out-of-this-eh div {
-  margin: 0 auto;
-}
-
-// @todo: Come up with better colors for tags.
-.bg-success {
-  background: #A5D6A7;
-}
-.bg-warning {
-  background: #FFF59D;
-}
-.btn-primary {
-  color: white;
-  font-weight: bold;
-  background: #2196F3;
-}
-.btn-danger, .bg-danger {
-  background: #F44336;
-  color: white;
-  font-weight: bold;
-}
-.btn-info {
-  background: #90CAF9;
-}
-.bg-info {
-  background: #E3F2FD;
+  // @todo: Come up with better colors for tags.
+  .bg-success, .btn-success {
+    background: #A5D6A7;
+  }
+  .bg-warning, .btn-warning {
+    background: #FFF59D;
+  }
+  .btn-primary, .bg-primary {
+    color: white;
+    font-weight: bold;
+    background: #2196F3;
+  }
+  .btn-danger, .bg-danger {
+    background: #F44336;
+    color: white;
+    font-weight: bold;
+  }
+  .btn-info {
+    background: #90CAF9;
+  }
+  .bg-info {
+    background: #E3F2FD;
+  }
 }
