@@ -1,6 +1,6 @@
 <md-content layout="row" layout-padding="">
-    <div class="projects--list flex-66 md-whiteframe-z1" layout="column" flex>
-        <md-content flex layout="row">
+    <div class="projects--list flex-66" layout="column" flex>
+        <md-card flex layout="row" layout-padding>
             <md-input-container class="flex-50">
                 <label>Find a project</label>
                 <input type="text" tabindex="1" data-ng-model="projectSearch" class="form-control" style="width: 100%;"/>
@@ -15,8 +15,8 @@
                     Add Project
                 </md-button>
             </div>
-        </md-content>
-        <md-content flex layout="column">
+        </md-card>
+        <md-card flex layout="column" layout-padding>
             <md-list class="projects--list">
                 <md-list-item class="md-2-line" ng-repeat="project in projects | orderBy:'title' | filter:projectSearch track by $index">
                     <div class="md-list-item-text" layout="column" layout-padding>
@@ -26,7 +26,7 @@
                     <md-divider></md-divider>
                 </md-list-item>
             </md-list>
-        </md-content>
+        </md-card>
     </div>
     <div layout="column" flex class="flex-33">
         <md-card>
