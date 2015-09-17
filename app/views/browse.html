@@ -1,5 +1,5 @@
 <md-content layout="row" layout-sm="column" layout-padding="">
-    <div class="projects--list" layout="column" flex flex-gt-sm="flex-66">
+    <div class="projects--list" layout="column" flex flex-gt-sm="66">
         <md-card flex layout="row" layout-sm="column" layout-padding flex-order-sm="2">
             <md-input-container flex flex-lg="50">
                 <label>Find a project</label>
@@ -19,15 +19,15 @@
             <md-list class="projects--list">
                 <md-list-item class="md-2-line" ng-repeat="project in projects | orderBy:'title' | filter:projectSearch track by $index">
                     <div class="md-list-item-text" layout="column" layout-padding>
-                        <h3><a href="#/{{ routePath }}/{{ project.machine_name }}" style="color:inherit; text-decoration: none;">{{ project.title }}</a></h3>
-                        <a class="" href="#/{{ routePath }}/{{ project.machine_name }}"><span class="md-caption">View</span></a>
+                        <h3><a ng-href="#/{{ ::routePath }}/{{ ::project.machine_name }}" style="color:inherit; text-decoration: none;" ng-bind="project.title"></a></h3>
+                        <a ng-href="#/{{ ::routePath }}/{{ ::project.machine_name }}"><span class="md-caption">View</span></a>
                     </div>
                     <md-divider></md-divider>
                 </md-list-item>
             </md-list>
         </md-card>
     </div>
-    <div layout="column" flex flex-gt-sm="flex-33">
+    <div layout="column" flex flex-gt-sm="33">
         <md-card>
             <md-card-content>
                 <h1 class="md-title">Welcome to Contrib Kanban!</h1>

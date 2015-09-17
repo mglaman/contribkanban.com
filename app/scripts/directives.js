@@ -36,7 +36,7 @@ projectKanbanApp
   // Issue directives.
   .directive('issue', ['$http', '$q', function ($http, $q) {
     return {
-      restrict: 'A',
+      restrict: 'E',
       templateUrl: 'views/issue.html',
       link: function (scope, element) {
         if (scope.issue.assigned.id != '') {
@@ -78,48 +78,48 @@ projectKanbanApp
   .directive('issueNidLink', function () {
     return {
       restrict: 'E',
-      template: '<a class="kanban-board--issue__link" href="https://www.drupal.org/node/{{ issue.nid}}" target="_blank">#{{ issue.nid}}</a>'
+      template: '<a class="kanban-board--issue__link" ng-href="https://www.drupal.org/node/{{ issue.nid}}" target="_blank" ng-bind="\'#\' + (issue.nid)"></a>'
     }
   })
   .directive('issueTitle', function () {
     return {
       restrict: 'E',
-      template: '<span class="kanban-board--issue__title">{{ issue.summary }}</span>'
+      template: '<span class="kanban-board--issue__title" ng-bind="issue.summary"></span>'
     }
   })
   .directive('issueMetaVersion', function () {
     return {
       restrict: 'E',
-      template: '<span class="kanban-board--issue__version bg-success">{{ issue.version }}</span>'
+      template: '<span class="kanban-board--issue__version bg-success" ng-bind="issue.version"></span>'
     }
   })
   .directive('issueMetaPriority', function () {
     return {
       restrict: 'E',
-      template: '<span class="kanban-board--issue__priority bg-{{ issue.priority | priorityClassFilter }}">{{ issue.priority | priorityLabelFilter }}</span>'
+      template: '<span class="kanban-board--issue__priority bg-{{ issue.priority | priorityClassFilter }}" ng-bind="issue.priority | priorityLabelFilter"></span>'
     }
   })
   .directive('issueMetaComponent', function () {
     return {
       restrict: 'E',
-      template: '<span class="kanban-board--issue__component bg-default">{{ issue.component }}</span>'
+      template: '<span class="kanban-board--issue__component bg-default" ng-bind="issue.component"></span>'
     }
   })
   .directive('issueMetaAssigned', function () {
     return {
       restrict: 'E',
-      template: '<span class="kanban-board--issue__component btn-primary" ng-hide="!issue.assigned.id">ASSIGNED: {{ issue.assigned.id }}</span>'
+      template: '<span class="kanban-board--issue__component btn-primary" ng-hide="!issue.assigned.id" ng-bind="\'ASSIGNED: \' + issue.assigned.id"></span>'
     }
   })
   .directive('issueMetaCategory', function () {
     return {
       restrict: 'E',
-      template: '<span class="kanban-board--issue__component btn-{{ issue.category | categoryClassFilter }}">{{ issue.category | categoryLabelFilter }}</span>'
+      template: '<span class="kanban-board--issue__component btn-{{ issue.category | categoryClassFilter }}" ng-bind="issue.category | categoryLabelFilter"></span>'
     }
   })
   .directive('issueMetaProject', function () {
     return {
       restrict: 'E',
-      template: '<span class="kanban-board--issue__component btn-default">{{ issue.project }}</span>'
+      template: '<span class="kanban-board--issue__component btn-default" ng-bind="issue.project"></span>'
     }
   });
