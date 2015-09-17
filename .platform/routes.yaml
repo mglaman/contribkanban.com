@@ -1,6 +1,19 @@
-"http://{default}/":
-    type: upstream
-    upstream: "frontend:php"
-"https://{default}/":
-    type: upstream
-    upstream: "frontend:php"
+http://{default}/:
+  type: upstream
+  upstream: frontend:php
+https://{default}/:
+  cache:
+    cookies:
+    - '*'
+    default_ttl: 0
+    enabled: true
+    headers:
+    - Accept
+    - Accept-Language
+  redirects:
+    expires: -1s
+    paths: {}
+  ssi:
+    enabled: true
+  type: upstream
+  upstream: frontend:php
