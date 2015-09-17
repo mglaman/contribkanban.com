@@ -1,7 +1,6 @@
 'use strict';
 
 projectKanbanApp.controller('headerCtrl', ['$scope', '$location', '$mdSidenav', '$mdDialog', function ($scope, $location, $mdSidenav, $mdDialog) {
-  $scope.branding = 'Contrib Kanban';
   $scope.embed = $location.search().embed || false;
 
   $scope.toggleSidenav = function () {
