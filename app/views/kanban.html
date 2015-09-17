@@ -30,7 +30,7 @@
     </div>
     <div class="kanban-board--container">
         <div class="kanban-board scrolly" flex layout="row">
-            <div class="kanban-board--list scrolly md-whiteframe-z2" flex layout="column" data-ng-repeat="list in :: boardLists track by $index" data-ng-controller="listCtrl">
+            <div class="kanban-board--list scrolly md-whiteframe-z2" flex layout="column" data-ng-repeat="list in boardLists track by $index" data-ng-controller="listCtrl">
                 <div class="kanban-board--list__header">
                     <h2 class="md-subhead">
                         <span class="fa" data-ng-class="{'fa-spin fa-spinner': processing === true}">&nbsp;</span>
@@ -38,7 +38,7 @@
                     </h2>
                 </div>
                 <div class="kanban-board--items">
-                    <md-card class="" ng-click="openIssue(issue.nid)" ng-repeat="issue in :: filteredListIssues = (listIssues | orderBy:issue.priority:true | issuePriorityFilter:issuePriority | issueCategoryFilter:issueCategory | filter:filterIssues(list.statuses) | issueBranchFilter:projectRelease.name) track by $index" style="background-color: {{ issue.status | statusColorFilter }}">
+                    <md-card class="" ng-click="openIssue(issue.nid)" ng-repeat="issue in filteredListIssues = (listIssues | orderBy:issue.priority:true | issuePriorityFilter:issuePriority | issueCategoryFilter:issueCategory | filter:filterIssues(list.statuses) | issueBranchFilter:projectRelease.name) track by $index" style="background-color: {{ issue.status | statusColorFilter }}">
                         <issue></issue>
                     </md-card>
                 </div>
