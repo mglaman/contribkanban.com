@@ -4,6 +4,7 @@ relationships:
     "database": "cache:redis"
 web:
   document_root: "/dist"
+  passthru: "/index.html"
   index_files:
     - "index.html"
   whitelist:

@@ -19,8 +19,8 @@
             <md-list class="projects--list">
                 <md-list-item class="md-2-line" ng-repeat="project in projects | orderBy:'title' | filter:projectSearch track by $index">
                     <div class="md-list-item-text" layout="column" layout-padding>
-                        <h3><a ng-href="#/{{ routePath }}/{{ project.machine_name }}" style="color:inherit; text-decoration: none;" ng-bind="project.title"></a></h3>
-                        <a ng-href="#/{{ routePath }}/{{ project.machine_name }}"><span class="md-caption">View</span></a>
+                        <h3><a ng-href="{{ routePath }}/{{ project.machine_name }}" style="color:inherit; text-decoration: none;" ng-bind="project.title"></a></h3>
+                        <a ng-href="{{ routePath }}/{{ project.machine_name }}"><span class="md-caption">View</span></a>
                     </div>
                     <md-divider></md-divider>
                 </md-list-item>
