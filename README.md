@@ -14,4 +14,4 @@ This project was just opened up May 4th 2015. It started off as a pet project at
 
 I'm currently hosting the application on a personal server and able to use the free Parse.com service level. If you'd like to support the project outside of code contributions consider Gratipay.
 
-[![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.png)](https://gratipay.com/mglaman/)
+[![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.png)](https://gratipay.com/contribkanban-com/)
