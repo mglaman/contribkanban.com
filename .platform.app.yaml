@@ -17,13 +17,12 @@ web:
     - \.otf$
     - \.svg$
     - \.ico$
-
 disk: 2048
 hooks:
   build: |
     npm --version
-    npm install
-    bower install
+    npm install --production
+    bower install -p
     grunt build
   deploy:
 dependencies:
