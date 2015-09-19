@@ -1,38 +1,53 @@
 <md-dialog aria-label="About Contrib Kanban" style="min-width: 60%;">
-  <md-toolbar>
+  <md-toolbar class="md-accent">
       <div class="md-toolbar-tools">
-        <h2 class="">About Contrib Kanban</h2>
+        <h3 class="">About Contrib Kanban</h3>
         <span flex></span>
         <md-button class="md-icon-button">
             <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
         </md-button>
       </div>
   </md-toolbar>
-  <md-content flex layout="column" layout-padding layout-margin>
-    <h4 class="md-headline">What's this built out of?</h4>
-    <p>Shoe strings and tree sap.</p>
-    <p><small>Actually, it's an AngularJS app tapping into the Drupal.org REST APIs. We're then harnessing Parse for data storage.</small></p>
+  <md-content flex layout-padding layout-margin>
+    <md-list>
+      <md-list-item class="md-3-line">
+        <div class="md-list-item-text" layout="column">
+          <h3 class="md-title">About the project and author</h3>
+          <p>This little creation is a work of love by <a href="https://glamanate.com">Matt Glaman</a> for the Drupal community to promote growth in contributed projects and community collaboration.</p>
+          <h5 class="md-caption">Links: <a href="https://www.drupal.org/u/mglaman">Drupal.org</a>, <a href="https://twitter.com/nmdmatt">Twitter</a>, <a href="https://www.linkedin.com/in/mattglaman">LinkedIn</a></h5>
+        </div>
+      </md-list-item>
+      <md-divider></md-divider>
+      <md-list-item class="md-2-line">
+        <div class="md-list-item-text" layout="column">
+         <h3>How to contribute</h3>
+          <p>First, checkout the <a href="https://github.com/mglaman/contribkanban.com/blob/master/CONTRIBUTING.md">contributing</a> doc. The best contributions are ideas and concepts to help make working on Drupal contrib (and core!) easier.</p>
+        </div>
+      </md-list-item>
+      <md-divider></md-divider>
+      <md-list-item class="md-3-line">
+        <div class="md-list-item-text" layout="column">
+          <h3>Project boards</h3>
+          <p>Projects (distributions, themes, modules) can be added from the browse page - simply enter the project's machine name! Project boards can be customized to fit different needs. For example, Panelier and Commerce Reports focus on a parent Plan issue and group by child issues. Drupal Commerce and Panopoly only show issues tagged with "sprint".</p>
+          <p>To customize a board, either open an issue labeled "project board request" or open a pull request to add/change it's configuration. More info on <a href="https://github.com/mglaman/contribkanban.com/wiki/Custom-project-boards">custom project boards</a></p>
+        </div>
+      </md-list-item>
+      <md-divider></md-divider>
+      <md-list-item class="md-2-line">
+        <div class="md-list-item-text" layout="column">
+          <h3>Sprint boards</h3>
+          <p>Sprint boards are based off of Drupal.org issue tags. Currently there isn't a UI for adding sprint boards (<a href="https://github.com/mglaman/contribkanban.com/issues/9">#9</a>). Requests can be made in the project's issue queue labeled "sprint board request." Sprint board layouts push the focus on working on in-progress issues before starting new ones (Needs Review and Needs Work before Active.)</p>
+        </div>
+      </md-list-item>
+      <md-divider></md-divider>
+      <md-list-item class="md-2-line">
+        <div class="md-list-item-text" layout="column">
+          <h3 class="md-headline">Issues are missing?</h3>
+          <p>Currently pagination is not supported in this app (API supports it) solely on the fact that I don't want to bog down the API with irrelevant requests. A single query returns 100 nodes, which should suffice for the most part.</p>
+          <p>This app instead requests the issues to be sorted by most recently modified. That means fresh issues will always display.</p>
+        </div>
+      </md-list-item>
+    </md-list>
     <md-divider></md-divider>
-    <h4 class="md-headline">Adding a project</h4>
-    <p>Scraping Drupal.org and adding each project would be.. well expensive and timely. If you don't see your project, simply enter the machine name into the form on the homepage and add it.</p>
-    <md-divider></md-divider>
-    <h4 class="md-headline">Board lists</h4>
-    <p>Currently the kanban board lists are set to the Drupal.org issue states. In the future there will be support for project maintainers to customize these lists to reflect issue tags and control sprint boards/</p>
-    <ul>
-        <li><strong>Postoned</strong>: Postponed &amp; Needs more info</li>
-        <li><strong>Active</strong></li>
-        <li><strong>Needs Review</strong></li>
-        <li><strong>Needs Work</strong></li>
-        <li><strong>RTBC</strong></li>
-        <li><strong>Fixed</strong>: Currently just Fixed, no Closed (fixed) for now.</li>
-        <li><strong>Won't Fix</strong> Hidden, due to possible performance/number of calls. Anything closed and not fixed.</li>
-    </ul>
-    <md-divider></md-divider>
-    <h4 class="md-headline">Issues are missing?</h4>
-    <p>Currently pagination is not supported in this app (API supports it) solely on the fact that I don't want to bog down the API with irrelevant requests. A single query returns 100 nodes, which should suffice for the most part.</p>
-    <p>This app instead requests the issues to be sorted by most recently modified. That means fresh issues will always display.</p>
-    <md-divider></md-divider>
-    <h4 class="md-headline">Ideas/Suggestions</h4>
-    <p>Open an issue or fork and make a pull request! Here's the <a href="https://github.com/mglaman/contribkanban.com">GitHub repo!</a></p>
   </md-content>
 </md-dialog>

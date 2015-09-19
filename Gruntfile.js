@@ -16,7 +16,7 @@ module.exports = function (grunt) {
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
   // Dev dependency.
-  try { require('connect-modrewrite'); } catch (e) {}
+  try { var modRewrite = require('connect-modrewrite'); } catch (e) {}
 
   // Configurable paths
   var config = {
