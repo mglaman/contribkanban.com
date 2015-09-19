@@ -1,6 +1,6 @@
 'use strict';
 
-projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', 'issueService', function($scope, $timeout, $window, issueService) {
+projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', '$q', 'issueService', function($scope, $timeout, $window, $q, issueService) {
 
   $scope.param = $scope.list.param;
   $scope.listIssues = [];
@@ -30,6 +30,8 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', 'issue
   };
 
   var apiCall = function(status, tag) {
+		var deferred = $q.defer();
+
     issueService.requestIssues(
       $scope.projectID,
       status,
@@ -40,12 +42,13 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', 'issue
       $scope.list.version,
       $scope.list.component
     ).then(function(issues) {
+      var issueBuffer = [];
         angular.forEach(issues, function(val, key) {
-          $scope.listIssues.push(val);
+          issueBuffer.push(val);
         });
-        $scope.processing = false;
-      }
-    );
+      deferred.resolve(issueBuffer);
+    });
+    return deferred.promise;
   };
 
   // Get the issues for this state.
@@ -54,16 +57,21 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', 'issue
 
     // If there is a parent issue, we're just querying for children.
     if ($scope.list.parentIssue) {
-      apiCall(null, $scope.list.tag.length);
+      apiCall(null, $scope.list.tag.length).then(function (issueBuffer) {
+        $scope.listIssues = $scope.listIssues.concat(issueBuffer);
+      });
+      $scope.processing = false;
     } else {
       // Cycle through all statuses
       if (counter < $scope.list.statuses.length) {
-        apiCall($scope.list.statuses[counter], $scope.list.tag);
+        apiCall($scope.list.statuses[counter], $scope.list.tag).then(function (issueBuffer) {
+          $scope.listIssues = $scope.listIssues.concat(issueBuffer);
+        });
         counter++;
-        $timeout(getListIssues, 1200);
+        $timeout(getListIssues, 200);
       }
       else {
-        $timeout(getListIssues, 600000);
+        $timeout(getListIssues, 1000);
         $scope.processing = false;
       }
     }
@@ -94,5 +102,6 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', 'issue
 
     // @todo: Support pagination. Convert old status cycling.
   };
-  $timeout(getListIssues, 500);
+//  $timeout(getListIssues, 100);
+  getListIssues();
 }]);
