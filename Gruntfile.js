@@ -83,7 +83,7 @@ module.exports = function (grunt) {
         options: {
           middleware: function(connect) {
             return [
-              modRewrite(['^[^\\.]*$ /index.html [L]']),
+              modRewrite(['(.*) /index.html [L]']),
               connect.static('.tmp'),
               connect().use('/bower_components', connect.static('./bower_components')),
               connect.static(config.app)
@@ -225,7 +225,37 @@ module.exports = function (grunt) {
     // additional tasks can operate on them
     useminPrepare: {
       options: {
-        dest: '<%= config.dist %>'
+        dest: '<%= config.dist %>',
+        flow: {
+          steps: {
+            js: ['concat', 'uglifyjs'],
+            css: ['concat', 'cssmin']
+          },
+          post: {
+            js: [{
+              name: 'concat',
+              createConfig:
+                function (context, block) {
+                context.options.generated.options = {
+                  sourceMap: true
+                };
+              }
+            }, {
+              name: 'uglifyjs',
+              createConfig: function (context, block) {
+                context.options.generated = context.options.generated || {};
+                context.options.generated.options = {
+                  sourceMap: true,
+                  sourceMapIn: '.tmp/concat/' + block.dest.replace('.js', '.js.map'),
+                  mangle: false,
+                  beautify: {
+                    beautify: true
+                  }
+                };
+              }
+            }]
+          }
+        }
       },
       html: '<%= config.app %>/index.html'
     },

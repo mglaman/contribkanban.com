@@ -1,7 +1,7 @@
 'use strict';
 
 projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', '$q', 'issueService', function($scope, $timeout, $window, $q, issueService) {
-
+  $scope.filteredListIssues = [];
   $scope.param = $scope.list.param;
   $scope.listIssues = [];
   $scope.processing = true;
@@ -63,7 +63,7 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', '$q', 
       $scope.processing = false;
     } else {
       // Cycle through all statuses
-      if (counter < $scope.list.statuses.length) {
+      if ($scope.list.hasOwnProperty('statuses') && counter < $scope.list.statuses.length) {
         apiCall($scope.list.statuses[counter], $scope.list.tag).then(function (issueBuffer) {
           $scope.listIssues = $scope.listIssues.concat(issueBuffer);
         });
@@ -71,7 +71,7 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', '$q', 
         $timeout(getListIssues, 200);
       }
       else {
-        $timeout(getListIssues, 1000);
+        $timeout(getListIssues, 60000);
         $scope.processing = false;
       }
     }

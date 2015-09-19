@@ -20,61 +20,6 @@ projectKanbanApp.controller(
       $scope.priorities = issueService.issuePriorities;
       $scope.categories = issueService.issueCategories;
 
-      var boardListDefaults = [
-        {
-          name: 'backlog',
-          label: 'Postponed',
-          tag: '',
-          category: '',
-          statuses: [4, 16],
-          parentIssue: ''
-        },
-        {
-          name: 'active',
-          label: 'Active',
-          tag: '',
-          category: '',
-          statuses: [1],
-          parentIssue: ''
-        },
-        {
-          name: 'cnw',
-          label: 'Needs Work',
-          tag: '',
-          category: '',
-          statuses: [13],
-          parentIssue: ''
-        },
-        {
-          name: 'cnr',
-          label: 'Needs Review',
-          tag: '',
-          category: '',
-          statuses: [8],
-          parentIssue: ''
-        },
-        {
-          name: 'rtbc',
-          label: 'Reviewed & Tested',
-          tag: '',
-          category: '',
-          statuses: [14, 15],
-          parentIssue: ''
-        },
-        {
-          name: 'done',
-          label: 'Fixed',
-          tag: '',
-          category: '',
-          statuses: [2],
-          parentIssue: ''
-        }
-        // Due to possible performance and query limitations, dropping this.
-        // {name: 'wontfix', label: "Won't Fix", statuses: [5,6,3,18]},
-        // As mentioned above for perforamance and query issues, no closed() states.
-        // {name: 'done', label: 'Fixed', tag: '', statuses: [2,7]}
-      ];
-
       // projectService.loadProject($routeParams.project)
       projectService.loadProjectByMachineName($routeParams.project)
         .then(function (parseObject) {
@@ -110,10 +55,14 @@ projectKanbanApp.controller(
         // Initiate the board's lists.
         projectService.loadProjectConfig($scope.projectMachineName, $scope.projectType)
           .success(function(data, status, headers, config) {
-            $scope.boardLists = data;
+            try {
+              $scope.boardLists = JSON.parse(data);
+            } catch (e) {
+              $scope.boardLists = projectService.boardListDefaults;
+            }
           })
           .error(function(data, status, headers, config) {
-            $scope.boardLists = boardListDefaults;
+            $scope.boardLists = projectService.boardListDefaults;
           });
       };
 

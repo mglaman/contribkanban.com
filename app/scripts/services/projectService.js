@@ -124,6 +124,61 @@ projectKanbanApp.factory('projectService', [
       return parseService.attributeQuery('Project', 'machine_name', machineName);
     };
 
+    factory.boardListDefaults = [
+      {
+        name: 'backlog',
+        label: 'Postponed',
+        tag: '',
+        category: '',
+        statuses: [4, 16],
+        parentIssue: ''
+      },
+      {
+        name: 'active',
+        label: 'Active',
+        tag: '',
+        category: '',
+        statuses: [1],
+        parentIssue: ''
+      },
+      {
+        name: 'cnw',
+        label: 'Needs Work',
+        tag: '',
+        category: '',
+        statuses: [13],
+        parentIssue: ''
+      },
+      {
+        name: 'cnr',
+        label: 'Needs Review',
+        tag: '',
+        category: '',
+        statuses: [8],
+        parentIssue: ''
+      },
+      {
+        name: 'rtbc',
+        label: 'Reviewed & Tested',
+        tag: '',
+        category: '',
+        statuses: [14, 15],
+        parentIssue: ''
+      },
+      {
+        name: 'done',
+        label: 'Fixed',
+        tag: '',
+        category: '',
+        statuses: [2],
+        parentIssue: ''
+      }
+      // Due to possible performance and query limitations, dropping this.
+      // {name: 'wontfix', label: "Won't Fix", statuses: [5,6,3,18]},
+      // As mentioned above for perforamance and query issues, no closed() states.
+      // {name: 'done', label: 'Fixed', tag: '', statuses: [2,7]}
+    ];
+
     return factory;
   }
 ]);

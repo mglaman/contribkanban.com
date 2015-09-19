@@ -2,7 +2,7 @@
 
 var projectKanbanApp = angular.module('projectKanbanApp', ['ngRoute', 'angularytics', 'ngMaterial'])
   .config(['$compileProvider', '$routeProvider', '$mdThemingProvider', '$locationProvider', 'AngularyticsProvider', function($compileProvider, $routeProvider, $mdThemingProvider, $locationProvider, AngularyticsProvider) {
-    AngularyticsProvider.setEventHandlers(['Console', 'GoogleUniversal']);
+    AngularyticsProvider.setEventHandlers(['GoogleUniversal']);
 
     // Initialize Parse
     Parse.initialize("9tjijJ4jwAQeyIhaF2o0ju8IMtzd7X5JeM5ujsRX", "JmoMBRlRmmtLqJMzJZdaa1ovSV9G8zpZvSL3GQVj");

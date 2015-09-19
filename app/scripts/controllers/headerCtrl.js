@@ -13,7 +13,7 @@ projectKanbanApp.controller('headerCtrl', ['$scope', '$location', '$mdSidenav', 
       controller: function () {},
       parent: angular.element(document.body),
       // targetEvent: ev,
-      clickOutsideToClose:true,
+      clickOutsideToClose:true
     });
   };
 }]);
