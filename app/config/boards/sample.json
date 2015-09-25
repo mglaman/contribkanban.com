@@ -37,7 +37,7 @@
   },
   {
     "category": "" ,
-    "component": "base system",
+    "component": "",
     "label": "Needs Review",
     "name": "cnr",
     "parentIssue": "",

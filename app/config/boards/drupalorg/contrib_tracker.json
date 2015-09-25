@@ -34,7 +34,7 @@
   },
   {
     "category": "" ,
-    "component": "base system",
+    "component": "",
     "label": "Has Alpha/Beta",
     "name": "hasAlphaBeta",
     "parentIssue": "",
