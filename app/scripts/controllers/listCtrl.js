@@ -42,11 +42,12 @@ projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', '$q', 
       $scope.list.version,
       $scope.list.component
     ).then(function(issues) {
-      var issueBuffer = [];
+        var issueBuffer = [];
         angular.forEach(issues, function(val, key) {
           issueBuffer.push(val);
         });
-      deferred.resolve(issueBuffer);
+        issueBuffer.reverse();
+        deferred.resolve(issueBuffer);
     });
     return deferred.promise;
   };
