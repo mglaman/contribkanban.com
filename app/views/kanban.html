@@ -9,7 +9,7 @@
                     <md-input-container ng-hide="releaseBranches === undefined">
                         <label for="projectBranches">Project branches</label>
                         <md-select id="projectBranches" class="form-control pull-left input-sm" ng-model="projectRelease" ng-change="updateBoardRoute()">
-                            <md-option ng-repeat="release in :: releaseBranches track by release.label" ng-value="release" ng-bind="release.name"></md-option>
+                            <md-option ng-repeat="release in releaseBranches track by release.label" ng-value="release" ng-bind="release.name"></md-option>
                         </md-select>
                     </md-input-container>
                     <md-input-container>
