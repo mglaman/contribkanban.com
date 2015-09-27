@@ -6,10 +6,14 @@ projectKanbanApp.controller('browseSprintCtrl', [
     '$routeParams',
     '$location',
     'parseService',
-    function ($q, $scope, $routeParams, $location, parseService) {
+    'UrlService',
+    '$http',
+    function ($q, $scope, $routeParams, $location, parseService, UrlService, $http) {
       $scope.location = $location;
       $scope.routePath = 'sprint';
       $scope.projecsts = [];
+      $scope.addType = 'Sprint';
+      $scope.addPlaceholder = 'Tag name';
 
       var querySprints = function () {
         var deferred = $q.defer();
@@ -33,6 +37,39 @@ projectKanbanApp.controller('browseSprintCtrl', [
         $scope.projects = results;
       });
 
+      $scope.addBoard = function (tagName) {
+        var apiQuery = new UrlService().setEntityEndpoint('taxonomy_term')
+          .addParameter('limit', 1)
+          .addParameter('name', tagName)
+          .addParameter('sort', 'weight')
+          .addParameter('direction', 'DESC');
+        $http.get(apiQuery.getEndpointUrl()).then(
+          function (response) {
+            if (response.data.list.length >= 1) {
+              var tagTerm = response.data.list[0];
+
+              parseService.attributeQuery('Boards', 'tid', tagTerm.tid).then(function (object) {
+                if (object !== null) {
+                  alert('Tag already exists as sprint board');
+                } else {
+                  var cleanName = tagTerm.name.replace(/ /g,'');
+                  parseService.saveObject('Boards', {
+                    machine_name: cleanName,
+                    title: tagTerm.name,
+                    nid: cleanName,
+                    tid: [tagTerm.tid]
+                  })
+                  $location.url('/sprint/' + cleanName)
+                }
+              });
+
+            }
+          }, function (response) {
+            console.log(response);
+            alert('Unable to get data about ' + tagName);
+          }
+        );
+      }
     }
   ]
 );

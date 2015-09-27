@@ -5,13 +5,13 @@
                 <label>Find a project</label>
                 <input type="text" tabindex="1" data-ng-model="projectSearch" class="form-control" style="width: 100%;"/>
             </md-input-container>
-            <div data-ng-controller="projectFormCtrl" layout="row" hide-sm hide-md>
+            <div layout="row" hide-sm hide-md>
                 <md-input-container style="padding: 16px;">
-                    <label>Project machine name</label>
-                    <input class="form-control" type="text" data-ng-model="project.machine_name"/>
+                    <label>{{ ::addPlaceholder }}</label>
+                    <input class="form-control" type="text" data-ng-model="project"/>
                 </md-input-container>
-                <md-button class="btn md-accent" ng-click="newProject(project) | trackEvent:'Projects':'Added a project'">
-                    Add Project
+                <md-button class="btn md-accent" ng-click="addBoard(project) | trackEvent:'Projects':'Added a project'">
+                    Add {{ ::addType }}
                 </md-button>
             </div>
         </md-card>
