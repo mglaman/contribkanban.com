@@ -367,6 +367,9 @@ module.exports = function (grunt) {
           src: '<%= config.app %>/.htaccess',
           dest: '<%= config.dist %>/.htaccess'
         }, {
+          src: '<%= config.app %>/cors-proxy.php',
+          dest: '<%= config.dist %>/cors-proxy.php'
+        }, {
           expand: true,
           dot: true,
           cwd: '.',
