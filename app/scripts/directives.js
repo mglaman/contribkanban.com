@@ -78,7 +78,7 @@ projectKanbanApp
   .directive('issueNidLink', function () {
     return {
       restrict: 'E',
-      template: '<a class="kanban-board--issue__link" ng-href="https://www.drupal.org/node/{{ issue.nid}}" target="_blank" ng-bind="\'#\' + (issue.nid)"></a>'
+      template: '<a class="kanban-board--issue__link" ng-href="" target="_blank" ng-bind="\'#\' + (issue.nid)"></a>'
     }
   })
   .directive('issueTitle', function () {
