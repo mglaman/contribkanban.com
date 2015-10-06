@@ -41,8 +41,8 @@ projectKanbanApp.controller('browseSprintCtrl', [
         var apiQuery = new UrlService().setEntityEndpoint('taxonomy_term')
           .addParameter('limit', 1)
           .addParameter('name', tagName)
-          .addParameter('sort', 'weight')
-          .addParameter('direction', 'DESC');
+          .addParameter('sort', 'tid')
+          .addParameter('direction', 'ASC');
         $http.get(apiQuery.getEndpointUrl()).then(
           function (response) {
             if (response.data.list.length >= 1) {
