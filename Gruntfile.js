@@ -24,7 +24,7 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
-  var platformVariables = atob(process.env.PLATFORM_VARIABLES)
+  var platformVariables = new Buffer(process.env.PLATFORM_VARIABLES, 'base64').toString('binary');
 
   // Define the configuration for all the tasks
   grunt.initConfig({
