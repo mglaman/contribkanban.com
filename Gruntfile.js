@@ -24,6 +24,8 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  var platformVariables = atob(process.env.PLATFORM_VARIABLES)
+
   // Define the configuration for all the tasks
   grunt.initConfig({
     // Project settings
@@ -432,11 +434,11 @@ module.exports = function (grunt) {
       a: 'fpurge_ts',
       /* CloudFlare credentials */
       /* API key */
-      tkn: process.env.CLOUDFLARE_API_KEY,
+      tkn: platformVariables[CLOUDFLARE_API_KEY],
       /* CloudFlare e-mail */
-      email: process.env.CLOUDFLARE_EMAIL,
+      email: platformVariables[CLOUDFLARE_EMAIL],
       /* Domain */
-      z: process.env.CLOUDFLARE_DOMAIN
+      z: platformVariables[CLOUDFLARE_DOMAIN]
     }
   });
 
