@@ -25,7 +25,8 @@ hooks:
     npm install --production
     bower install -p
     grunt build
-  deploy:
+  deploy: |
+    grunt clear-cache
 dependencies:
   ruby:
     sass: "3.4.7"
