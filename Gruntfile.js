@@ -24,8 +24,6 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
-  var platformVariables = new Buffer(process.env.PLATFORM_VARIABLES, 'base64').toString('binary');
-
   // Define the configuration for all the tasks
   grunt.initConfig({
     // Project settings
@@ -427,21 +425,17 @@ module.exports = function (grunt) {
         // 'imagemin',
         // 'svgmin'
       ]
-    },
-
-    cloudflare: {
-      /* Action, default is to purge the cache */
-      a: 'fpurge_ts',
-      /* CloudFlare credentials */
-      /* API key */
-      tkn: platformVariables[CLOUDFLARE_API_KEY],
-      /* CloudFlare e-mail */
-      email: platformVariables[CLOUDFLARE_EMAIL],
-      /* Domain */
-      z: platformVariables[CLOUDFLARE_DOMAIN]
     }
   });
 
+  grunt.registerTask('clear-cache', 'clear cloud flare caches', function () {
+    var platformVariables = JSON.parse(new Buffer(process.env.PLATFORM_VARIABLES, 'base64').toString());
+    // I don't know why I can't get the task to just read my damned config. Doing it this way.
+    process.env.CLOUDFLARE_API_KEY = platformVariables['CLOUDFLARE_API_KEY'];
+    process.env.CLOUDFLARE_EMAIL = platformVariables['CLOUDFLARE_EMAIL'];
+    process.env.CLOUDFLARE_DOMAIN = platformVariables['CLOUDFLARE_DOMAIN'];
+    grunt.task.run(['cloudflare']);
+  });
 
   grunt.registerTask('serve', 'start the server and preview your app, --allow-remote for remote access', function (target) {
     if (grunt.option('allow-remote')) {
@@ -454,7 +448,6 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'wiredep',
-      'cloudflare',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
@@ -496,7 +489,6 @@ module.exports = function (grunt) {
     'rev',
     'usemin',
     'htmlmin',
-    'cloudflare'
   ]);
 
   grunt.registerTask('default', [
