@@ -425,6 +425,18 @@ module.exports = function (grunt) {
         // 'imagemin',
         // 'svgmin'
       ]
+    },
+
+    cloudflare: {
+      /* Action, default is to purge the cache */
+      a: 'fpurge_ts',
+      /* CloudFlare credentials */
+      /* API key */
+      tkn: process.env.CLOUDFLARE_API_KEY,
+      /* CloudFlare e-mail */
+      email: process.env.CLOUDFLARE_EMAIL,
+      /* Domain */
+      z: process.env.CLOUDFLARE_DOMAIN
     }
   });
 
@@ -440,6 +452,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'wiredep',
+      'cloudflare',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
@@ -480,7 +493,8 @@ module.exports = function (grunt) {
     'modernizr',
     'rev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'cloudflare'
   ]);
 
   grunt.registerTask('default', [
