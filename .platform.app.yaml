@@ -1,8 +1,7 @@
 name: frontend
-toolstack: "php:symfony"
-type: php:5.6
-relationships:
-    "database": "cache:redis"
+type: "php:5.6"
+build:
+    flavor: "symfony"
 web:
   document_root: "/dist"
   passthru: "/index.html"
