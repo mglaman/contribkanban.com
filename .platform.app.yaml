@@ -22,6 +22,7 @@ web:
 disk: 2048
 hooks:
   build: |
+    npm install -g npm@next
     npm --version
     npm install --production
     bower install -p
