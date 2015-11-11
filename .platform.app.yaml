@@ -1,5 +1,6 @@
 name: frontend
 toolstack: "php:symfony"
+type: php:5.6
 relationships:
     "database": "cache:redis"
 web:
@@ -22,7 +23,6 @@ web:
 disk: 2048
 hooks:
   build: |
-    npm install -g npm@next
     npm --version
     npm install --production
     bower install -p
