@@ -18,6 +18,7 @@ web:
     - \.otf$
     - \.svg$
     - \.ico$
+    - \.png$
 disk: 2048
 hooks:
   build: |
