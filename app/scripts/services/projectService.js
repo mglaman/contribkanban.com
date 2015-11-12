@@ -66,6 +66,7 @@ projectKanbanApp.factory('projectService', [
           // We did a search
           var returnedObject = d.list[0];
           if (returnedObject === undefined) {
+            console.log(d);
             alert('Invalid project machine name');
           } else {
             var project = {

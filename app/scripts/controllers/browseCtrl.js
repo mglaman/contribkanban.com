@@ -56,16 +56,15 @@ projectKanbanApp.controller('browseCtrl', [
                 // New Parse object.
                 parseService.saveObject('Project', response).then(function (parseObject) {
                   // Update the scope.
-                  $scope.updateScopeProject(parseObject.attributes, project);
-                  $scope.$apply();
+                  $location.path('/board/' + project)
                 }, function () {
                 });
               });
             } else {
-              projectService.requestProject(project.machine_name).then(function (response) {
+              projectService.requestProject(project).then(function (response) {
                 object.set('releaseBranches', response.releaseBranches);
                 object.save();
-                $scope.updateScopeProject(object.attributes, project);
+                $location.path('/board/' + project)
               });
             }
 
