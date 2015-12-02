@@ -70,7 +70,7 @@ projectKanbanApp.factory('issueService', [
       cache = (cache === undefined);
 
       var apiQuery = new UrlService().setEntityEndpoint('node')
-        .addParameter('limit', '50')
+        .addParameter('limit', '75')
         .addParameter('type', 'project_issue');
 
       // If there was a projectNid, add it as a query option.
