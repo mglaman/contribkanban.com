@@ -22,6 +22,7 @@ web:
 disk: 1048
 hooks:
   build: |
+    set -e
     npm --version
     npm install --production
     bower install -p
