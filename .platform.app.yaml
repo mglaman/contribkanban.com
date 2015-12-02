@@ -19,7 +19,7 @@ web:
     - \.svg$
     - \.ico$
     - \.png$
-disk: 2048
+disk: 1048
 hooks:
   build: |
     npm --version
