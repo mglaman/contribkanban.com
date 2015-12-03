@@ -16,6 +16,7 @@ projectKanbanApp.controller(
       $scope.priorities = issueService.issuePriorities;
       $scope.categories = issueService.issueCategories;
       $scope.needs = {
+        0: 'All',
         36358: 'Needs reroll',
         310: 'Needs usability review',
         374: 'Needs issue summary update',
