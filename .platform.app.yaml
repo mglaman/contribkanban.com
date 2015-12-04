@@ -19,6 +19,7 @@ web:
 disk: 1048
 hooks:
   build: |
+    gem install sass
     set -e
     npm --version
     npm install --production
@@ -28,8 +29,8 @@ hooks:
     grunt clear-cache
     node server.js
 dependencies:
-  ruby:
-    sass: "3.4.7"
+#  ruby:
+#    sass: "3.4.7"
   nodejs:
       grunt-cli: "~0.1.13"
       bower: "~1.3.3"
