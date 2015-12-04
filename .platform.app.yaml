@@ -8,18 +8,14 @@ web:
     "/dist":
       passthru: false
       root: "dist"
-  whitelist:
-    - "\\.html?$"
-    - "\\.css$"
-    - "\\.js$"
-    - "\\.json$"
-    - \.ttf$
-    - \.eot$
-    - \.woff$
-    - \.otf$
-    - \.svg$
-    - \.ico$
-    - \.png$
+      allow: true
+      rules:
+        '\.png$':
+          allow: true
+          expires: -1
+        '\.svg$':
+          allow: true
+          expires: -1
 disk: 1048
 hooks:
   build: |

@@ -1,6 +1,6 @@
 http://{default}/:
   type: upstream
-  upstream: frontend:php
+  upstream: "node:http"
 https://{default}/:
   cache:
     cookies:
@@ -16,4 +16,4 @@ https://{default}/:
   ssi:
     enabled: true
   type: upstream
-  upstream: frontend:php
+  upstream: "node:http"
