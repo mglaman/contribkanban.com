@@ -1,10 +1,14 @@
 {
-  "name": "project-kanban",
+  "name": "contribkanban",
   "repository": {
     "type": "git",
     "url": "git://github.com/mglaman/contribkanban.com"
   },
   "dependencies": {
+    "express": "~4.5.1",
+    "mongoose": "~3.8.0",
+    "body-parser": "~1.4.2",
+    "method-override": "~2.0.2",
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "^1.0.0",
     "grunt-cloudflare": "0.0.2",

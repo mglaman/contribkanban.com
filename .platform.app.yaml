@@ -1,12 +1,13 @@
 name: frontend
-type: "php:5.6"
-build:
-    flavor: "symfony"
+type: nodejs:4.2
+
 web:
-  document_root: "/dist"
-  passthru: "/index.html"
-  index_files:
-    - "index.html"
+  commands:
+    start: "npm start"
+  locations:
+    "/dist":
+      passthru: false
+      root: "dist"
   whitelist:
     - "\\.html?$"
     - "\\.css$"
@@ -29,6 +30,7 @@ hooks:
     grunt build
   deploy: |
     grunt clear-cache
+    node server.js
 dependencies:
   ruby:
     sass: "3.4.7"
