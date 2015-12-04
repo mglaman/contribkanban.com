@@ -1,6 +1,6 @@
 http://{default}/:
-  type: upstream
-  upstream: frontend:nodejs
+  type: redirect
+  to: "https://{default}"
 https://{default}/:
   cache:
     cookies:
@@ -16,4 +16,4 @@ https://{default}/:
   ssi:
     enabled: true
   type: upstream
-  upstream: frontend:nodejs
+  upstream: frontend:http
