@@ -1,27 +1,25 @@
 name: frontend
-type: "php:5.6"
-build:
-    flavor: "symfony"
+type: nodejs:4.2
+
 web:
-  document_root: "/dist"
-  passthru: "/index.html"
-  index_files:
-    - "index.html"
-  whitelist:
-    - "\\.html?$"
-    - "\\.css$"
-    - "\\.js$"
-    - "\\.json$"
-    - \.ttf$
-    - \.eot$
-    - \.woff$
-    - \.otf$
-    - \.svg$
-    - \.ico$
-    - \.png$
+  commands:
+    start: "npm start"
+  locations:
+    "/dist":
+      passthru: false
+      root: "dist"
+      allow: true
+      rules:
+        '\.png$':
+          allow: true
+          expires: -1
+        '\.svg$':
+          allow: true
+          expires: -1
 disk: 1048
 hooks:
   build: |
+    gem install sass
     set -e
     npm --version
     npm install --production
@@ -29,9 +27,10 @@ hooks:
     grunt build
   deploy: |
     grunt clear-cache
+    node server.js
 dependencies:
-  ruby:
-    sass: "3.4.7"
+#  ruby:
+#    sass: "3.4.7"
   nodejs:
       grunt-cli: "~0.1.13"
       bower: "~1.3.3"
