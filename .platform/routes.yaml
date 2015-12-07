@@ -1,6 +1,6 @@
 http://{default}/:
   type: upstream
-  to: frontend:http
+  upstream: frontend:http
 https://{default}/:
   cache:
     cookies:
