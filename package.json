@@ -5,10 +5,9 @@
     "url": "git://github.com/mglaman/contribkanban.com"
   },
   "dependencies": {
-    "express": "~4.5.1",
-    "mongoose": "~3.8.0",
     "body-parser": "~1.4.2",
-    "method-override": "~2.0.2",
+    "compression": "^1.6.0",
+    "express": "~4.5.1",
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "^1.0.0",
     "grunt-cloudflare": "0.0.2",
@@ -29,7 +28,9 @@
     "grunt-usemin": "^2.3.0",
     "grunt-wiredep": "^1.7.0",
     "jshint-stylish": "^0.4.0",
-    "load-grunt-tasks": "^0.4.0"
+    "load-grunt-tasks": "^0.4.0",
+    "method-override": "~2.0.2",
+    "mongoose": "~3.8.0"
   },
   "devDependencies": {
     "connect-modrewrite": "^0.8.2",
