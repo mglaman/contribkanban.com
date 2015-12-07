@@ -3,7 +3,7 @@ type: nodejs:4.2
 
 web:
   commands:
-    start: "npm start"
+    start: "NODE_ENV=production npm start"
   locations:
     "/dist":
       passthru: false
