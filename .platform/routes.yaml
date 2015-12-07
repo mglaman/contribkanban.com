@@ -1,6 +1,6 @@
 http://{default}/:
-  type: redirect
-  to: "https://{default}"
+  type: upstream
+  to: frontend:http
 https://{default}/:
   cache:
     cookies:
