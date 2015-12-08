@@ -16,7 +16,9 @@ web:
         '\.svg$':
           allow: true
           expires: -1
-disk: 1048
+disk: 512
+relationships:
+    database: "mongodb:mongodb"
 hooks:
   build: |
     gem install sass
