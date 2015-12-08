@@ -1,8 +1,19 @@
 'use strict';
 
-var projectKanbanApp = angular.module('projectKanbanApp', ['ngRoute', 'angularytics', 'ngMaterial'])
-  .config(['$compileProvider', '$routeProvider', '$mdThemingProvider', '$locationProvider', 'AngularyticsProvider', function($compileProvider, $routeProvider, $mdThemingProvider, $locationProvider, AngularyticsProvider) {
+var projectKanbanApp = angular.module('projectKanbanApp', ['ngRoute', 'angularytics', 'ngMaterial', 'ngDfp'])
+  .config(['$compileProvider', '$routeProvider', '$mdThemingProvider', '$locationProvider', 'AngularyticsProvider', 'DoubleClickProvider', function($compileProvider, $routeProvider, $mdThemingProvider, $locationProvider, AngularyticsProvider, DoubleClickProvider) {
     AngularyticsProvider.setEventHandlers(['GoogleUniversal']);
+
+    DoubleClickProvider
+      .defineSlot('/122240946/CD-DEPLOY-SQUARE', [[120, 90], [320,50]], 'div-gpt-ad-1421106878492-1')
+      .defineSlot('/122240946/CKB-BOARD-HEADER', [[970,90], [728,90], [468, 60], [320,50]], 'div-gpt-ad-1421106878492-0');
+    DoubleClickProvider
+      .defineSizeMapping('div-gpt-ad-1421106878492-0')
+      .addSize([1024, 768], [970, 90])
+      .addSize([980, 690], [728, 90])
+      .addSize([640, 480], [468, 60])
+      // Fits browsers of any size smaller than 640 x 480
+      .addSize([0, 0], [320, 50]);
 
     // Initialize Parse
     Parse.initialize("9tjijJ4jwAQeyIhaF2o0ju8IMtzd7X5JeM5ujsRX", "JmoMBRlRmmtLqJMzJZdaa1ovSV9G8zpZvSL3GQVj");
@@ -38,7 +49,6 @@ var projectKanbanApp = angular.module('projectKanbanApp', ['ngRoute', 'angularyt
         title: 'Home',
         redirectTo: '/browse'
       });
-
 
     $locationProvider.html5Mode({enabled: true});
 

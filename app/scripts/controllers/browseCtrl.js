@@ -7,12 +7,15 @@ projectKanbanApp.controller('browseCtrl', [
     '$location',
     'parseService',
     'projectService',
-    function ($q, $scope, $routeParams, $location, parseService, projectService) {
+    'DoubleClick',
+    function ($q, $scope, $routeParams, $location, parseService, projectService, DoubleClick) {
       $scope.location = $location;
       $scope.projects = [];
       $scope.routePath = 'board';
       $scope.addType = 'Project';
       $scope.addPlaceholder = 'Project machine name';
+
+      DoubleClick.refreshAds('div-gpt-ad-1421106878492-0');
 
       $scope.queryProjects = function () {
         var deferred = $q.defer();
