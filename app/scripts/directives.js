@@ -47,7 +47,6 @@ projectKanbanApp
             // If local, use that.
             if (res.data !== null) {
               scope.issue.assigned.id = res.data.name;
-              console.log('cache hit: ' + res.data.name);
             }
             // Else ping Drupal.org and cache
             else {
@@ -57,7 +56,6 @@ projectKanbanApp
                   name: response.name
                 });
                 scope.issue.assigned.id =  response.name;
-                console.log('cache miss: ' + response.name);
               });
             }
           });
