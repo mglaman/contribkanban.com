@@ -39,12 +39,27 @@ projectKanbanApp
       restrict: 'E',
       templateUrl: 'views/issue.html',
       link: function (scope, element) {
+        // @note: not in filter because filters + promises = bad juju
         if (scope.issue.assigned.id != '') {
-          // @note: not in filter because filters + promises = bad juju
-          var apiQuery = 'https://www.drupal.org/api-d7/user/' + scope.issue.assigned.id + '.json';
-
-          $http.get(apiQuery, {cache: true}).success(function (response) {
-            scope.issue.assigned.id =  response.name;
+          var uid = scope.issue.assigned.id;
+          // Check local contributor data
+          $http.get('/api/contributor/' + uid, {cache: true}).then(function (res) {
+            // If local, use that.
+            if (res.data !== null) {
+              scope.issue.assigned.id = res.data.name;
+              console.log('cache hit: ' + res.data.name);
+            }
+            // Else ping Drupal.org and cache
+            else {
+              $http.get('https://www.drupal.org/api-d7/user/' + scope.issue.assigned.id + '.json', {cache: true}).success(function (response) {
+                $http.post('/api/contributor', {
+                  uid: response.uid,
+                  name: response.name
+                });
+                scope.issue.assigned.id =  response.name;
+                console.log('cache miss: ' + response.name);
+              });
+            }
           });
         }
       }

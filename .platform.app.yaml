@@ -3,12 +3,13 @@ type: nodejs:4.2
 
 web:
   commands:
-    start: "NODE_ENV=production npm start"
+    start: "NODE_ENV=production npm start &>> logs/app.log"
   locations:
     "/dist":
       passthru: false
       root: "dist"
       allow: true
+      expires: 1d
       rules:
         '\.png$':
           allow: true
@@ -16,21 +17,23 @@ web:
         '\.svg$':
           allow: true
           expires: -1
-disk: 1048
+disk: 512
+relationships:
+    database: "mongodb:mongodb"
 hooks:
   build: |
-    gem install sass
     set -e
-    npm --version
-    npm install --production
+    gem install sass
     bower install -p
     grunt build
-  deploy: |
-    grunt clear-cache
-    node server.js
+#  This is perpetually throwing rate limit error.
+#  deploy: |
+#    grunt clear-cache
 dependencies:
 #  ruby:
 #    sass: "3.4.7"
   nodejs:
       grunt-cli: "~0.1.13"
       bower: "~1.3.3"
+mounts:
+  "/logs": "shared:files/logs"
