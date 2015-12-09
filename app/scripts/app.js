@@ -15,9 +15,6 @@ var projectKanbanApp = angular.module('projectKanbanApp', ['ngRoute', 'angularyt
       // Fits browsers of any size smaller than 640 x 480
       .addSize([0, 0], [320, 50]);
 
-    // Initialize Parse
-    Parse.initialize("9tjijJ4jwAQeyIhaF2o0ju8IMtzd7X5JeM5ujsRX", "JmoMBRlRmmtLqJMzJZdaa1ovSV9G8zpZvSL3GQVj");
-
     $routeProvider
       .when('/', {
         title: 'Browse',

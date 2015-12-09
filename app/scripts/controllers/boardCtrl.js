@@ -5,11 +5,11 @@ projectKanbanApp.controller(
     '$scope',
     '$routeParams',
     '$location',
-    'parseService',
+    '$http',
     'issueService',
     'projectService',
     'Angularytics',
-    function ($scope, $routeParams, $location, parseService, issueService, projectService, Angularytics) {
+    function ($scope, $routeParams, $location, $http, issueService, projectService, Angularytics) {
       $scope.project = {};
       $scope.projectID = '';
       $scope.projectMachineName = $routeParams.project;
@@ -22,21 +22,19 @@ projectKanbanApp.controller(
 
       // projectService.loadProject($routeParams.project)
       projectService.loadProjectByMachineName($routeParams.project)
-        .then(function (parseObject) {
-          if (parseObject == null) {
+        .then(function (projectApiObject) {
+          if (projectApiObject == null) {
             projectService.requestProject($routeParams.project).then(function (response) {
               // New Parse object.
-              parseService.saveObject('Project', response).then(function (parseObject) {
+              $http.post('/api/project/' + $routeParams.project, response).then(function () {
                 // Reload so user can see board.
                 window.location.reload();
-              }, function () {
               });
             });
           }
 
-
           // Update the scope's project variable.
-          var object = parseObject.attributes;
+          var object = projectApiObject.data;
           $scope.project = object;
           $scope.projectID = object.nid;
           $scope.projectType = object.projectType;

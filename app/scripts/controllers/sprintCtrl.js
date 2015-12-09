@@ -6,9 +6,9 @@ projectKanbanApp.controller(
     '$routeParams',
     '$location',
     'issueService',
-    'parseService',
+    '$http',
     'Angularytics',
-    function ($scope, $routeParams, $location, issueService, parseService, Angularytics) {
+    function ($scope, $routeParams, $location, issueService, $http, Angularytics) {
       $scope.sprint = {};
       $scope.projectID = null;
       $scope.boardLists = [];
@@ -72,9 +72,8 @@ projectKanbanApp.controller(
         ]
       };
 
-      parseService.attributeQuery('Boards', 'nid', $routeParams.sprint).then(
-        function (parseObject) {
-          var object = parseObject.attributes;
+      $http.get('/api/sprint/' + $routeParams.sprint).then(function (res) {
+          var object = res.data;
           $scope.sprint = object;
           // Set the page title to be the project's name.
           $scope.page.setTitle(object.title);
@@ -82,9 +81,6 @@ projectKanbanApp.controller(
 
           // Ping Google.
           Angularytics.trackEvent('Project', 'Viewed sprint: ' + object.title);
-
-        }, function () {
-
         });
 
       $scope.updateBoardRoute = function () {

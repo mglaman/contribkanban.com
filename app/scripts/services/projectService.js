@@ -7,7 +7,7 @@
  * Factory for working with projects.
  */
 projectKanbanApp.factory('projectService', [
-  '$http', '$q', 'parseService', 'UrlService', function ($http, $q, parseService, UrlService) {
+  '$http', '$q', 'UrlService', function ($http, $q, UrlService) {
     var factory = {};
 
     /**
@@ -66,7 +66,6 @@ projectKanbanApp.factory('projectService', [
           // We did a search
           var returnedObject = d.list[0];
           if (returnedObject === undefined) {
-            console.log(d);
             alert('Invalid project machine name');
           } else {
             var project = {
@@ -94,13 +93,13 @@ projectKanbanApp.factory('projectService', [
     };
 
     /**
-     * Returns returns a project.
+     * Saves project to internal API.
      *
-     * @param nid
-     * @returns {Parse.Promise}
+     * @param project
+     * @returns {HttpPromise}
      */
-    factory.loadProject = function (nid) {
-      return parseService.attributeQuery('Project', 'nid', nid);
+    factory.saveProject = function (project) {
+      return $http.post('/api/project', project);
     };
 
     /**
@@ -119,10 +118,10 @@ projectKanbanApp.factory('projectService', [
      * Returns returns a project by machine name
      *
      * @param machineName
-     * @returns {Parse.Promise}
+     * @returns {HttpPromise}
      */
     factory.loadProjectByMachineName = function (machineName) {
-      return parseService.attributeQuery('Project', 'machine_name', machineName);
+      return $http.get('/api/project/' + machineName);
     };
 
     factory.boardListDefaults = [
