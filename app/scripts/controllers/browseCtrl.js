@@ -19,13 +19,12 @@ projectKanbanApp.controller('browseCtrl', [
 
       $scope.queryProjects = function () {
         var deferred = $q.defer();
-        var apiPath = '/api/project';
-
+        var apiPath;
         // If passed a type, filter by that.
         if ($routeParams.type !== undefined) {
-          apiPath = apiPath + '/type/project_' + $routeParams.type;
+          apiPath = '/api/project/type/project_' + $routeParams.type;
         } else {
-          apiPath = apiPath + '/all';
+          apiPath = '/api/projects';
         }
 
         // @todo: Need to come up with a paging solution.
