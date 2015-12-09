@@ -63,31 +63,6 @@ projectKanbanApp
       }
     };
   }])
-  .directive('issueSprint', ['$http', '$q', function ($http, $q) {
-    return {
-      restrict: 'A',
-      templateUrl: 'views/issue-sprint.html',
-      link: function (scope, element) {
-        if (scope.issue.assigned.id != '') {
-          // @note: not in filter because filters + promises = bad juju
-          var apiQuery = 'https://www.drupal.org/api-d7/node/' + scope.issue.assigned.id + '.json';
-
-          $http.get(apiQuery, {cache: true}).success(function (response) {
-            scope.issue.assigned.id =  response.name;
-          });
-        }
-
-        if (scope.issue.project != 3060) {
-          var apiQuery = 'https://www.drupal.org/api-d7/node/' + scope.issue.project + '.json';
-          $http.get(apiQuery, {cache: true}).success(function (response) {
-            scope.issue.project =  response.title;
-          });
-        } else {
-          scope.issue.project = 'Drupal core';
-        }
-      }
-    };
-  }])
   .directive('issueNidLink', function () {
     return {
       restrict: 'E',
