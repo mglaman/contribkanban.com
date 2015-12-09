@@ -1,6 +1,7 @@
 var platformsh = require("platformsh").config();
+var db = platformsh.relationships.first_db[0]
 
 module.exports = {
-  prod : 'mongodb://'+ db["username"]+':' + db['password']+ "@" + db['host']+ ":" + db['port']+ '/' + db['path'],
-  local : 'mongodb://192.168.99.100/contribkanban',
+  prod : db['scheme'] + '://'+ db["username"]+':' + db['password']+ "@" + db['host']+ ":" + db['port']+ '/' + db['path'],
+  local : 'mongodb://192.168.99.100/contribkanban'
 };
