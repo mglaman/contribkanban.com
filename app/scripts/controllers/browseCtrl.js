@@ -5,10 +5,10 @@ projectKanbanApp.controller('browseCtrl', [
     '$scope',
     '$routeParams',
     '$location',
-    'parseService',
+    '$http',
     'projectService',
     'DoubleClick',
-    function ($q, $scope, $routeParams, $location, parseService, projectService, DoubleClick) {
+    function ($q, $scope, $routeParams, $location, $http, projectService, DoubleClick) {
       $scope.location = $location;
       $scope.projects = [];
       $scope.routePath = 'board';
@@ -19,24 +19,23 @@ projectKanbanApp.controller('browseCtrl', [
 
       $scope.queryProjects = function () {
         var deferred = $q.defer();
-        var parseQuery = parseService.objectQuery('Project');
+        var apiPath = '/api/project';
 
         // If passed a type, filter by that.
         if ($routeParams.type !== undefined) {
-          parseQuery.equalTo('projectType', 'project_' + $routeParams.type);
+          apiPath = apiPath + '/type/project_' + $routeParams.type;
+        } else {
+          apiPath = apiPath + '/all';
         }
-        // @todo: Need to come up with a paging solution.
-        parseQuery.limit(200);
 
-        parseQuery.find({}).then(function (results) {
+        // @todo: Need to come up with a paging solution.
+        $http.get(apiPath).then(function (results) {
           var projectBuffer = [];
-          angular.forEach(results, function(val, key) {
-            projectBuffer.push(val.attributes);
+          angular.forEach(results.data, function(val, key) {
+            projectBuffer.push(val);
           });
 
           deferred.resolve(projectBuffer);
-        }, function () {
-
         });
 
         return deferred.promise;
@@ -51,24 +50,17 @@ projectKanbanApp.controller('browseCtrl', [
 
       $scope.addBoard = function (project) {
         // Query Parse if machine name exists.
-        parseService.attributeQuery('Project', 'machine_name', project).then(
+        $http.get('/api/project/' + project).then(
           function (object) {
             // If the project does not exist, save it.
             if (object === null) {
               projectService.requestProject(project).then(function (response) {
-                // New Parse object.
-                parseService.saveObject('Project', response).then(function (parseObject) {
-                  // Update the scope.
+                projectService.saveProject(response).then(function () {
                   $location.path('/board/' + project)
-                }, function () {
                 });
               });
             } else {
-              projectService.requestProject(project).then(function (response) {
-                object.set('releaseBranches', response.releaseBranches);
-                object.save();
-                $location.path('/board/' + project)
-              });
+              $location.path('/board/' + project);
             }
 
           },
