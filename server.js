@@ -7,11 +7,12 @@ var db = require('./config/db');
 
 app.locals.docroot = __dirname + '/dist';
 
+var dbUri = db.local;
 if (process.env.NODE_ENV == 'production') {
-  mongoose.connect(db.prod);
-} else {
-  mongoose.connect(db.local);
+  dbUri = db.prod;
 }
+mongoose.connect(dbUri);
+console.log('Using db uri: ' + dbUri);
 
 
 app.use(bodyParser.json());
@@ -20,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(compression());
 
+console.log('Using docroot: ' + app.locals.docroot);
 app.use(express.static(app.locals.docroot));
 
 require('./routes')(app);

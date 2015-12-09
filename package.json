@@ -30,7 +30,8 @@
     "jshint-stylish": "^0.4.0",
     "load-grunt-tasks": "^0.4.0",
     "method-override": "~2.0.2",
-    "mongoose": "~3.8.0"
+    "mongoose": "~3.8.0",
+    "platformsh": "0.0.2"
   },
   "devDependencies": {
     "connect-modrewrite": "^0.8.2",

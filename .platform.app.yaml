@@ -21,10 +21,8 @@ relationships:
     database: "mongodb:mongodb"
 hooks:
   build: |
-    gem install sass
     set -e
-    npm --version
-    npm install --production
+    gem install sass
     bower install -p
     grunt build
   deploy: |
