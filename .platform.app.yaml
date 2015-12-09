@@ -29,7 +29,6 @@ hooks:
     grunt build
   deploy: |
     grunt clear-cache
-    node server.js
 dependencies:
 #  ruby:
 #    sass: "3.4.7"
