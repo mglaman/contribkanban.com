@@ -5,7 +5,7 @@
  * issueService Factory
  */
 projectKanbanApp.factory('issueService', [
-  '$http', '$q', 'parseService', 'UrlService', function ($http, $q, parseService, UrlService) {
+  '$http', '$q', 'UrlService', function ($http, $q, UrlService) {
     var factory = {};
 
     factory.issuePriorities = {
@@ -120,37 +120,11 @@ projectKanbanApp.factory('issueService', [
         .addParameter('sort', 'field_issue_priority')
         .addParameter('direction', 'DESC');
 
-      // First check Parse if there is a cached response matching this URL.
-      parseService.attributeQuery('IssueQueries', 'self', apiQuery.getEndpointUrl()).then(function (object) {
-        // Check if query cache exists
-        if (object !== null) {
-          // It does exist, check if older than 10 minutes
-          var now = new Date();
-          if ((now.getTime() - object.updatedAt.getTime()) < 600000) {
-            deferred.resolve(responseListProcess(object.attributes.list));
-          }
-          else {
-            // Update the row
-            $http.get(apiQuery.getEndpointUrl(), {cache: cache})
-              .success(function (response) {
-                object.set('list', response.list);
-                object.save();
-                deferred.resolve(responseListProcess(response.list));
-              });
-          }
-        }
-        else {
-          // New request
-//          console.log(apiQuery.getEndpointUrl());
-          $http.get(apiQuery.getEndpointUrl(), {cache: cache})
-            .success(function (response) {
-              //parseService.saveObject('IssueQueries', response);
-              deferred.resolve(responseListProcess(response.list));
-            });
-        }
-      }, function () {
-        // error reaching parse.
-      });
+      // @todo investigate caching responses.
+      $http.get(apiQuery.getEndpointUrl(), {cache: cache})
+        .success(function (response) {
+          deferred.resolve(responseListProcess(response.list));
+        });
       return deferred.promise;
     };
 

@@ -5,10 +5,9 @@ projectKanbanApp.controller('browseSprintCtrl', [
     '$scope',
     '$routeParams',
     '$location',
-    'parseService',
-    'UrlService',
     '$http',
-    function ($q, $scope, $routeParams, $location, parseService, UrlService, $http) {
+    'UrlService',
+    function ($q, $scope, $routeParams, $location, $http, UrlService) {
       $scope.location = $location;
       $scope.routePath = 'sprint';
       $scope.projecsts = [];
@@ -17,18 +16,12 @@ projectKanbanApp.controller('browseSprintCtrl', [
 
       var querySprints = function () {
         var deferred = $q.defer();
-        var parseQuery = parseService.objectQuery('Boards');
-        parseQuery.find({
-          success: function(results) {
-            var rows = [];
-            angular.forEach(results, function(val, key) {
-              rows.push(val.attributes);
-            });
-            deferred.resolve(rows);
-          },
-          error: function(error) {
-
-          }
+        $http.get('/api/sprints').then(function(results) {
+          var rows = [];
+          angular.forEach(results.data, function(val, key) {
+            rows.push(val);
+          });
+          deferred.resolve(rows);
         });
         return deferred.promise;
       };
@@ -48,17 +41,17 @@ projectKanbanApp.controller('browseSprintCtrl', [
             if (response.data.list.length >= 1) {
               var tagTerm = response.data.list[0];
 
-              parseService.attributeQuery('Boards', 'tid', tagTerm.tid).then(function (object) {
-                if (object !== null) {
-                  alert('Tag already exists as sprint board');
+              $http.get('/api/sprint/exists/', tagTerm.tid).then(function (object) {
+                if (object.data !== null) {
+                  $location.url('/sprint/' + object.data.machine_name)
                 } else {
                   var cleanName = tagTerm.name.replace(/ /g,'');
-                  parseService.saveObject('Boards', {
+                  $http.post('/api/sprint', {
                     machine_name: cleanName,
                     title: tagTerm.name,
                     nid: cleanName,
                     tid: [tagTerm.tid]
-                  })
+                  });
                   $location.url('/sprint/' + cleanName)
                 }
               });

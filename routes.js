@@ -1,5 +1,6 @@
 var Contributor = require('./models/contributor');
 var Project = require('./models/project');
+var Sprint = require('./models/sprint');
 
 module.exports = function(app) {
   // Drupal.org User cached data.
@@ -32,7 +33,7 @@ module.exports = function(app) {
       return (err) ? res.send(err) : res.json(projects);
     });
   });
-  app.get('/api/project/all', function (req, res) {
+  app.get('/api/projects', function (req, res) {
     Project.find({}, function (err, projects) {
       return (err) ? res.send(err) : res.json(projects);
     });
@@ -40,6 +41,29 @@ module.exports = function(app) {
   app.post('/api/project', function (req, res) {
     var project = new Project(req.body);
     project.save(function (err) {
+      return (err) ? res.send(err) : res.send({success: true});
+    });
+  });
+
+  // Drupal.org issue tags
+  app.get('/api/sprint/:machineName', function (req, res) {
+    Sprint.findOne({'machine_name': req.params.machineName}, function (err, sprint) {
+      return (err) ? res.send(err) : res.json(sprint);
+    });
+  });
+  app.get('/api/sprint/exists/:tid', function (req, res) {
+    Sprint.findOne({'tid': req.params.tid}, function (err, sprint) {
+      return (err) ? res.send(err) : res.json(sprint);
+    });
+  });
+  app.get('/api/sprints', function (req, res) {
+    Sprint.find({}, function (err, sprints) {
+      return (err) ? res.send(err) : res.json(sprints);
+    });
+  });
+  app.post('/api/sprint', function (req, res) {
+    var sprint = new Sprint(req.body);
+    sprint.save(function (err) {
       return (err) ? res.send(err) : res.send({success: true});
     });
   });

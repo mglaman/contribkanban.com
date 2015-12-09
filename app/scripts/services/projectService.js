@@ -7,7 +7,7 @@
  * Factory for working with projects.
  */
 projectKanbanApp.factory('projectService', [
-  '$http', '$q', 'parseService', 'UrlService', function ($http, $q, parseService, UrlService) {
+  '$http', '$q', 'UrlService', function ($http, $q, UrlService) {
     var factory = {};
 
     /**
