@@ -1,6 +1,7 @@
 'use strict';
 
-projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', '$q', 'issueService', function($scope, $timeout, $window, $q, issueService) {
+projectKanbanApp.controller('listCtrl', ['$scope', '$timeout', '$window', '$q', '$location', 'issueService', function($scope, $timeout, $window, $q, $location, issueService) {
+  $scope.noTags = $location.search().noTags || false;
   $scope.filteredListIssues = [];
   $scope.param = $scope.list.param;
   $scope.listIssues = [];

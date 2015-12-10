@@ -39,8 +39,8 @@ projectKanbanApp
       restrict: 'E',
       templateUrl: 'views/issue.html',
       link: function (scope, element) {
-        // @note: not in filter because filters + promises = bad juju
         if (scope.issue.assigned.id != '') {
+          // @note: not in filter because filters + promises = bad juju
           var uid = scope.issue.assigned.id;
           // Check local contributor data
           $http.get('/api/contributor/' + uid, {cache: true}).then(function (res) {
