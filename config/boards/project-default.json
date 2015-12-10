@@ -1,0 +1,82 @@
+[
+  {
+    "name": "backlog",
+    "label": "Postponed",
+    "tag": "",
+    "priority": null,
+    "category": "",
+    "statuses": [
+      4,
+      16
+    ],
+    "parentIssue": "",
+    "version": "",
+    "component": ""
+  },
+  {
+    "name": "active",
+    "label": "Active",
+    "tag": "",
+    "priority": null,
+    "category": "",
+    "statuses": [
+      1
+    ],
+    "parentIssue": "",
+    "version": "",
+    "component": ""
+  },
+  {
+    "name": "cnw",
+    "label": "Needs Work",
+    "tag": "",
+    "priority": null,
+    "category": "",
+    "statuses": [
+      13
+    ],
+    "parentIssue": "",
+    "version": "",
+    "component": ""
+  },
+  {
+    "name": "cnr",
+    "label": "Needs Review",
+    "tag": "",
+    "priority": null,
+    "category": "",
+    "statuses": [
+      8
+    ],
+    "parentIssue": "",
+    "version": "",
+    "component": ""
+  },
+  {
+    "name": "rtbc",
+    "label": "Reviewed & Tested",
+    "tag": "",
+    "priority": null,
+    "category": "",
+    "statuses": [
+      14,
+      15
+    ],
+    "parentIssue": "",
+    "version": "",
+    "component": ""
+  },
+  {
+    "name": "done",
+    "label": "Fixed",
+    "tag": "",
+    "priority": null,
+    "category": "",
+    "statuses": [
+      2
+    ],
+    "parentIssue": "",
+    "version": "",
+    "component": ""
+  }
+];

@@ -53,11 +53,7 @@ projectKanbanApp.controller(
         // Initiate the board's lists.
         projectService.loadProjectConfig($scope.projectMachineName, $scope.projectType)
           .success(function(data, status, headers, config) {
-            if (typeof data === 'object') {
-              $scope.boardLists = data;
-            } else {
-              $scope.boardLists = projectService.boardListDefaults;
-            }
+            $scope.boardLists = data;
           })
           .error(function(data, status, headers, config) {
             $scope.boardLists = projectService.boardListDefaults;

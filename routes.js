@@ -68,6 +68,18 @@ module.exports = function(app) {
     });
   });
 
+  // Check for and return board configurations.
+  app.get('/api/board/:type/:id', function (req, res) {
+    var config;
+    try {
+      config = require('./config/boards/' + req.params.type + '/' + req.params.id + '.json');
+    } catch (err) {
+      config = require('./config/boards/project-default.json');
+    }
+
+    return res.send(config);
+  });
+
   // Fallback
   app.get('*', function(req, res) {
     res.sendfile(app.locals.docroot + '/index.html');
