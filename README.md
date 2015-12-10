@@ -1,6 +1,6 @@
 # ContribKanban.com
 
-[ContribKanban.com](http://contribkanban.com) is an [AngularJS](https://angularjs.org/) application powered by [Parse.com](https://parse.com/). It utilizes the [Drupal.org API](https://www.drupal.org/api) to provide kanban board for project issue queues.
+[ContribKanban.com](http://contribkanban.com) is a [MongoDB](https://www.mongodb.com/), [ExpressJS](http://expressjs.com/en/index.html), [AngularJS](https://angularjs.org/), and [NodeJS](https://nodejs.org/en/) (MEAN) application hosted on [Platform.sh](https://platform.sh/). It utilizes the [Drupal.org API](https://www.drupal.org/api) to provide kanban board for project issue queues.
 
 This application was my attempt at learning AngularJS and providing a useful tool to the Drupal community. The goal is to provide the Drupal.org community with a simpler way to sprint on projects.
 
