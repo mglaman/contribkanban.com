@@ -1,0 +1,74 @@
+[
+  {
+    "category": "",
+    "component": "",
+    "label": "Postponed",
+    "name": "backlog",
+    "parentIssue": "",
+    "priority": null,
+    "statuses": [
+      4,
+      16
+    ],
+    "tag": "",
+    "version": "8.x-3.x-dev"
+  },
+  {
+    "category": "",
+    "component": "",
+    "label": "Active",
+    "name": "active",
+    "parentIssue": "",
+    "priority": null,
+    "statuses": [1],
+    "tag": "",
+    "version": "8.x-3.x-dev"
+  },
+  {
+    "category": "",
+    "component": "",
+    "label": "Needs Work",
+    "name": "cnw",
+    "parentIssue": "",
+    "priority": null,
+    "statuses": [13],
+    "tag": "",
+    "version": "8.x-3.x-dev"
+  },
+  {
+    "category": "" ,
+    "component": "",
+    "label": "Needs Review",
+    "name": "cnr",
+    "parentIssue": "",
+    "priority": null,
+    "statuses": [8],
+    "tag": "",
+    "version": "8.x-3.x-dev"
+  },
+  {
+    "category": "",
+    "component": "",
+    "label": "Reviewed & Tested",
+    "name": "rtbc",
+    "parentIssue": "",
+    "priority": null,
+    "statuses": [
+      14,
+      15
+    ],
+    "tag": "",
+    "version": "8.x-3.x-dev"
+  },
+  {
+    "category": "",
+    "component": "",
+    "label": "Fixed",
+    "name": "done",
+    "parentIssue": "",
+    "priority": null,
+    "statuses": [2],
+    "tag": "",
+    "version": "8.x-3.x-dev"
+  }
+]
