@@ -23,10 +23,10 @@ projectKanbanApp.controller(
       // projectService.loadProject($routeParams.project)
       projectService.loadProjectByMachineName($routeParams.project)
         .then(function (projectApiObject) {
-          if (projectApiObject == null) {
+          if (projectApiObject === null || projectApiObject.data === null) {
             projectService.requestProject($routeParams.project).then(function (response) {
               // New Parse object.
-              $http.post('/api/project/' + $routeParams.project, response).then(function () {
+              $http.post('/api/project', response).then(function () {
                 // Reload so user can see board.
                 window.location.reload();
               });

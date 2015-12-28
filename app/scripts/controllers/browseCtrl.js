@@ -52,7 +52,7 @@ projectKanbanApp.controller('browseCtrl', [
         $http.get('/api/project/' + project).then(
           function (object) {
             // If the project does not exist, save it.
-            if (object === null) {
+            if (object.data === null) {
               projectService.requestProject(project).then(function (response) {
                 projectService.saveProject(response).then(function () {
                   $location.path('/board/' + project)
