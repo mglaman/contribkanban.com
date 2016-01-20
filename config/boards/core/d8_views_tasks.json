@@ -1,7 +1,7 @@
 [
   {
     "category": 2,
-    "component": "views.module system",
+    "component": "views.module",
     "label": "Postponed",
     "name": "backlog",
     "parentIssue": "",
@@ -15,7 +15,7 @@
   },
   {
     "category": 2,
-    "component": "views.module system",
+    "component": "views.module",
     "label": "Active",
     "name": "active",
     "parentIssue": "",
@@ -26,7 +26,7 @@
   },
   {
     "category": 2,
-    "component": "views.module system",
+    "component": "views.module",
     "label": "Needs Work",
     "name": "cnw",
     "parentIssue": "",
@@ -37,7 +37,7 @@
   },
   {
     "category": 2,
-    "component": "views.module system",
+    "component": "views.module",
     "label": "Needs Review",
     "name": "cnr",
     "parentIssue": "",
@@ -48,7 +48,7 @@
   },
   {
     "category": 2,
-    "component": "views.module system",
+    "component": "views.module",
     "label": "Reviewed & Tested",
     "name": "rtbc",
     "parentIssue": "",
@@ -62,7 +62,7 @@
   },
   {
     "category": 2,
-    "component": "views.module system",
+    "component": "views.module",
     "label": "Fixed",
     "name": "done",
     "parentIssue": "",
