@@ -1,5 +1,4 @@
-(function() {
-  /*global angular*/
+(function(angular) {
   'use strict';
 
   var module = angular.module('angularDrupalOrg', ['ngResource']);
@@ -31,4 +30,4 @@
       5: 'Plan'
     };
   }]);
-})(angular);
+})(window.angular);

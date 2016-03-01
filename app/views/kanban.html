@@ -1,48 +1,54 @@
-<div class="kanban-board__wrapper" data-boardviewport>
-    <div class="kanban-board--header clearfix">
+<div class="kanban-board__wrapper" flex layout="column" data-boardviewport>
+  <div class="kanban-board--header clearfix">
+    <div layout="row" layout-sm="column">
+      <div layout="column" flex flex-gt-sm="66">
+        <h1><a ng-href="https://www.drupal.org/project/{{ ::project.machine_name }}" target="_blank"
+               ng-bind="project.title"></a></h1>
+      </div>
+      <div layout="column" layout-sm="column" flex flex-gt-sm="33" layout-align-gt-sm="end end" hide-sm>
         <div layout="row" layout-sm="column">
-            <div layout="column" flex flex-gt-sm="66">
-                <h1 ng-hide="embed"><a ng-href="https://www.drupal.org/project/{{ ::project.machine_name }}" target="_blank" ng-bind="project.title"></a></h1>
-            </div>
-            <div layout="column" layout-sm="column" flex flex-gt-sm="33" layout-align-gt-sm="end end" hide-sm>
-                <div layout="row" layout-sm="column">
-                    <md-input-container ng-hide="releaseBranches === undefined">
-                        <label for="projectBranches">Project branches</label>
-                        <md-select id="projectBranches" class="form-control pull-left input-sm" ng-model="projectRelease" ng-change="updateBoardRoute()">
-                            <md-option ng-repeat="release in releaseBranches track by release.label" ng-value="release" ng-bind="release.name"></md-option>
-                        </md-select>
-                    </md-input-container>
-                    <md-input-container>
-                        <label for="issuePriorities" class="sr-only">Issue priorities</label>
-                        <md-select id="issuePriorities" class="form-control pull-left input-sm" ng-model="issuePriority">
-                            <md-option ng-repeat="(key, value) in :: priorities" ng-value="key" ng-bind="value"></md-option>
-                        </md-select>
-                    </md-input-container>
-                    <md-input-container>
-                        <label for="issueCategory" class="sr-only">Issue Category</label>
-                        <md-select id="issueCategory" class="form-control pull-left input-sm" ng-model="issueCategory">
-                            <md-option ng-repeat="(key, value) in :: categories" ng-value="key" ng-bind="value"></md-option>
-                        </md-select>
-                    </md-input-container>
-                </div>
-            </div>
+          <md-input-container ng-hide="releaseBranches === undefined">
+            <label for="projectBranches">Project branches</label>
+            <md-select id="projectBranches" class="form-control pull-left input-sm" ng-model="projectRelease"
+                       ng-change="updateBoardRoute()">
+              <md-option ng-repeat="release in releaseBranches track by release.label" ng-value="release"
+                         ng-bind="release.name"></md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container>
+            <label for="issuePriorities" class="sr-only">Issue priorities</label>
+            <md-select id="issuePriorities" class="form-control pull-left input-sm" ng-model="issuePriority">
+              <md-option ng-repeat="(key, value) in :: priorities" ng-value="key" ng-bind="value"></md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container>
+            <label for="issueCategory" class="sr-only">Issue Category</label>
+            <md-select id="issueCategory" class="form-control pull-left input-sm" ng-model="issueCategory">
+              <md-option ng-repeat="(key, value) in :: categories" ng-value="key" ng-bind="value"></md-option>
+            </md-select>
+          </md-input-container>
         </div>
+      </div>
     </div>
-    <div class="kanban-board--container">
-        <div class="kanban-board scrolly" flex layout="row">
-            <div class="kanban-board--list scrolly md-whiteframe-z2" flex layout="column" data-ng-repeat="list in boardLists track by $index" data-ng-controller="listCtrl">
-                <div class="kanban-board--list__header">
-                    <h2 class="md-subhead">
-                        <span class="fa" data-ng-class="{'fa-spin fa-spinner': processing === true}">&nbsp;</span>
-                        <span ng-bind="list.label"></span> (<span ng-bind="filteredListIssues.length"></span>)
-                    </h2>
-                </div>
-                <div class="kanban-board--items">
-                    <md-card class="" ng-click="openIssue(issue.nid)" ng-repeat="issue in filteredListIssues = (listIssues | orderBy:issue.priority:true | issuePriorityFilter:issuePriority | issueCategoryFilter:issueCategory | filter:filterIssues(list.statuses) | issueBranchFilter:projectRelease.name) track by $index" style="background-color: {{ issue.status | statusColorFilter }}">
-                        <issue></issue>
-                    </md-card>
-                </div>
-            </div>
+  </div>
+  <div class="kanban-board--container">
+    <div class="kanban-board scrolly" flex layout="row">
+      <div class="kanban-board--list scrolly md-whiteframe-z2" flex layout="column"
+           data-ng-repeat="list in boardLists track by $index" data-ng-controller="listCtrl">
+        <div class="kanban-board--list__header">
+          <h2 class="md-subhead">
+            <span class="fa" data-ng-class="{'fa-spin fa-spinner': processing === true}">&nbsp;</span>
+            <span ng-bind="list.label"></span> (<span ng-bind="filteredListIssues.length"></span>)
+          </h2>
         </div>
+        <div class="kanban-board--items">
+          <md-card ng-click="openIssue(issue.nid)"
+                   ng-repeat="issue in filteredListIssues = (listIssues | orderBy:issue.priority:true | issuePriorityFilter:issuePriority | issueCategoryFilter:issueCategory | filter:filterIssues(list.statuses) | issueBranchFilter:projectRelease.name) track by $index"
+                   style="background-color: {{ issue.status | statusColorFilter }}">
+            <kanban-issue></kanban-issue>
+          </md-card>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

@@ -157,16 +157,19 @@ module.exports = function (grunt) {
       options: {
         loadPath: 'bower_components'
       },
-      dist: {
+      app: {
         files: [{
           expand: true,
           cwd: '<%= config.app %>/styles',
           src: ['*.{scss,sass}'],
-          dest: '.tmp/styles',
+          dest: '<%= config.app %>/styles',
           ext: '.css'
-        }]
+        }],
+        options: {
+          loadPath: 'app/bower_components'
+        }
       },
-      server: {
+      dist: {
         files: [{
           expand: true,
           cwd: '<%= config.app %>/styles',
@@ -267,37 +270,17 @@ module.exports = function (grunt) {
           '<%= config.dist %>',
           '<%= config.dist %>/images',
           '<%= config.dist %>/styles'
-        ]
+        ],
+        blockReplacements: {
+          js: function (block){
+            console.log(block.dest);
+            return '<script async src="' + block.dest + '"><\/script>';
+          }
+        }
       },
       html: ['<%= config.dist %>/{,*/}*.html'],
       css: ['<%= config.dist %>/styles/{,*/}*.css']
     },
-
-    // The following *-min tasks produce minified files in the dist folder
-    // Due to libpng-dev not installed on Platform.sh, can't use imagemin.
-    // "grunt-contrib-imagemin": "^0.8.0",
-    // "grunt-svgmin": "^0.4.0",
-    // imagemin: {
-    //   dist: {
-    //     files: [{
-    //       expand: true,
-    //       cwd: '<%= config.app %>/images',
-    //       src: '{,*/}*.{gif,jpeg,jpg,png}',
-    //       dest: '<%= config.dist %>/images'
-    //     }]
-    //   }
-    // },
-    //
-    // svgmin: {
-    //   dist: {
-    //     files: [{
-    //       expand: true,
-    //       cwd: '<%= config.app %>/images',
-    //       src: '{,*/}*.svg',
-    //       dest: '<%= config.dist %>/images'
-    //     }]
-    //   }
-    // },
 
     htmlmin: {
       dist: {
@@ -321,32 +304,6 @@ module.exports = function (grunt) {
       }
     },
 
-    // By default, your `index.html`'s <!-- Usemin block --> will take care
-    // of minification. These next options are pre-configured if you do not
-    // wish to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= config.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css',
-    //         '<%= config.app %>/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= config.dist %>/scripts/scripts.js': [
-    //         '<%= config.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
-
     // Copies remaining files to places other tasks can use
     copy: {
       dist: {
@@ -361,14 +318,12 @@ module.exports = function (grunt) {
             '{,*/}*.html',
             'styles/fonts/{,*/}*.*',
             'config/**/*',
-            'assets/**/*'
+            'assets/**/*',
+            'views/**/*'
           ]
         }, {
           src: '<%= config.app %>/.htaccess',
           dest: '<%= config.dist %>/.htaccess'
-        }, {
-          src: '<%= config.app %>/cors-proxy.php',
-          dest: '<%= config.dist %>/cors-proxy.php'
         }, {
           expand: true,
           dot: true,
@@ -421,9 +376,7 @@ module.exports = function (grunt) {
       ],
       dist: [
         'sass',
-        'copy:styles',
-        // 'imagemin',
-        // 'svgmin'
+        'copy:styles'
       ]
     }
   });
@@ -431,9 +384,9 @@ module.exports = function (grunt) {
   grunt.registerTask('clear-cache', 'clear cloud flare caches', function () {
     var platformVariables = JSON.parse(new Buffer(process.env.PLATFORM_VARIABLES, 'base64').toString());
     // I don't know why I can't get the task to just read my damned config. Doing it this way.
-    process.env.CLOUDFLARE_API_KEY = platformVariables['CLOUDFLARE_API_KEY'];
-    process.env.CLOUDFLARE_EMAIL = platformVariables['CLOUDFLARE_EMAIL'];
-    process.env.CLOUDFLARE_DOMAIN = platformVariables['CLOUDFLARE_DOMAIN'];
+    process.env.CLOUDFLARE_API_KEY = platformVariables.CLOUDFLARE_API_KEY;
+    process.env.CLOUDFLARE_EMAIL = platformVariables.CLOUDFLARE_EMAIL;
+    process.env.CLOUDFLARE_DOMAIN = platformVariables.CLOUDFLARE_DOMAIN;
     grunt.task.run(['cloudflare']);
   });
 
