@@ -1,0 +1,20 @@
+<md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2 ng-isolate-scope md-closed" md-component-id="left" tabindex="-1">
+  <app-sidenav></app-sidenav>
+</md-sidenav>
+<md-toolbar class="site-content-toolbar" style="color: #ffffff;" ng-hide="embed">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleSidenav()" tabindex="-1" role="button">
+      <md-icon md-svg-icon="assets/icons/menu.svg" style="color: white;"></md-icon>
+    </md-button>
+    <div layout="row" flex class="fill-height">
+      <h2 ng-click="toggleSidenav()" style="cursor: pointer"><span>Contrib Kanban</span></h2>
+    </div>
+    <md-button ng-click="openHelp() | trackEvent:'Button':'Help modal';" aria-label="Help" class="md-icon-button">
+      <md-icon md-svg-icon="assets/icons/help.svg" style="color: white;"></md-icon>
+    </md-button>
+    <md-button href="https://github.com/mglaman/contribkanban.com/issues" target="_blank" aria-label="Report a bug"
+               class="md-icon-button">
+      <md-icon md-svg-icon="assets/icons/bug.svg" style="color: white;"></md-icon>
+    </md-button>
+  </div>
+</md-toolbar>

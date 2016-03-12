@@ -1,7 +1,9 @@
-'use strict';
+(function (angular) {
+  'use strict';
 
-projectKanbanApp.controller('ModalController', ['$scope', 'close', function($scope, close) {
-  $scope.close = function() {
-    close({}, 200);
-  };
-}]);
+  angular.module('appContribkanban').controller('ModalController', ['$scope', 'close', function ($scope, close) {
+    $scope.close = function () {
+      close({}, 200);
+    };
+  }]);
+})(window.angular);
