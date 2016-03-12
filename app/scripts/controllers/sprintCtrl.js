@@ -10,6 +10,7 @@
       '$http',
       'Angularytics',
       function ($scope, $routeParams, $location, issueService, $http, Angularytics) {
+        $scope.sprintBoard = true;
         $scope.sprint = {};
         $scope.projectID = null;
         $scope.boardLists = [];

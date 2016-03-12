@@ -23,7 +23,12 @@ module.exports = function(app) {
   });
 
   // Drupal.org Node project_* data
-  app.get('/api/project/:machineName', function (req, res) {
+  app.get('/api/project/:nid([0-9]*)', function (req, res) {
+    Project.findOne({'nid': req.params.nid}, function (err, project) {
+      return (err) ? res.send(err) : res.json(project);
+    });
+  });
+  app.get('/api/project/:machineName([a-z0-9]*\_?[a-z0-9]*)', function (req, res) {
     Project.findOne({'machine_name': req.params.machineName}, function (err, project) {
       return (err) ? res.send(err) : res.json(project);
     });

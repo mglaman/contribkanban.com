@@ -27,6 +27,11 @@
             }
           });
         }
+
+        $http.get('/api/project/' + $scope.issue.project, {cache: true}).then(function (res) {
+          $scope.issue.project = res.data.title;
+        });
+
       }]
     };
   });
