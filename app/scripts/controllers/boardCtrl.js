@@ -11,6 +11,7 @@
       'projectService',
       'Angularytics',
       function ($scope, $routeParams, $location, $http, issueService, projectService, Angularytics) {
+        $scope.sprintBoard = false;
         $scope.project = {};
         $scope.projectID = '';
         $scope.projectMachineName = $routeParams.project;
