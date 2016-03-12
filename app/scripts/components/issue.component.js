@@ -6,7 +6,6 @@
       templateUrl: 'views/components/issue.html',
       controllerAs: 'IssueController',
       controller: ['$scope', '$http', function ($scope, $http) {
-        console.log($scope);
         if ($scope.issue.assigned.id !== '') {
           // @note: not in filter because filters + promises = bad juju
           var uid = $scope.issue.assigned.id;
