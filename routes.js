@@ -40,6 +40,7 @@ module.exports = function(app) {
   });
   app.post('/api/project', function (req, res) {
     var project = new Project(req.body);
+    console.log(req);
     project.save(function (err) {
       return (err) ? res.send(err) : res.send({success: true});
     });

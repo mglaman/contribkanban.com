@@ -42,11 +42,11 @@
       return function (issues, priority) {
         return issues.filter(function (issue) {
           // If no priority...
-          if (priority === undefined || priority === null || priority === '' || priority === 0) {
+          if (priority === undefined || priority === null || priority === '' || priority === 0 || priority === "0") {
             return true;
           }
           else {
-            return issue.priority === priority;
+            return issue.priority === parseInt(priority);
           }
         });
       };

@@ -20,6 +20,8 @@
         $scope.projectRelease = {name: $routeParams.branch, label: $routeParams.branch} || {};
         $scope.priorities = issueService.issuePriorities;
         $scope.categories = issueService.issueCategories;
+        $scope.issuePriority = '';
+        $scope.issueCategory = '';
 
         // projectService.loadProject($routeParams.project)
         projectService.loadProjectByMachineName($routeParams.project)
@@ -27,12 +29,11 @@
             if (projectApiObject.data === null) {
               projectService.requestProject($routeParams.project).then(function (response) {
                 // New Parse object.
-                $http.post('/api/project/' + $routeParams.project, response).then(function () {
-                  debugger;
+                $http.post('/api/project', response).then(function () {
                   // Reload so user can see board.
                   window.location.reload();
                 }, function (response) {
-                  console.log(response);
+                  alert(response.data);
                 });
               });
             }

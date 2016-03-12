@@ -15,7 +15,7 @@
           return true;
         }
         for (var i in statuses) {
-          if (issue.status === statuses[i]) {
+          if (statuses.indexOf(issue.status)) {
             return true;
           }
         }
@@ -69,7 +69,6 @@
         if ($scope.list.hasOwnProperty('statuses') && counter < $scope.list.statuses.length) {
           apiCall($scope.list.statuses[counter], $scope.list.tag).then(function (issueBuffer) {
             $scope.listIssues = $scope.listIssues.concat(issueBuffer);
-            console.log($scope.listIssues);
           });
           counter++;
           $timeout(getListIssues, 200);

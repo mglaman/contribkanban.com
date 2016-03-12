@@ -25,7 +25,7 @@ hooks:
     set -e
     gem install sass
     bower install -p
-    grunt build
+    grunt sass
 #  This is perpetually throwing rate limit error.
 #  deploy: |
 #    grunt clear-cache

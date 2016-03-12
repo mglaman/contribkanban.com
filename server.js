@@ -6,13 +6,11 @@ var compression = require('compression');
 var db = require('./config/db');
 
 
-
+app.locals.docroot = __dirname + '/app';
 var dbUri;
 if (process.env.NODE_ENV === 'production') {
-  app.locals.docroot = __dirname + '/dist';
   dbUri = db.prod;
 } else {
-  app.locals.docroot = __dirname + '/app';
   dbUri = db.local;
 }
 mongoose.connect(dbUri);
