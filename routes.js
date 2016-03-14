@@ -21,7 +21,13 @@ module.exports = function(app) {
       return (err) ? res.send(err) : res.send({success: true});
     });
   });
-
+  app.get('/api/project/type/:type', function (req, res) {
+    console.log(req);
+    Project.find({'projectType': req.params.type}, function (err, projects) {
+      console.log(projects);
+      return (err) ? res.send(err) : res.json(projects);
+    });
+  });
   // Drupal.org Node project_* data
   app.get('/api/project/:nid([0-9]*)', function (req, res) {
     Project.findOne({'nid': req.params.nid}, function (err, project) {
@@ -29,13 +35,9 @@ module.exports = function(app) {
     });
   });
   app.get('/api/project/:machineName([a-z0-9]*\_?[a-z0-9]*)', function (req, res) {
+    console.log(req);
     Project.findOne({'machine_name': req.params.machineName}, function (err, project) {
       return (err) ? res.send(err) : res.json(project);
-    });
-  });
-  app.get('/api/project/type/:type', function (req, res) {
-    Project.find({'projectType': req.params.type}, function (err, projects) {
-      return (err) ? res.send(err) : res.json(projects);
     });
   });
   app.get('/api/projects', function (req, res) {
