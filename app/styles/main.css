@@ -137,4 +137,12 @@ md-list-item {
   .kanban-board--issue_tags .bg-info {
     background: #E3F2FD; }
 
+ul.pagination {
+  list-style: none; }
+  ul.pagination li {
+    display: inline-block; }
+    ul.pagination li a {
+      display: block;
+      padding: 4px 6px; }
+
 /*# sourceMappingURL=main.css.map */

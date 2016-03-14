@@ -8,7 +8,8 @@
     "fontawesome": "~4.2.0",
     "jquery": "~2.1.4",
     "modernizr": "~2.8.2",
-    "ngDfp": "~0.14.0"
+    "ngDfp": "~0.14.0",
+    "angularUtils-pagination": "angular-utils-pagination#^0.11.0"
   },
   "resolutions": {
     "angular": "1.5.0"
