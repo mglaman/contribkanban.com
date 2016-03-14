@@ -2,8 +2,7 @@
   <div class="projects--list" layout="column" flex flex-gt-sm="66">
     <md-card flex layout="column" layout-padding flex-order-gt-sm="2">
       <md-list class="projects--list">
-        <md-list-item class="md-2-line"
-                      ng-repeat="project in projects | orderBy:'title' | filter:projectSearch track by $index">
+        <md-list-item class="md-2-line" dir-paginate="project in projects | orderBy:'title' | filter:projectSearch | itemsPerPage: 10 track by $index">
           <div class="md-list-item-text" layout="column" layout-padding>
             <h3><a ng-href="{{ routePath }}/{{ project.machine_name }}" style="color:inherit; text-decoration: none;"
                    ng-bind="project.title"></a></h3>
@@ -12,6 +11,7 @@
           <md-divider></md-divider>
         </md-list-item>
       </md-list>
+      <dir-pagination-controls></dir-pagination-controls>
       <!--<div data-ng-dfp-ad="div-gpt-ad-1421106878492-0"></div>-->
     </md-card>
     <md-card flex layout="row" layout-sm="column" layout-padding flex-order-gt-sm="1">

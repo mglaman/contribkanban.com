@@ -152,3 +152,14 @@ md-list-item {
     background: #E3F2FD;
   }
 }
+
+ul.pagination {
+  list-style: none;
+  li {
+    display: inline-block;
+    a {
+      display: block;
+      padding: 4px 6px;
+    }
+  }
+}
