@@ -79,7 +79,17 @@
           $scope.sprint = object;
           // Set the page title to be the project's name.
           $scope.page.setTitle(object.title);
-          $scope.boardLists = boardListDefaults(object.tid);
+
+          $http.get('/api/board/sprint/' + $routeParams.sprint)
+            .success(function (data, status, headers, config) {
+              angular.forEach(data, function (val, key) {
+                data[key].tag = object.tid;
+              });
+              $scope.boardLists = data;
+            })
+            .error(function (data, status, headers, config) {
+              $scope.boardLists = {}
+            });
 
           // Ping Google.
           Angularytics.trackEvent('Project', 'Viewed sprint: ' + object.title);
