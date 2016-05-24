@@ -31,13 +31,13 @@
       $window.open('https://www.drupal.org/node/' + nid, '_blank');
     };
 
-    var apiCall = function (status, tag) {
+    var apiCall = function (status) {
       var deferred = $q.defer();
 
       issueService.requestIssues(
         $scope.projectID,
         status,
-        tag,
+        $scope.list.tag,
         $scope.list.category,
         $scope.list.parentIssue,
         $scope.list.priority,
@@ -48,7 +48,6 @@
         angular.forEach(issues, function (val, key) {
           issueBuffer.push(val);
         });
-        issueBuffer.reverse();
         deferred.resolve(issueBuffer);
       });
       return deferred.promise;
@@ -60,14 +59,14 @@
 
       // If there is a parent issue, we're just querying for children.
       if ($scope.list.parentIssue) {
-        apiCall(null, $scope.list.tag.length).then(function (issueBuffer) {
+        apiCall(null).then(function (issueBuffer) {
           $scope.listIssues = $scope.listIssues.concat(issueBuffer);
         });
         $scope.processing = false;
       } else {
         // Cycle through all statuses
         if ($scope.list.hasOwnProperty('statuses') && counter < $scope.list.statuses.length) {
-          apiCall($scope.list.statuses[counter], $scope.list.tag).then(function (issueBuffer) {
+          apiCall($scope.list.statuses[counter]).then(function (issueBuffer) {
             $scope.listIssues = $scope.listIssues.concat(issueBuffer);
           });
           counter++;
