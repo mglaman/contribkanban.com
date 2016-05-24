@@ -70,7 +70,7 @@
         cache = (cache === undefined);
 
         var apiQuery = new UrlService().setEntityEndpoint('node')
-          .addParameter('limit', '75')
+          .addParameter('limit', '100')
           .addParameter('type', 'project_issue');
 
         // If there was a projectNid, add it as a query option.
