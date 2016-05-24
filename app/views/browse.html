@@ -1,8 +1,8 @@
 <md-content layout="row" layout-sm="column" layout-padding="">
-  <div class="projects--list" layout="column" flex flex-gt-sm="66">
-    <md-card flex layout="column" layout-padding flex-order-gt-sm="2">
+  <div class="projects--list--container" layout="column" flex flex-gt-sm="66" layout-fill>
+    <md-card class="projects--list__card" flex layout="column" layout-padding flex-order-gt-sm="2">
       <md-list class="projects--list">
-        <md-list-item class="md-2-line" dir-paginate="project in projects | orderBy:'title' | filter:projectSearch | itemsPerPage: 10 track by $index">
+        <md-list-item class="md-2-line project--list__item" dir-paginate="project in projects | orderBy:'title' | filter:projectSearch | itemsPerPage: 10 track by $index">
           <div class="md-list-item-text" layout="column" layout-padding>
             <h3><a ng-href="{{ routePath }}/{{ project.machine_name }}" style="color:inherit; text-decoration: none;"
                    ng-bind="project.title"></a></h3>
@@ -14,20 +14,22 @@
       <dir-pagination-controls></dir-pagination-controls>
       <!--<div data-ng-dfp-ad="div-gpt-ad-1421106878492-0"></div>-->
     </md-card>
-    <md-card flex layout="row" layout-sm="column" layout-padding flex-order-gt-sm="1">
-      <md-input-container flex flex-lg="50">
+    <md-card class="projects--list__form" flex layout="row" layout-sm="column" layout-padding flex-order-gt-sm="1" layout-align="center center">
+
+      <md-input-container flex="60" flex-lt-lg="100" layout="column" layout-padding>
         <label>Find a project</label>
         <input type="text" tabindex="1" data-ng-model="projectSearch.title" class="form-control" style="width: 100%;"/>
       </md-input-container>
-      <div layout="row" hide-sm hide-md>
-        <md-input-container style="padding: 16px;">
-          <label>{{ ::addPlaceholder }}</label>
-          <input class="form-control" type="text" data-ng-model="project"/>
-        </md-input-container>
-        <md-button class="btn md-accent" ng-click="addBoard(project) | trackEvent:'Projects':'Added a project'">
-          Add {{ ::addType }}
-        </md-button>
-      </div>
+
+      <md-input-container hide-sm hide-md flex="25" layout="column" layout-padding>
+        <label>{{ ::addPlaceholder }}</label>
+        <input class="form-control" type="text" data-ng-model="project"/>
+      </md-input-container>
+
+      <md-button class="btn md-accent" hide-sm hide-md flex="15" layout="column" ng-click="addBoard(project) | trackEvent:'Projects':'Added a project'">
+        Add {{ ::addType }}
+      </md-button>
+
     </md-card>
   </div>
   <div layout="column" flex flex-gt-sm="33">
