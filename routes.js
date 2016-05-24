@@ -82,9 +82,12 @@ module.exports = function(app) {
     try {
       config = require('./config/boards/' + req.params.type + '/' + req.params.id + '.json');
     } catch (err) {
-      config = require('./config/boards/project-default.json');
+      try {
+        config = require('./config/boards/' + req.params.type + '/default.json');
+      } catch (err) {
+        config = require('./config/boards/default.json');
+      }
     }
-
     return res.send(config);
   });
 

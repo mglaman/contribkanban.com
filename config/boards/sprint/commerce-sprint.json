@@ -1,0 +1,37 @@
+[
+  {
+    "name": "active",
+    "label": "Active",
+    "category": "",
+    "statuses": [1],
+    "parentIssue": ""
+  },
+  {
+    "name": "cnw",
+    "label": "Needs Work",
+    "category": "",
+    "statuses": [13],
+    "parentIssue": ""
+  },
+  {
+    "name": "cnr",
+    "label": "Needs Review",
+    "category": "",
+    "statuses": [8],
+    "parentIssue": ""
+  },
+  {
+    "name": "rtbc",
+    "label": "Reviewed & Tested",
+    "category": "",
+    "statuses": [14, 15],
+    "parentIssue": ""
+  },
+  {
+    "name": "done",
+    "label": "Fixed",
+    "category": "",
+    "statuses": [2],
+    "parentIssue": ""
+  }
+]
