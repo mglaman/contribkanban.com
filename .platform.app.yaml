@@ -5,9 +5,9 @@ web:
   commands:
     start: "NODE_ENV=production npm start &>> logs/app.log"
   locations:
-    "/dist":
+    "/app":
       passthru: false
-      root: "dist"
+      root: "app"
       allow: true
       expires: 1d
       rules:
