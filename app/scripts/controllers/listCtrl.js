@@ -31,12 +31,13 @@
       $window.open('https://www.drupal.org/node/' + nid, '_blank');
     };
 
-    var apiCall = function (status) {
-      var deferred = $q.defer();
+    // Get the issues for this state.
+    var getListIssues = function () {
+      $scope.processing = true;
 
       issueService.requestIssues(
         $scope.projectID,
-        status,
+        $scope.list.statuses,
         $scope.list.tag,
         $scope.list.category,
         $scope.list.parentIssue,
@@ -48,63 +49,14 @@
         angular.forEach(issues, function (val, key) {
           issueBuffer.push(val);
         });
-        deferred.resolve(issueBuffer);
-      });
-      return deferred.promise;
-    };
-
-    // Get the issues for this state.
-    var getListIssues = function () {
-      $scope.processing = true;
-
-      // If there is a parent issue, we're just querying for children.
-      if ($scope.list.parentIssue) {
-        apiCall(null).then(function (issueBuffer) {
-          $scope.listIssues = $scope.listIssues.concat(issueBuffer);
-        });
+        $scope.listIssues.concat(issueBuffer);
         $scope.processing = false;
-      } else {
-        // Cycle through all statuses
-        if ($scope.list.hasOwnProperty('statuses') && counter < $scope.list.statuses.length) {
-          apiCall($scope.list.statuses[counter]).then(function (issueBuffer) {
-            $scope.listIssues = $scope.listIssues.concat(issueBuffer);
-          });
-          counter++;
-          $timeout(getListIssues, 200);
-        }
-        else {
-          $timeout(getListIssues, 60000);
-          $scope.processing = false;
-        }
-      }
+      });
 
-      /*
-       else if ($scope.list.tag.length > 0) {
-       if (counter < $scope.list.tag.length) {
-       apiCall(null, $scope.list.tag[counter]);
-       counter++;
-       $timeout(getListIssues, 1200);
-       }
-       else {
-       $timeout(getListIssues, 600000);
-       $scope.processing = false;
-       }
-       }
-       else if ($scope.list.statuses.length > 0) {
-       if (counter < $scope.list.statuses.length) {
-       apiCall($scope.list.statuses[counter]);
-       counter++;
-       $timeout(getListIssues, 1200);
-       }
-       else {
-       $timeout(getListIssues, 600000);
-       $scope.processing = false;
-       }
-       }*/
+      $timeout(getListIssues, 60000);
 
-      // @todo: Support pagination. Convert old status cycling.
     };
-//  $timeout(getListIssues, 100);
+    
     getListIssues();
   }]);
 })(window.angular);
