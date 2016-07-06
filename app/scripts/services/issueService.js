@@ -53,7 +53,7 @@
        * Drupal.org.
        *
        * @param projectNid
-       * @param status
+       * @param statuses
        * @param tag
        * @param category
        * @param parentIssue
@@ -63,7 +63,7 @@
        * @param cache
        * @returns {*}
        */
-      factory.requestIssues = function (projectNid, status, tag, category, parentIssue, priority, version, component, cache) {
+      factory.requestIssues = function (projectNid, statuses, tag, category, parentIssue, priority, version, component, cache) {
         var deferred = $q.defer();
 
         // Normalize cache bool.
@@ -80,8 +80,10 @@
 
         // If there was a status, add it as a query option.
         // @todo: Should we validate this (when custom boards exposed)
-        if (status) {
-          apiQuery.addParameter('field_issue_status', status);
+        if (statuses) {
+          for (var i = 0; i < statuses.length; i++) {
+            apiQuery.addParameter('field_issue_status[value][]', statuses[i]);
+          }
         }
 
         // If there was a category, add it as a query option.
