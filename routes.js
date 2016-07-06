@@ -22,9 +22,7 @@ module.exports = function(app) {
     });
   });
   app.get('/api/project/type/:type', function (req, res) {
-    console.log(req);
     Project.find({'projectType': req.params.type}, function (err, projects) {
-      console.log(projects);
       return (err) ? res.send(err) : res.json(projects);
     });
   });
@@ -35,7 +33,6 @@ module.exports = function(app) {
     });
   });
   app.get('/api/project/:machineName([a-z0-9]*\_?[a-z0-9]*)', function (req, res) {
-    console.log(req);
     Project.findOne({'machine_name': req.params.machineName}, function (err, project) {
       return (err) ? res.send(err) : res.json(project);
     });
@@ -47,7 +44,6 @@ module.exports = function(app) {
   });
   app.post('/api/project', function (req, res) {
     var project = new Project(req.body);
-    console.log(req);
     project.save(function (err) {
       return (err) ? res.send(err) : res.send({success: true});
     });

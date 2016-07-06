@@ -45,18 +45,14 @@
         $scope.list.version,
         $scope.list.component
       ).then(function (issues) {
-        var issueBuffer = [];
-        angular.forEach(issues, function (val, key) {
-          issueBuffer.push(val);
-        });
-        $scope.listIssues.concat(issueBuffer);
+        $scope.listIssues = issues;
         $scope.processing = false;
       });
 
       $timeout(getListIssues, 60000);
 
     };
-    
+
     getListIssues();
   }]);
 })(window.angular);
