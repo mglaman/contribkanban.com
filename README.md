@@ -1,4 +1,4 @@
-# ContribKanban.com [![Gratipay Team](https://img.shields.io/gratipay/team/contribkanban-com.svg)]()
+# ContribKanban.com [![ContribKanban](https://img.shields.io/gratipay/team/contribkanban-com.svg)]()
 
 [ContribKanban.com](http://contribkanban.com) is a [MongoDB](https://www.mongodb.com/), [ExpressJS](http://expressjs.com/en/index.html), [AngularJS](https://angularjs.org/), and [NodeJS](https://nodejs.org/en/) (MEAN) application hosted on [Platform.sh](https://platform.sh/). It utilizes the [Drupal.org API](https://www.drupal.org/api) to provide kanban board for project issue queues.
 
