@@ -2,8 +2,8 @@
   "name": "project-kanban",
   "private": true,
   "dependencies": {
-    "angular-material": "~0.11.0",
-    "angular-route": "~1.3.8",
+    "angular-material": "~1",
+    "angular-route": "~1",
     "angularytics": "~0.3.0",
     "fontawesome": "~4.2.0",
     "jquery": "~2.1.4",
