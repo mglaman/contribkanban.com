@@ -23,17 +23,17 @@ relationships:
 hooks:
   build: |
     set -e
-    gem install sass
     bower install -p
     grunt sass
 #  This is perpetually throwing rate limit error.
 #  deploy: |
 #    grunt clear-cache
 dependencies:
-#  ruby:
-#    sass: "3.4.7"
+  ruby:
+    sass: "*"
   nodejs:
       grunt-cli: "~0.1.13"
       bower: "~1.3.3"
+      yarn: "*"
 mounts:
   "/logs": "shared:files/logs"
