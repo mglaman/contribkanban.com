@@ -70,7 +70,6 @@
           var pathParts = $location.path().split('/');
           if ($scope.projectRelease === null) {
             $location.path('/' + pathParts[1] + '/' + pathParts[2], false);
-
           }
           else {
             $location.path('/' + pathParts[1] + '/' + pathParts[2] + '/' + $scope.projectRelease.name, false);

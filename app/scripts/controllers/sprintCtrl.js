@@ -29,51 +29,6 @@
           29726: 'Needs change record'
         };
 
-        var boardListDefaults = function (tagID) {
-          return [
-            {
-              name: 'cnr',
-              label: 'Needs Review',
-              tag: tagID,
-              category: '',
-              statuses: [8],
-              parentIssue: ''
-            },
-            {
-              name: 'cnw',
-              label: 'Needs Work',
-              tag: tagID,
-              category: '',
-              statuses: [13],
-              parentIssue: ''
-            },
-            {
-              name: 'active',
-              label: 'Active',
-              tag: tagID,
-              category: '',
-              statuses: [1],
-              parentIssue: ''
-            },
-            {
-              name: 'rtbc',
-              label: 'Reviewed & Tested',
-              tag: tagID,
-              category: '',
-              statuses: [14, 15],
-              parentIssue: ''
-            },
-            {
-              name: 'done',
-              label: 'Fixed',
-              tag: tagID,
-              category: '',
-              statuses: [2],
-              parentIssue: ''
-            }
-          ]
-        };
-
         $http.get('/api/sprint/' + $routeParams.sprint).then(function (res) {
           var object = res.data;
           $scope.sprint = object;
@@ -81,13 +36,13 @@
           $scope.page.setTitle(object.title);
 
           $http.get('/api/board/sprint/' + $routeParams.sprint)
-            .success(function (data, status, headers, config) {
+            .then(function (res) {
+              var data = res.data;
               angular.forEach(data, function (val, key) {
                 data[key].tag = object.tid;
               });
               $scope.boardLists = data;
-            })
-            .error(function (data, status, headers, config) {
+            }, function () {
               $scope.boardLists = {}
             });
 

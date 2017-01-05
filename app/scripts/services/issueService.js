@@ -95,7 +95,13 @@
         // If there was a tag, add it as a query option.
         // @todo: Should we validate this (when custom boards exposed)
         if (tag) {
-          apiQuery.addParameter('taxonomy_vocabulary_9', tag);
+          if (typeof tag === 'string') {
+            apiQuery.addParameter('taxonomy_vocabulary_9', tag);
+          } else {
+            for (var i = 0; i < tag.length; i++) {
+              apiQuery.addParameter('taxonomy_vocabulary_9[tid][]', tag[i]);
+            }
+          }
         }
 
         // If there was a parent issue, add it as a query option.
@@ -124,8 +130,8 @@
 
         // @todo investigate caching responses.
         $http.get(apiQuery.getEndpointUrl(), {cache: cache})
-          .success(function (response) {
-            deferred.resolve(responseListProcess(response.list));
+          .then(function (response) {
+            deferred.resolve(responseListProcess(response.data.list));
           });
         return deferred.promise;
       };

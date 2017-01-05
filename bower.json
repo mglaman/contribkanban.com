@@ -4,12 +4,12 @@
   "dependencies": {
     "angular-material": "~1",
     "angular-route": "~1",
+    "angularUtils-pagination": "angular-utils-pagination#^0.11.0",
     "angularytics": "~0.3.0",
     "fontawesome": "~4",
     "jquery": "~2.1.4",
     "modernizr": "~2.8.2",
-    "ngDfp": "~0.14.0",
-    "angularUtils-pagination": "angular-utils-pagination#^0.11.0"
+    "ngDfp": "~0.14.0"
   },
   "resolutions": {
     "angular": "~1.5"

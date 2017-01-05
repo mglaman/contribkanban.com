@@ -7,14 +7,13 @@ var db = require('./config/db');
 
 
 app.locals.docroot = __dirname + '/app';
-var dbUri;
-if (process.env.NODE_ENV === 'production') {
-  dbUri = db.prod;
-} else {
-  dbUri = db.local;
-}
-mongoose.connect(dbUri);
-console.log('Using db uri: ' + dbUri);
+mongoose.connect(db.mongodb);
+console.log('Using db uri: ' + db.mongodb);
+var mongooseConn = mongoose.connection;
+mongooseConn.on('error', console.error.bind(console, 'connection error:'));
+mongooseConn.once('open', function() {
+  console.log('connection success');
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));

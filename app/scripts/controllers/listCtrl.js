@@ -7,7 +7,6 @@
     $scope.param = $scope.list.param;
     $scope.listIssues = [];
     $scope.processing = true;
-    var counter = 0;
 
     $scope.filterIssues = function (statuses) {
       return function (issue) {

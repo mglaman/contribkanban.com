@@ -54,11 +54,11 @@ md-list-item {
   -webkit-align-items: flex- start;
   align-items: flex- start;
   flex-direction: row;
-  margin-bottom: 10px;
+  margin-bottom: -75px;
   overflow-x: auto;
   overflow-y: hidden;
   padding-bottom: 10px;
-  height: 90%; }
+  height: 100%; }
 
 .kanban-board--list {
   background: rgba(246, 246, 242, 0.14);

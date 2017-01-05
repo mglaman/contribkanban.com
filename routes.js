@@ -89,6 +89,6 @@ module.exports = function(app) {
 
   // Fallback
   app.get('*', function(req, res) {
-    res.sendfile(app.locals.docroot + '/index.html');
+    res.sendFile(app.locals.docroot + '/index.html');
   });
 };
