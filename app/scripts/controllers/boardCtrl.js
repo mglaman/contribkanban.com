@@ -58,12 +58,14 @@
         $scope.setBoardLists = function () {
           // Initiate the board's lists.
           projectService.loadProjectConfig($scope.projectMachineName, $scope.projectType)
-            .success(function (data, status, headers, config) {
-              $scope.boardLists = data;
-            })
-            .error(function (data, status, headers, config) {
-              $scope.boardLists = projectService.boardListDefaults;
-            });
+            .then(
+              function (data, status, headers, config) {
+                $scope.boardLists = data;
+              },
+              function (data, status, headers, config) {
+                $scope.boardLists = projectService.boardListDefaults;
+              }
+            );
         };
 
         $scope.updateBoardRoute = function () {

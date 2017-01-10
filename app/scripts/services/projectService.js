@@ -35,21 +35,23 @@
         var deferred = $q.defer();
         var branchLabels = [];
         $http.get(releaseURL.addParameter('field_release_project', nid).getEndpointUrl())
-          .success(function (d) {
-            var releases = d.list;
-            if (releases.length > 0) {
-              angular.forEach(releases, function (object) {
-                branchLabels.push({
-                  name: object.field_release_vcs_label,
-                  label: object.field_release_vcs_label
+          .then(
+            function (d) {
+              var releases = d.list;
+              if (releases.length > 0) {
+                angular.forEach(releases, function (object) {
+                  branchLabels.push({
+                    name: object.field_release_vcs_label,
+                    label: object.field_release_vcs_label
+                  });
                 });
-              });
+              }
+              deferred.resolve(branchLabels);
+            },
+            function (d) {
+              console.log(d);
             }
-            deferred.resolve(branchLabels);
-          })
-          .error(function (d) {
-            console.log(d);
-          });
+          )
         return deferred.promise;
       };
 
@@ -62,7 +64,7 @@
       factory.requestProject = function (machineName) {
         var deferred = $q.defer();
         $http.get(baseURL.addParameter('field_project_machine_name', machineName).getEndpointUrl())
-          .success(function (d) {
+          .then(function (d) {
             // We did a search
             var returnedObject = d.list[0];
             if (returnedObject === undefined) {
