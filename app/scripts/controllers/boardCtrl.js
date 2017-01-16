@@ -59,10 +59,10 @@
           // Initiate the board's lists.
           projectService.loadProjectConfig($scope.projectMachineName, $scope.projectType)
             .then(
-              function (data, status, headers, config) {
-                $scope.boardLists = data;
+              function (res) {
+                $scope.boardLists = res.data;
               },
-              function (data, status, headers, config) {
+              function (res) {
                 $scope.boardLists = projectService.boardListDefaults;
               }
             );
