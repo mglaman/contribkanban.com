@@ -1,6 +1,6 @@
 var platformsh = require("platformsh").config();
 
-var db = {scheme: 'mongodb', username: '', password: '', host: '127.0.0.1', port: '27017', path: 'contribkanban'};
+var db = {scheme: 'mongodb', username: 'main', password: 'main', host: 'localhost', port: '27017', path: 'contribkanban'};
 if (platformsh !== null) {
   db = platformsh.relationships.database[0];
 }
