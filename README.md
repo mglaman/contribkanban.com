@@ -9,9 +9,3 @@ Looking for more? Check out my Chrome application [Drupal Issue Tracking](https:
 ### Contributing
 
 This project was just opened up May 4th 2015. It started off as a pet project at the beginning of the year and a tool for Global Sprint Weekened 2015. Feel free to open pull requests to improve the code and add tests.
-
-### Thanks to
-
-ContribKanban.com is hosted on Platform.sh NodeJS stack.
-
-[![Platform.sh](https://contribkanban.com/assets/hosted-on-platform.png)](https://platform.sh/)
