@@ -1,5 +1,5 @@
-<md-content layout="row" layout-sm="column" layout-padding="">
-  <div class="projects--list--container" layout="column" flex flex-gt-sm="66" layout-fill>
+<md-content layout="column" layout-gt-sm="column" layout-padding="">
+  <div class="projects--list--container" layout="column" flex="100" layout-gt-sm="66" layout-fill>
     <md-card class="projects--list__card" flex layout="column" layout-padding flex-order-gt-sm="2">
       <md-list class="projects--list">
         <md-list-item class="md-2-line project--list__item" dir-paginate="project in projects | orderBy:'title' | filter:projectSearch | itemsPerPage: 10 track by $index">
@@ -14,14 +14,14 @@
       <dir-pagination-controls></dir-pagination-controls>
       <!--<div data-ng-dfp-ad="div-gpt-ad-1421106878492-0"></div>-->
     </md-card>
-    <md-card class="projects--list__form" flex layout="row" layout-sm="column" layout-padding flex-order-gt-sm="1" layout-align="center center">
+    <md-card class="projects--list__form" flex layout="row" layout-sm="column" flex-order-gt-sm="1" layout-align="center center">
 
-      <md-input-container flex="60" flex-lt-lg="100" layout="column" layout-padding>
+      <md-input-container flex="100" layout-gt-md="60" layout="column">
         <label>Find a project</label>
         <input type="text" tabindex="1" data-ng-model="projectSearch.title" class="form-control" style="width: 100%;"/>
       </md-input-container>
 
-      <md-input-container hide-sm hide-md flex="25" layout="column" layout-padding>
+      <md-input-container hide-sm hide-md flex="25" layout="column">
         <label>{{ ::addPlaceholder }}</label>
         <input class="form-control" type="text" data-ng-model="project"/>
       </md-input-container>
@@ -32,7 +32,7 @@
 
     </md-card>
   </div>
-  <div layout="column" flex flex-gt-sm="33">
+  <div layout="column" flex="100" layout-gt-sm="33">
     <md-card>
       <md-card-content class="md-body-1">
         <h1 class="md-title">Welcome to Contrib Kanban!</h1>
