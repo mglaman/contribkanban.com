@@ -4,11 +4,10 @@
 
     <md-card class="projects--list__card" layout="column" flex="100" layout-padding flex-order-gt-sm="2">
       <md-list class="projects--list">
-        <md-list-item class="md-2-line project--list__item" dir-paginate="project in projects | orderBy:'title' | filter:projectSearch | itemsPerPage: 10 track by $index">
+        <md-list-item class="md-2-line project--list__item" dir-paginate="project in projects | orderBy:'title' | filter:projectSearch | itemsPerPage: 15 track by $index">
           <div class="md-list-item-text" layout="column" layout-padding>
-            <h3><a ng-href="{{ routePath }}/{{ project.machine_name }}" style="color:inherit; text-decoration: none;"
-                   ng-bind="project.title"></a></h3>
-            <a ng-href="{{ routePath }}/{{ project.machine_name }}"><span class="md-caption">View</span></a>
+            <h3><a ng-href="{{ routePath }}/{{ project.machine_name }}" style="color:inherit; text-decoration: none;"  ng-bind="project.title"></a></h3>
+            <md-button class="md-secondary" ng-href="{{ routePath }}/{{ project.machine_name }}"><span class="md-caption">View</span></md-button>
           </div>
           <md-divider></md-divider>
         </md-list-item>
@@ -17,7 +16,7 @@
     </md-card>
     <md-card class="projects--list__form" layout="row" layout-sm="column" flex-order-gt-sm="1" layout-align="center center">
       <md-input-container flex="100">
-        <label for="projectSearch">Find a project</label>
+        <label for="projectSearch">Search</label>
         <input id="projectSearch" type="text" tabindex="1" data-ng-model="projectSearch.title" class="form-control" style="width: 100%;"/>
       </md-input-container>
     </md-card>

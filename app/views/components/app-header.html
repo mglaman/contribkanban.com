@@ -4,16 +4,16 @@
 <md-toolbar class="site-content-toolbar" style="color: #ffffff;" ng-hide="embed">
   <div class="md-toolbar-tools">
     <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleSidenav()" tabindex="-1" role="button">
-      <md-icon md-svg-icon="assets/icons/menu.svg" style="color: white;"></md-icon>
+      <i class="material-icons">menu</i>
     </md-button>
     <div layout="row" flex class="fill-height">
       <h2 ng-click="toggleSidenav()" style="cursor: pointer"><span ng-bind="titleService.getHeaderTitle()"></span></h2>
     </div>
     <md-button ng-click="openHelp() | trackEvent:'Button':'Help modal';" aria-label="Help" class="md-icon-button">
-      <md-icon md-svg-icon="assets/icons/help.svg" style="color: white;"></md-icon>
+      <i class="material-icons">help</i>
     </md-button>
     <md-button ng-href="https://github.com/mglaman/contribkanban.com/issues" target="_blank" aria-label="Report a bug" class="md-icon-button">
-      <md-icon md-svg-icon="assets/icons/bug.svg" style="color: white;"></md-icon>
+      <i class="material-icons">bug_report</i>
     </md-button>
   </div>
 </md-toolbar>

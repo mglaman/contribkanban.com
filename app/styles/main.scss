@@ -45,7 +45,7 @@ md-list-item {
 }
 .kanban-board--header {
   padding: 0 7px;
-  height: 75px;
+  //height: 75px;
 }
 
 .kanban-board--container {
@@ -77,6 +77,10 @@ md-list-item {
   width: 290px;
   overflow-x: hidden;
   overflow-y: auto;
+
+  md-progress-circular {
+    display: inline-block;
+  }
 }
 
 .kanban-board--list__header {
@@ -160,6 +164,9 @@ ul.pagination {
       display: block;
       padding: 4px 6px;
     }
+  }
+  .active a {
+    font-weight: bold;
   }
 }
 

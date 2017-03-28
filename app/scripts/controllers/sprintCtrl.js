@@ -20,6 +20,7 @@
         $scope.needs = {
           0: 'All',
           36358: 'Needs reroll',
+          345: 'Needs tests',
           310: 'Needs usability review',
           374: 'Needs issue summary update',
           488: 'Needs documentation',

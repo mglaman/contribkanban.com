@@ -40,8 +40,7 @@ md-list-item {
   height: 100%; }
 
 .kanban-board--header {
-  padding: 0 7px;
-  height: 75px; }
+  padding: 0 7px; }
 
 .kanban-board--container {
   position: relative;
@@ -74,6 +73,8 @@ md-list-item {
   width: 290px;
   overflow-x: hidden;
   overflow-y: auto; }
+  .kanban-board--list md-progress-circular {
+    display: inline-block; }
 
 .kanban-board--list__header {
   padding: 5px 0 0 0;
@@ -139,6 +140,8 @@ ul.pagination {
     ul.pagination li a {
       display: block;
       padding: 4px 6px; }
+  ul.pagination .active a {
+    font-weight: bold; }
 
 .projects--list__form {
   padding: 0.2rem 2rem; }

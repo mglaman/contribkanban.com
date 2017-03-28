@@ -17,8 +17,7 @@
           </md-input-container>
           <md-input-container>
             <label for="issueNeeds" class="sr-only">Issue Tasks</label>
-            <md-select id="issueNeeds" class="form-control pull-left input-sm" ng-model="issueNeedsTag"
-                       ng-change="updateBoardRoute()">
+            <md-select id="issueNeeds" class="form-control pull-left input-sm" ng-model="issueNeedsTag">
               <md-option ng-repeat="(key, value) in :: needs" ng-value="key" ng-bind="value">{{ }}</md-option>
             </md-select>
           </md-input-container>
@@ -32,7 +31,7 @@
            data-ng-repeat="list in boardLists track by list.name" data-ng-controller="listCtrl">
         <div class="kanban-board--list__header">
           <h2 class="md-subhead">
-            <span class="fa" data-ng-class="{'fa-spin fa-spinner': processing === true}">&nbsp;</span>
+            <md-progress-circular ng-disabled="!processing" class="md-hue-2" md-diameter="10px"></md-progress-circular>
             <span ng-bind="list.label"></span> (<span ng-bind="filteredListIssues.length"></span>)
           </h2>
         </div>

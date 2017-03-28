@@ -58,7 +58,6 @@
       return function (issues, category) {
         return issues.filter(function (issue) {
           // If no category...
-          debugger;
           if (category === undefined || category === null || category === '' || category === 0 || category === '0') {
             return true;
           }
