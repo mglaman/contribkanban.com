@@ -48,11 +48,6 @@ md-list-item {
   height: 100%; }
 
 .kanban-board {
-  -ms-flex-align: start;
-  -moz-box-align: start;
-  -webkit-box-align: start;
-  -webkit-align-items: flex- start;
-  align-items: flex- start;
   flex-direction: row;
   margin-bottom: -75px;
   overflow-x: auto;
@@ -146,6 +141,8 @@ ul.pagination {
       padding: 4px 6px; }
 
 .projects--list__form {
-  padding: 0 2rem; }
+  padding: 0.2rem 2rem; }
+  .projects--list__form md-input-container {
+    margin-bottom: 0; }
 
 /*# sourceMappingURL=main.css.map */

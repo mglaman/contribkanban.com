@@ -45,7 +45,6 @@
             $scope.projectID = object.nid;
             $scope.projectType = object.projectType;
             $scope.releaseBranches = object.releaseBranches;
-
             // Set the page title to be the project's name.
             $scope.page.setTitle(object.title);
             $scope.setBoardLists();
@@ -62,7 +61,7 @@
               function (res) {
                 $scope.boardLists = res.data;
               },
-              function (res) {
+              function () {
                 $scope.boardLists = projectService.boardListDefaults;
               }
             );

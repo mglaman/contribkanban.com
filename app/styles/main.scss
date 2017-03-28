@@ -54,7 +54,6 @@ md-list-item {
 }
 
 .kanban-board {
-  @include flexbox-align(start);
   flex-direction: row;
   margin-bottom: -75px;
   overflow-x: auto;
@@ -165,5 +164,8 @@ ul.pagination {
 }
 
 .projects--list__form {
-  padding: 0 2rem;
+  padding: 0.2rem 2rem;
+  md-input-container {
+    margin-bottom: 0;
+  }
 }

@@ -2,17 +2,14 @@
   <div class="kanban-board--header clearfix">
     <div layout="row" layout-sm="column">
       <div layout="column" flex flex-gt-sm="66">
-        <h1><a ng-href="https://www.drupal.org/project/{{ ::project.machine_name }}" target="_blank"
-               ng-bind="project.title"></a></h1>
+        <h1><a ng-href="https://www.drupal.org/project/{{ ::project.machine_name }}" target="_blank" ng-bind="project.title"></a></h1>
       </div>
       <div layout="column" layout-sm="column" flex flex-gt-sm="33" layout-align-gt-sm="end end" hide-sm>
         <div layout="row" layout-sm="column">
-          <md-input-container ng-hide="releaseBranches === undefined">
+          <md-input-container ng-hide="releaseBranches === undefined || releaseBranches.length === 0">
             <label for="projectBranches">Project branches</label>
-            <md-select id="projectBranches" class="form-control pull-left input-sm" ng-model="projectRelease"
-                       ng-change="updateBoardRoute()">
-              <md-option ng-repeat="release in releaseBranches track by release.label" ng-value="release"
-                         ng-bind="release.name"></md-option>
+            <md-select id="projectBranches" class="form-control pull-left input-sm" ng-model="projectRelease" ng-change="updateBoardRoute()">
+              <md-option ng-repeat="release in releaseBranches track by release.label" ng-value="release" ng-bind="release.name"></md-option>
             </md-select>
           </md-input-container>
           <md-input-container>
@@ -33,7 +30,7 @@
   </div>
   <div class="kanban-board--container">
     <div class="kanban-board scrolly" flex layout="row">
-      <div class="kanban-board--list scrolly md-whiteframe-z2" flex layout="column"
+      <div class="kanban-board--list scrolly md-whiteframe-z2" flex="100" layout="column"
            data-ng-repeat="list in boardLists track by $index" data-ng-controller="listCtrl">
         <div class="kanban-board--list__header">
           <h2 class="md-subhead">

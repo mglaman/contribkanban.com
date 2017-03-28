@@ -7,8 +7,8 @@
   -ms-flex-align: $position;
   -moz-box-align: $position;
   -webkit-box-align: $position;
-  -webkit-align-items: flex-$position;
-  align-items: flex-$position;
+  -webkit-align-items: flex-+$position;
+  align-items: flex-+$position;
 }
 
 @mixin display-flexbox() {
