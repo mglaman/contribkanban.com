@@ -1,11 +1,12 @@
 (function (angular) {
   'use strict';
-  angular.module('appContribkanban').run(['$route', '$rootScope', '$location', 'Angularytics', function ($route, $rootScope, $location, Angularytics) {
+  angular.module('appContribkanban').run(['$route', '$rootScope', '$location', 'Angularytics', 'TitleService', function ($route, $rootScope, $location, Angularytics, TitleService) {
     Angularytics.init();
 
     $rootScope.page = {
       setTitle: function (title) {
         this.title = title + ' | Contrib Kanban';
+        TitleService.setHeaderTitle(title);
       }
     };
     $rootScope.$on('$routeChangeSuccess', function (event, current) {

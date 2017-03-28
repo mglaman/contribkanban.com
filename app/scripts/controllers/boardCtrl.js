@@ -10,7 +10,8 @@
       'issueService',
       'projectService',
       'Angularytics',
-      function ($scope, $routeParams, $location, $http, issueService, projectService, Angularytics) {
+      'TitleService',
+      function ($scope, $routeParams, $location, $http, issueService, projectService, Angularytics, TitleService) {
         $scope.sprintBoard = false;
         $scope.project = {};
         $scope.projectID = '';
@@ -47,6 +48,7 @@
             $scope.releaseBranches = object.releaseBranches;
             // Set the page title to be the project's name.
             $scope.page.setTitle(object.title);
+            TitleService.setHeaderTitle(object.title);
             $scope.setBoardLists();
 
 

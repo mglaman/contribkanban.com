@@ -5,9 +5,9 @@
       restrict: 'E',
       templateUrl: 'views/components/app-header.html',
       controllerAs: 'HeaderController',
-      controller: ['$scope', '$location', '$mdSidenav', '$mdDialog', function ($scope, $location, $mdSidenav, $mdDialog) {
+      controller: ['$scope', '$location', '$mdSidenav', '$mdDialog','TitleService', function ($scope, $location, $mdSidenav, $mdDialog, TitleService) {
         $scope.embed = $location.search().embed || false;
-
+        $scope.titleService = TitleService;
         $scope.toggleSidenav = function () {
           $mdSidenav('left').toggle();
         };
