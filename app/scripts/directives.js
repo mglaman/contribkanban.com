@@ -52,7 +52,7 @@
     .directive('issueMetaAssigned', function () {
       return {
         restrict: 'E',
-        template: '<span class="kanban-board--issue__component btn-primary" ng-hide="!issue.assigned.id" ng-bind="\'ASSIGNED: \' + issue.assigned.id"></span>'
+        template: '<span class="kanban-board--issue__component btn-primary" ng-hide="!username" ng-bind="\'ASSIGNED: \' + username"></span>'
       };
     })
     .directive('issueMetaCategory', function () {
@@ -64,7 +64,7 @@
     .directive('issueMetaProject', function () {
       return {
         restrict: 'E',
-        template: '<span class="kanban-board--issue__component btn-default" ng-bind="issue.project"></span>'
+        template: '<span class="kanban-board--issue__component btn-default" ng-bind="project"></span>'
       };
     });
 })(window.angular);
