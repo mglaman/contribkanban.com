@@ -9,9 +9,8 @@
       '$http',
       'issueService',
       'projectService',
-      'Angularytics',
       'TitleService',
-      function ($scope, $routeParams, $location, $http, issueService, projectService, Angularytics, TitleService) {
+      function ($scope, $routeParams, $location, $http, issueService, projectService, TitleService) {
         $scope.sprintBoard = false;
         $scope.project = {};
         $scope.projectID = '';
@@ -50,10 +49,6 @@
             $scope.page.setTitle(object.title);
             TitleService.setHeaderTitle(object.title);
             $scope.setBoardLists();
-
-
-            // Ping Google.
-            Angularytics.trackEvent('Project', 'Viewed project: ' + object.title);
           });
 
         $scope.setBoardLists = function () {

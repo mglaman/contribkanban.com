@@ -1,7 +1,6 @@
 (function (angular) {
   'use strict';
-  angular.module('appContribkanban').run(['$route', '$rootScope', '$location', 'Angularytics', 'TitleService', function ($route, $rootScope, $location, Angularytics, TitleService) {
-    Angularytics.init();
+  angular.module('appContribkanban').run(['$route', '$rootScope', '$location', 'TitleService', function ($route, $rootScope, $location, TitleService) {
 
     $rootScope.page = {
       setTitle: function (title) {

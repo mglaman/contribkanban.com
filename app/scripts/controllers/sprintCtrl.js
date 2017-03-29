@@ -8,8 +8,7 @@
       '$location',
       'issueService',
       '$http',
-      'Angularytics',
-      function ($scope, $routeParams, $location, issueService, $http, Angularytics) {
+      function ($scope, $routeParams, $location, issueService, $http) {
         $scope.sprintBoard = true;
         $scope.sprint = {};
         $scope.projectID = null;
@@ -46,9 +45,6 @@
             }, function () {
               $scope.boardLists = {}
             });
-
-          // Ping Google.
-          Angularytics.trackEvent('Project', 'Viewed sprint: ' + object.title);
         });
 
         $scope.updateBoardRoute = function () {
