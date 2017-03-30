@@ -37,7 +37,7 @@
         </div>
         <div class="kanban-board--items">
           <md-card class="" ng-click="openIssue(issue.nid)"
-                   ng-repeat="issue in filteredListIssues =  (listIssues | orderBy:issue.priority | issueNeedsFilter:issueNeedsTag | issuePriorityFilter:issuePriority | filter:filterIssues(list.statuses)) track by $index"
+                   ng-repeat="issue in filteredListIssues =  (listIssues | orderBy:issue.priority | issueBranchFilter:branchFilter | issueNeedsFilter:issueNeedsTag | issuePriorityFilter:issuePriority | filter:filterIssues(list.statuses)) track by $index"
                    style="background-color: {{ issue.status | statusColorFilter }}">
             <kanban-issue></kanban-issue>
         </div>

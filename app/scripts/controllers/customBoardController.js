@@ -12,6 +12,7 @@
         $scope.sprintBoard = true;
         $scope.projectID = null;
         $scope.boardLists = [];
+        $scope.branchFilter = null;
         $scope.issueNeedsTag = $routeParams.needs || '';
         $scope.priorities = issueService.issuePriorities;
         $scope.categories = issueService.issueCategories;
@@ -33,6 +34,9 @@
           // Set the page title to be the project's name.
           $scope.page.setTitle(object.title);
           $scope.boardLists = object.lists;
+          if (object.hasOwnProperty('branchFilter')) {
+            $scope.branchFilter = object.branchFilter;
+          }
         });
 
         $scope.updateBoardRoute = function () {

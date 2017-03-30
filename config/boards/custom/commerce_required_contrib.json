@@ -1,0 +1,120 @@
+{
+  "title": "Commerce 2 Required Contrib",
+  "branchFilter": "8.x",
+  "lists": [
+    {
+      "projectNid": [
+        "2421989",
+        "3280",
+        "1298244",
+        "1181848",
+        "626176"
+      ],
+      "category": "",
+      "component": "",
+      "label": "Postponed",
+      "name": "backlog",
+      "parentIssue": "",
+      "priority": null,
+      "statuses": [
+        4,
+        16
+      ],
+      "tag": "",
+      "version": ""
+    },
+    {
+      "projectNid": [
+        "2421989",
+        "3280",
+        "1298244",
+        "1181848",
+        "626176"
+      ],
+      "category": "",
+      "component": "",
+      "label": "Active",
+      "name": "active",
+      "parentIssue": "",
+      "priority": null,
+      "statuses": [1],
+      "tag": "",
+      "version": ""
+    },
+    {
+      "projectNid": [
+        "2421989",
+        "3280",
+        "1298244",
+        "1181848",
+        "626176"
+      ],
+      "category": "",
+      "component": "",
+      "label": "Needs Work",
+      "name": "cnw",
+      "parentIssue": "",
+      "priority": null,
+      "statuses": [13],
+      "tag": "",
+      "version": ""
+    },
+    {
+      "projectNid": [
+        "2421989",
+        "3280",
+        "1298244",
+        "1181848",
+        "626176"
+      ],
+      "category": "" ,
+      "component": "",
+      "label": "Needs Review",
+      "name": "cnr",
+      "parentIssue": "",
+      "priority": null,
+      "statuses": [8],
+      "tag": "",
+      "version": ""
+    },
+    {
+      "projectNid": [
+        "2421989",
+        "3280",
+        "1298244",
+        "1181848",
+        "626176"
+      ],
+      "category": "",
+      "component": "",
+      "label": "Reviewed & Tested",
+      "name": "rtbc",
+      "parentIssue": "",
+      "priority": null,
+      "statuses": [
+        14,
+        15
+      ],
+      "tag": "",
+      "version": ""
+    },
+    {
+      "projectNid": [
+        "2421989",
+        "3280",
+        "1298244",
+        "1181848",
+        "626176"
+      ],
+      "category": "",
+      "component": "",
+      "label": "Fixed",
+      "name": "done",
+      "parentIssue": "",
+      "priority": null,
+      "statuses": [2],
+      "tag": "",
+      "version": ""
+    }
+  ]
+}
