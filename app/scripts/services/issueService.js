@@ -75,7 +75,13 @@
 
         // If there was a projectNid, add it as a query option.
         if (projectNid) {
-          apiQuery.addParameter('field_project', projectNid);
+          if (typeof projectNid !== 'object') {
+            apiQuery.addParameter('field_project', projectNid);
+          } else {
+            for (var i = 0; i < projectNid.length; i++) {
+              apiQuery.addParameter('field_project[target_id][]', projectNid[i])
+            }
+          }
         }
 
         // If there was a status, add it as a query option.

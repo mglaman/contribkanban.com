@@ -13,7 +13,6 @@
         // @note: not in filter because filters + promises = bad juju
         var uid = $scope.issue.assigned.id;
         if (uid.length > 0 && $scope.username.length === 0) {
-          debugger;
           // Check local contributor data
           $http.get('/api/contributor/' + uid, {cache: true}).then(function (res) {
             // If local, use that.
@@ -42,7 +41,11 @@
             } else {
               var nodeUrl = new UrlService().setEntityEndpoint('node').addParameter('nid', $scope.issue.project);
               $http.get(nodeUrl.getEndpointUrl()).then(function (res) {
-                $scope.project = res.data.list[0].title;
+                if (res.data.list.length > 0) {
+                  $scope.project = res.data.list[0].title;
+                } else {
+                  debugger;
+                }
               })
             }
           });

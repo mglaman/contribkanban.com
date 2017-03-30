@@ -33,9 +33,14 @@
     // Get the issues for this state.
     var getListIssues = function () {
       $scope.processing = true;
+      var projectId = $scope.projectID;
+      if (typeof $scope.list.projectNid === 'object') {
+        projectId = $scope.list.projectNid;
+      }
+      debugger;
 
       issueService.requestIssues(
-        $scope.projectID,
+        projectId,
         $scope.list.statuses,
         $scope.list.tag,
         $scope.list.category,

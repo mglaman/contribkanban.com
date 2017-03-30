@@ -25,9 +25,9 @@
         templateUrl: 'views/kanban-sprint.html',
         controller: 'sprintCtrl'
       })
-      .when('/changelog', {
-        title: 'Changelog',
-        templateUrl: 'views/changelog.html'
+      .when('/custom/:board/:needs?', {
+        templateUrl: 'views/kanban-custom.html',
+        controller: 'customBoardController'
       })
       .otherwise({
         title: 'Home',

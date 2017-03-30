@@ -86,6 +86,16 @@ module.exports = function(app) {
     }
     return res.send(config);
   });
+  // Check for and return board configurations.
+  app.get('/api/custom/:id', function (req, res) {
+    var config;
+    try {
+      config = require('./config/boards/custom/' + req.params.id + '.json');
+    } catch (err) {
+      config = {};
+    }
+    return res.send(config);
+  });
 
   // Fallback
   app.get('*', function(req, res) {
