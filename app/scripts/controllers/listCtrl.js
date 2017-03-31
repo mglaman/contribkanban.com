@@ -37,7 +37,6 @@
       if (typeof $scope.list.projectNid === 'object') {
         projectId = $scope.list.projectNid;
       }
-      debugger;
 
       issueService.requestIssues(
         projectId,

@@ -3,52 +3,33 @@
   angular.module('appContribkanban').directive('kanbanIssue', function () {
     return {
       restrict: 'E',
-      templateUrl: 'views/components/issue.html',
+      // templateUrl: 'views/components/issue.html',
+      template: '<md-card-content layout="column">' +
+      '<h2 class="md-subhead"><issue-title> </issue-title><issue-nid-link></issue-nid-link></h2> ' +
+      '<div class="kanban-board--issue_tags" ng-hide="noTags">' +
+      '<issue-meta-version></issue-meta-version>' +
+      '<issue-meta-priority></issue-meta-priority>' +
+      '<issue-meta-component></issue-meta-component>' +
+      '<issue-meta-assigned></issue-meta-assigned>' +
+      '<issue-meta-category></issue-meta-category>' +
+      '<issue-meta-project ng-show="sprintBoard"></issue-meta-project>' +
+      '</div></md-card-content>',
       controllerAs: 'IssueController',
-      controller: ['$scope', '$http', 'UrlService', function ($scope, $http, UrlService) {
-
+      controller: ['$scope', '$http', 'UrlService', 'UserService', 'projectService', function ($scope, $http, UrlService, UserService, projectService) {
         $scope.username = '';
         $scope.project = '';
 
-        // @note: not in filter because filters + promises = bad juju
         var uid = $scope.issue.assigned.id;
         if (uid.length > 0 && $scope.username.length === 0) {
-          // Check local contributor data
-          $http.get('/api/contributor/' + uid, {cache: true}).then(function (res) {
-            // If local, use that.
-            if (res.data !== null) {
-              $scope.username = res.data.name;
-            }
-            // Else ping Drupal.org and cache
-            else {
-              $http.get('https://www.drupal.org/api-d7/user/' + uid+ '.json', {cache: true}).then(function (response) {
-                $http.post('/api/contributor', {
-                  uid: response.data.uid,
-                  name: response.data.name
-                });
-                $scope.username = response.data.name;
-              });
-            }
+          UserService.get(uid).then(function (name) {
+            $scope.username = name;
           });
         }
 
-        if ($scope.issue.project === "3060") {
-          $scope.project = 'Drupal core';
-        } else {
-          $http.get('/api/project/' + $scope.issue.project, {cache: true}).then(function (res) {
-            if (res.data !== null) {
-              $scope.project = res.data.title;
-            } else {
-              var nodeUrl = new UrlService().setEntityEndpoint('node').addParameter('nid', $scope.issue.project);
-              $http.get(nodeUrl.getEndpointUrl()).then(function (res) {
-                if (res.data.list.length > 0) {
-                  $scope.project = res.data.list[0].title;
-                } else {
-                  debugger;
-                }
-              })
-            }
-          });
+        if ($scope.project.length === 0) {
+          projectService.getProjectTitle($scope.issue.project).then(function (title) {
+            $scope.project = title;
+          })
         }
       }]
     };

@@ -1,22 +1,13 @@
 {
-  "title": "Commerce 2 Payment Gateways",
+  "title": "Commerce 2 Promotions",
   "branchFilter": "8.x",
   "lists": [
     {
       "projectNid": [
-        "906998",
-        "1841050",
-        "963896",
-        "2857753",
-        "1371556",
-        "2851355",
-        "2365459",
-        "2368233",
-        "2838371",
-        "2843738"
+        "605898"
       ],
       "category": "",
-      "component": "",
+      "component": "Promotions",
       "label": "Postponed",
       "name": "backlog",
       "parentIssue": "",
@@ -30,19 +21,10 @@
     },
     {
       "projectNid": [
-        "906998",
-        "1841050",
-        "963896",
-        "2857753",
-        "1371556",
-        "2851355",
-        "2365459",
-        "2368233",
-        "2838371",
-        "2843738"
+        "605898"
       ],
       "category": "",
-      "component": "",
+      "component": "Promotions",
       "label": "Active",
       "name": "active",
       "parentIssue": "",
@@ -53,19 +35,10 @@
     },
     {
       "projectNid": [
-        "906998",
-        "1841050",
-        "963896",
-        "2857753",
-        "1371556",
-        "2851355",
-        "2365459",
-        "2368233",
-        "2838371",
-        "2843738"
+        "605898"
       ],
       "category": "",
-      "component": "",
+      "component": "Promotions",
       "label": "Needs Work",
       "name": "cnw",
       "parentIssue": "",
@@ -76,19 +49,10 @@
     },
     {
       "projectNid": [
-        "906998",
-        "1841050",
-        "963896",
-        "2857753",
-        "1371556",
-        "2851355",
-        "2365459",
-        "2368233",
-        "2838371",
-        "2843738"
+        "605898"
       ],
       "category": "" ,
-      "component": "",
+      "component": "Promotions",
       "label": "Needs Review",
       "name": "cnr",
       "parentIssue": "",
@@ -99,19 +63,10 @@
     },
     {
       "projectNid": [
-        "906998",
-        "1841050",
-        "963896",
-        "2857753",
-        "1371556",
-        "2851355",
-        "2365459",
-        "2368233",
-        "2838371",
-        "2843738"
+        "605898"
       ],
       "category": "",
-      "component": "",
+      "component": "Promotions",
       "label": "Reviewed & Tested",
       "name": "rtbc",
       "parentIssue": "",
@@ -125,18 +80,10 @@
     },
     {
       "projectNid": [
-        "906998",
-        "1841050",
-        "963896",
-        "2857753",
-        "1371556",
-        "2365459",
-        "2368233",
-        "2838371",
-        "2843738"
+        "605898"
       ],
       "category": "",
-      "component": "",
+      "component": "Promotions",
       "label": "Fixed",
       "name": "done",
       "parentIssue": "",

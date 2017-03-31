@@ -27,6 +27,13 @@ a {
   }
 }
 
+.site-content-toolbar {
+  color: #fff;
+  md-button, h2 {
+    cursor: pointer;
+    color: #fff;
+  }
+}
 
 .projects--list {
   a {

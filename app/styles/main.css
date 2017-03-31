@@ -28,6 +28,12 @@ a {
   a:hover {
     color: #106CC8; }
 
+.site-content-toolbar {
+  color: #fff; }
+  .site-content-toolbar md-button, .site-content-toolbar h2 {
+    cursor: pointer;
+    color: #fff; }
+
 .projects--list a {
   border-bottom: 0; }
 

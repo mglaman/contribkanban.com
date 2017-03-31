@@ -25,6 +25,27 @@
         .addParameter('field_release_update_status', '0')
         .addParameter('field_release_version_extra', 'dev');
 
+      factory.getProjectTitle = function (nid) {
+        var deferred = $q.defer();
+
+        if (nid === "3060") {
+          deferred.resolve('Drupal core');
+        } else {
+          $http.get('/api/project/' + nid, {cache: true}).then(function (res) {
+            if (res.data !== null) {
+              deferred.resolve(res.data.title);
+            } else {
+              $http.get(baseURL.addParameter('nid', nid).getEndpointUrl(), {cache: true}).then(function (res) {
+                if (res.data.list.length > 0) {
+                  deferred.resolve(res.data.list[0].title);
+                }
+              })
+            }
+          });
+        }
+        return deferred.promise;
+      };
+
       /**
        * Returns project release nodes.
        *

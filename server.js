@@ -11,9 +11,7 @@ mongoose.connect(db.mongodb);
 console.log('Using db uri: ' + db.mongodb);
 var mongooseConn = mongoose.connection;
 mongooseConn.on('error', console.error.bind(console, 'connection error:'));
-mongooseConn.once('open', function() {
-  console.log('connection success');
-});
+mongooseConn.once('open', function() {});
 
 app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
