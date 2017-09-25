@@ -1,7 +1,7 @@
 [
   {
     "category": null,
-    "component": "migrate system",
+    "component": "migration system",
     "label": "Postponed",
     "name": "backlog",
     "parentIssue": "",
@@ -14,7 +14,7 @@
   },
   {
     "category": null,
-    "component": "migrate system",
+    "component": "migration system",
     "label": "Active",
     "name": "active",
     "parentIssue": "",
@@ -24,7 +24,7 @@
   },
   {
     "category": null,
-    "component": "migrate system",
+    "component": "migration system",
     "label": "Needs Work",
     "name": "cnw",
     "parentIssue": "",
@@ -34,7 +34,7 @@
   },
   {
     "category": null,
-    "component": "migrate system",
+    "component": "migration system",
     "label": "Needs Review",
     "name": "cnr",
     "parentIssue": "",
@@ -44,7 +44,7 @@
   },
   {
     "category": null,
-    "component": "migrate system",
+    "component": "migration system",
     "label": "Reviewed & Tested",
     "name": "rtbc",
     "parentIssue": "",
@@ -57,7 +57,7 @@
   },
   {
     "category": null,
-    "component": "migrate system",
+    "component": "migration system",
     "label": "Fixed",
     "name": "done",
     "parentIssue": "",
