@@ -58,7 +58,7 @@
         $http.get(releaseURL.addParameter('field_release_project', nid).getEndpointUrl())
           .then(
             function (d) {
-              var releases = d.list;
+              var releases = d.data.list;
               if (releases.length > 0) {
                 angular.forEach(releases, function (object) {
                   branchLabels.push({
@@ -87,7 +87,7 @@
         $http.get(baseURL.addParameter('field_project_machine_name', machineName).getEndpointUrl())
           .then(function (d) {
             // We did a search
-            var returnedObject = d.list[0];
+            var returnedObject = d.data.list[0];
             if (returnedObject === undefined) {
               alert('Invalid project machine name');
             } else {
