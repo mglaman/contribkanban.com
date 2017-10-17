@@ -1,5 +1,0 @@
-mongodb:
-  type: mongodb:3.0
-  disk: 1024
-#cache:
-#    type: redis:2.8
