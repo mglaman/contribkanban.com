@@ -1,0 +1,14 @@
+{
+    "apps" : [{
+      "name"        : "contribkanban",
+      "script"      : "server.js",
+      "args"        : [],
+      "watch"       : true,
+      "node_args"   : "",
+      "merge_logs"  : true,
+      "env": {
+          "NODE_ENV": "production",
+          "PORT": "80"
+      }
+    }]
+  }
