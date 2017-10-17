@@ -1,0 +1,6 @@
+name: ContribKanban.com
+description: Creates kanban boards for contributed projects.
+core: 8.x
+type: module
+dependencies:
+  - entity

@@ -1,0 +1,14 @@
+name: ContribKanban
+type: theme
+description: Theme for ContribKanban
+package: Other
+core: 8.x
+libraries:
+  - contribkanban/global-styling
+ 
+base theme: false
+
+regions:
+  content: Content
+  header: Header
+  footer: Footer

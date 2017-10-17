@@ -1,0 +1,20 @@
+uuid: 596e5a3e-b8ad-497c-a6ea-a09d1f7eed7a
+langcode: en
+status: true
+dependencies:
+  theme:
+    - contribkanban
+_core:
+  default_config_hash: 8yptDf6WrXxeyevUz4nP5vfr7BtxQqCBMninhV2IJ1g
+id: contribkanban_page_title
+theme: contribkanban
+region: content
+weight: -30
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  provider: core
+  label_display: '0'
+visibility: {  }

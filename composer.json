@@ -42,6 +42,10 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
+        "bin-dir": "bin",
+        "discard-changes": true,
+        "optimize-autoloader": true,
+        "apcu-autoloader": true,
         "sort-packages": true
     },
     "autoload": {
