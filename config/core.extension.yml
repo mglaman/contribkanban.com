@@ -4,8 +4,10 @@ module:
   automated_cron: 0
   block: 0
   breakpoint: 0
+  contribkanban_api: 0
   contribkanban_boards: 0
   dblog: 0
+  devel: 0
   dynamic_page_cache: 0
   entity: 0
   field: 0

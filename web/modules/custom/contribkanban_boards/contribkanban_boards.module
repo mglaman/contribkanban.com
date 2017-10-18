@@ -1,0 +1,63 @@
+<?php
+
+/**
+ * @file
+ * Module file for contribkanban_boards.
+ */
+
+use Drupal\contribkanban_boards\FieldHelper;
+use Drupal\Core\Render\Element;
+
+/**
+ * Implements hook_theme().
+ */
+function contribkanban_boards_theme($existing, $type, $theme, $path) {
+  return [
+    'board' => [
+      'render element' => 'elements',
+    ],
+    'board_list' => [
+      'render element' => 'elements',
+    ],
+    'field__board__lists' => [
+      'base hook' => 'field',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function contribkanban_boards_preprocess_board(&$variables) {
+  $variables['board'] = [];
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['board'][$key] = $variables['elements'][$key];
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function contribkanban_boards_preprocess_board_list(&$variables) {
+  $variables['#attached']['library'][] = 'contribkanban_boards/board_list';
+  /** @var \Drupal\contribkanban_boards\Entity\BoardListInterface $board_list */
+  $board_list = $variables['elements']['#board_list'];
+
+  // Take the board's project list and append them to the list's projects.
+  $board = $board_list->getBoard();
+  foreach ($board->get('project_nid') as $item) {
+    $board_list->get('project_nid')->appendItem($item->value);
+  }
+
+  $variables['title'] = ['#markup' => $board_list->label()];
+  $attributes =& $variables['attributes'];
+  $attributes['data-drupal-selector'] = 'board-list';
+  $attributes['data-projects'] = FieldHelper::stringAsJson($board_list->get('project_nid'));
+  $attributes['data-category'] = FieldHelper::stringAsJson($board_list->get('category'));
+  $attributes['data-component'] = FieldHelper::stringAsJson($board_list->get('component'));
+  $attributes['data-parent'] = FieldHelper::stringAsJson($board_list->get('parent_issue'));
+  $attributes['data-priority'] = FieldHelper::stringAsJson($board_list->get('priority'));
+  $attributes['data-statuses'] = FieldHelper::stringAsJson($board_list->get('statuses'));
+  $attributes['data-tag'] = FieldHelper::stringAsJson($board_list->get('tag'));
+  $attributes['data-version'] = FieldHelper::stringAsJson($board_list->get('version'));
+}

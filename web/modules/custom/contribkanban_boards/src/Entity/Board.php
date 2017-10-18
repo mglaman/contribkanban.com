@@ -3,6 +3,7 @@
 namespace Drupal\contribkanban_boards\Entity;
 
 use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 
@@ -15,7 +16,6 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *   bundle_label = @Translation("Board provider"),
  *   bundle_plugin_type = "board_provider",
  *   base_table = "board",
- *   admin_permission = "administer content",
  *   fieldable = TRUE,
  *   admin_permission = "administer board",
  *   permission_granularity = "bundle",
@@ -26,7 +26,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *     "label" = "title",
  *   },
  *   handlers = {
- *     "access" = "\Drupal\Core\Entity\EntityAccessControlHandler",
+ *     "access" = "\Drupal\entity\EntityAccessControlHandler",
  *     "permission_provider" = "\Drupal\entity\EntityPermissionProvider",
  *     "form" = {
  *       "default" = "\Drupal\Core\Entity\ContentEntityForm",
@@ -35,9 +35,9 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *       "delete" = "\Drupal\Core\Entity\EntityDeleteForm",
  *     },
  *     "route_provider" = {
- *       "html" = "\Drupal\Core\Entity\Routing\DefaultHtmlRouteProvider",
+ *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
  *     },
- *     "list_builder" = "\Drupal\Core\Entity\EntityListBuilder",
+ *     "list_builder" = "\Drupal\contribkanban_boards\BoardListBuilder",
  *   },
  *   links = {
  *     "add-page" = "/board/add",
@@ -53,11 +53,43 @@ class Board extends ContentEntityBase implements BoardInterface {
   /**
    * {@inheritdoc}
    */
+  public function postSave(EntityStorageInterface $storage, $update = TRUE) {
+    parent::postSave($storage, $update);
+    // Ensure there's a back-reference on each product board_list.
+    foreach ($this->lists as $item) {
+      $board_list = $item->entity;
+      if ($board_list->board_id->isEmpty()) {
+        $board_list->board_id = $this->id();
+        $board_list->save();
+      }
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
     $fields['title'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Title'))
-      ->setDescription(t('The board title'));
+      ->setRequired(TRUE)
+      ->setDescription(t('The board title'))
+      ->setSetting('max_length', 255)
+      ->setDisplayOptions('form', [
+        'type' => 'string_textfield',
+        'weight' => -5,
+      ]);
+    // @todo Convert to entity reference for all imported projects.
+    $fields['project_nid'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Projects'))
+      ->setDescription(t('The projects to query for each list'))
+      ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
+      ->setRequired(TRUE)
+      ->setSetting('max_length', 255)
+      ->setDisplayOptions('form', [
+        'type'   => 'string_textfield',
+        'weight' => -5,
+      ]);
     $fields['lists'] = BaseFieldDefinition::create('entity_reference')
       ->setSetting('target_type', 'board_list')
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
@@ -70,6 +102,11 @@ class Board extends ContentEntityBase implements BoardInterface {
           'label_singular' => 'list',
           'label_plural' => 'lists',
         ],
+      ])
+      ->setDisplayOptions('view', [
+        'label' => 'hidden',
+        'type' => 'entity_reference_entity_view',
+        'weight' => 0,
       ])
       ->setRequired(TRUE);
     return $fields;
@@ -89,6 +126,5 @@ class Board extends ContentEntityBase implements BoardInterface {
     ]);
     return $fields;
   }
-
 
 }

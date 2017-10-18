@@ -1,0 +1,7 @@
+board_list:
+  js:
+    js/board-list.js: { }
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once

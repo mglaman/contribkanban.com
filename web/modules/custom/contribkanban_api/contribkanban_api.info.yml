@@ -1,0 +1,4 @@
+name: ContribKanban API
+description: API for ContribKanban
+type: module
+core: 8.x

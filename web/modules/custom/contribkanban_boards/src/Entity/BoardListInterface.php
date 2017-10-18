@@ -6,4 +6,9 @@ use Drupal\Core\Entity\ContentEntityInterface;
 
 interface BoardListInterface extends ContentEntityInterface {
 
+  /**
+   * @return \Drupal\contribkanban_boards\Entity\BoardInterface
+   */
+  public function getBoard();
+
 }
