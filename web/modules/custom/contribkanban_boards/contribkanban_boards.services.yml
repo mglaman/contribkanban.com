@@ -1,0 +1,4 @@
+services:
+  plugin.manager.board_provider:
+    class: Drupal\contribkanban_boards\BoardProviderManager
+    parent: default_plugin_manager

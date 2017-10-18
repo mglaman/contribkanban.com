@@ -10,6 +10,7 @@ module:
   entity: 0
   field: 0
   filter: 0
+  inline_entity_form: 0
   link: 0
   node: 0
   options: 0

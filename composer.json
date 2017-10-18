@@ -23,6 +23,7 @@
         "drupal/console": "^1.0.1",
         "drupal/core": "~8.0",
         "drupal/entity": "~1.0",
+        "drupal/inline_entity_form": "^1.0@beta",
         "drush/drush": "~8.0|^9.0.0-beta7",
         "webflo/drupal-finder": "^1.0.0",
         "webmozart/path-util": "^2.3"
