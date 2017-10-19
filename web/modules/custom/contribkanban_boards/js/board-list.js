@@ -65,12 +65,12 @@
     return '<div class="board--list__item" style="background-color: ' + statusCodes[issue.status] + '">' +
       '<h3>' + issue.summary + ' ' + Drupal.theme('issueLink', issue.nid) + '</h3>' +
       '<div class="kanban-board--issue_tags">' +
-      '<span class="kanban-board--issue__version bg-success">' + issue.version + '</span>' +
-      '<span class="kanban-board--issue__priority bg-' + issue.priority.replace(/\s+/g, '-').toLowerCase() + '">' + issue.priority + '</span>' +
-      '<span class="kanban-board--issue__component bg-default">' + issue.component + '</span>' +
+      '<span class="tag kanban-board--issue__version bg-success">' + issue.version + '</span>' +
+      '<span class="tag kanban-board--issue__priority bg-' + issue.priority.replace(/\s+/g, '-').toLowerCase() + '">' + issue.priority + '</span>' +
+      '<span class="tag kanban-board--issue__component bg-default">' + issue.component + '</span>' +
       '<issue-meta-assigned></issue-meta-assigned>' +
-      '<span class="kanban-board--issue__component bg-' + issue.category.replace(/\s+/g, '-').toLowerCase() + '">' + issue.category + '</span>' +
-      '<span class="kanban-board--issue__component btn-default">' + issue.project + '</span>' +
+      '<span class="tag kanban-board--issue__component bg-' + issue.category.replace(/\s+/g, '-').toLowerCase() + '">' + issue.category + '</span>' +
+      '<span class="tag kanban-board--issue__component btn-default">' + issue.project + '</span>' +
       '</div>' +
     '</div>';
   };

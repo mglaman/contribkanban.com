@@ -128,7 +128,7 @@ main {
 }
 
 .kanban-board--issue_tags .bg-bug-report,
-.kanban-board--issue_tags .btn-critical {
+.kanban-board--issue_tags .bg-critical {
   background: #F44336;
   color: white;
   font-weight: bold;
@@ -151,14 +151,16 @@ main {
 
 
 .app-header {
-  display: flex;
-  flex: 1;
-  flex-direction: row;
+  /*display: flex;*/
+  /*flex: 1;*/
+  /*flex-direction: row;*/
+  /*padding: 0 16px;*/
+  /*background-color: rgb(3,169,244);*/
+  /*color: whitesmoke;*/
+  /*margin-bottom: 5px;*/
+}
+.app-header .container {
   align-items: center;
-  padding: 0 16px;
-  background-color: rgb(3,169,244);
-  color: whitesmoke;
-  margin-bottom: 5px;
 }
 .app-header .fa-bars {
   font-size: 22px;

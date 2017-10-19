@@ -1,0 +1,8 @@
+contribkanban_pages.boards_controller_list:
+  path: '/boards/{type}'
+  defaults:
+    _controller: '\Drupal\contribkanban_pages\Controller\BoardsController::boards'
+    _title: 'Boards'
+    type: ''
+  requirements:
+    _permission: 'access content'

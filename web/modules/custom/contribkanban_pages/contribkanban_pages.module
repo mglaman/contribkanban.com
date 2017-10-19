@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function contribkanban_pages_theme() {
+  return [
+    'boards' => [
+      'variables' => [
+        'search' => NULL,
+        'list' => NULL,
+        'add' => NULL,
+        'content' => NULL,
+      ],
+    ],
+    'add_board_form' => [
+      'render element' => 'form',
+    ],
+  ];
+}

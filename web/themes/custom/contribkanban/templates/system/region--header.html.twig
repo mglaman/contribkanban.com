@@ -13,8 +13,10 @@
  */
 #}
 {% if content %}
-  <div{{ attributes.addClass('app-header') }}>
-    <i class="fa fa-bars fa-1x" data-drupal-selector="app-siderbar-trigger"></i>
-    {{ content }}
+  <div{{ attributes.addClass('app-header', 'navbar', 'is-info') }}>
+    <div class="container is-fluid">
+      <i class="fa fa-bars fa-1x" data-drupal-selector="app-siderbar-trigger"></i>
+      {{ content }}
+    </div>
   </div>
 {% endif %}
