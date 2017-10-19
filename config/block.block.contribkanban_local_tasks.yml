@@ -9,7 +9,7 @@ _core:
 id: contribkanban_local_tasks
 theme: contribkanban
 region: content
-weight: -20
+weight: -3
 provider: null
 plugin: local_tasks_block
 settings:

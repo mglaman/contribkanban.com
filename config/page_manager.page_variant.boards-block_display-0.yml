@@ -1,0 +1,35 @@
+uuid: 156e678b-20de-420c-a1a4-5dab1ba01e5d
+langcode: en
+status: true
+dependencies:
+  config:
+    - page_manager.page.boards
+    - views.view.boards
+  module:
+    - views
+id: boards-block_display-0
+label: 'Block page'
+variant: block_display
+variant_settings:
+  blocks:
+    581903b5-f7d0-4485-8a69-6a9f3535e7fa:
+      id: 'views_block:boards-block_1'
+      label: ''
+      provider: views
+      label_display: '0'
+      views_label: ''
+      items_per_page: none
+      region: top
+      weight: 0
+      uuid: 581903b5-f7d0-4485-8a69-6a9f3535e7fa
+      context_mapping: {  }
+  id: block_display
+  uuid: 0ae2b468-d27b-4d6b-969f-4ade8231d62d
+  label: null
+  weight: 0
+  page_title: Boards
+page: boards
+weight: 0
+selection_criteria: {  }
+selection_logic: and
+static_context: {  }

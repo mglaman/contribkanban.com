@@ -5,3 +5,7 @@ global-styling:
       'assets/font-awesome/css/font-awesome.min.css': { minified: true }
     theme:
       css/style.css: { }
+  js:
+    js/sidebar.js: { }
+  dependencies:
+    - core/jquery

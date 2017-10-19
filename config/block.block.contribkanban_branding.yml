@@ -10,8 +10,8 @@ _core:
   default_config_hash: fRKXNB91UxDvEMkzCR8ZBsawfC6Fqbme2gtobei3gu4
 id: contribkanban_branding
 theme: contribkanban
-region: header
-weight: 0
+region: primary_menu
+weight: -2
 provider: null
 plugin: system_branding_block
 settings:
@@ -19,7 +19,7 @@ settings:
   label: 'Site branding'
   provider: system
   label_display: '0'
-  use_site_logo: true
+  use_site_logo: false
   use_site_name: true
   use_site_slogan: true
 visibility: {  }

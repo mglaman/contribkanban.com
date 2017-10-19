@@ -6,6 +6,7 @@ module:
   breakpoint: 0
   contribkanban_api: 0
   contribkanban_boards: 0
+  ctools: 0
   dblog: 0
   devel: 0
   dynamic_page_cache: 0
@@ -13,14 +14,19 @@ module:
   field: 0
   filter: 0
   inline_entity_form: 0
+  layout_discovery: 0
   link: 0
   node: 0
   options: 0
   page_cache: 0
+  page_manager: 0
+  page_manager_ui: 0
   system: 0
   text: 0
   toolbar: 0
   user: 0
+  views_ui: 0
+  views: 10
   minimal: 1000
 theme:
   stable: 0

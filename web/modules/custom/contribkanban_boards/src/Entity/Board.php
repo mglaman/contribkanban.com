@@ -28,6 +28,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *   handlers = {
  *     "access" = "\Drupal\entity\EntityAccessControlHandler",
  *     "permission_provider" = "\Drupal\entity\EntityPermissionProvider",
+ *     "views_data" = "\Drupal\views\EntityViewsData",
  *     "form" = {
  *       "default" = "\Drupal\Core\Entity\ContentEntityForm",
  *       "add" = "\Drupal\Core\Entity\ContentEntityForm",
@@ -44,7 +45,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *     "add-form" = "/board/add/{type}",
  *     "edit-form" = "/board/{board}/edit",
  *     "canonical" = "/board/{board}",
- *     "collection" = "/boards",
+ *     "collection" = "/admin/boards",
  *   },
  * )
  */
@@ -90,6 +91,7 @@ class Board extends ContentEntityBase implements BoardInterface {
         'type'   => 'string_textfield',
         'weight' => -5,
       ]);
+
     $fields['lists'] = BaseFieldDefinition::create('entity_reference')
       ->setSetting('target_type', 'board_list')
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)

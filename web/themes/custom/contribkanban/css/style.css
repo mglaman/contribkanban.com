@@ -140,3 +140,82 @@ main {
 .kanban-board--issue_tags .bg-default, .kanban-board--issue_tags .btn-default {
   background-color: #F5F5F5;
 }
+
+.page-title {
+  margin: 4px 8px;
+}
+.page-title h1 {
+  font-weight: 400;
+  font-size: 26px;
+}
+
+
+.app-header {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 16px;
+  background-color: rgb(3,169,244);
+  color: whitesmoke;
+  margin-bottom: 5px;
+}
+.app-header .fa-bars {
+  font-size: 22px;
+  cursor: pointer;
+}
+.app-sidebar__backdrop {
+  display: none;
+  opacity: .48;
+  z-index: 59;
+  background-color: rgba(33,33,33,1.0);
+  -webkit-transition: opacity 450ms;
+  transition: opacity 450ms;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.app-sidebar {
+  display: none;
+  box-sizing: border-box;
+  position: absolute;
+  flex-direction: column;
+  z-index: 60;
+  width: 320px;
+  max-width: 320px;
+  left: 0;
+  top: 0;
+  -webkit-transform: translate3d(0%, 0, 0);
+  transform: translate3d(0%, 0, 0);
+  bottom: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  background-color: rgb(255,255,255);
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+  padding-top: 1rem;
+}
+body.toolbar-vertical .app-sidebar,
+body.toolbar-horizontal .app-sidebar {
+  top: 39px;
+}
+body.toolbar-horizontal.toolbar-tray-open .app-sidebar {
+  top: 80px;
+}
+
+@media (min-width: 600px) {
+  .app-sidebar {
+    max-width: 400px;
+  }
+}
+
+
+.site-branding__name {
+  font-size: 26px;
+  text-align: left;
+}
+.site-branding__name a {
+  color: #00b0ff;
+  text-decoration: none;
+}

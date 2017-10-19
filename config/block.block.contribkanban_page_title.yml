@@ -8,8 +8,8 @@ _core:
   default_config_hash: 8yptDf6WrXxeyevUz4nP5vfr7BtxQqCBMninhV2IJ1g
 id: contribkanban_page_title
 theme: contribkanban
-region: content
-weight: -30
+region: header
+weight: -3
 provider: null
 plugin: page_title_block
 settings:

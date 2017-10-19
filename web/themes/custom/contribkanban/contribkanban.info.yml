@@ -5,10 +5,12 @@ package: Other
 core: 8.x
 libraries:
   - contribkanban/global-styling
- 
+
 base theme: false
 
 regions:
   content: Content
   header: Header
+  primary_menu: 'Primary menu'
+  secondary_menu: 'Secondary menu'
   footer: Footer
