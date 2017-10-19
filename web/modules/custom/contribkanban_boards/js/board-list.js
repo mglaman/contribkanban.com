@@ -62,7 +62,7 @@
       18: '#fddddd'
     };
 
-    return '<div class="board--list__item" style="background-color: ' + statusCodes[issue.status] + '">' +
+    return '<div class="board--list__item card" style="background-color: ' + statusCodes[issue.status] + '">' +
       '<h3>' + issue.summary + ' ' + Drupal.theme('issueLink', issue.nid) + '</h3>' +
       '<div class="kanban-board--issue_tags">' +
       '<span class="tag kanban-board--issue__version bg-success">' + issue.version + '</span>' +

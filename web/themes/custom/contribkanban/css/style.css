@@ -37,18 +37,15 @@ input {
   flex-direction: row;
   overflow-x: auto;
   overflow-y: hidden;
-  padding-bottom: 10px;
   height: 100%;
   flex: 1;
 }
 .board--list {
-  display: flex;
-  flex-direction: column;
   background: rgba(246, 246, 242, 0.14);
   border-radius: 3px;
   box-sizing: border-box;
   flex: 0 0 320px;
-  margin: 0 5px;
+  margin: 10px 5px 0 5px;
   max-height: 100%;
   padding: 4px 3px 3px;
   position: relative;
@@ -56,7 +53,6 @@ input {
   width: 290px;
   overflow-x: hidden;
   overflow-y: auto;
-  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 }
 .board--list > h2 {
   font-size: 16px;
@@ -66,24 +62,15 @@ input {
   margin: 8px;
 }
 .board--list__item {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
   margin: 8px;
-  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+  /*box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);*/
   transition: transform 0.1s ease;
   transform: translateZ(0);
-  padding: 3px 8px 8px;
+  padding: 10px;
 }
 .board--list__item:hover {
   transform: translate(0, -2px);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-}
-.board--list__item h3 {
-  font-size: 0.9em;
-  line-height: 1.45;
-  font-weight: 400;
-  letter-spacing: 0.010em;
 }
 .kanban-board--issue_tags {
   margin: 5px 0;
@@ -149,16 +136,6 @@ main {
   font-size: 26px;
 }
 
-
-.app-header {
-  /*display: flex;*/
-  /*flex: 1;*/
-  /*flex-direction: row;*/
-  /*padding: 0 16px;*/
-  /*background-color: rgb(3,169,244);*/
-  /*color: whitesmoke;*/
-  /*margin-bottom: 5px;*/
-}
 .app-header .container {
   align-items: center;
 }
@@ -212,6 +189,9 @@ body.toolbar-horizontal.toolbar-tray-open .app-sidebar {
   }
 }
 
+.add-board-form .columns {
+  margin: 0;
+}
 
 .site-branding__name {
   font-size: 26px;
@@ -220,4 +200,9 @@ body.toolbar-horizontal.toolbar-tray-open .app-sidebar {
 .site-branding__name a {
   color: #00b0ff;
   text-decoration: none;
+}
+
+
+.is-vertical {
+  flex-direction: column;
 }

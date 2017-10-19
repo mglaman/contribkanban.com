@@ -3,6 +3,7 @@
 namespace Drupal\contribkanban_pages\Controller;
 
 use Drupal\contribkanban_pages\Form\AddBoardForm;
+use Drupal\contribkanban_pages\Form\SearchBoardsForm;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Form\FormBuilderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -45,13 +46,13 @@ class BoardsController extends ControllerBase {
   public function boards($type) {
     $build = [
       '#theme' => 'boards',
-      '#search' => NULL,
+      '#search' => $this->formBuilder->getForm(SearchBoardsForm::class),
       '#list' => NULL,
       '#add' => $this->formBuilder->getForm(AddBoardForm::class),
       '#content' => NULL,
       '#cache' => [
         'max-age' => 0,
-      ]
+      ],
     ];
     return $build;
   }

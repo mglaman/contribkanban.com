@@ -6,6 +6,7 @@ module:
   breakpoint: 0
   contribkanban_api: 0
   contribkanban_boards: 0
+  contribkanban_pages: 0
   ctools: 0
   dblog: 0
   devel: 0

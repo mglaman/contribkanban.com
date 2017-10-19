@@ -16,5 +16,8 @@ function contribkanban_pages_theme() {
     'add_board_form' => [
       'render element' => 'form',
     ],
+    'search_boards_form' => [
+      'render element' => 'form',
+    ],
   ];
 }

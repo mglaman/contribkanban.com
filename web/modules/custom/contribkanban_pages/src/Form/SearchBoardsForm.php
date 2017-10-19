@@ -5,23 +5,23 @@ namespace Drupal\contribkanban_pages\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 
-class AddBoardForm extends FormBase {
+class SearchBoardsForm extends FormBase {
 
   public function getFormId() {
-    return 'add_board_form';
+    return 'search_boards_form';
   }
 
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['#theme'] = 'add_board_form';
-    $form['machine_name'] = [
+    $form['#theme'] = 'search_boards_form';
+    $form['query'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Project machine name'),
+      '#title' => $this->t('Board name'),
       '#title_display' => 'hidden',
-      '#placeholder' => $this->t('Project machine name'),
+      '#placeholder' => $this->t('Board name'),
     ];
     $form['submit'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Add project'),
+      '#value' => $this->t('Search'),
       '#attributes' => [
         'class' => [
           'is-info',
