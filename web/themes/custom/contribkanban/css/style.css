@@ -14,6 +14,7 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
   color: rgba(0,0,0,0.87);
   background-color: rgb(250,250,250);
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 body {
   overflow-y: auto;
@@ -57,11 +58,12 @@ input {
   overflow-y: auto;
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 }
-.board--list h2 {
+.board--list > h2 {
   font-size: 16px;
   font-weight: 400;
   letter-spacing: 0.010em;
   line-height: 24px;
+  margin: 8px;
 }
 .board--list__item {
   box-sizing: border-box;
@@ -104,7 +106,37 @@ main {
   flex-direction: column;
   flex: 1;
 }
+.layout-content,
 .board--list__scroll-fix {
   position: relative;
   height: 100%;
+}
+
+.kanban-board--issue_tags .bg-success {
+  background: #A5D6A7;
+}
+.kanban-board--issue_tags .bg-default {
+  background-color: #F5F5F5;
+}
+
+
+.kanban-board--issue_tags .bg-normal {
+  background: #E3F2FD;
+}
+.kanban-board--issue_tags .bg-major {
+  background: #FFF59D;
+}
+
+.kanban-board--issue_tags .bg-bug-report,
+.kanban-board--issue_tags .btn-critical {
+  background: #F44336;
+  color: white;
+  font-weight: bold;
+}
+.kanban-board--issue_tags .bg-task,
+.kanban-board--issue_tags .bg-feature {
+  background: #90CAF9;
+}
+.kanban-board--issue_tags .bg-default, .kanban-board--issue_tags .btn-default {
+  background-color: #F5F5F5;
 }

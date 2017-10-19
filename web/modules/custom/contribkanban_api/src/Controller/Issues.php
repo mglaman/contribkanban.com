@@ -47,6 +47,8 @@ class Issues implements ContainerInjectionInterface {
       'field_issue_status[value][]' => $received['statuses'],
       'taxonomy_vocabulary_9[tid]' => $received['tag'],
       'field_issue_version' => $received['version'],
+      'sort' => 'field_issue_priority',
+      'direction' => 'DESC',
     ];
     $params = array_filter($params);
     $uri = 'node.json?' . http_build_query($params);
@@ -67,13 +69,13 @@ class Issues implements ContainerInjectionInterface {
         'nid' => $item['nid'],
         'changed' => DrupalDateTime::createFromTimestamp($item['changed'])->format(\DateTime::ISO8601),
         'summary' => $item['title'],
-        'status' => $item['field_issue_status'],
+        'status' => (int) $item['field_issue_status'],
         'category' => $this->issueCategoryMapping((int) $item['field_issue_category']),
         'component' => $item['field_issue_component'],
         'priority' => $this->issuePriorityMapping((int) $item['field_issue_priority']),
         'tags' => (empty($item['taxonomy_vocabulary_9'])) ? NULL : (int) $item['taxonomy_vocabulary_9'],
         'version' => $item['field_issue_version'],
-        'assigned' => $item['field_issue_assigned'],
+        'assigned' => (!empty($item['field_issue_assigned'])) ? $item['field_issue_assigned'] : ['id' => ''],
         'project' => $item['field_project']['id'],
       ];
     }

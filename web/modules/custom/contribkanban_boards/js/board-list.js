@@ -43,14 +43,30 @@
     return '<a class="kanban-board--issue__link" href="https://www.drupal.org/node/' + nid + '" target="_blank">#' + nid + '</a>';
   };
   d.theme.issueCard = function (issue) {
-    return '<div class="board--list__item">' +
+    var statusCodes = {
+      1: '#fcfcfc',
+      2: '#d7ffd8',
+      3: '#fddddd',
+      4: '#eff1f3',
+      5: '#fddddd',
+      6: '#fddddd',
+      7: '#fddddd',
+      8: '#ffffdd',
+      13: '#ffece8',
+      14: '#d7ffd8',
+      15: '#d7ffd8',
+      16: '#eff1f3',
+      18: '#fddddd'
+    };
+
+    return '<div class="board--list__item" style="background-color: ' + statusCodes[issue.status] + '">' +
       '<h3>' + issue.summary + ' ' + Drupal.theme('issueLink', issue.nid) + '</h3>' +
       '<div class="kanban-board--issue_tags">' +
       '<span class="kanban-board--issue__version bg-success">' + issue.version + '</span>' +
-      '<span class="kanban-board--issue__priority">' + issue.priority + '</span>' +
+      '<span class="kanban-board--issue__priority bg-' + issue.priority.replace(/\s+/g, '-').toLowerCase() + '">' + issue.priority + '</span>' +
       '<span class="kanban-board--issue__component bg-default">' + issue.component + '</span>' +
       '<issue-meta-assigned></issue-meta-assigned>' +
-      '<span class="kanban-board--issue__component">' + issue.category + '</span>' +
+      '<span class="kanban-board--issue__component bg-' + issue.category.replace(/\s+/g, '-').toLowerCase() + '">' + issue.category + '</span>' +
       '<span class="kanban-board--issue__component btn-default">' + issue.project + '</span>' +
       '</div>' +
     '</div>';
