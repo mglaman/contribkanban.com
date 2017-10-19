@@ -1,0 +1,36 @@
+---
+- hosts: all
+  become: no
+  tasks:
+    - name: Check out Drupal to the docroot.
+      git:
+        repo: "git@github.com:mglaman/contribkanban.com.git"
+        version: "nextgen"
+        update: true
+        force: yes
+        dest: "/var/www/contribkanban.com"
+        accept_hostkey: true
+      register: deploy_repo_updated
+      become: no
+
+    - name: Run composer install.
+      composer:
+        command: install
+        working_dir: "/var/www/contribkanban.com"
+      become: no
+
+    - name: Define deploy_updated
+      set_fact:
+        deploy_updated: "{{ deploy_repo_updated.changed|default(true) }}"
+
+    - name: Rebuild cache.
+      command: "/var/www/contribkanban.com/bin/drush cr -y -r /var/www/contribkanban.com/web"
+      when: deploy_updated
+
+    - name: Import config.
+      command: "/var/www/contribkanban.com/bin/drush cim -y -r /var/www/contribkanban.com/web"
+      when: deploy_updated
+
+    - name: Run database updates.
+      command: "/var/www/contribkanban.com/bin/drush updatedb -y -r /var/www/contribkanban.com/web"
+      when: deploy_updated
