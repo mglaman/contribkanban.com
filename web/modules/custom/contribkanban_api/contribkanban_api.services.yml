@@ -1,0 +1,14 @@
+parameters:
+  contribkanban_api.drupalorg_client.config:
+    base_uri: 'https://www.drupal.org/api-d7/'
+    headers:
+      Accept: 'application/json'
+
+services:
+  drupalorg_client:
+    class: GuzzleHttp\Client
+    factory: http_client_factory:fromOptions
+    arguments: ['%contribkanban_api.drupalorg_client.config%']
+  drupalorg_projects:
+    class: Drupal\contribkanban_api\Projects
+    arguments: ['@drupalorg_client']

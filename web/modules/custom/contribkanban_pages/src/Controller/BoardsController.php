@@ -47,14 +47,56 @@ class BoardsController extends ControllerBase {
     $build = [
       '#theme' => 'boards',
       '#search' => $this->formBuilder->getForm(SearchBoardsForm::class),
-      '#list' => NULL,
+      '#list' => $this->getList($type),
       '#add' => $this->formBuilder->getForm(AddBoardForm::class),
       '#content' => NULL,
-      '#cache' => [
-        'max-age' => 0,
-      ],
     ];
     return $build;
   }
 
+  protected function getList($type) {
+    $entity_type = $this->entityTypeManager->getDefinition('board');
+    $storage = $this->entityTypeManager->getStorage('board');
+    $query = $storage->getQuery()->sort('title');
+    $query->pager(25);
+    if ($type) {
+      $query->condition('type', 'drupalorg_' . $type);
+    }
+    $entity_ids = $query->execute();
+    $boards = $storage->loadMultiple($entity_ids);
+
+    $build = [
+      '#cache' => [
+        'contexts' => $entity_type->getListCacheContexts(),
+        'tags' => $entity_type->getListCacheTags(),
+      ],
+    ];
+    foreach ($boards as $board) {
+      $build[$board->id()] = [
+        '#type' => 'inline_template',
+        '#template' => '<div class="card"><div class="card-content"><span><a href="{{ link }}">{{ label }}</a></span> ({{ type }})</div></div>',
+        '#context' => [
+          'link' => $board->toUrl()->toString(),
+          'label' => $board->label(),
+          'type' => $board->bundle(),
+        ]
+      ];
+    }
+    $build['pager'] = [
+      '#type' => 'pager',
+    ];
+    return $build;
+  }
+
+  /**
+   * Loads entity IDs using a pager sorted by the entity id.
+   *
+   * @param null $type
+   *
+   * @return array An array of entity IDs.
+   * An array of entity IDs.
+   */
+  protected function getEntityIds($type = NULL) {
+
+  }
 }

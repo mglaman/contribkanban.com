@@ -6,6 +6,7 @@ use Drupal\Component\Serialization\Json;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Http\ClientFactory;
+use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,20 +14,18 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Issues implements ContainerInjectionInterface {
 
+  /**
+   * @var \GuzzleHttp\Client
+   */
   protected $client;
 
-  public function __construct(ClientFactory $factory) {
-    $this->client = $factory->fromOptions([
-      'base_uri' => 'https://www.drupal.org/api-d7/',
-      'headers' => [
-        'Accept' => 'application/json',
-      ],
-    ]);
+  public function __construct(ClientInterface $client) {
+    $this->client = $client;
   }
 
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('http_client_factory')
+      $container->get('drupalorg_client')
     );
   }
 

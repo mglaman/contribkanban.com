@@ -1,0 +1,3 @@
+contribkanban_pages.board_link:
+  deriver: Drupal\contribkanban_pages\Plugin\Derivative\BoardMenuLink
+  menu_name: main

@@ -10,12 +10,12 @@ use Drupal\entity\BundleFieldDefinition;
  * Provides the first bundle plugin.
  *
  * @BoardProvider(
- *   id = "drupalorg_custom",
- *   label = @Translation("Custom"),
- *   description = @Translation("Add a board for issues from Drupal.org"),
+ *   id = "drupalorg_theme",
+ *   label = @Translation("Theme"),
+ *   description = @Translation("Add a board for a theme"),
  * )
  */
-class DrupalOrgCustom extends PluginBase implements BoardProviderInterface {
+class DrupalOrgTheme extends PluginBase implements BoardProviderInterface {
 
   /**
    * {@inheritdoc}
