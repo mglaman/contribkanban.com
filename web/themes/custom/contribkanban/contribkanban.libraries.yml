@@ -2,5 +2,6 @@ global-styling:
   css:
     component:
       '//fonts.googleapis.com/css?family=Roboto:500,400italic,300,700,400': { type: external, minified: true }
+      'assets/font-awesome/css/font-awesome.min.css': { minified: true }
     theme:
       css/style.css: { }

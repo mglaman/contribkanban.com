@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d77e17a22bda3c4e6f5568d22bd9cd61",
+    "content-hash": "63aa809b16bb4e0f9bf6bb97a13135ab",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1976,6 +1976,55 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/inline_entity_form"
             }
+        },
+        {
+            "name": "drupal/mdc",
+            "version": "dev-1.x",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/mdc",
+                "reference": "5f8d2a86471dfcf819251a5bcab143511b44a742"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-theme",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-alpha1+6-dev",
+                    "datestamp": "1505255344",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "AaronChristian",
+                    "homepage": "https://www.drupal.org/user/445890"
+                },
+                {
+                    "name": "jjpoole",
+                    "homepage": "https://www.drupal.org/user/3365796"
+                },
+                {
+                    "name": "smccabe",
+                    "homepage": "https://www.drupal.org/user/289245"
+                }
+            ],
+            "homepage": "https://www.drupal.org/project/mdc",
+            "support": {
+                "source": "http://cgit.drupalcode.org/mdc"
+            },
+            "time": "2017-09-14 15:32:20"
         },
         {
             "name": "drush/drush",
@@ -6708,7 +6757,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal/inline_entity_form": 10
+        "drupal/inline_entity_form": 10,
+        "drupal/mdc": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

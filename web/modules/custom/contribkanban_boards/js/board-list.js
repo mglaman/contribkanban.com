@@ -33,6 +33,9 @@
             $.each(data, function (index, issue) {
               $listItems.append(d.theme('issueCard', issue));
             })
+          },
+          complete: function () {
+            $el.find('.board--list__refresh').hide();
           }
         });
       });
