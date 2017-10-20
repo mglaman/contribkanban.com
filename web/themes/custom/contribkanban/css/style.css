@@ -152,7 +152,6 @@ main {
   -webkit-overflow-scrolling: touch;
   background-color: rgb(255,255,255);
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
-  padding-top: 1rem;
 }
 body.toolbar-vertical .app-sidebar,
 body.toolbar-horizontal .app-sidebar {
@@ -177,11 +176,25 @@ body.toolbar-horizontal.toolbar-tray-open .app-sidebar {
   text-align: left;
 }
 .site-branding__name a {
-  color: #00b0ff;
+  background-color: hsl(0, 0%, 71%);
+  color: hsl(0, 0%, 21%);
   text-decoration: none;
+}
+.site-branding__name a:hover {
+  color: hsl(0, 0%, 14%);
+}
+
+.app-sidebar .menu {
+  padding: 0 1em;
+  margin-bottom: 1em;
 }
 
 
 .is-vertical {
   flex-direction: column;
+}
+
+.site-branding__text a {
+  padding: 1em;
+  display: block;
 }
