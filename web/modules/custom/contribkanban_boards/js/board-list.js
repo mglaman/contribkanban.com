@@ -1,4 +1,4 @@
-(function (d, $) {
+(function (d, $, cK) {
   d.behaviors.boardViewPort = {
     attach: function (context) {
       var $banner = $('[role="banner"]');
@@ -11,26 +11,55 @@
   d.behaviors.boardLists = {
     attach: function (context) {
       // board--list
-      $('.board--list').once('board-list-discovered').each(function (i, el) {
+      $('.board--list').each(function (i, el) {
         var $el = $(el);
         var $list = $el.find('[data-drupal-selector="board-list"]');
         var $count = $el.find('[data-drupal-selector="board-count"]');
 
         var payload = $list.data();
-        delete payload['jqueryOnceBoardListDiscovered'];
-        delete payload['drupalSelector'];
-        $.ajax(d.url('api/issues'), {
-          method: 'POST',
-          data: JSON.stringify(payload),
-          dataType: 'json',
-          contentType: "application/json; charset=utf-8",
+
+        var url = new ApiUrl()
+          .setEntityEndpoint('node')
+          .addParameter('limit', 100)
+          .addParameter('type', 'project_issue')
+          .addParameter('sort', 'field_issue_priority')
+          .addParameter('direction', 'DESC');
+
+        $.each(payload['projects'], function (i, v) {
+          url.addParameter('field_project[target_id][]', v);
+        });
+        $.each(payload['statuses'], function (i, v) {
+          url.addParameter('field_issue_status[value][]', v);
+        });
+        if (payload['category'] !== null) {
+          url.addParameter('field_issue_category', payload['category']);
+        }
+        if (payload['tag'] !== null) {
+          url.addParameter('taxonomy_vocabulary_9[tid][]', payload['tag']);
+        }
+        if (payload['parent'] !== null) {
+          url.addParameter('field_issue_parent', payload['parent']);
+        }
+        if (payload['priority'] !== null) {
+          url.addParameter('field_issue_priority', payload['priority']);
+        }
+        if (payload['version'] !== null) {
+          url.addParameter('field_issue_version', payload['version']);
+        }
+        if (payload['component'] !== null) {
+          url.addParameter('field_issue_component', payload['component']);
+        }
+
+        console.log(url.getEndpointUrl());
+        $.ajax(url.getEndpointUrl(), {
+          method: 'GET',
           error: function (e) {
             console.log(e);
           },
           success: function (data, textStatus, jqXHR) {
-            $count.html(data.length);
+            $count.html(data.list.length);
             var $listItems = $list.find('.board--list__items');
-            $.each(data, function (index, issue) {
+            $.each(data.list, function (index, issue) {
               $listItems.append(d.theme('issueCard', issue));
             })
           },
@@ -46,33 +75,17 @@
     return '<a class="kanban-board--issue__link" href="https://www.drupal.org/node/' + nid + '" target="_blank">#' + nid + '</a>';
   };
   d.theme.issueCard = function (issue) {
-    var statusCodes = {
-      1: '#fcfcfc',
-      2: '#d7ffd8',
-      3: '#fddddd',
-      4: '#eff1f3',
-      5: '#fddddd',
-      6: '#fddddd',
-      7: '#fddddd',
-      8: '#ffffdd',
-      13: '#ffece8',
-      14: '#d7ffd8',
-      15: '#d7ffd8',
-      16: '#eff1f3',
-      18: '#fddddd'
-    };
-
-    return '<div class="board--list__item card" style="background-color: ' + statusCodes[issue.status] + '">' +
-      '<h3>' + issue.summary + ' ' + Drupal.theme('issueLink', issue.nid) + '</h3>' +
+    return '<div class="board--list__item card" style="background-color: ' + cK.mappings.statusToColor[parseInt(issue.field_issue_status)] + '">' +
+      '<h3>' + issue.title + ' ' + Drupal.theme('issueLink', issue.nid) + '</h3>' +
       '<div class="kanban-board--issue_tags">' +
-      '<span class="tag kanban-board--issue__version bg-success">' + issue.version + '</span>' +
-      '<span class="tag kanban-board--issue__priority bg-' + issue.priority.replace(/\s+/g, '-').toLowerCase() + '">' + issue.priority + '</span>' +
-      '<span class="tag kanban-board--issue__component bg-default">' + issue.component + '</span>' +
+      '<span class="tag bg-success">' + issue.field_issue_version + '</span>' +
+      '<span class="tag is-' + cK.mappings.priorityToClass[parseInt(issue.field_issue_priority)] + '">' + cK.mappings.priorityToLabel[issue.field_issue_priority] + '</span>' +
+      '<span class="tag is-default">' + issue.field_issue_component + '</span>' +
       '<issue-meta-assigned></issue-meta-assigned>' +
-      '<span class="tag kanban-board--issue__component bg-' + issue.category.replace(/\s+/g, '-').toLowerCase() + '">' + issue.category + '</span>' +
-      '<span class="tag kanban-board--issue__component btn-default">' + issue.project + '</span>' +
+      '<span class="tag is-' + cK.mappings.categoryToClass[issue.field_issue_category] + '">' + cK.mappings.categoryToLabel[issue.field_issue_category] + '</span>' +
+      '<span class="tag is-default">' + issue.field_project.id + '</span>' +
       '</div>' +
     '</div>';
   };
 
-})(Drupal, jQuery);
+})(Drupal, jQuery, window.cK);

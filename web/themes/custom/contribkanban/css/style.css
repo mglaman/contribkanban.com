@@ -67,6 +67,7 @@ input {
   transition: transform 0.1s ease;
   transform: translateZ(0);
   padding: 10px;
+  word-break: break-all;
 }
 .board--list__item:hover {
   transform: translate(0, -2px);
@@ -102,29 +103,7 @@ main {
 .kanban-board--issue_tags .bg-success {
   background: #A5D6A7;
 }
-.kanban-board--issue_tags .bg-default {
-  background-color: #F5F5F5;
-}
-
-
-.kanban-board--issue_tags .bg-normal {
-  background: #E3F2FD;
-}
-.kanban-board--issue_tags .bg-major {
-  background: #FFF59D;
-}
-
-.kanban-board--issue_tags .bg-bug-report,
-.kanban-board--issue_tags .bg-critical {
-  background: #F44336;
-  color: white;
-  font-weight: bold;
-}
-.kanban-board--issue_tags .bg-task,
-.kanban-board--issue_tags .bg-feature {
-  background: #90CAF9;
-}
-.kanban-board--issue_tags .bg-default, .kanban-board--issue_tags .btn-default {
+.kanban-board--issue_tags .is-default {
   background-color: #F5F5F5;
 }
 

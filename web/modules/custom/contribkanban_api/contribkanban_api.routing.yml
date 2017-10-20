@@ -1,7 +1,7 @@
-contribkanban_api.issues:
-  path: '/api/issues'
-  defaults:
-    _controller: \Drupal\contribkanban_api\Controller\Issues::handle
-  requirements:
-    _access: 'TRUE'
-  methods: POST
+#contribkanban_api.issues:
+#  path: '/api/issues'
+#  defaults:
+#    _controller: \Drupal\contribkanban_api\Controller\Issues::handle
+#  requirements:
+#    _access: 'TRUE'
+#  methods: POST
