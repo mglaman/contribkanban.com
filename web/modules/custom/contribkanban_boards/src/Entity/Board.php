@@ -36,7 +36,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *       "delete" = "\Drupal\Core\Entity\EntityDeleteForm",
  *     },
  *     "route_provider" = {
- *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
+ *       "html" = "\Drupal\contribkanban_boards\Routing\BoardHtmlRouteProvider",
  *     },
  *     "list_builder" = "\Drupal\contribkanban_boards\BoardListBuilder",
  *   },
@@ -50,6 +50,16 @@ use Drupal\Core\Field\BaseFieldDefinition;
  * )
  */
 class Board extends ContentEntityBase implements BoardInterface {
+
+  protected function urlRouteParameters($rel) {
+    $uri_route_parameters = parent::urlRouteParameters($rel);
+    if (isset($uri_route_parameters[$this->getEntityTypeId()])) {
+      if (!$this->get('machine_name')->isEmpty()) {
+        $uri_route_parameters[$this->getEntityTypeId()] = $this->get('machine_name')->value;
+      }
+    }
+    return $uri_route_parameters;
+  }
 
   /**
    * {@inheritdoc}
@@ -111,6 +121,11 @@ class Board extends ContentEntityBase implements BoardInterface {
         'weight' => 0,
       ])
       ->setRequired(TRUE);
+
+    $fields['machine_name'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('The machine name used for routing'))
+      ->setReadOnly(TRUE);
+
     return $fields;
   }
 

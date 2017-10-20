@@ -23,7 +23,7 @@ jobs:
       - image: williamyeh/ansible:ubuntu16.04
     steps:
       - checkout
-      - run: ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i $DEPLOY_SERVER .circleci/playbook.yml
+      - run: ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i "${DEPLOY_SERVER}," .circleci/playbook.yml
 
 workflows:
   version: 2

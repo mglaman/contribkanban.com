@@ -34,3 +34,7 @@
     - name: Run database updates.
       command: "/var/www/contribkanban.com/bin/drush updatedb -y -r /var/www/contribkanban.com/web"
       when: deploy_updated
+
+    - name: Run entity schema.
+      command: "/var/www/contribkanban.com/bin/drush entup -y -r /var/www/contribkanban.com/web"
+      when: deploy_updated

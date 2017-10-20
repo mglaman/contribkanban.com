@@ -93,6 +93,7 @@ class AddBoardForm extends FormBase {
       'type' => $bundle,
       'title' => $project['title'],
       'project_nid' => [$project['nid']],
+      'machine_name' => $machine_name,
       'lists' => [
         $backlog,
         $active,

@@ -14,7 +14,7 @@ class MachineNameConverter extends EntityConverter {
     $entity_type_id = $this->getEntityTypeFromDefaults($definition, $name, $defaults);
     if ($storage = $this->entityManager->getStorage($entity_type_id)) {
       if (!$entities = $storage->loadByProperties(['machine_name' => $value])) {
-        return NULL;
+        return $storage->load($value);
       }
       $entity = reset($entities);
       return $entity;
@@ -23,8 +23,6 @@ class MachineNameConverter extends EntityConverter {
   }
 
   public function applies($definition, $name, Route $route) {
-    // @todo boards do not have a machine name.
-    return FALSE;
     if (!empty($definition['type']) && strpos($definition['type'], 'entity:') === 0) {
       $entity_type_id = substr($definition['type'], strlen('entity:'));
       return $entity_type_id == 'board';
