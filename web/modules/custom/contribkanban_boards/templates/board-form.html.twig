@@ -1,0 +1,14 @@
+<div class="layout-board-form clearfix">
+  <div class="layout-region layout-region-board-main">
+    {{ form|without('advanced', 'footer', 'actions') }}
+  </div>
+  <div class="layout-region layout-region-board-secondary">
+    {{ form.advanced }}
+    {{ form.actions }}
+  </div>
+  <div class="layout-region layout-region-board-footer">
+    <div class="layout-region-board-footer__content">
+      {{ form.footer }}
+    </div>
+  </div>
+</div>

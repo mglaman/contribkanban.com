@@ -1,0 +1,29 @@
+<div class="flex flex-direction-column">
+  <div class="main">
+    {{ form|without('category','priority', 'statuses', 'actions', 'component', 'parent_issue', 'project_nid') }}
+  </div>
+  <div class="options">
+    <div class="flex flex-direction-column">
+      <div class="flex-column">
+        {{ form.component }}
+        {{ form.parent_issue }}
+        {{ form.project_nid }}
+    </div>
+  </div>
+  <div class="options">
+    <div class="flex flex-direction-row">
+      <div class="flex-column">
+        {{ form.category }}
+      </div>
+      <div class="flex-column">
+        {{ form.priority }}
+      </div>
+      <div class="flex-column">
+        {{ form.statuses }}
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    {{ form.actions }}
+  </div>
+</div>

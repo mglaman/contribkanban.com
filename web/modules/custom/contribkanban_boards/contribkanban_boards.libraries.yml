@@ -12,3 +12,8 @@ board_list:
     - core/jquery
     - contribkanban_boards/mappers
     - contribkanban_boards/url
+form:
+  version: VERSION
+  css:
+    theme:
+      css/board.form.css: {}

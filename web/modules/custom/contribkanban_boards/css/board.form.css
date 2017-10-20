@@ -1,0 +1,100 @@
+/* Narrow screens */
+.layout-region {
+  box-sizing: border-box;
+}
+
+.layout-region-board-footer__content {
+  border-top: 1px solid #bebfb9;
+  padding-top: 0.5em;
+  margin-top: 1.5em;
+}
+
+.flex {
+  display: flex;
+}
+.flex-direction-column,
+.flex-direction-row {
+  flex-direction: column;
+}
+.flex-column {
+  display: block;
+  -ms-flex-preferred-size: 0;
+  flex-basis: 0;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  -ms-flex-negative: 1;
+  flex-shrink: 1;
+  padding: 0.75rem;
+}
+
+/* Wide screens */
+@media
+screen and (min-width: 780px),
+(orientation: landscape) and (min-device-height: 780px) {
+
+  .layout-region-board-main,
+  .layout-region-board-footer {
+    float: left; /* LTR */
+    width: 65%;
+    padding-right: 2em; /* LTR */
+    box-sizing: border-box;
+  }
+
+  .layout-region-board-footer__content {
+    margin-top: 0.5em;
+  }
+
+  [dir="rtl"] .layout-region-board-main,
+  [dir="rtl"] .layout-region-board-footer {
+    float: right;
+    padding-left: 2em;
+    padding-right: 0;
+  }
+
+  .layout-region-board-secondary {
+    float: right; /* LTR */
+    width: 35%;
+  }
+
+  [dir="rtl"] .layout-region-board-secondary {
+    float: left;
+  }
+
+  /* @todo File an issue to add a standard class to all text-like inputs */
+  .layout-region-board-secondary .form-autocomplete,
+  .layout-region-board-secondary .form-text,
+  .layout-region-board-secondary .form-tel,
+  .layout-region-board-secondary .form-email,
+  .layout-region-board-secondary .form-url,
+  .layout-region-board-secondary .form-search,
+  .layout-region-board-secondary .form-number,
+  .layout-region-board-secondary .form-color,
+  .layout-region-board-secondary textarea {
+    box-sizing:         border-box;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .flex-direction-row {
+    flex-direction: row;
+  }
+}
+
+/**
+ * The vertical toolbar mode gets triggered for narrow screens, which throws off
+ * the intent of media queries written for the viewport width. When the vertical
+ * toolbar is on, we need to suppress layout for the original media width + the
+ * toolbar width (240px). In this case, 240px + 780px.
+ */
+@media
+screen and (max-width: 1020px) {
+
+  .toolbar-vertical.toolbar-tray-open .layout-region-board-main,
+  .toolbar-vertical.toolbar-tray-open .layout-region-board-footer,
+  .toolbar-vertical.toolbar-tray-open .layout-region-board-secondary {
+    float: none;
+    width: auto;
+    padding-right: 0;
+  }
+}

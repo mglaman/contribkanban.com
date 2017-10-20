@@ -30,9 +30,9 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *     "permission_provider" = "\Drupal\entity\EntityPermissionProvider",
  *     "views_data" = "\Drupal\views\EntityViewsData",
  *     "form" = {
- *       "default" = "\Drupal\Core\Entity\ContentEntityForm",
- *       "add" = "\Drupal\Core\Entity\ContentEntityForm",
- *       "edit" = "\Drupal\Core\Entity\ContentEntityForm",
+ *       "default" = "\Drupal\contribkanban_boards\Form\BoardForm",
+ *       "add" = "\Drupal\contribkanban_boards\Form\BoardForm",
+ *       "edit" = "\Drupal\contribkanban_boards\Form\BoardForm",
  *       "delete" = "\Drupal\Core\Entity\EntityDeleteForm",
  *     },
  *     "route_provider" = {
@@ -133,7 +133,10 @@ class Board extends ContentEntityBase implements BoardInterface {
    * {@inheritdoc}
    */
   public static function bundleFieldDefinitions(EntityTypeInterface $entity_type, $bundle, array $base_field_definitions) {
-    $fields = parent::bundleFieldDefinitions($entity_type, $bundle, $base_field_definitions);
+    $board_provider_manager = \Drupal::getContainer()->get('plugin.manager.board_provider');
+    /** @var \Drupal\contribkanban_boards\Plugin\BoardProvider\BoardProviderInterface $bundle_plugin */
+    $bundle_plugin = $board_provider_manager->createInstance($bundle);
+    $fields = $bundle_plugin->bundleFieldDefinitionsAlter($entity_type, $bundle, $base_field_definitions);
 
     // Force the lists bundle to match current bundle.
     $fields['lists'] = clone $base_field_definitions['lists'];
@@ -141,6 +144,7 @@ class Board extends ContentEntityBase implements BoardInterface {
     $fields['lists']->setSetting('handler_settings', [
       'target_bundles' => [$bundle],
     ]);
+
     return $fields;
   }
 

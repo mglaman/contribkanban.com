@@ -15,4 +15,5 @@ class BoardHtmlRouteProvider extends AdminHtmlRouteProvider {
   protected function getEntityTypeIdKeyType(EntityTypeInterface $entity_type) {
     return 'string';
   }
+
 }

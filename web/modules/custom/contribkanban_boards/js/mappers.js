@@ -53,6 +53,7 @@ window.cK.mappings = {
     1: 'danger',
     2: 'info',
     3: 'info',
-    4: 'active'
+    4: 'active',
+    5: 'active'
   }
 }

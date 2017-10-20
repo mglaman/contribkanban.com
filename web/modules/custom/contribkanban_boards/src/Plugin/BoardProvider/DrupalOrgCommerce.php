@@ -3,6 +3,7 @@
 namespace Drupal\contribkanban_boards\Plugin\BoardProvider;
 
 use Drupal\contribkanban_boards\Annotation\BoardProvider;
+use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Plugin\PluginBase;
 use Drupal\entity\BundleFieldDefinition;
 
@@ -21,6 +22,14 @@ class DrupalOrgCommerce extends PluginBase implements BoardProviderInterface {
    * {@inheritdoc}
    */
   public function buildFieldDefinitions() {
+    $fields = [];
+    return $fields;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function bundleFieldDefinitionsAlter(EntityTypeInterface $entity_type, $bundle, array $base_field_definitions) {
     $fields = [];
     return $fields;
   }

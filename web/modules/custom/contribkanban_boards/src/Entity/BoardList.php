@@ -28,7 +28,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *     "access" = "\Drupal\entity\EntityAccessControlHandler",
  *     "permission_provider" = "\Drupal\entity\EntityPermissionProvider",
  *     "form" = {
- *       "default" = "\Drupal\Core\Entity\ContentEntityForm",
+ *       "default" = "\Drupal\contribkanban_boards\Form\BoardListForm",
  *     },
  *   },
  * )
@@ -74,13 +74,12 @@ class BoardList extends ContentEntityBase implements BoardListInterface {
         'weight' => -5,
       ]);
 
-    // @todo Convert to list widget with predefined allowed values.
     $fields['category'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Category'))
       ->setDescription(t('The issue category'))
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
-        'type'   => 'string_textfield',
+        'type'   => 'category_options',
         'weight' => -5,
       ]);
 
@@ -94,31 +93,29 @@ class BoardList extends ContentEntityBase implements BoardListInterface {
       ]);
 
     $fields['parent_issue'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Component'))
-      ->setDescription(t('The issue component'))
+      ->setLabel(t('Parent issue'))
+      ->setDescription(t('A parent issue to restrict issues to.'))
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
         'type'   => 'string_textfield',
         'weight' => -5,
       ]);
 
-    // @todo Convert to list widget with predefined allowed values.
     $fields['priority'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Priority'))
       ->setDescription(t('The issue priority'))
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
-        'type'   => 'string_textfield',
+        'type'   => 'priority_options',
         'weight' => -5,
       ]);
 
-    // @todo Convert to list widget with predefined allowed values.
     $fields['statuses'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Statuses'))
       ->setDescription(t('The issue statuses'))
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
       ->setDisplayOptions('form', [
-        'type'   => 'string_textfield',
+        'type'   => 'status_options',
         'weight' => -5,
       ]);
 
@@ -140,6 +137,17 @@ class BoardList extends ContentEntityBase implements BoardListInterface {
         'weight' => -5,
       ]);
 
+    return $fields;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function bundleFieldDefinitions(EntityTypeInterface $entity_type, $bundle, array $base_field_definitions) {
+    $board_provider_manager = \Drupal::getContainer()->get('plugin.manager.board_provider');
+    /** @var \Drupal\contribkanban_boards\Plugin\BoardProvider\BoardProviderInterface $bundle_plugin */
+    $bundle_plugin = $board_provider_manager->createInstance($bundle);
+    $fields = $bundle_plugin->bundleFieldDefinitionsAlter($entity_type, $bundle, $base_field_definitions);
     return $fields;
   }
 
