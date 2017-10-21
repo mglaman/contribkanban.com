@@ -29,6 +29,13 @@ final class FieldHelper {
       $items = NULL;
     }
 
+    if (is_string($items)) {
+      return urlencode($items);
+    }
+    elseif (is_int($items)) {
+      return (int) $items;
+    }
+
     return Json::encode($items);
   }
 
