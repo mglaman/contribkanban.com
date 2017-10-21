@@ -23,18 +23,6 @@
       set_fact:
         deploy_updated: "{{ deploy_repo_updated.changed|default(true) }}"
 
-    - name: Rebuild cache.
-      command: "/var/www/contribkanban.com/bin/drush cr -y -r /var/www/contribkanban.com/web"
-      when: deploy_updated
-
-    - name: Import config.
-      command: "/var/www/contribkanban.com/bin/drush cim -y -r /var/www/contribkanban.com/web"
-      when: deploy_updated
-
-    - name: Run database updates.
-      command: "/var/www/contribkanban.com/bin/drush updatedb -y -r /var/www/contribkanban.com/web"
-      when: deploy_updated
-
-    - name: Run entity schema.
-      command: "/var/www/contribkanban.com/bin/drush entup -y -r /var/www/contribkanban.com/web"
+    - name: Run the deploy script.
+      command: "/var/www/contribkanban.com/bin/robo deploy"
       when: deploy_updated
