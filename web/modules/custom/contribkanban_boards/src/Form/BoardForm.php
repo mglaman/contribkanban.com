@@ -47,6 +47,12 @@ class BoardForm extends ContentEntityForm {
     if (isset($form['tag'])) {
       $form['tag']['#group'] = 'basic_info';
     }
+    if (isset($form['parent_issue'])) {
+      $form['parent_issue']['#group'] = 'basic_info';
+    }
+    if (isset($form['version'])) {
+      $form['version']['#group'] = 'basic_info';
+    }
     return $form;
   }
 

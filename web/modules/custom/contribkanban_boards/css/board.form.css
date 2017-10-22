@@ -37,7 +37,6 @@ screen and (min-width: 780px),
   .layout-region-board-footer {
     float: right; /* LTR */
     width: 65%;
-    padding-right: 2em; /* LTR */
     box-sizing: border-box;
   }
 
@@ -54,6 +53,8 @@ screen and (min-width: 780px),
 
   .layout-region-board-secondary {
     float: left; /* LTR */
+    padding-right: 2em; /* LTR */
+    padding-top: 1em;
     width: 35%;
   }
 

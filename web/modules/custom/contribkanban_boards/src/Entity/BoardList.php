@@ -43,6 +43,56 @@ class BoardList extends ContentEntityBase implements BoardListInterface {
   }
 
   /**
+   * @return \Drupal\Core\Field\FieldItemListInterface
+   */
+  public function getProjects() {
+    foreach ($this->getBoard()->get('project_nid') as $item) {
+      $this->get('project_nid')->appendItem($item->value);
+    }
+    return $this->get('project_nid');
+  }
+
+  /**
+   * @return \Drupal\Core\Field\FieldItemListInterface
+   */
+  public function getCategory() {
+    return $this->get('category');
+  }
+
+  public function getComponent() {
+    return $this->get('component');
+  }
+
+  public function getParentIssue() {
+    foreach ($this->getBoard()->get('parent_issue') as $item) {
+      $this->get('parent_issue')->appendItem($item->value);
+    }
+    return $this->get('parent_issue');
+  }
+
+  public function getPriority() {
+    return $this->get('priority');
+  }
+
+  public function getStatuses() {
+    return $this->get('statuses');
+  }
+
+  public function getTags() {
+    foreach ($this->getBoard()->get('tag') as $item) {
+      $this->get('tag')->appendItem($item->value);
+    }
+    return $this->get('tag');
+  }
+
+  public function getVersion() {
+    foreach ($this->getBoard()->get('version') as $item) {
+      $this->get('version')->appendItem($item->value);
+    }
+    return $this->get('version');
+  }
+
+  /**
    * {@inheritdoc}
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {

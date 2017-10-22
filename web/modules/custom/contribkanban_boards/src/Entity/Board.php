@@ -115,6 +115,24 @@ class Board extends ContentEntityBase implements BoardInterface {
       ->setDescription(t('Issues tagged with this tag.'))
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED);
 
+    $fields['parent_issue'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Parent issue'))
+      ->setDescription(t('A parent issue to restrict issues to.'))
+      ->setSetting('max_length', 255)
+      ->setDisplayOptions('form', [
+        'type'   => 'string_textfield',
+        'weight' => -5,
+      ]);
+
+    $fields['version'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Version constraint'))
+      ->setDescription(t('Issues for this version.'))
+      ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
+      ->setDisplayOptions('form', [
+        'type'   => 'string_textfield',
+        'weight' => -5,
+      ]);
+
     $fields['lists'] = BaseFieldDefinition::create('entity_reference')
       ->setSetting('target_type', 'board_list')
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)

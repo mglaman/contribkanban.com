@@ -48,39 +48,23 @@ function contribkanban_boards_preprocess_board_list(&$variables) {
   $variables['#attached']['library'][] = 'contribkanban_boards/board_list';
   /** @var \Drupal\contribkanban_boards\Entity\BoardListInterface $board_list */
   $board_list = $variables['elements']['#board_list'];
-
-  // Take the board's project list and append them to the list's projects.
-  // @todo Board List needs specific getters, which merges baord values.
-  $board = $board_list->getBoard();
-  if ($board->bundle() != 'drupalorg_core') {
-    foreach ($board->get('project_nid') as $item) {
-      $board_list->get('project_nid')->appendItem($item->value);
-    }
-  }
-  foreach ($board->get('tag') as $item) {
-    $board_list->get('tag')->appendItem($item->value);
-  }
-
   $variables['title'] = ['#markup' => $board_list->label()];
   $attributes =& $variables['attributes'];
   $attributes['data-drupal-selector'] = 'board-list';
-  $attributes['data-projects'] = FieldHelper::stringAsJson($board_list->get('project_nid'));
-  $attributes['data-category'] = FieldHelper::stringAsJson($board_list->get('category'));
-  $attributes['data-component'] = FieldHelper::stringAsJson($board_list->get('component'));
-  $attributes['data-parent'] = FieldHelper::stringAsJson($board_list->get('parent_issue'));
-  $attributes['data-priority'] = FieldHelper::stringAsJson($board_list->get('priority'));
-  $attributes['data-statuses'] = FieldHelper::stringAsJson($board_list->get('statuses'));
-  $attributes['data-tag'] = FieldHelper::stringAsJson($board_list->get('tag'));
-  $attributes['data-version'] = FieldHelper::stringAsJson($board_list->get('version'));
+  $attributes['data-projects'] = FieldHelper::stringAsJson($board_list->getProjects());
+  $attributes['data-category'] = FieldHelper::stringAsJson($board_list->getCategory());
+  $attributes['data-component'] = FieldHelper::stringAsJson($board_list->getComponent());
+  $attributes['data-parent'] = FieldHelper::stringAsJson($board_list->getParentIssue());
+  $attributes['data-priority'] = FieldHelper::stringAsJson($board_list->getPriority());
+  $attributes['data-statuses'] = FieldHelper::stringAsJson($board_list->getStatuses());
+  $attributes['data-tag'] = FieldHelper::stringAsJson($board_list->getTags());
+  $attributes['data-version'] = FieldHelper::stringAsJson($board_list->getVersion());
 }
 
 /**
  * Implements hook_inline_entity_form_entity_form_alter().
  */
-function contribkanban_boards_inline_entity_form_entity_form_alter(
-  &$entity_form,
-  &$form_state
-) {
+function contribkanban_boards_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
   if ($entity_form['#entity_type'] == 'board_list') {
     $entity_form['#theme'] = ['board_list_form'];
     $entity_form['#attached']['library'][] = 'contribkanban_boards/form';
