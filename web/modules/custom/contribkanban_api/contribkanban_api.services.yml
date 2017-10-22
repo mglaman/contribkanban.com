@@ -12,3 +12,6 @@ services:
   drupalorg_projects:
     class: Drupal\contribkanban_api\Projects
     arguments: ['@drupalorg_client']
+  drupalorg_tags:
+    class: Drupal\contribkanban_api\Tags
+    arguments: ['@drupalorg_client']

@@ -4,6 +4,7 @@ namespace Drupal\contribkanban_boards\Plugin\BoardProvider;
 
 use Drupal\contribkanban_boards\Annotation\BoardProvider;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Plugin\PluginBase;
 use Drupal\entity\BundleFieldDefinition;
 
@@ -30,7 +31,12 @@ class DrupalOrgSprint extends PluginBase implements BoardProviderInterface {
    * {@inheritdoc}
    */
   public function bundleFieldDefinitionsAlter(EntityTypeInterface $entity_type, $bundle, array $base_field_definitions) {
-    return [];
+    $fields = [];
+    if (isset($base_field_definitions['tag'])) {
+      $fields['tag'] = clone $base_field_definitions['tag'];
+      $fields['tag']->setDisplayOptions('form', []);
+    }
+    return $fields;
   }
 
 }

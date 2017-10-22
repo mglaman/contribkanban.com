@@ -44,6 +44,9 @@ class BoardForm extends ContentEntityForm {
     if (isset($form['project_nid'])) {
       $form['project_nid']['#group'] = 'basic_info';
     }
+    if (isset($form['tag'])) {
+      $form['tag']['#group'] = 'basic_info';
+    }
     return $form;
   }
 

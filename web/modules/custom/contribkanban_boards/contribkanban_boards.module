@@ -50,11 +50,15 @@ function contribkanban_boards_preprocess_board_list(&$variables) {
   $board_list = $variables['elements']['#board_list'];
 
   // Take the board's project list and append them to the list's projects.
+  // @todo Board List needs specific getters, which merges baord values.
   $board = $board_list->getBoard();
   if ($board->bundle() != 'drupalorg_core') {
     foreach ($board->get('project_nid') as $item) {
       $board_list->get('project_nid')->appendItem($item->value);
     }
+  }
+  foreach ($board->get('tag') as $item) {
+    $board_list->get('tag')->appendItem($item->value);
   }
 
   $variables['title'] = ['#markup' => $board_list->label()];

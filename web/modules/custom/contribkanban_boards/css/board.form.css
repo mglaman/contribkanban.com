@@ -35,7 +35,7 @@ screen and (min-width: 780px),
 
   .layout-region-board-main,
   .layout-region-board-footer {
-    float: left; /* LTR */
+    float: right; /* LTR */
     width: 65%;
     padding-right: 2em; /* LTR */
     box-sizing: border-box;
@@ -47,18 +47,18 @@ screen and (min-width: 780px),
 
   [dir="rtl"] .layout-region-board-main,
   [dir="rtl"] .layout-region-board-footer {
-    float: right;
+    float: left;
     padding-left: 2em;
     padding-right: 0;
   }
 
   .layout-region-board-secondary {
-    float: right; /* LTR */
+    float: left; /* LTR */
     width: 35%;
   }
 
   [dir="rtl"] .layout-region-board-secondary {
-    float: left;
+    float: right;
   }
 
   /* @todo File an issue to add a standard class to all text-like inputs */

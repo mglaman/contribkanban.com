@@ -16,4 +16,15 @@ class BoardHtmlRouteProvider extends AdminHtmlRouteProvider {
     return 'string';
   }
 
+  public function getRoutes(EntityTypeInterface $entity_type) {
+    $collection = parent::getRoutes($entity_type);
+    $entity_type_id = $entity_type->id();
+    if ($canonical_route = $this->getCanonicalRoute($entity_type)) {
+      $canonical_route->setPath('/sprint/{board}');
+      $collection->add("entity.{$entity_type_id}.canonical_alternative", $canonical_route);
+    }
+
+    return $collection;
+  }
+
 }

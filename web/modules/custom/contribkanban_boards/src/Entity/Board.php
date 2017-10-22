@@ -33,7 +33,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *       "default" = "\Drupal\contribkanban_boards\Form\BoardForm",
  *       "add" = "\Drupal\contribkanban_boards\Form\BoardForm",
  *       "edit" = "\Drupal\contribkanban_boards\Form\BoardForm",
- *       "delete" = "\Drupal\Core\Entity\EntityDeleteForm",
+ *       "delete" = "\Drupal\Core\Entity\ContentEntityDeleteForm"
  *     },
  *     "route_provider" = {
  *       "html" = "\Drupal\contribkanban_boards\Routing\BoardHtmlRouteProvider",
@@ -44,12 +44,21 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *     "add-page" = "/board/add",
  *     "add-form" = "/board/add/{type}",
  *     "edit-form" = "/board/{board}/edit",
+ *     "delete-form" = "/board/{board}/delete",
  *     "canonical" = "/board/{board}",
  *     "collection" = "/admin/boards",
  *   },
  * )
  */
 class Board extends ContentEntityBase implements BoardInterface {
+
+  public function preSave(EntityStorageInterface $storage) {
+    parent::preSave($storage);
+    if ($this->get('machine_name')->isEmpty()) {
+      $this->get('machine_name')->setValue(preg_replace("/\s/", '', $this->label()));
+    }
+  }
+
 
   protected function urlRouteParameters($rel) {
     $uri_route_parameters = parent::urlRouteParameters($rel);
@@ -101,6 +110,10 @@ class Board extends ContentEntityBase implements BoardInterface {
         'type'   => 'string_textfield',
         'weight' => -5,
       ]);
+    $fields['tag'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Tags'))
+      ->setDescription(t('Issues tagged with this tag.'))
+      ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED);
 
     $fields['lists'] = BaseFieldDefinition::create('entity_reference')
       ->setSetting('target_type', 'board_list')
