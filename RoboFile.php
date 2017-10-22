@@ -14,12 +14,15 @@ class RoboFile extends \Robo\Tasks {
   }
 
   public function deploy() {
-    $this->drush('cr')->run();
+    $this->cr();
     $this->drush('cim', TRUE)->run();
     $this->drush('updatedb', TRUE)->run();
     $this->drush('entup', TRUE)->run();
   }
 
+  public function cr() {
+    $this->drush('cr')->run();
+  }
 
   protected function drush($command, $quiet = FALSE) {
     $task = $this->taskExec(__DIR__ . '/bin/drush');

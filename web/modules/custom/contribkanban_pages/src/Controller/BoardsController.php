@@ -3,6 +3,7 @@
 namespace Drupal\contribkanban_pages\Controller;
 
 use Drupal\contribkanban_pages\Form\AddBoardForm;
+use Drupal\contribkanban_pages\Form\AddSprintForm;
 use Drupal\contribkanban_pages\Form\SearchBoardsForm;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Form\FormBuilderInterface;
@@ -44,11 +45,16 @@ class BoardsController extends ControllerBase {
   }
 
   public function boards($type) {
+    $add_form_class = AddBoardForm::class;
+    if ($type == 'sprint') {
+      $add_form_class = AddSprintForm::class;
+    }
+
     $build = [
       '#theme' => 'boards',
       '#search' => $this->formBuilder->getForm(SearchBoardsForm::class),
       '#list' => $this->getList($type),
-      '#add' => $this->formBuilder->getForm(AddBoardForm::class),
+      '#add' => $this->formBuilder->getForm($add_form_class),
       '#content' => NULL,
     ];
     return $build;
@@ -79,6 +85,14 @@ class BoardsController extends ControllerBase {
           'link' => $board->toUrl()->toString(),
           'label' => $board->label(),
           'type' => $board->bundle(),
+        ]
+      ];
+    }
+    if (empty($boards)) {
+      $build['empty'] = [
+        '#type' => 'inline_template',
+        '#template' => '<div class="card"><div class="card-content">There are no boards.</div></div>',
+        '#context' => [
         ]
       ];
     }
