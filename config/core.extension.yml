@@ -10,7 +10,6 @@ module:
   contribkanban_projects: 0
   ctools: 0
   dblog: 0
-  devel: 0
   dynamic_page_cache: 0
   entity: 0
   field: 0
