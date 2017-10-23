@@ -43,9 +43,9 @@
         if (payload['priority'] !== null) {
           url.addParameter('field_issue_priority', payload['priority']);
         }
-        if (payload['version'] !== null) {
-          url.addParameter('field_issue_version', payload['version']);
-        }
+        $.each(payload['version'], function (i, v) {
+          url.addParameter('field_issue_version[value][]', v);
+        });
         if (payload['component'] !== null) {
           url.addParameter('field_issue_component', payload['component']);
         }
