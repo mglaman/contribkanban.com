@@ -1,0 +1,8 @@
+services:
+  logger.channel.contribkanban_projects_scraper:
+    class: Drupal\Core\Logger\LoggerChannel
+    factory: logger.factory:get
+    arguments: ['contribkanban_projects_scraper']
+  contribkanban_projects.scraper:
+    class: Drupal\contribkanban_projects\Scraper
+    arguments: ['@drupalorg_projects', '@state', '@logger.channel.contribkanban_projects_scraper', '@entity_type.manager']

@@ -1,0 +1,7 @@
+services:
+  contribkanban_projects.projects_scrape:
+    class: Drupal\contribkanban_projects\Command\ProjectScraperCommand
+    arguments: ['@contribkanban_projects.scraper']
+    tags:
+      - { name: drupal.command }
+

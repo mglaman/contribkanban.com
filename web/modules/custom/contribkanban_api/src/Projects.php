@@ -45,4 +45,23 @@ class Projects {
     return $project;
   }
 
+  public function getProjects($type = 'full', $page = 1, $limit = 100) {
+    $params = [
+      'field_project_type' => $type,
+      'page' => $page,
+      'limit' => $limit,
+      'sort' => 'nid',
+      'direction' => 'ASC',
+    ];
+    $params = array_filter($params);
+    $uri = 'node.json?' . http_build_query($params);
+    $response = $this->client->get($uri);
+    $data = Json::decode($response->getBody()->getContents());
+    if (empty($data['list'])) {
+      return [];
+    }
+
+    return $data;
+  }
+
 }
