@@ -67,7 +67,7 @@ input {
   transition: transform 0.1s ease;
   transform: translateZ(0);
   padding: 10px;
-  word-break: break-all;
+  word-break: break-word;
 }
 .board--list__item:hover {
   transform: translate(0, -2px);
