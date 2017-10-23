@@ -85,6 +85,18 @@ class Board extends ContentEntityBase implements BoardInterface {
     }
   }
 
+  public static function postDelete(EntityStorageInterface $storage, array $entities) {
+    /** @var \Drupal\contribkanban_boards\Entity\Board[] $entities */
+    parent::postDelete($storage, $entities);
+    foreach ($entities as $board) {
+      foreach ($board->get('lists') as $item) {
+        /** @var \Drupal\contribkanban_boards\Entity\BoardListInterface $board_list */
+        $board_list = $item->entity;
+        $board_list->delete();
+      }
+    }
+  }
+
   /**
    * {@inheritdoc}
    */

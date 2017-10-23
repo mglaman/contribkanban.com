@@ -24,6 +24,13 @@ class RoboFile extends \Robo\Tasks {
     $this->drush('cr')->run();
   }
 
+  public function runScraper() {
+    $task = $this->taskExec(__DIR__ . '/bin/drupal');
+    $task->arg('projects:scrape');
+    $task->rawArg(sprintf('--root=%s/web', __DIR__));
+    $task->run();
+  }
+
   protected function drush($command, $quiet = FALSE) {
     $task = $this->taskExec(__DIR__ . '/bin/drush');
     $task->arg($command);

@@ -28,3 +28,16 @@
       args:
         chdir: /var/www/contribkanban.com
       when: deploy_updated
+
+    - name: Ensure scraper crontab
+      cron:
+        name: "ContribKanban scraper"
+        minute: "*"
+        hour: "1"
+        day: "*"
+        weekday: "*"
+        month: "*"
+        job: "cd /var/www/contribkanban.com && ./bin/robo run:scraper"
+        state: "present"
+      become: no
+
