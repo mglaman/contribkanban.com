@@ -1,22 +1,51 @@
 (function (d, $, cK) {
+  /**
+   * Simple object property loop.
+   *
+   * @param {Object} obj
+   * @param {function} callback
+   */
+  function objectForeach(obj, callback) {
+    for (var i in obj) {
+      if (!obj.hasOwnProperty(i)) continue;
+      callback(i, obj[i]);
+    }
+  }
+
+  function datasetToJson(map) {
+    var dataset = {};
+    objectForeach(map, function (i, v) {
+      try {
+        dataset[i] = JSON.parse(v);
+      } catch (e) {
+        dataset[i] = v;
+      }
+    });
+    return dataset;
+  }
+
   d.behaviors.boardViewPort = {
     attach: function (context) {
-      var $banner = $('[role="banner"]');
-      $('[role="main"]').height(window.innerHeight - $banner.height());
-      $(window).resize(function() {
-        $('[role="main"]').height(window.innerHeight - $banner.height());
+      var resizeTimer;
+      var $banner = document.querySelector('header[role="banner"]');
+      var elMain = document.querySelector('main[role="main"]');
+      elMain.style.height = (window.innerHeight - $banner.offsetHeight) + 'px';
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+          elMain.style.height = (window.innerHeight - $banner.offsetHeight) + 'px';
+        }, 250);
       });
     }
   };
   d.behaviors.boardLists = {
     attach: function (context) {
-      // board--list
-      $('.board--list').each(function (i, el) {
-        var $el = $(el);
-        var $list = $el.find('[data-drupal-selector="board-list"]');
-        var $count = $el.find('[data-drupal-selector="board-count"]');
+      objectForeach(document.querySelectorAll('.board--list'), function (i, el) {
+        var $el = el;
+        var $list = $el.querySelector('[data-drupal-selector="board-list"]');
+        var $count = el.querySelector('[data-drupal-selector="board-count"]');
 
-        var payload = $list.data();
+        var payload = datasetToJson($list.dataset);
 
         var url = new ApiUrl()
           .setEntityEndpoint('node')
@@ -25,10 +54,11 @@
           .addParameter('sort', 'field_issue_priority')
           .addParameter('direction', 'DESC');
 
-        $.each(payload['projects'], function (i, v) {
+
+        objectForeach(payload['projects'], function (i, v) {
           url.addParameter('field_project[target_id][]', v);
         });
-        $.each(payload['statuses'], function (i, v) {
+        objectForeach(payload['statuses'], function (i, v) {
           url.addParameter('field_issue_status[value][]', v);
         });
         if (payload['category'] !== null) {
@@ -43,39 +73,75 @@
         if (payload['priority'] !== null) {
           url.addParameter('field_issue_priority', payload['priority']);
         }
-        $.each(payload['version'], function (i, v) {
+        objectForeach(payload['version'], function (i, v) {
           url.addParameter('field_issue_version[value][]', v);
         });
         if (payload['component'] !== null) {
           url.addParameter('field_issue_component', payload['component']);
         }
 
-        console.log(url.getEndpointUrl());
         $.ajax(url.getEndpointUrl(), {
           method: 'GET',
           error: function (e) {
             console.log(e);
           },
           success: function (data, textStatus, jqXHR) {
-            $count.html(data.list.length);
-            var $listItems = $list.find('.board--list__items');
-            $.each(data.list, function (index, issue) {
-              $listItems.append(d.theme('issueCard', issue));
+            $count.innerHTML = data.list.length;
+            var $listItems = $list.querySelector('.board--list__items');
+            objectForeach(data.list, function (index, issue) {
+              var el = document.createElement('div');
+              el.innerHTML = d.theme('issueCard', issue);
+              $listItems.appendChild(el);
             })
           },
           complete: function () {
-            $el.find('.board--list__refresh').hide();
+            $el.querySelector('.board--list__refresh').style.display = 'none';
           }
         });
       });
     }
   };
+  d.behaviors.boardFilters = {
+    attach: function (context) {
+      var elFilters = document.querySelectorAll('select[data-card-filter]');
+      objectForeach(elFilters, function (i, el) {
+        el.addEventListener('change', function (e) {
+          var selected = parseInt(this.selectedOptions[0].value);
+          if (isNaN(selected)) {
+            showCards(this.dataset['cardFilter']);
+          }
+          else {
+            hideCards(this.dataset['cardFilter'], selected);
+            showCards(this.dataset['cardFilter'], selected);
+          }
+        })
+      });
+    }
+  };
+
+  function hideCards(selector, value) {
+    var cardsToHide = document.querySelectorAll('div.board--list__item:not([' + selector + '="' + value + '"])');
+    objectForeach(cardsToHide, function (i, v) {
+      v.classList.add('is-hidden');
+    });
+  }
+  function showCards(selector, value) {
+    if (value === undefined) {
+      objectForeach(document.querySelectorAll('.board--list__item'), function (i, el) {
+        el.classList.remove('is-hidden');
+      });
+    } else {
+      objectForeach(document.querySelectorAll('div.board--list__item[' + selector + '="' + value + '"]'), function (i, el) {
+        el.classList.remove('is-hidden');
+      });
+    }
+  }
 
   d.theme.issueLink = function (nid) {
     return '<a class="kanban-board--issue__link" href="https://www.drupal.org/node/' + nid + '" target="_blank">#' + nid + '</a>';
   };
   d.theme.issueCard = function (issue) {
-    return '<div class="board--list__item card" style="background-color: ' + cK.mappings.statusToColor[parseInt(issue.field_issue_status)] + '">' +
+    return '<div class="board--list__item card" data-issue-priority="' + issue.field_issue_priority + '" data-issue-category="' + issue.field_issue_category + '" style="background-color: ' + cK.mappings.statusToColor[parseInt(issue.field_issue_status)] + '">' +
       '<h3>' + issue.title + ' ' + Drupal.theme('issueLink', issue.nid) + '</h3>' +
       '<div class="kanban-board--issue_tags">' +
       '<span class="tag bg-success">' + issue.field_issue_version + '</span>' +

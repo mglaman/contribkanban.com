@@ -198,3 +198,12 @@ body.toolbar-horizontal.toolbar-tray-open .app-sidebar {
   padding: 1em;
   display: block;
 }
+
+.board--filters {
+  align-items: center;
+  padding: 10px 5px;
+}
+.board--filters .field {
+  margin-bottom: 0;
+  margin-right: 5px;
+}

@@ -1,1 +1,30 @@
+<div class="is-flex is-clearfix board--filters">
+  <div class="field">
+    <div class="control">
+      <div class="select">
+        <select class="category-filter" data-card-filter="data-issue-category">
+          <option value="_any" selected>Any category</option>
+          <option value="1">Bug report</option>
+          <option value="2">Task</option>
+          <option value="3">Feature request</option>
+          <option value="4">Support request</option>
+          <option value="5">Plan</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <div class="control">
+      <div class="select">
+        <select class="priority-filter" data-card-filter="data-issue-priority">
+          <option value="_any" selected>Any priority</option>
+          <option value="400">Critical</option>
+          <option value="300">Major</option>
+          <option value="200">Normal</option>
+          <option value="100">Minor</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
 {{ board }}
