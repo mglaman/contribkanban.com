@@ -10,5 +10,9 @@ weight: 0
 is_admin: false
 permissions:
   - 'access content'
+  - 'create drupalorg_core board'
+  - 'create drupalorg_core board_list'
+  - 'create drupalorg_custom board'
+  - 'create drupalorg_custom board_list'
   - 'view board'
   - 'view board_list'
