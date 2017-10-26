@@ -92,7 +92,7 @@
             objectForeach(data.list, function (index, issue) {
               var el = document.createElement('div');
               el.innerHTML = d.theme('issueCard', issue);
-              $listItems.appendChild(el);
+              $listItems.appendChild(el.firstElementChild);
             })
           },
           complete: function () {
@@ -118,9 +118,8 @@
           });
           if (!isNaN(selected)) {
             activeFilters[cardFilter] = selected;
-            // selector += ':not(.is-hidden)';
             objectForeach(activeFilters, function (i, v) {
-              selector += '[' + i + '="' + v + '"]';
+              selector += '[' + i + '^="' + v + '"]';
             });
           }
           var cardsToHide = document.querySelectorAll(selector);
@@ -136,17 +135,31 @@
     return '<a class="kanban-board--issue__link" href="https://www.drupal.org/node/' + nid + '" target="_blank">#' + nid + '</a>';
   };
   d.theme.issueCard = function (issue) {
-    return '<div class="board--list__item card" data-issue-priority="' + issue.field_issue_priority + '" data-issue-category="' + issue.field_issue_category + '" style="background-color: ' + cK.mappings.statusToColor[parseInt(issue.field_issue_status)] + '">' +
-      '<h3>' + issue.title + ' ' + Drupal.theme('issueLink', issue.nid) + '</h3>' +
+    var template = new Template();
+    return template.format('<div class="board--list__item card" data-issue-priority="{{ priority }}" data-issue-category="{{ category }}" data-issue-version="{{ version }}" style="background-color: {{ card_bg_color }}">' +
+      '<h3>{{ title }} {{ link }}</h3>' +
       '<div class="kanban-board--issue_tags">' +
-      '<span class="tag bg-success">' + issue.field_issue_version + '</span>' +
-      '<span class="tag is-' + cK.mappings.priorityToClass[parseInt(issue.field_issue_priority)] + '">' + cK.mappings.priorityToLabel[issue.field_issue_priority] + '</span>' +
-      '<span class="tag is-default">' + issue.field_issue_component + '</span>' +
+      '<span class="tag bg-success">{{ version }}</span>' +
+      '<span class="tag is-{{ priority_class }}">{{ priority_label }}</span>' +
+      '<span class="tag is-default">{{ component }}</span>' +
       '<issue-meta-assigned></issue-meta-assigned>' +
-      '<span class="tag is-' + cK.mappings.categoryToClass[issue.field_issue_category] + '">' + cK.mappings.categoryToLabel[issue.field_issue_category] + '</span>' +
-      '<span class="tag is-default">' + issue.field_project.id + '</span>' +
+      '<span class="tag is-{{ category_class }}">{{ category_label }}</span>' +
+      '<span class="tag is-default">{{ project }}</span>' +
       '</div>' +
-    '</div>';
+      '</div>', {
+      priority: issue.field_issue_priority,
+      priority_class: cK.mappings.priorityToClass[parseInt(issue.field_issue_priority)],
+      priority_label: cK.mappings.priorityToLabel[issue.field_issue_priority],
+      category: issue.field_issue_category,
+      category_class: cK.mappings.categoryToClass[issue.field_issue_category],
+      category_label: cK.mappings.categoryToLabel[issue.field_issue_category],
+      card_bg_color: cK.mappings.statusToColor[parseInt(issue.field_issue_status)],
+      title: issue.title,
+      link: Drupal.theme('issueLink', issue.nid),
+      version: issue.field_issue_version,
+      component: issue.field_issue_component,
+      project: issue.field_project.id
+    });
   };
 
 })(Drupal, jQuery, window.cK);

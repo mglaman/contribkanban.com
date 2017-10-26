@@ -4,12 +4,16 @@ mappers:
 url:
   js:
     js/url.js: { }
+template:
+  js:
+    js/template.js: { }
 board_list:
   js:
     js/board-list.js: { }
   dependencies:
     - core/drupal
     - core/jquery
+    - contribkanban_boards/template
     - contribkanban_boards/mappers
     - contribkanban_boards/url
 form:
