@@ -9,4 +9,4 @@ global-styling:
   js:
     js/sidebar.js: { }
   dependencies:
-    - core/jquery
+    - core/domready

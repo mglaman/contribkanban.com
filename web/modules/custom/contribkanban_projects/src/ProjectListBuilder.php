@@ -31,7 +31,7 @@ class ProjectListBuilder extends EntityListBuilder {
     $row['id'] = $entity->id();
     $row['name'] = Link::createFromRoute(
       $entity->label(),
-      'entity.project.edit_form',
+      'entity.project.canonical',
       ['project' => $entity->id()]
     );
     return $row + parent::buildRow($entity);

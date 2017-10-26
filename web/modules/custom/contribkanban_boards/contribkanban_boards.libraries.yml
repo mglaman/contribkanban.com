@@ -12,7 +12,6 @@ board_list:
     js/board-list.js: { }
   dependencies:
     - core/drupal
-    - core/jquery
     - contribkanban_boards/template
     - contribkanban_boards/mappers
     - contribkanban_boards/url

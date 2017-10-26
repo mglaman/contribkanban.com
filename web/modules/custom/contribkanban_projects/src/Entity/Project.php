@@ -58,33 +58,68 @@ class Project extends ContentEntityBase implements ProjectInterface {
 
     $fields['name'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Name'))
-      ->setReadOnly(TRUE);
+      ->setReadOnly(TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'string',
+        'weight' => -5,
+      ]);
 
     $fields['machine_name'] = BaseFieldDefinition::create('string')
       ->setLabel('Machine name')
-      ->setReadOnly(TRUE);
+      ->setReadOnly(TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'string',
+        'weight' => -5,
+      ]);
 
     $fields['project_type'] = BaseFieldDefinition::create('string')
       ->setLabel('Project type')
-      ->setReadOnly(TRUE);
+      ->setReadOnly(TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'string',
+        'weight' => -5,
+      ]);
 
     $fields['version_format'] = BaseFieldDefinition::create('string')
       ->setLabel('Version format')
-      ->setReadOnly(TRUE);
+      ->setReadOnly(TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'string',
+        'weight' => -5,
+      ]);
 
     $fields['nid'] = BaseFieldDefinition::create('string')
       ->setLabel('Node ID')
-      ->setReadOnly(TRUE);
+      ->setReadOnly(TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'string',
+        'weight' => -5,
+      ]);
 
     $fields['components'] = BaseFieldDefinition::create('string')
       ->setLabel('Components')
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
-      ->setReadOnly(TRUE);
+      ->setReadOnly(TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => -5,
+      ]);
 
     $fields['versions'] = BaseFieldDefinition::create('string')
       ->setLabel('Versions')
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
-      ->setReadOnly(TRUE);
+      ->setReadOnly(TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => -5,
+      ]);
 
     return $fields;
   }

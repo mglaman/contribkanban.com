@@ -1,4 +1,4 @@
-(function (d, $, cK) {
+(function (d, cK) {
 
   /**
    * Simple object property loop.
@@ -81,24 +81,24 @@
           url.addParameter('field_issue_component', payload['component']);
         }
 
-        $.ajax(url.getEndpointUrl(), {
-          method: 'GET',
-          error: function (e) {
-            console.log(e);
-          },
-          success: function (data, textStatus, jqXHR) {
-            $count.innerHTML = data.list.length;
-            var $listItems = $list.querySelector('.board--list__items');
-            objectForeach(data.list, function (index, issue) {
-              var el = document.createElement('div');
-              el.innerHTML = d.theme('issueCard', issue);
-              $listItems.appendChild(el.firstElementChild);
-            })
-          },
-          complete: function () {
-            $el.querySelector('.board--list__refresh').style.display = 'none';
-          }
+        var apiRequest = new XMLHttpRequest();
+        apiRequest.open('GET', url.getEndpointUrl(), true);
+        apiRequest.addEventListener('error', function (e) {
+          console.log(e);
+          $el.querySelector('.board--list__refresh').style.display = 'none';
         });
+        apiRequest.addEventListener('load', function (e) {
+          var data = JSON.parse(this.responseText);
+          $el.querySelector('.board--list__refresh').style.display = 'none';
+          $count.innerHTML = data.list.length;
+          var $listItems = $list.querySelector('.board--list__items');
+          objectForeach(data.list, function (index, issue) {
+            var el = document.createElement('div');
+            el.innerHTML = d.theme('issueCard', issue);
+            $listItems.appendChild(el.firstElementChild);
+          })
+        });
+        apiRequest.send();
       });
     }
   };
@@ -162,4 +162,4 @@
     });
   };
 
-})(Drupal, jQuery, window.cK);
+})(Drupal, window.cK);
