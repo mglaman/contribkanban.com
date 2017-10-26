@@ -1,4 +1,5 @@
 (function (d, $, cK) {
+
   /**
    * Simple object property loop.
    *
@@ -103,39 +104,33 @@
   };
   d.behaviors.boardFilters = {
     attach: function (context) {
+      var activeFilters = {};
       var elFilters = document.querySelectorAll('select[data-card-filter]');
       objectForeach(elFilters, function (i, el) {
         el.addEventListener('change', function (e) {
+          var cardFilter = this.dataset['cardFilter'];
+          delete(activeFilters[cardFilter]);
           var selected = parseInt(this.selectedOptions[0].value);
-          if (isNaN(selected)) {
-            showCards(this.dataset['cardFilter']);
+
+          var selector = 'div.board--list__item';
+          objectForeach(document.querySelectorAll(selector), function (i, e) {
+            e.classList.add('is-hidden');
+          });
+          if (!isNaN(selected)) {
+            activeFilters[cardFilter] = selected;
+            // selector += ':not(.is-hidden)';
+            objectForeach(activeFilters, function (i, v) {
+              selector += '[' + i + '="' + v + '"]';
+            });
           }
-          else {
-            hideCards(this.dataset['cardFilter'], selected);
-            showCards(this.dataset['cardFilter'], selected);
-          }
+          var cardsToHide = document.querySelectorAll(selector);
+          objectForeach(cardsToHide, function (i, v) {
+            v.classList.remove('is-hidden');
+          });
         })
       });
     }
   };
-
-  function hideCards(selector, value) {
-    var cardsToHide = document.querySelectorAll('div.board--list__item:not([' + selector + '="' + value + '"])');
-    objectForeach(cardsToHide, function (i, v) {
-      v.classList.add('is-hidden');
-    });
-  }
-  function showCards(selector, value) {
-    if (value === undefined) {
-      objectForeach(document.querySelectorAll('.board--list__item'), function (i, el) {
-        el.classList.remove('is-hidden');
-      });
-    } else {
-      objectForeach(document.querySelectorAll('div.board--list__item[' + selector + '="' + value + '"]'), function (i, el) {
-        el.classList.remove('is-hidden');
-      });
-    }
-  }
 
   d.theme.issueLink = function (nid) {
     return '<a class="kanban-board--issue__link" href="https://www.drupal.org/node/' + nid + '" target="_blank">#' + nid + '</a>';
