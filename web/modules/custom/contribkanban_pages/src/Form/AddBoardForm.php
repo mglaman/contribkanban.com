@@ -19,6 +19,7 @@ class AddBoardForm extends FormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Project machine name'),
       '#title_display' => 'hidden',
+      '#required' => TRUE,
       '#placeholder' => $this->t('Project machine name'),
     ];
     $form['submit'] = [

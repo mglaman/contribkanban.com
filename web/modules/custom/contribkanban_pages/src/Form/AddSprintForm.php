@@ -19,6 +19,7 @@ class AddSprintForm extends FormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Tag name'),
       '#title_display' => 'hidden',
+      '#required' => TRUE,
       '#placeholder' => $this->t('Tag name'),
     ];
     $form['submit'] = [
