@@ -135,8 +135,12 @@
     return '<a class="kanban-board--issue__link" href="https://www.drupal.org/node/' + nid + '" target="_blank">#' + nid + '</a>';
   };
   d.theme.issueCard = function (issue) {
+    var tagTids = [];
+    for (var i = 0; i < issue.taxonomy_vocabulary_9.length; i++) {
+      tagTids.push(issue.taxonomy_vocabulary_9[i].id);
+    }
     var template = new Template();
-    return template.format('<div class="board--list__item card" data-issue-priority="{{ priority }}" data-issue-category="{{ category }}" data-issue-version="{{ version }}" style="background-color: {{ card_bg_color }}">' +
+    return template.format('<div class="board--list__item card" data-issue-priority="{{ priority }}" data-issue-category="{{ category }}" data-issue-version="{{ version }}" data-issue-tags="{{ issueTags }}" style="background-color: {{ card_bg_color }}">' +
       '<h3>{{ title }} {{ link }}</h3>' +
       '<div class="kanban-board--issue_tags">' +
       '<span class="tag bg-success">{{ version }}</span>' +
@@ -144,7 +148,7 @@
       '<span class="tag is-default">{{ component }}</span>' +
       '<issue-meta-assigned></issue-meta-assigned>' +
       '<span class="tag is-{{ category_class }}">{{ category_label }}</span>' +
-      '<span class="tag is-default">{{ project }}</span>' +
+      '<span class="tag is-default" data-project-nid="{{ project }}">{{ project }}</span>' +
       '</div>' +
       '</div>', {
       priority: issue.field_issue_priority,
