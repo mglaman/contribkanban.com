@@ -51,7 +51,10 @@
         "discard-changes": true,
         "optimize-autoloader": true,
         "apcu-autoloader": true,
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "php": "7.0"
+        }
     },
     "autoload": {
         "classmap": [
