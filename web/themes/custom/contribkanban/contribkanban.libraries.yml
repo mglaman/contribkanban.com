@@ -8,5 +8,6 @@ global-styling:
       css/style.css: { }
   js:
     js/sidebar.js: { }
+    js/embed.js: { }
   dependencies:
     - core/domready
