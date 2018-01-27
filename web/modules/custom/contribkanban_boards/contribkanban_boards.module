@@ -35,9 +35,23 @@ function contribkanban_boards_theme($existing, $type, $theme, $path) {
  * Implements hook_preprocess_HOOK().
  */
 function contribkanban_boards_preprocess_board(&$variables) {
-  $variables['board'] = [];
-  foreach (Element::children($variables['elements']) as $key) {
-    $variables['board'][$key] = $variables['elements'][$key];
+  $variables['#attached']['library'][] = 'contribkanban_boards/app';
+  $variables['#attached']['drupalSettings']['board'] = [];
+
+  /** @var \Drupal\contribkanban_boards\Entity\BoardInterface $board */
+  $board = $variables['elements']['#board'];
+  /** @var \Drupal\contribkanban_boards\Entity\BoardListInterface $board_list */
+  foreach ($board->get('lists')->referencedEntities() as $board_list) {
+    $attributes['title'] = $board_list->label();
+    $attributes['projects'] = FieldHelper::stringAsJson($board_list->getProjects());
+    $attributes['category'] = FieldHelper::stringAsJson($board_list->getCategory());
+    $attributes['component'] = FieldHelper::stringAsJson($board_list->getComponent());
+    $attributes['parent'] = FieldHelper::stringAsJson($board_list->getParentIssue());
+    $attributes['priority'] = FieldHelper::stringAsJson($board_list->getPriority());
+    $attributes['statuses'] = FieldHelper::stringAsJson($board_list->getStatuses());
+    $attributes['tag'] = FieldHelper::stringAsJson($board_list->getTags());
+    $attributes['version'] = FieldHelper::stringAsJson($board_list->getVersion());
+    $variables['#attached']['drupalSettings']['board'][] = $attributes;
   }
 }
 
@@ -45,7 +59,6 @@ function contribkanban_boards_preprocess_board(&$variables) {
  * Implements hook_preprocess_HOOK().
  */
 function contribkanban_boards_preprocess_board_list(&$variables) {
-  $variables['#attached']['library'][] = 'contribkanban_boards/board_list';
   /** @var \Drupal\contribkanban_boards\Entity\BoardListInterface $board_list */
   $board_list = $variables['elements']['#board_list'];
   $variables['title'] = ['#markup' => $board_list->label()];
