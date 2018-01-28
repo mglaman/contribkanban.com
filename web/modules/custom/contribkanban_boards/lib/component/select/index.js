@@ -11,7 +11,7 @@ class Select extends Component {
     ).isRequired,
     label: string.isRequired,
     onChange: func.isRequired,
-    select: string
+    selected: string
   };
   constructor({ onChange }) {
     super();

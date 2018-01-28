@@ -5,10 +5,14 @@ import {datasetToJson, objectForeach} from "../../utils";
 import superagent from 'superagent';
 import superagentCache from 'superagent-cache';
 import Issue from "./issue";
+import { connect } from 'react-redux';
 
 superagentCache(superagent);
 
 class List extends Component {
+  constructor(props){
+    super(props);
+  }
   static propTypes = {
     label: string.isRequired,
     data: object.isRequired,
@@ -18,7 +22,7 @@ class List extends Component {
     count: 0,
     issueList: []
   };
-  componentDidMount() {
+  buildEndpointUrl() {
     const data = datasetToJson(this.props.data);
     const apiUrl = new ApiUrl('node')
       .addParameter('limit', 100)
@@ -34,6 +38,8 @@ class List extends Component {
     });
     if (data['category'] !== null) {
       apiUrl.addParameter('field_issue_category', data['category']);
+    } else if (this.props.categoryFilter !== '_any') {
+      apiUrl.addParameter('field_issue_category', this.props.categoryFilter);
     }
     if (data['tag'] !== null) {
       apiUrl.addParameter('taxonomy_vocabulary_9[tid][]', data['tag']);
@@ -43,6 +49,8 @@ class List extends Component {
     }
     if (data['priority'] !== null) {
       apiUrl.addParameter('field_issue_priority', data['priority']);
+    } else if (this.props.priorityFilter !== '_any') {
+      apiUrl.addParameter('field_issue_priority', this.props.priorityFilter);
     }
     objectForeach(data['version'], function (i, v) {
       apiUrl.addParameter('field_issue_version[value][]', v);
@@ -50,6 +58,11 @@ class List extends Component {
     if (data['component'] !== null) {
       apiUrl.addParameter('field_issue_component', data['component']);
     }
+    return apiUrl;
+  }
+  fetchIssues() {
+    const apiUrl = this.buildEndpointUrl();
+    console.log(apiUrl.getEndpointUrl());
     superagent
       .get(apiUrl.getEndpointUrl())
       .backgroundRefresh()
@@ -60,6 +73,28 @@ class List extends Component {
           count: body.list.length
         })
       })
+  }
+  componentDidMount() {
+    this.fetchIssues();
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    // Try and see if the logic in componentDidUpdate can belong here.
+    return true;
+  }
+  componentDidUpdate(prevProps, prevState) {
+    // Make sure this is not the first load.
+    if (prevState.loaded && this.state.loaded) {
+      console.log('Checking if new API request for ' + this.props.label);
+
+      const shouldFetchNew =
+        (prevProps.categoryFilter !== this.props.categoryFilter) ||
+        (prevProps.priorityFilter !== this.props.priorityFilter) ||
+        (prevProps.versionFilter !== this.props.versionFilter);
+      if (shouldFetchNew) {
+        console.log('Fetching new issues for ' + this.props.label);
+        this.fetchIssues();
+      }
+    }
   }
   render() {
     const { label } = this.props;
@@ -81,4 +116,16 @@ class List extends Component {
     )
   }
 }
-export default List;
+
+const mapStateToProps = (state) => {
+  return {
+    categoryFilter: state.categoryFilterReducer,
+    priorityFilter: state.priorityFilterReducer,
+    versionFilter: state.versionFilterReducer,
+  }
+};
+const mapDispatchToProps = (dispatch) => {
+  return {}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(List);
