@@ -6,6 +6,7 @@ use Drupal\contribkanban_pages\Form\AddSprintForm;
 use Drupal\contribkanban_pages\Form\SearchBoardsForm;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Render\Markup;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 
@@ -46,14 +47,14 @@ class BoardsController extends ControllerBase {
   public function boards($type) {
     $add_form_class = '<div id="AddBoard"></div>';
     if ($type == 'sprint') {
-      $add_form_class = $this->formBuilder->getForm(AddSprintForm::class);
+      $add_form_class = '<div id="AddSprint"></div>';
     }
 
     $build = [
       '#theme' => 'boards',
       '#search' => $this->formBuilder->getForm(SearchBoardsForm::class),
       '#list' => $this->getList($type),
-      '#add' => $add_form_class,
+      '#add' => Markup::create($add_form_class),
       '#content' => NULL,
     ];
     $build['#attached']['library'][] = 'contribkanban_boards/app';

@@ -5,3 +5,10 @@ conribkanban_api.add_board:
     _controller: '\Drupal\contribkanban_api\Controller\AddBoard::handle'
   requirements:
     _access: 'TRUE'
+conribkanban_api.add_tag:
+  path: '/api/boards/add/tag/{tag}'
+  methods: ['POST']
+  defaults:
+    _controller: '\Drupal\contribkanban_api\Controller\AddTag::handle'
+  requirements:
+    _access: 'TRUE'

@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import Board from "./component/board";
 import AddBoard from "./component/add-board";
+import AddSprint from "./component/add-sprint";
 
 if (document.getElementById('Board')) {
   // @todo move into component?
@@ -19,4 +20,7 @@ if (document.getElementById('Board')) {
 }
 if (document.getElementById('AddBoard')) {
   render(<AddBoard/>, document.getElementById('AddBoard'));
+}
+if (document.getElementById('AddSprint')) {
+  render(<AddSprint />, document.getElementById('AddSprint'));
 }
