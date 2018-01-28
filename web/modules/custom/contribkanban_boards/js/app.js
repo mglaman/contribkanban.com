@@ -2781,8 +2781,7 @@ var Filters = function (_Component) {
         'div',
         { className: 'is-flex is-clearfix board--filters' },
         _react2.default.createElement(_select2.default, { data: this.categoryOptions, label: 'Category', selected: this.props.categoryFilter, onChange: this.categoryChange.bind(this) }),
-        _react2.default.createElement(_select2.default, { data: this.priorityOptions, label: 'Priority', selected: this.props.priorityFilter, onChange: this.priorityChange.bind(this) }),
-        _react2.default.createElement(_select2.default, { data: this.versionOptions, label: 'Versions', selected: this.props.versionFilter, onChange: this.versionChange.bind(this) })
+        _react2.default.createElement(_select2.default, { data: this.priorityOptions, label: 'Priority', selected: this.props.priorityFilter, onChange: this.priorityChange.bind(this) })
       );
     }
   }]);
