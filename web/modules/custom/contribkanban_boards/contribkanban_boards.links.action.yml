@@ -1,0 +1,4 @@
+contribkanban_boards.add_board:
+  route_name: 'entity.board.add_page'
+  title: 'Add board'
+  appears_on: ['entity.board.collection']

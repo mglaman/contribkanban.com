@@ -1,0 +1,10 @@
+contribkanban_boards.boards:
+  title: 'Boards'
+  route_name: 'entity.board.collection'
+  parent: 'system.admin_structure'
+  description: 'View and manage boards.'
+
+contribkanban_boards.add:
+  title: 'Add new board'
+  route_name: 'entity.board.add_page'
+  menu_name: account
