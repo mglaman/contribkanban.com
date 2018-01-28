@@ -95,7 +95,7 @@ class List extends Component {
         this.fetchIssues();
       }
     }
-  }
+  };
   render() {
     const { label } = this.props;
     return (
