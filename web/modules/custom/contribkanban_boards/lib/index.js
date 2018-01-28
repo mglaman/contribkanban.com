@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import Board from "./component/board";
+import AddBoard from "./component/add-board";
 
 if (document.getElementById('Board')) {
   // @todo move into component?
@@ -15,4 +16,7 @@ if (document.getElementById('Board')) {
     }, 250);
   });
   render(<Board/>, document.getElementById('Board'));
+}
+if (document.getElementById('AddBoard')) {
+  render(<AddBoard/>, document.getElementById('AddBoard'));
 }

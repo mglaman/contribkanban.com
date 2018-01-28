@@ -1,0 +1,7 @@
+conribkanban_api.add_board:
+  path: '/api/boards/add/{machine_name}'
+  methods: ['POST']
+  defaults:
+    _controller: '\Drupal\contribkanban_api\Controller\AddBoard::handle'
+  requirements:
+    _access: 'TRUE'
