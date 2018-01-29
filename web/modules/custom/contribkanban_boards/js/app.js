@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 23);
+/******/ 	return __webpack_require__(__webpack_require__.s = 26);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -93,7 +93,7 @@ if (true) {
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(28)(isValidElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(31)(isValidElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
@@ -124,11 +124,11 @@ if (typeof window !== 'undefined') {
   root = undefined;
 }
 
-var Emitter = __webpack_require__(57);
-var RequestBase = __webpack_require__(58);
-var isObject = __webpack_require__(22);
-var ResponseBase = __webpack_require__(59);
-var Agent = __webpack_require__(61);
+var Emitter = __webpack_require__(58);
+var RequestBase = __webpack_require__(59);
+var isObject = __webpack_require__(24);
+var ResponseBase = __webpack_require__(60);
+var Agent = __webpack_require__(62);
 
 /**
  * Noop.
@@ -1047,59 +1047,9 @@ request.put = function (url, data, fn) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var ApiUrl = function () {
-  function ApiUrl(entityType, parameters) {
-    babelHelpers.classCallCheck(this, ApiUrl);
-    this.baseURL = 'https://www.drupal.org/api-d7';
-
-    this.entityType = entityType || '';
-    this.parameters = parameters || [];
-  }
-
-  babelHelpers.createClass(ApiUrl, [{
-    key: 'getBaseUrl',
-    value: function getBaseUrl() {
-      return this.baseURL;
-    }
-  }, {
-    key: 'setEntityEndpoint',
-    value: function setEntityEndpoint(type) {
-      this.entityType = type;
-    }
-  }, {
-    key: 'addParameter',
-    value: function addParameter(parameter, value) {
-      this.parameters.push(parameter + '=' + value);
-      return this;
-    }
-  }, {
-    key: 'getEndpointUrl',
-    value: function getEndpointUrl() {
-      var builderUrl = this.baseURL;
-      builderUrl += '/' + this.entityType + '.json?';
-      builderUrl += this.parameters.join('&');
-      return builderUrl;
-    }
-  }]);
-  return ApiUrl;
-}();
-
-exports.default = ApiUrl;
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 exports.connect = exports.connectAdvanced = exports.createProvider = exports.Provider = undefined;
 
-var _Provider = __webpack_require__(27);
+var _Provider = __webpack_require__(30);
 
 var _Provider2 = babelHelpers.interopRequireDefault(_Provider);
 
@@ -1107,7 +1057,7 @@ var _connectAdvanced = __webpack_require__(14);
 
 var _connectAdvanced2 = babelHelpers.interopRequireDefault(_connectAdvanced);
 
-var _connect = __webpack_require__(34);
+var _connect = __webpack_require__(37);
 
 var _connect2 = babelHelpers.interopRequireDefault(_connect);
 
@@ -1117,179 +1067,13 @@ exports.connectAdvanced = _connectAdvanced2.default;
 exports.connect = _connect2.default;
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = warning;
-/**
- * Prints a warning in the console if it exists.
- *
- * @param {String} message The warning message.
- * @returns {void}
- */
-function warning(message) {
-  /* eslint-disable no-console */
-  if (typeof console !== 'undefined' && typeof console.error === 'function') {
-    console.error(message);
-  }
-  /* eslint-enable no-console */
-  try {
-    // This error was thrown as a convenience so that if you enable
-    // "break on all exceptions" in your console,
-    // it would pause the execution at this line.
-    throw new Error(message);
-    /* eslint-disable no-empty */
-  } catch (e) {}
-  /* eslint-enable no-empty */
-}
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
-
-var _createStore = __webpack_require__(15);
-
-var _createStore2 = babelHelpers.interopRequireDefault(_createStore);
-
-var _combineReducers = __webpack_require__(48);
-
-var _combineReducers2 = babelHelpers.interopRequireDefault(_combineReducers);
-
-var _bindActionCreators = __webpack_require__(49);
-
-var _bindActionCreators2 = babelHelpers.interopRequireDefault(_bindActionCreators);
-
-var _applyMiddleware = __webpack_require__(50);
-
-var _applyMiddleware2 = babelHelpers.interopRequireDefault(_applyMiddleware);
-
-var _compose = __webpack_require__(19);
-
-var _compose2 = babelHelpers.interopRequireDefault(_compose);
-
-var _warning = __webpack_require__(18);
-
-var _warning2 = babelHelpers.interopRequireDefault(_warning);
-
-/*
-* This is a dummy function to check if the function name has been altered by minification.
-* If the function has been minified and NODE_ENV !== 'production', warn the user.
-*/
-function isCrushed() {}
-
-if ("development" !== 'production' && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
-  (0, _warning2.default)('You are currently using minified code outside of NODE_ENV === \'production\'. ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or DefinePlugin for webpack (http://stackoverflow.com/questions/30030031) ' + 'to ensure you have the correct code for your production build.');
-}
-
-exports.createStore = _createStore2.default;
-exports.combineReducers = _combineReducers2.default;
-exports.bindActionCreators = _bindActionCreators2.default;
-exports.applyMiddleware = _applyMiddleware2.default;
-exports.compose = _compose2.default;
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _baseGetTag = __webpack_require__(37);
-
-var _baseGetTag2 = babelHelpers.interopRequireDefault(_baseGetTag);
-
-var _getPrototype = __webpack_require__(42);
-
-var _getPrototype2 = babelHelpers.interopRequireDefault(_getPrototype);
-
-var _isObjectLike = __webpack_require__(44);
-
-var _isObjectLike2 = babelHelpers.interopRequireDefault(_isObjectLike);
-
-/** `Object#toString` result references. */
-var objectTag = '[object Object]';
-
-/** Used for built-in method references. */
-var funcProto = Function.prototype,
-    objectProto = Object.prototype;
-
-/** Used to resolve the decompiled source of functions. */
-var funcToString = funcProto.toString;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/** Used to infer the `Object` constructor. */
-var objectCtorString = funcToString.call(Object);
-
-/**
- * Checks if `value` is a plain object, that is, an object created by the
- * `Object` constructor or one with a `[[Prototype]]` of `null`.
- *
- * @static
- * @memberOf _
- * @since 0.8.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- * }
- *
- * _.isPlainObject(new Foo);
- * // => false
- *
- * _.isPlainObject([1, 2, 3]);
- * // => false
- *
- * _.isPlainObject({ 'x': 0, 'y': 0 });
- * // => true
- *
- * _.isPlainObject(Object.create(null));
- * // => true
- */
-function isPlainObject(value) {
-  if (!(0, _isObjectLike2.default)(value) || (0, _baseGetTag2.default)(value) != objectTag) {
-    return false;
-  }
-  var proto = (0, _getPrototype2.default)(value);
-  if (proto === null) {
-    return true;
-  }
-  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
-  return typeof Ctor == 'function' && Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString;
-}
-
-exports.default = isPlainObject;
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(62);
+var utils = __webpack_require__(63);
 
 /**
  * superagentCache constructor
@@ -1303,7 +1087,7 @@ module.exports = function (superagent, cache, defaults) {
   if (!superagent) throw 'superagent-cache requires a superagent instance.';
 
   if (!superagent.patchedBySuperagentCache) {
-    superagent.cache = cache && cache.get ? cache : new (__webpack_require__(63))(cache);
+    superagent.cache = cache && cache.get ? cache : new (__webpack_require__(64))(cache);
     superagent.defaults = defaults || {};
     superagent.pendingRequests = {};
     var Request = superagent.Request;
@@ -1497,6 +1281,222 @@ module.exports = function (superagent, cache, defaults) {
     };
   }
 };
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var ApiUrl = function () {
+  function ApiUrl(entityType, parameters) {
+    babelHelpers.classCallCheck(this, ApiUrl);
+    this.baseURL = 'https://www.drupal.org/api-d7';
+
+    this.entityType = entityType || '';
+    this.parameters = parameters || [];
+  }
+
+  babelHelpers.createClass(ApiUrl, [{
+    key: 'getBaseUrl',
+    value: function getBaseUrl() {
+      return this.baseURL;
+    }
+  }, {
+    key: 'setEntityEndpoint',
+    value: function setEntityEndpoint(type) {
+      this.entityType = type;
+    }
+  }, {
+    key: 'addParameter',
+    value: function addParameter(parameter, value) {
+      this.parameters.push(parameter + '=' + value);
+      return this;
+    }
+  }, {
+    key: 'getEndpointUrl',
+    value: function getEndpointUrl() {
+      var builderUrl = this.baseURL;
+      builderUrl += '/' + this.entityType + '.json?';
+      builderUrl += this.parameters.join('&');
+      return builderUrl;
+    }
+  }]);
+  return ApiUrl;
+}();
+
+exports.default = ApiUrl;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
+
+var _createStore = __webpack_require__(15);
+
+var _createStore2 = babelHelpers.interopRequireDefault(_createStore);
+
+var _combineReducers = __webpack_require__(51);
+
+var _combineReducers2 = babelHelpers.interopRequireDefault(_combineReducers);
+
+var _bindActionCreators = __webpack_require__(52);
+
+var _bindActionCreators2 = babelHelpers.interopRequireDefault(_bindActionCreators);
+
+var _applyMiddleware = __webpack_require__(53);
+
+var _applyMiddleware2 = babelHelpers.interopRequireDefault(_applyMiddleware);
+
+var _compose = __webpack_require__(19);
+
+var _compose2 = babelHelpers.interopRequireDefault(_compose);
+
+var _warning = __webpack_require__(18);
+
+var _warning2 = babelHelpers.interopRequireDefault(_warning);
+
+/*
+* This is a dummy function to check if the function name has been altered by minification.
+* If the function has been minified and NODE_ENV !== 'production', warn the user.
+*/
+function isCrushed() {}
+
+if ("development" !== 'production' && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
+  (0, _warning2.default)('You are currently using minified code outside of NODE_ENV === \'production\'. ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or DefinePlugin for webpack (http://stackoverflow.com/questions/30030031) ' + 'to ensure you have the correct code for your production build.');
+}
+
+exports.createStore = _createStore2.default;
+exports.combineReducers = _combineReducers2.default;
+exports.bindActionCreators = _bindActionCreators2.default;
+exports.applyMiddleware = _applyMiddleware2.default;
+exports.compose = _compose2.default;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = warning;
+/**
+ * Prints a warning in the console if it exists.
+ *
+ * @param {String} message The warning message.
+ * @returns {void}
+ */
+function warning(message) {
+  /* eslint-disable no-console */
+  if (typeof console !== 'undefined' && typeof console.error === 'function') {
+    console.error(message);
+  }
+  /* eslint-enable no-console */
+  try {
+    // This error was thrown as a convenience so that if you enable
+    // "break on all exceptions" in your console,
+    // it would pause the execution at this line.
+    throw new Error(message);
+    /* eslint-disable no-empty */
+  } catch (e) {}
+  /* eslint-enable no-empty */
+}
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _baseGetTag = __webpack_require__(40);
+
+var _baseGetTag2 = babelHelpers.interopRequireDefault(_baseGetTag);
+
+var _getPrototype = __webpack_require__(45);
+
+var _getPrototype2 = babelHelpers.interopRequireDefault(_getPrototype);
+
+var _isObjectLike = __webpack_require__(47);
+
+var _isObjectLike2 = babelHelpers.interopRequireDefault(_isObjectLike);
+
+/** `Object#toString` result references. */
+var objectTag = '[object Object]';
+
+/** Used for built-in method references. */
+var funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Used to infer the `Object` constructor. */
+var objectCtorString = funcToString.call(Object);
+
+/**
+ * Checks if `value` is a plain object, that is, an object created by the
+ * `Object` constructor or one with a `[[Prototype]]` of `null`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.8.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ * }
+ *
+ * _.isPlainObject(new Foo);
+ * // => false
+ *
+ * _.isPlainObject([1, 2, 3]);
+ * // => false
+ *
+ * _.isPlainObject({ 'x': 0, 'y': 0 });
+ * // => true
+ *
+ * _.isPlainObject(Object.create(null));
+ * // => true
+ */
+function isPlainObject(value) {
+  if (!(0, _isObjectLike2.default)(value) || (0, _baseGetTag2.default)(value) != objectTag) {
+    return false;
+  }
+  var proto = (0, _getPrototype2.default)(value);
+  if (proto === null) {
+    return true;
+  }
+  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
+  return typeof Ctor == 'function' && Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString;
+}
+
+exports.default = isPlainObject;
 
 /***/ }),
 /* 9 */
@@ -1726,17 +1726,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = connectAdvanced;
 
-var _hoistNonReactStatics = __webpack_require__(31);
+var _hoistNonReactStatics = __webpack_require__(34);
 
 var _hoistNonReactStatics2 = babelHelpers.interopRequireDefault(_hoistNonReactStatics);
 
-var _invariant = __webpack_require__(32);
+var _invariant = __webpack_require__(35);
 
 var _invariant2 = babelHelpers.interopRequireDefault(_invariant);
 
 var _react = __webpack_require__(0);
 
-var _Subscription = __webpack_require__(33);
+var _Subscription = __webpack_require__(36);
 
 var _Subscription2 = babelHelpers.interopRequireDefault(_Subscription);
 
@@ -2062,11 +2062,11 @@ Object.defineProperty(exports, "__esModule", {
 exports.ActionTypes = undefined;
 exports.default = createStore;
 
-var _isPlainObject = __webpack_require__(7);
+var _isPlainObject = __webpack_require__(8);
 
 var _isPlainObject2 = babelHelpers.interopRequireDefault(_isPlainObject);
 
-var _symbolObservable = __webpack_require__(45);
+var _symbolObservable = __webpack_require__(48);
 
 var _symbolObservable2 = babelHelpers.interopRequireDefault(_symbolObservable);
 
@@ -2327,7 +2327,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _root = __webpack_require__(38);
+var _root = __webpack_require__(41);
 
 var _root2 = babelHelpers.interopRequireDefault(_root);
 
@@ -2537,11 +2537,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = verifyPlainObject;
 
-var _isPlainObject = __webpack_require__(7);
+var _isPlainObject = __webpack_require__(8);
 
 var _isPlainObject2 = babelHelpers.interopRequireDefault(_isPlainObject);
 
-var _warning = __webpack_require__(5);
+var _warning = __webpack_require__(7);
 
 var _warning2 = babelHelpers.interopRequireDefault(_warning);
 
@@ -2553,6 +2553,158 @@ function verifyPlainObject(value, displayName, methodName) {
 
 /***/ }),
 /* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var Select = function (_Component) {
+  babelHelpers.inherits(Select, _Component);
+
+  function Select(_ref) {
+    var onChange = _ref.onChange;
+    babelHelpers.classCallCheck(this, Select);
+
+    var _this = babelHelpers.possibleConstructorReturn(this, (Select.__proto__ || Object.getPrototypeOf(Select)).call(this));
+
+    _this.changeHandler = function (e) {
+      _this.onChange(e);
+    };
+
+    _this.onChange = onChange;
+    return _this;
+  }
+
+  babelHelpers.createClass(Select, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          label = _props.label,
+          data = _props.data,
+          selected = _props.selected;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'field' },
+        _react2.default.createElement(
+          'div',
+          { className: 'control' },
+          _react2.default.createElement(
+            'div',
+            { className: 'select' },
+            _react2.default.createElement(
+              'select',
+              {
+                key: 'select-' + (label || 'select'),
+                onChange: this.changeHandler,
+                value: selected
+              },
+              data.map(function (_ref2) {
+                var value = _ref2.value,
+                    item = _ref2.item;
+                return _react2.default.createElement(
+                  'option',
+                  { key: item + '-' + value, value: value },
+                  item
+                );
+              })
+            )
+          )
+        )
+      );
+    }
+  }]);
+  return Select;
+}(_react.Component);
+
+Select.propTypes = {
+  data: (0, _propTypes.arrayOf)((0, _propTypes.shape)({
+    item: _propTypes.string,
+    value: _propTypes.string
+  })).isRequired,
+  label: _propTypes.string.isRequired,
+  onChange: _propTypes.func.isRequired,
+  selected: _propTypes.string
+};
+exports.default = Select;
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.versionFilterUpdated = exports.priorityFilterUpdated = exports.categoryFilterUpdated = undefined;
+
+var _superagent = __webpack_require__(2);
+
+var _superagent2 = babelHelpers.interopRequireDefault(_superagent);
+
+var _superagentCache = __webpack_require__(4);
+
+var _superagentCache2 = babelHelpers.interopRequireDefault(_superagentCache);
+
+(0, _superagentCache2.default)(_superagent2.default);
+
+// export const requestListIssues = (endpoint) => ({
+//   type: 'REQUEST_LIST_ISSUES',
+//   endpoint
+// });
+// export const receiveListIssues = (endpoint, list) => ({
+//   type: 'RECEIVE_LIST_ISSUES',
+//   endpoint,
+//   list
+// });
+// export const getListIssues = (endpoint) => (dispatch) => {
+//   return dispatch(apiFetch(endpoint));
+// };
+//
+// const apiFetch = (endpoint) => (dispatch) => {
+//   dispatch(requestListIssues(endpoint));
+//   const request = superagent
+//     .get(endpoint)
+//     .backgroundRefresh();
+//   return request
+//   .end((err, { body }) => {
+//     return dispatch(receiveListIssues(endpoint, body.list));
+//   })
+// };
+
+var categoryFilterUpdated = exports.categoryFilterUpdated = function categoryFilterUpdated(value) {
+  return {
+    type: 'CATEGORY_FILTER_UPDATED',
+    value: value
+  };
+};
+var priorityFilterUpdated = exports.priorityFilterUpdated = function priorityFilterUpdated(value) {
+  return {
+    type: 'PRIORITY_FILTER_UPDATED',
+    value: value
+  };
+};
+var versionFilterUpdated = exports.versionFilterUpdated = function versionFilterUpdated(value) {
+  return {
+    type: 'VERSION_FILTER_UPDATED',
+    value: value
+  };
+};
+
+/***/ }),
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2573,7 +2725,28 @@ function isObject(obj) {
 module.exports = isObject;
 
 /***/ }),
-/* 23 */
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _redux = __webpack_require__(6);
+
+var _filters = __webpack_require__(72);
+
+exports.default = (0, _redux.combineReducers)({
+  categoryFilterReducer: _filters.categoryFilterReducer,
+  priorityFilterReducer: _filters.priorityFilterReducer,
+  versionFilterReducer: _filters.versionFilterReducer
+});
+
+/***/ }),
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2583,9 +2756,9 @@ var _react = __webpack_require__(0);
 
 var _react2 = babelHelpers.interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(24);
+var _reactDom = __webpack_require__(27);
 
-var _board = __webpack_require__(25);
+var _board = __webpack_require__(28);
 
 var _board2 = babelHelpers.interopRequireDefault(_board);
 
@@ -2596,6 +2769,10 @@ var _addBoard2 = babelHelpers.interopRequireDefault(_addBoard);
 var _addSprint = __webpack_require__(74);
 
 var _addSprint2 = babelHelpers.interopRequireDefault(_addSprint);
+
+var _nodeBoard = __webpack_require__(75);
+
+var _nodeBoard2 = babelHelpers.interopRequireDefault(_nodeBoard);
 
 if (document.getElementById('Board')) {
   // @todo move into component?
@@ -2611,6 +2788,20 @@ if (document.getElementById('Board')) {
   });
   (0, _reactDom.render)(_react2.default.createElement(_board2.default, null), document.getElementById('Board'));
 }
+if (document.getElementById('NodeBoard')) {
+  // @todo move into component?
+  var _resizeTimer = void 0;
+  var _$banner = document.querySelector('header[role="banner"]');
+  var _elMain = document.querySelector('main[role="main"]');
+  _elMain.style.height = window.innerHeight - _$banner.offsetHeight + 'px';
+  window.addEventListener('resize', function () {
+    clearTimeout(_resizeTimer);
+    _resizeTimer = setTimeout(function () {
+      _elMain.style.height = window.innerHeight - _$banner.offsetHeight + 'px';
+    }, 250);
+  });
+  (0, _reactDom.render)(_react2.default.createElement(_nodeBoard2.default, null), document.getElementById('NodeBoard'));
+}
 if (document.getElementById('AddBoard')) {
   (0, _reactDom.render)(_react2.default.createElement(_addBoard2.default, null), document.getElementById('AddBoard'));
 }
@@ -2619,13 +2810,13 @@ if (document.getElementById('AddSprint')) {
 }
 
 /***/ }),
-/* 24 */
+/* 27 */
 /***/ (function(module, exports) {
 
 module.exports = ReactDOM;
 
 /***/ }),
-/* 25 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2639,19 +2830,19 @@ var _react = __webpack_require__(0);
 
 var _react2 = babelHelpers.interopRequireDefault(_react);
 
-var _filters = __webpack_require__(26);
+var _filters = __webpack_require__(29);
 
 var _filters2 = babelHelpers.interopRequireDefault(_filters);
 
-var _list = __webpack_require__(64);
+var _list = __webpack_require__(65);
 
 var _list2 = babelHelpers.interopRequireDefault(_list);
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(3);
 
 var _redux = __webpack_require__(6);
 
-var _reducers = __webpack_require__(71);
+var _reducers = __webpack_require__(25);
 
 var _reducers2 = babelHelpers.interopRequireDefault(_reducers);
 
@@ -2723,7 +2914,7 @@ var Board = function (_Component) {
 exports.default = Board;
 
 /***/ }),
-/* 26 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2737,13 +2928,13 @@ var _react = __webpack_require__(0);
 
 var _react2 = babelHelpers.interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(3);
 
-var _select = __webpack_require__(55);
+var _select = __webpack_require__(22);
 
 var _select2 = babelHelpers.interopRequireDefault(_select);
 
-var _actions = __webpack_require__(56);
+var _actions = __webpack_require__(23);
 
 var Filters = function (_Component) {
   babelHelpers.inherits(Filters, _Component);
@@ -2812,7 +3003,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Filters);
 
 /***/ }),
-/* 27 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2831,7 +3022,7 @@ var _propTypes2 = babelHelpers.interopRequireDefault(_propTypes);
 
 var _PropTypes = __webpack_require__(13);
 
-var _warning = __webpack_require__(5);
+var _warning = __webpack_require__(7);
 
 var _warning2 = babelHelpers.interopRequireDefault(_warning);
 
@@ -2916,7 +3107,7 @@ function createProvider() {
 exports.default = createProvider();
 
 /***/ }),
-/* 28 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2932,10 +3123,10 @@ exports.default = createProvider();
 var emptyFunction = __webpack_require__(9);
 var invariant = __webpack_require__(10);
 var warning = __webpack_require__(11);
-var assign = __webpack_require__(29);
+var assign = __webpack_require__(32);
 
 var ReactPropTypesSecret = __webpack_require__(12);
-var checkPropTypes = __webpack_require__(30);
+var checkPropTypes = __webpack_require__(33);
 
 module.exports = function (isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -3438,7 +3629,7 @@ module.exports = function (isValidElement, throwOnDirectAccess) {
 };
 
 /***/ }),
-/* 29 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3534,7 +3725,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 };
 
 /***/ }),
-/* 30 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3599,7 +3790,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 module.exports = checkPropTypes;
 
 /***/ }),
-/* 31 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3672,7 +3863,7 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
 };
 
 /***/ }),
-/* 32 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3726,7 +3917,7 @@ var invariant = function invariant(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 /***/ }),
-/* 33 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3833,7 +4024,7 @@ var Subscription = function () {
 exports.default = Subscription;
 
 /***/ }),
-/* 34 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3848,23 +4039,23 @@ var _connectAdvanced = __webpack_require__(14);
 
 var _connectAdvanced2 = babelHelpers.interopRequireDefault(_connectAdvanced);
 
-var _shallowEqual = __webpack_require__(35);
+var _shallowEqual = __webpack_require__(38);
 
 var _shallowEqual2 = babelHelpers.interopRequireDefault(_shallowEqual);
 
-var _mapDispatchToProps = __webpack_require__(36);
+var _mapDispatchToProps = __webpack_require__(39);
 
 var _mapDispatchToProps2 = babelHelpers.interopRequireDefault(_mapDispatchToProps);
 
-var _mapStateToProps = __webpack_require__(51);
+var _mapStateToProps = __webpack_require__(54);
 
 var _mapStateToProps2 = babelHelpers.interopRequireDefault(_mapStateToProps);
 
-var _mergeProps = __webpack_require__(52);
+var _mergeProps = __webpack_require__(55);
 
 var _mergeProps2 = babelHelpers.interopRequireDefault(_mergeProps);
 
-var _selectorFactory = __webpack_require__(53);
+var _selectorFactory = __webpack_require__(56);
 
 var _selectorFactory2 = babelHelpers.interopRequireDefault(_selectorFactory);
 
@@ -3978,7 +4169,7 @@ function createConnect() {
 exports.default = createConnect();
 
 /***/ }),
-/* 35 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4020,7 +4211,7 @@ function shallowEqual(objA, objB) {
 }
 
 /***/ }),
-/* 36 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4056,7 +4247,7 @@ function whenMapDispatchToPropsIsObject(mapDispatchToProps) {
 exports.default = [whenMapDispatchToPropsIsFunction, whenMapDispatchToPropsIsMissing, whenMapDispatchToPropsIsObject];
 
 /***/ }),
-/* 37 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4070,11 +4261,11 @@ var _Symbol2 = __webpack_require__(16);
 
 var _Symbol3 = babelHelpers.interopRequireDefault(_Symbol2);
 
-var _getRawTag = __webpack_require__(40);
+var _getRawTag = __webpack_require__(43);
 
 var _getRawTag2 = babelHelpers.interopRequireDefault(_getRawTag);
 
-var _objectToString = __webpack_require__(41);
+var _objectToString = __webpack_require__(44);
 
 var _objectToString2 = babelHelpers.interopRequireDefault(_objectToString);
 
@@ -4102,7 +4293,7 @@ function baseGetTag(value) {
 exports.default = baseGetTag;
 
 /***/ }),
-/* 38 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4112,7 +4303,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _freeGlobal = __webpack_require__(39);
+var _freeGlobal = __webpack_require__(42);
 
 var _freeGlobal2 = babelHelpers.interopRequireDefault(_freeGlobal);
 
@@ -4125,7 +4316,7 @@ var root = _freeGlobal2.default || freeSelf || Function('return this')();
 exports.default = root;
 
 /***/ }),
-/* 39 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4141,7 +4332,7 @@ exports.default = freeGlobal;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ }),
-/* 40 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4201,7 +4392,7 @@ function getRawTag(value) {
 exports.default = getRawTag;
 
 /***/ }),
-/* 41 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4234,7 +4425,7 @@ function objectToString(value) {
 exports.default = objectToString;
 
 /***/ }),
-/* 42 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4244,7 +4435,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _overArg = __webpack_require__(43);
+var _overArg = __webpack_require__(46);
 
 var _overArg2 = babelHelpers.interopRequireDefault(_overArg);
 
@@ -4254,7 +4445,7 @@ var getPrototype = (0, _overArg2.default)(Object.getPrototypeOf, Object);
 exports.default = getPrototype;
 
 /***/ }),
-/* 43 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4280,7 +4471,7 @@ function overArg(func, transform) {
 exports.default = overArg;
 
 /***/ }),
-/* 44 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4320,7 +4511,7 @@ function isObjectLike(value) {
 exports.default = isObjectLike;
 
 /***/ }),
-/* 45 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4330,7 +4521,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _ponyfill = __webpack_require__(47);
+var _ponyfill = __webpack_require__(50);
 
 var _ponyfill2 = babelHelpers.interopRequireDefault(_ponyfill);
 
@@ -4351,10 +4542,10 @@ if (typeof self !== 'undefined') {
 
 var result = (0, _ponyfill2.default)(root);
 exports.default = result;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17), __webpack_require__(46)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17), __webpack_require__(49)(module)))
 
 /***/ }),
-/* 46 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4384,7 +4575,7 @@ module.exports = function (module) {
 };
 
 /***/ }),
-/* 47 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4413,7 +4604,7 @@ function symbolObservablePonyfill(root) {
 };
 
 /***/ }),
-/* 48 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4426,7 +4617,7 @@ exports.default = combineReducers;
 
 var _createStore = __webpack_require__(15);
 
-var _isPlainObject = __webpack_require__(7);
+var _isPlainObject = __webpack_require__(8);
 
 var _isPlainObject2 = babelHelpers.interopRequireDefault(_isPlainObject);
 
@@ -4562,7 +4753,7 @@ function combineReducers(reducers) {
 }
 
 /***/ }),
-/* 49 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4621,7 +4812,7 @@ function bindActionCreators(actionCreators, dispatch) {
 }
 
 /***/ }),
-/* 50 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4692,7 +4883,7 @@ function applyMiddleware() {
 }
 
 /***/ }),
-/* 51 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4719,7 +4910,7 @@ function whenMapStateToPropsIsMissing(mapStateToProps) {
 exports.default = [whenMapStateToPropsIsFunction, whenMapStateToPropsIsMissing];
 
 /***/ }),
-/* 52 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4790,7 +4981,7 @@ function whenMergePropsIsOmitted(mergeProps) {
 exports.default = [whenMergePropsIsFunction, whenMergePropsIsOmitted];
 
 /***/ }),
-/* 53 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4803,7 +4994,7 @@ exports.impureFinalPropsSelectorFactory = impureFinalPropsSelectorFactory;
 exports.pureFinalPropsSelectorFactory = pureFinalPropsSelectorFactory;
 exports.default = finalPropsSelectorFactory;
 
-var _verifySubselectors = __webpack_require__(54);
+var _verifySubselectors = __webpack_require__(57);
 
 var _verifySubselectors2 = babelHelpers.interopRequireDefault(_verifySubselectors);
 
@@ -4913,7 +5104,7 @@ function finalPropsSelectorFactory(dispatch, _ref2) {
 }
 
 /***/ }),
-/* 54 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4924,7 +5115,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = verifySubselectors;
 
-var _warning = __webpack_require__(5);
+var _warning = __webpack_require__(7);
 
 var _warning2 = babelHelpers.interopRequireDefault(_warning);
 
@@ -4945,159 +5136,7 @@ function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, dis
 }
 
 /***/ }),
-/* 55 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = babelHelpers.interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(1);
-
-var Select = function (_Component) {
-  babelHelpers.inherits(Select, _Component);
-
-  function Select(_ref) {
-    var onChange = _ref.onChange;
-    babelHelpers.classCallCheck(this, Select);
-
-    var _this = babelHelpers.possibleConstructorReturn(this, (Select.__proto__ || Object.getPrototypeOf(Select)).call(this));
-
-    _this.changeHandler = function (e) {
-      _this.onChange(e);
-    };
-
-    _this.onChange = onChange;
-    return _this;
-  }
-
-  babelHelpers.createClass(Select, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props,
-          label = _props.label,
-          data = _props.data,
-          selected = _props.selected;
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'field' },
-        _react2.default.createElement(
-          'div',
-          { className: 'control' },
-          _react2.default.createElement(
-            'div',
-            { className: 'select' },
-            _react2.default.createElement(
-              'select',
-              {
-                key: 'select-' + (label || 'select'),
-                onChange: this.changeHandler,
-                value: selected
-              },
-              data.map(function (_ref2) {
-                var value = _ref2.value,
-                    item = _ref2.item;
-                return _react2.default.createElement(
-                  'option',
-                  { key: item + '-' + value, value: value },
-                  item
-                );
-              })
-            )
-          )
-        )
-      );
-    }
-  }]);
-  return Select;
-}(_react.Component);
-
-Select.propTypes = {
-  data: (0, _propTypes.arrayOf)((0, _propTypes.shape)({
-    item: _propTypes.string,
-    value: _propTypes.string
-  })).isRequired,
-  label: _propTypes.string.isRequired,
-  onChange: _propTypes.func.isRequired,
-  selected: _propTypes.string
-};
-exports.default = Select;
-
-/***/ }),
-/* 56 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.versionFilterUpdated = exports.priorityFilterUpdated = exports.categoryFilterUpdated = undefined;
-
-var _superagent = __webpack_require__(2);
-
-var _superagent2 = babelHelpers.interopRequireDefault(_superagent);
-
-var _superagentCache = __webpack_require__(8);
-
-var _superagentCache2 = babelHelpers.interopRequireDefault(_superagentCache);
-
-(0, _superagentCache2.default)(_superagent2.default);
-
-// export const requestListIssues = (endpoint) => ({
-//   type: 'REQUEST_LIST_ISSUES',
-//   endpoint
-// });
-// export const receiveListIssues = (endpoint, list) => ({
-//   type: 'RECEIVE_LIST_ISSUES',
-//   endpoint,
-//   list
-// });
-// export const getListIssues = (endpoint) => (dispatch) => {
-//   return dispatch(apiFetch(endpoint));
-// };
-//
-// const apiFetch = (endpoint) => (dispatch) => {
-//   dispatch(requestListIssues(endpoint));
-//   const request = superagent
-//     .get(endpoint)
-//     .backgroundRefresh();
-//   return request
-//   .end((err, { body }) => {
-//     return dispatch(receiveListIssues(endpoint, body.list));
-//   })
-// };
-
-var categoryFilterUpdated = exports.categoryFilterUpdated = function categoryFilterUpdated(value) {
-  return {
-    type: 'CATEGORY_FILTER_UPDATED',
-    value: value
-  };
-};
-var priorityFilterUpdated = exports.priorityFilterUpdated = function priorityFilterUpdated(value) {
-  return {
-    type: 'PRIORITY_FILTER_UPDATED',
-    value: value
-  };
-};
-var versionFilterUpdated = exports.versionFilterUpdated = function versionFilterUpdated(value) {
-  return {
-    type: 'VERSION_FILTER_UPDATED',
-    value: value
-  };
-};
-
-/***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5262,7 +5301,7 @@ Emitter.prototype.hasListeners = function (event) {
 };
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5272,7 +5311,7 @@ Emitter.prototype.hasListeners = function (event) {
  * Module of mixed-in functions shared between node and client code
  */
 
-var isObject = __webpack_require__(22);
+var isObject = __webpack_require__(24);
 
 /**
  * Expose `RequestBase`.
@@ -5958,7 +5997,7 @@ RequestBase.prototype._setTimeouts = function () {
 };
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5968,7 +6007,7 @@ RequestBase.prototype._setTimeouts = function () {
  * Module dependencies.
  */
 
-var utils = __webpack_require__(60);
+var utils = __webpack_require__(61);
 
 /**
  * Expose `ResponseBase`.
@@ -6096,7 +6135,7 @@ ResponseBase.prototype._setStatusProperties = function (status) {
 };
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6173,7 +6212,7 @@ exports.cleanHeader = function (header, changesOrigin) {
 };
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6200,7 +6239,7 @@ Agent.prototype._setDefaults = function (req) {
 module.exports = Agent;
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6430,7 +6469,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6730,7 +6769,7 @@ function cacheModule(config) {
 module.exports = cacheModule;
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6746,25 +6785,25 @@ var _react2 = babelHelpers.interopRequireDefault(_react);
 
 var _propTypes = __webpack_require__(1);
 
-var _url = __webpack_require__(3);
+var _url = __webpack_require__(5);
 
 var _url2 = babelHelpers.interopRequireDefault(_url);
 
-var _utils = __webpack_require__(65);
+var _utils = __webpack_require__(66);
 
 var _superagent = __webpack_require__(2);
 
 var _superagent2 = babelHelpers.interopRequireDefault(_superagent);
 
-var _superagentCache = __webpack_require__(8);
+var _superagentCache = __webpack_require__(4);
 
 var _superagentCache2 = babelHelpers.interopRequireDefault(_superagentCache);
 
-var _issue = __webpack_require__(66);
+var _issue = __webpack_require__(67);
 
 var _issue2 = babelHelpers.interopRequireDefault(_issue);
 
-var _reactRedux = __webpack_require__(4);
+var _reactRedux = __webpack_require__(3);
 
 (0, _superagentCache2.default)(_superagent2.default);
 
@@ -6920,7 +6959,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(List);
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6950,7 +6989,7 @@ function datasetToJson(map) {
 }
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6967,19 +7006,19 @@ var _react2 = babelHelpers.interopRequireDefault(_react);
 
 var _propTypes = __webpack_require__(1);
 
-var _version = __webpack_require__(67);
+var _version = __webpack_require__(68);
 
 var _version2 = babelHelpers.interopRequireDefault(_version);
 
-var _priority = __webpack_require__(68);
+var _priority = __webpack_require__(69);
 
 var _priority2 = babelHelpers.interopRequireDefault(_priority);
 
-var _category = __webpack_require__(69);
+var _category = __webpack_require__(70);
 
 var _category2 = babelHelpers.interopRequireDefault(_category);
 
-var _project = __webpack_require__(70);
+var _project = __webpack_require__(71);
 
 var _project2 = babelHelpers.interopRequireDefault(_project);
 
@@ -7083,7 +7122,7 @@ Issue.propTypes = {
 exports.default = Issue;
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7127,7 +7166,7 @@ IssueVersion.propTypes = {
 exports.default = IssueVersion;
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7192,7 +7231,7 @@ IssuePriority.propTypes = {
 exports.default = IssuePriority;
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7259,7 +7298,7 @@ IssueCategory.propTypes = {
 exports.default = IssueCategory;
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7276,7 +7315,7 @@ var _react2 = babelHelpers.interopRequireDefault(_react);
 
 var _propTypes = __webpack_require__(1);
 
-var _url = __webpack_require__(3);
+var _url = __webpack_require__(5);
 
 var _url2 = babelHelpers.interopRequireDefault(_url);
 
@@ -7284,7 +7323,7 @@ var _superagent = __webpack_require__(2);
 
 var _superagent2 = babelHelpers.interopRequireDefault(_superagent);
 
-var _superagentCache = __webpack_require__(8);
+var _superagentCache = __webpack_require__(4);
 
 var _superagentCache2 = babelHelpers.interopRequireDefault(_superagentCache);
 
@@ -7351,27 +7390,6 @@ IssueProject.propTypes = {
 exports.default = IssueProject;
 
 /***/ }),
-/* 71 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _redux = __webpack_require__(6);
-
-var _filters = __webpack_require__(72);
-
-exports.default = (0, _redux.combineReducers)({
-  categoryFilterReducer: _filters.categoryFilterReducer,
-  priorityFilterReducer: _filters.priorityFilterReducer,
-  versionFilterReducer: _filters.versionFilterReducer
-});
-
-/***/ }),
 /* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7430,7 +7448,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = babelHelpers.interopRequireDefault(_react);
 
-var _url = __webpack_require__(3);
+var _url = __webpack_require__(5);
 
 var _url2 = babelHelpers.interopRequireDefault(_url);
 
@@ -7567,7 +7585,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = babelHelpers.interopRequireDefault(_react);
 
-var _url = __webpack_require__(3);
+var _url = __webpack_require__(5);
 
 var _url2 = babelHelpers.interopRequireDefault(_url);
 
@@ -7688,6 +7706,757 @@ var AddSprint = function (_Component) {
 }(_react.Component);
 
 exports.default = AddSprint;
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _filters = __webpack_require__(76);
+
+var _filters2 = babelHelpers.interopRequireDefault(_filters);
+
+var _list = __webpack_require__(77);
+
+var _list2 = babelHelpers.interopRequireDefault(_list);
+
+var _reactRedux = __webpack_require__(3);
+
+var _redux = __webpack_require__(6);
+
+var _reducers = __webpack_require__(25);
+
+var _reducers2 = babelHelpers.interopRequireDefault(_reducers);
+
+var _url = __webpack_require__(5);
+
+var _url2 = babelHelpers.interopRequireDefault(_url);
+
+var _superagent = __webpack_require__(2);
+
+var _superagent2 = babelHelpers.interopRequireDefault(_superagent);
+
+var _superagentCache = __webpack_require__(4);
+
+var _superagentCache2 = babelHelpers.interopRequireDefault(_superagentCache);
+
+(0, _superagentCache2.default)(_superagent2.default);
+
+var store = (0, _redux.createStore)(_reducers2.default, {
+  categoryFilterReducer: '_any',
+  priorityFilterReducer: '_any',
+  versionFilterReducer: '_any'
+});
+
+var NodeBoard = function (_Component) {
+  babelHelpers.inherits(NodeBoard, _Component);
+
+  function NodeBoard() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    babelHelpers.classCallCheck(this, NodeBoard);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = NodeBoard.__proto__ || Object.getPrototypeOf(NodeBoard)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      loaded: false,
+      issues: []
+    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+  }
+
+  babelHelpers.createClass(NodeBoard, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      var nids = JSON.parse(drupalSettings.board);
+      console.log(nids);
+
+      var apiUrl = new _url2.default('node');
+      for (var i = 0; i < nids.length; i++) {
+        apiUrl.addParameter('nid[]', nids[i]);
+      }
+      console.log(apiUrl.getEndpointUrl());
+      _superagent2.default.get(apiUrl.getEndpointUrl()).backgroundRefresh().end(function (err, _ref2) {
+        var body = _ref2.body;
+
+        _this2.setState({
+          loaded: true,
+          issues: body.list
+        });
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        _reactRedux.Provider,
+        { store: store },
+        _react2.default.createElement(
+          "div",
+          { style: {
+              position: 'relative',
+              height: '100%'
+            } },
+          _react2.default.createElement(_filters2.default, null),
+          _react2.default.createElement(
+            "div",
+            { className: "board--list__scroll-fix" },
+            _react2.default.createElement(
+              "div",
+              { className: "board--list__container" },
+              _react2.default.createElement(_list2.default, { label: "Postponed", data: this.state.issues, statuses: [4, 6] }),
+              _react2.default.createElement(_list2.default, { label: "Active", data: this.state.issues, statuses: [1] }),
+              _react2.default.createElement(_list2.default, { label: "Needs Work", data: this.state.issues, statuses: [13] }),
+              _react2.default.createElement(_list2.default, { label: "Needs Review", data: this.state.issues, statuses: [8] }),
+              _react2.default.createElement(_list2.default, { label: "Reviewed & Tested", data: this.state.issues, statuses: [14, 15] }),
+              _react2.default.createElement(_list2.default, { label: "Fixed", data: this.state.issues, statuses: [2] })
+            )
+          )
+        )
+      );
+    }
+  }]);
+  return NodeBoard;
+}(_react.Component);
+
+exports.default = NodeBoard;
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(3);
+
+var _select = __webpack_require__(22);
+
+var _select2 = babelHelpers.interopRequireDefault(_select);
+
+var _actions = __webpack_require__(23);
+
+var Filters = function (_Component) {
+  babelHelpers.inherits(Filters, _Component);
+
+  function Filters(props) {
+    babelHelpers.classCallCheck(this, Filters);
+
+    var _this = babelHelpers.possibleConstructorReturn(this, (Filters.__proto__ || Object.getPrototypeOf(Filters)).call(this, props));
+
+    _this.categoryOptions = [{ value: '_any', item: 'Any category' }, { value: 1, item: 'Bug report' }, { value: 2, item: 'Task' }, { value: 3, item: 'Feature request' }, { value: 4, item: 'Support request' }, { value: 5, item: 'Plan' }];
+    _this.priorityOptions = [{ value: '_any', item: 'Any priority' }, { value: 400, item: 'Critical' }, { value: 300, item: 'Major' }, { value: 200, item: 'Normal' }, { value: 100, item: 'Minor' }];
+    _this.versionOptions = [{ value: '_any', item: 'Any version' }, { value: '8.x', item: 'Drupal 8' }, { value: '7.x', item: 'Drupal 7' }];
+    return _this;
+  }
+
+  babelHelpers.createClass(Filters, [{
+    key: 'categoryChange',
+    value: function categoryChange(e) {
+      this.props.categoryFilterUpdated(e.target.value);
+    }
+  }, {
+    key: 'priorityChange',
+    value: function priorityChange(e) {
+      this.props.priorityFilterUpdated(e.target.value);
+    }
+  }, {
+    key: 'versionChange',
+    value: function versionChange(e) {
+      this.props.versionFilterUpdated(e.target.value);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'is-flex is-clearfix board--filters' },
+        _react2.default.createElement(_select2.default, { data: this.categoryOptions, label: 'Category', selected: this.props.categoryFilter, onChange: this.categoryChange.bind(this) }),
+        _react2.default.createElement(_select2.default, { data: this.priorityOptions, label: 'Priority', selected: this.props.priorityFilter, onChange: this.priorityChange.bind(this) })
+      );
+    }
+  }]);
+  return Filters;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    categoryFilter: state.categoryFilterReducer,
+    priorityFilter: state.priorityFilterReducer,
+    versionFilter: state.versionFilterReducer
+  };
+};
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    categoryFilterUpdated: function categoryFilterUpdated(value) {
+      return dispatch((0, _actions.categoryFilterUpdated)(value));
+    },
+    priorityFilterUpdated: function priorityFilterUpdated(value) {
+      return dispatch((0, _actions.priorityFilterUpdated)(value));
+    },
+    versionFilterUpdated: function versionFilterUpdated(value) {
+      return dispatch((0, _actions.versionFilterUpdated)(value));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Filters);
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _superagent = __webpack_require__(2);
+
+var _superagent2 = babelHelpers.interopRequireDefault(_superagent);
+
+var _superagentCache = __webpack_require__(4);
+
+var _superagentCache2 = babelHelpers.interopRequireDefault(_superagentCache);
+
+var _issue = __webpack_require__(78);
+
+var _issue2 = babelHelpers.interopRequireDefault(_issue);
+
+var _reactRedux = __webpack_require__(3);
+
+(0, _superagentCache2.default)(_superagent2.default);
+
+var List = function (_Component) {
+  babelHelpers.inherits(List, _Component);
+
+  function List(props) {
+    babelHelpers.classCallCheck(this, List);
+
+    var _this = babelHelpers.possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).call(this, props));
+
+    _this.state = {
+      loaded: false,
+      issues: []
+    };
+    return _this;
+  }
+
+  babelHelpers.createClass(List, [{
+    key: 'refreshIssues',
+    value: function refreshIssues() {
+      var validStatuses = this.props.statuses;
+      this.setState({
+        loaded: true,
+        issues: this.props.data.filter(function (issue) {
+          var issueStatus = parseInt(issue.field_issue_status);
+          var index = validStatuses.indexOf(parseInt(issue.field_issue_status)) > -1;
+          debugger;
+          return index;
+        })
+      });
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.refreshIssues();
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (this.props.data.length !== prevProps.data.length) {
+        this.refreshIssues();
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var label = this.props.label;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'board--list card is-flex is-vertical' },
+        _react2.default.createElement(
+          'h2',
+          null,
+          _react2.default.createElement(
+            'span',
+            { className: 'icon has-text-info board--list__refresh' },
+            this.state.loaded ? [] : [_react2.default.createElement('i', { className: 'fa fa-circle-o-notch fa-spin fa-fw ' })]
+          ),
+          label,
+          ' (',
+          this.state.loaded ? [this.state.issues.length] : [],
+          ')'
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'div',
+            { className: 'board--list__items' },
+            this.state.issues.map(function (issue) {
+              return _react2.default.createElement(_issue2.default, { data: issue });
+            })
+          )
+        )
+      );
+    }
+  }]);
+  return List;
+}(_react.Component);
+
+List.propTypes = {
+  label: _propTypes.string.isRequired,
+  data: _propTypes.array.isRequired,
+  statuses: _propTypes.array.isRequired
+};
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    categoryFilter: state.categoryFilterReducer,
+    priorityFilter: state.priorityFilterReducer,
+    versionFilter: state.versionFilterReducer
+  };
+};
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {};
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(List);
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _version = __webpack_require__(79);
+
+var _version2 = babelHelpers.interopRequireDefault(_version);
+
+var _priority = __webpack_require__(80);
+
+var _priority2 = babelHelpers.interopRequireDefault(_priority);
+
+var _category = __webpack_require__(81);
+
+var _category2 = babelHelpers.interopRequireDefault(_category);
+
+var _project = __webpack_require__(82);
+
+var _project2 = babelHelpers.interopRequireDefault(_project);
+
+var Issue = function (_Component) {
+  babelHelpers.inherits(Issue, _Component);
+
+  function Issue() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    babelHelpers.classCallCheck(this, Issue);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = Issue.__proto__ || Object.getPrototypeOf(Issue)).call.apply(_ref, [this].concat(args))), _this), _this.statusToColor = {
+      1: '#fcfcfc',
+      2: '#d7ffd8',
+      3: '#fddddd',
+      4: '#eff1f3',
+      5: '#fddddd',
+      6: '#fddddd',
+      7: '#fddddd',
+      8: '#ffffdd',
+      13: '#ffece8',
+      14: '#d7ffd8',
+      15: '#d7ffd8',
+      16: '#eff1f3',
+      18: '#fddddd'
+    }, _this.statusToLabel = {
+      1: 'Active',
+      2: 'Fixed',
+      3: 'Closed (Duplicate)',
+      4: 'Postponed',
+      5: 'Closed (Won\'t Fix)',
+      6: 'Closed (Works as designed)',
+      7: 'Closed (Fixed)',
+      8: 'Needs Review',
+      13: 'Needs Work',
+      14: 'RTBC',
+      15: 'Patch (to be ported)',
+      16: 'Postponed (Needs more info)',
+      18: 'Closed (Cannot Reproduce)'
+    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+  }
+
+  babelHelpers.createClass(Issue, [{
+    key: 'render',
+    value: function render() {
+      var data = this.props.data;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'board--list__item card', onClick: function onClick() {
+            return window.open(Issue.getLink(data.nid));
+          }, style: {
+            backgroundColor: this.statusToColor[parseInt(data.field_issue_status)],
+            cursor: 'pointer'
+          } },
+        _react2.default.createElement(
+          'h3',
+          null,
+          data.title,
+          ' ',
+          _react2.default.createElement(
+            'a',
+            { className: 'kanban-board--issue__link', href: Issue.getLink(data.nid), target: '_blank' },
+            '#',
+            data.nid
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'kanban-board--issue_tags' },
+          _react2.default.createElement(_version2.default, { version: data.field_issue_version }),
+          _react2.default.createElement(_priority2.default, { priority: data.field_issue_priority }),
+          _react2.default.createElement(
+            'span',
+            { className: 'tag is-default' },
+            data.field_issue_component
+          ),
+          _react2.default.createElement(_category2.default, { category: data.field_issue_category }),
+          _react2.default.createElement(_project2.default, { projectNid: data.field_project.id })
+        )
+      );
+    }
+  }], [{
+    key: 'getLink',
+    value: function getLink(nid) {
+      return 'https://www.drupal.org/node/' + nid;
+    }
+  }]);
+  return Issue;
+}(_react.Component);
+
+Issue.propTypes = {
+  data: _propTypes.object.isRequired
+};
+exports.default = Issue;
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var IssueVersion = function (_Component) {
+  babelHelpers.inherits(IssueVersion, _Component);
+
+  function IssueVersion() {
+    babelHelpers.classCallCheck(this, IssueVersion);
+    return babelHelpers.possibleConstructorReturn(this, (IssueVersion.__proto__ || Object.getPrototypeOf(IssueVersion)).apply(this, arguments));
+  }
+
+  babelHelpers.createClass(IssueVersion, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'span',
+        { className: 'tag bg-success' },
+        this.props.version
+      );
+    }
+  }]);
+  return IssueVersion;
+}(_react.Component);
+
+IssueVersion.propTypes = {
+  version: _propTypes.string.isRequired
+};
+exports.default = IssueVersion;
+
+/***/ }),
+/* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var IssuePriority = function (_Component) {
+  babelHelpers.inherits(IssuePriority, _Component);
+
+  function IssuePriority() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    babelHelpers.classCallCheck(this, IssuePriority);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = IssuePriority.__proto__ || Object.getPrototypeOf(IssuePriority)).call.apply(_ref, [this].concat(args))), _this), _this.priorityToLabel = {
+      400: 'Critical',
+      300: 'Major',
+      200: 'Normal',
+      100: 'Minor'
+    }, _this.priorityToClass = {
+      400: 'danger',
+      300: 'warning',
+      200: 'info',
+      100: 'active'
+    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+  }
+
+  babelHelpers.createClass(IssuePriority, [{
+    key: 'render',
+    value: function render() {
+      var priority = this.props.priority;
+
+      return _react2.default.createElement(
+        'span',
+        { className: 'tag is-' + this.priorityToClass[priority] },
+        this.priorityToLabel[priority]
+      );
+    }
+  }]);
+  return IssuePriority;
+}(_react.Component);
+
+IssuePriority.propTypes = {
+  priority: _propTypes.number.isRequired
+};
+exports.default = IssuePriority;
+
+/***/ }),
+/* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var IssueCategory = function (_Component) {
+  babelHelpers.inherits(IssueCategory, _Component);
+
+  function IssueCategory() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    babelHelpers.classCallCheck(this, IssueCategory);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = IssueCategory.__proto__ || Object.getPrototypeOf(IssueCategory)).call.apply(_ref, [this].concat(args))), _this), _this.categoryToLabel = {
+      1: 'Bug',
+      2: 'Task',
+      3: 'Feature',
+      4: 'Support',
+      5: 'Plan'
+    }, _this.categoryToClass = {
+      1: 'danger',
+      2: 'info',
+      3: 'info',
+      4: 'active',
+      5: 'active'
+    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+  }
+
+  babelHelpers.createClass(IssueCategory, [{
+    key: 'render',
+    value: function render() {
+      var category = this.props.category;
+
+      return _react2.default.createElement(
+        'span',
+        { className: 'tag is-' + this.categoryToClass[category] },
+        this.categoryToLabel[category]
+      );
+    }
+  }]);
+  return IssueCategory;
+}(_react.Component);
+
+IssueCategory.propTypes = {
+  category: _propTypes.number.isRequired
+};
+exports.default = IssueCategory;
+
+/***/ }),
+/* 82 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _url = __webpack_require__(5);
+
+var _url2 = babelHelpers.interopRequireDefault(_url);
+
+var _superagent = __webpack_require__(2);
+
+var _superagent2 = babelHelpers.interopRequireDefault(_superagent);
+
+var _superagentCache = __webpack_require__(4);
+
+var _superagentCache2 = babelHelpers.interopRequireDefault(_superagentCache);
+
+(0, _superagentCache2.default)(_superagent2.default);
+
+var IssueProject = function (_Component) {
+  babelHelpers.inherits(IssueProject, _Component);
+
+  function IssueProject() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    babelHelpers.classCallCheck(this, IssueProject);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = IssueProject.__proto__ || Object.getPrototypeOf(IssueProject)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      loaded: false,
+      label: _this.props.projectNid
+    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+  }
+
+  babelHelpers.createClass(IssueProject, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      var nid = this.props.projectNid;
+      if (nid === '3060') {
+        this.setState({
+          label: 'Drupal'
+        });
+      } else {
+        var apiUrl = new _url2.default('node').addParameter('nid', nid);
+        _superagent2.default.get(apiUrl.getEndpointUrl()).end(function (err, _ref2) {
+          var body = _ref2.body;
+
+          _this2.setState({
+            loaded: true,
+            label: body.list[0].title
+          });
+        });
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return this.state.loaded ? [_react2.default.createElement(
+        'span',
+        { className: 'tag is-default' },
+        this.state.label
+      )] : [];
+    }
+  }]);
+  return IssueProject;
+}(_react.Component);
+
+IssueProject.propTypes = {
+  projectNid: _propTypes.number.isRequired
+};
+exports.default = IssueProject;
 
 /***/ })
 /******/ ]);

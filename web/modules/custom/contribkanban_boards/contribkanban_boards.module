@@ -32,6 +32,19 @@ function contribkanban_boards_theme($existing, $type, $theme, $path) {
 }
 
 /**
+ * Implements hook_ENTITY_TYPE_view().
+ */
+function contribkanban_boards_node_board_view(array &$build, \Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display, $view_mode) {
+  /** @var \Drupal\contribkanban_boards\Entity\NodeBoard $board */
+  $board = $entity;
+  $build['#attached']['library'][] = 'contribkanban_boards/app';
+  $build['#attached']['drupalSettings']['board'] = FieldHelper::stringAsJson($board->get('nids'));
+  $build['output'] = [
+    '#markup' => '<div id="NodeBoard" style="position: relative;height: 100%;"></div>',
+  ];
+}
+
+/**
  * Implements hook_preprocess_HOOK().
  */
 function contribkanban_boards_preprocess_board(&$variables) {
