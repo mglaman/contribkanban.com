@@ -14,5 +14,8 @@ permissions:
   - 'create drupalorg_core board_list'
   - 'create drupalorg_custom board'
   - 'create drupalorg_custom board_list'
+  - 'create node_board'
+  - 'update own node_board'
   - 'view board'
   - 'view board_list'
+  - 'view node_board'

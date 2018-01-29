@@ -7,4 +7,4 @@ contribkanban_boards.add_node_board:
   route_parameters:
     type: 'node_board'
   title: 'Add node board'
-  appears_on: ['entity.node_board.collection']
+  appears_on: ['entity.node_board.collection', 'view.my_boards.page_1']

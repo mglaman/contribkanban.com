@@ -61,14 +61,6 @@ class BoardsController extends ControllerBase {
     return $build;
   }
 
-  public function nodeBoard($uuid) {
-    $build['markup'] = [
-      '#markup' => '<div id="NodeBoard" style="position: relative;height: 100%;"></div>',
-    ];
-    $build['#attached']['library'][] = 'contribkanban_boards/app';
-    return $build;
-  }
-
   protected function getList($type) {
     $entity_type = $this->entityTypeManager->getDefinition('board');
     $storage = $this->entityTypeManager->getStorage('board');

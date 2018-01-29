@@ -34,7 +34,7 @@ use Drupal\user\UserInterface;
  *       "delete" = "\Drupal\Core\Entity\ContentEntityDeleteForm"
  *     },
  *     "route_provider" = {
- *       "html" = "\Drupal\Core\Entity\Routing\DefaultHtmlRouteProvider",
+ *       "html" = "\Drupal\contribkanban_boards\Routing\NodeBoardHtmlRouterProvider",
  *     },
  *     "list_builder" = "\Drupal\contribkanban_boards\BoardListBuilder",
  *   },
@@ -49,6 +49,14 @@ use Drupal\user\UserInterface;
  * )
  */
 class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwnerInterface {
+
+  protected function urlRouteParameters($rel) {
+    $uri_route_parameters = parent::urlRouteParameters($rel);
+    if (isset($uri_route_parameters[$this->getEntityTypeId()])) {
+      $uri_route_parameters[$this->getEntityTypeId()] = $this->uuid();
+    }
+    return $uri_route_parameters;
+  }
 
   /**
    * {@inheritdoc}
@@ -107,8 +115,21 @@ class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwner
     $fields['uid'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('User ID'))
       ->setDescription(t('The user ID of the file.'))
+      ->setDefaultValueCallback('Drupal\contribkanban_boards\Entity\NodeBoard::getCurrentUserId')
       ->setSetting('target_type', 'user');
     return $fields;
+  }
+
+  /**
+   * Default value callback for 'uid' base field definition.
+   *
+   * @see ::baseFieldDefinitions()
+   *
+   * @return array
+   *   An array of default values.
+   */
+  public static function getCurrentUserId() {
+    return [\Drupal::currentUser()->id()];
   }
 
 }

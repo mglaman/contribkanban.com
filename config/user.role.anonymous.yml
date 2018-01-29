@@ -16,3 +16,4 @@ permissions:
   - 'create drupalorg_custom board_list'
   - 'view board'
   - 'view board_list'
+  - 'view node_board'

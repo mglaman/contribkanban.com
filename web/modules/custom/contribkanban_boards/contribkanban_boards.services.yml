@@ -2,8 +2,13 @@ services:
   plugin.manager.board_provider:
     class: Drupal\contribkanban_boards\BoardProviderManager
     parent: default_plugin_manager
-  paramconverter.contribkanban_boards.entity_uuid:
+  paramconverter.contribkanban_boards.entity_machinename:
     class: Drupal\contribkanban_boards\ParamConverter\MachineNameConverter
+    tags:
+      - { name: paramconverter, priority: 10 }
+    arguments: ['@entity.manager']
+  paramconverter.contribkanban_boards.entity_uuid:
+    class: Drupal\contribkanban_boards\ParamConverter\EntityUuidConverter
     tags:
       - { name: paramconverter, priority: 10 }
     arguments: ['@entity.manager']

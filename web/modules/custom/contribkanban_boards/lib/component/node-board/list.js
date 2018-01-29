@@ -25,10 +25,7 @@ class List extends Component {
     this.setState({
       loaded: true,
       issues: this.props.data.filter((issue) => {
-          const issueStatus = parseInt(issue.field_issue_status);
-          const index = validStatuses.indexOf(parseInt(issue.field_issue_status)) > -1;
-          debugger;
-          return index;
+          return validStatuses.indexOf(parseInt(issue.field_issue_status)) > -1;
         }
       )
     })

@@ -14,3 +14,9 @@ regions:
   primary_menu: 'Primary menu'
   secondary_menu: 'Secondary menu'
   footer: Footer
+
+libraries-override:
+  system/admin:
+    css:
+      theme:
+        css/system.admin.css: false
