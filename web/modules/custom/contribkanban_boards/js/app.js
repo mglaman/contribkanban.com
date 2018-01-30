@@ -7980,10 +7980,7 @@ var List = function (_Component) {
       this.setState({
         loaded: true,
         issues: this.props.data.filter(function (issue) {
-          var issueStatus = parseInt(issue.field_issue_status);
-          var index = validStatuses.indexOf(parseInt(issue.field_issue_status)) > -1;
-          debugger;
-          return index;
+          return validStatuses.indexOf(parseInt(issue.field_issue_status)) > -1;
         })
       });
     }
