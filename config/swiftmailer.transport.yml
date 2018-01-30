@@ -1,0 +1,11 @@
+transport: php
+smtp_host: ''
+smtp_port: 25
+smtp_encryption: tls
+smtp_username: ''
+smtp_password: ''
+sendmail_path: /usr/sbin/sendmail
+sendmail_mode: bs
+spool_directory: ''
+_core:
+  default_config_hash: 0SeYZshzgoabDrbz-junYqeQOQ9BypPv2gaFcnqKy0M

@@ -17,11 +17,13 @@ module:
   inline_entity_form: 0
   layout_discovery: 0
   link: 0
+  mailsystem: 0
   node: 0
   options: 0
   page_cache: 0
   page_manager: 0
   page_manager_ui: 0
+  swiftmailer: 0
   system: 0
   text: 0
   toolbar: 0
