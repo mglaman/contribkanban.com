@@ -1,4 +1,4 @@
-transport: php
+transport: smtp
 smtp_host: ''
 smtp_port: 25
 smtp_encryption: tls
