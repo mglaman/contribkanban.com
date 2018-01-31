@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - contribkanban_boards
+id: entity.node_board
+plugin_id: 'entity:node_board'
+granularity: resource
+configuration:
+  methods:
+    - GET
+    - POST
+    - PATCH
+    - DELETE
+  formats:
+    - json
+  authentication:
+    - cookie

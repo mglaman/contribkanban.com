@@ -4,9 +4,11 @@ namespace Drupal\contribkanban_pages\Controller;
 
 use Drupal\contribkanban_pages\Form\AddSprintForm;
 use Drupal\contribkanban_pages\Form\SearchBoardsForm;
+use Drupal\Core\Access\CsrfRequestHeaderAccessCheck;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Render\Markup;
+use Drupal\user\UserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManager;
 
@@ -42,6 +44,18 @@ class BoardsController extends ControllerBase {
       $container->get('entity_type.manager'),
       $container->get('form_builder')
     );
+  }
+
+  public function addNodeBoard(UserInterface $user) {
+    $build = [];
+    $build['#attached']['library'][] = 'contribkanban_boards/app';
+    $build['#attached']['drupalSettings']['form'] = [
+      'uid' => $user->id(),
+      'nodes' => [],
+      'csrfToken' => \Drupal::csrfToken()->get(CsrfRequestHeaderAccessCheck::TOKEN_KEY),
+    ];
+    $build['output']['#markup'] = '<div id="NodeBoardAddForm"></div>';
+    return $build;
   }
 
   public function boards($type) {

@@ -25,7 +25,7 @@ class MyBoards extends Component {
   render() {
     return (
       <div className="box">
-        <a className="is-pulled-right button is-outlined is-info" href={`${baseUrl}node-board/add/node_board`}>Add Board</a>
+        <a className="is-pulled-right button is-outlined is-info" href={`${baseUrl}user/${this.props.uid}/node-boards/add`}>Add Board</a>
         <h2 className="is-size-4">My Boards</h2>
         <table className="table is-fullwidth">
           <thead>

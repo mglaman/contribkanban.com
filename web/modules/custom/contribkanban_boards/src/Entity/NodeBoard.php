@@ -39,8 +39,6 @@ use Drupal\user\UserInterface;
  *     "list_builder" = "\Drupal\contribkanban_boards\BoardListBuilder",
  *   },
  *   links = {
- *     "add-page" = "/node-board/add",
- *     "add-form" = "/node-board/add/{type}",
  *     "edit-form" = "/node-board/{node_board}/edit",
  *     "delete-form" = "/node-board/{node_board}/delete",
  *     "canonical" = "/node-board/{node_board}",

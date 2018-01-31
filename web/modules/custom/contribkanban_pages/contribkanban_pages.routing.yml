@@ -6,3 +6,11 @@ contribkanban_pages.boards_controller_list:
     type: ''
   requirements:
     _permission: 'access content'
+contribkanban_pages.add_node_board:
+  path: '/user/{user}/node-boards/add'
+  defaults:
+    _controller: '\Drupal\contribkanban_pages\Controller\BoardsController::addNodeBoard'
+    _title: 'Add node board'
+  requirements:
+    _entity_access: 'user.update'
+    user: \d+

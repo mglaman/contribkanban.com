@@ -5,6 +5,7 @@ import AddBoard from './component/add-board';
 import AddSprint from './component/add-sprint';
 import NodeBoard from './component/node-board';
 import UserProfile from "./component/user";
+import NodeBoardForm from "./component/node-board-form";
 
 if (document.getElementById('Board')) {
   // @todo move into component?
@@ -42,4 +43,8 @@ if (document.getElementById('AddSprint')) {
 }
 if (document.getElementById('UserProfile')) {
   render(<UserProfile />, document.getElementById('UserProfile'));
+}
+
+if (document.getElementById('NodeBoardAddForm')) {
+  render(<NodeBoardForm/>, document.getElementById('NodeBoardAddForm'));
 }

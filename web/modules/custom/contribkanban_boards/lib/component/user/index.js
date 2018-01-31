@@ -25,9 +25,6 @@ class UserProfile extends Component {
                     <a className="level-item">
                       <a href={`${baseUrl}user/${this.state.uid}/edit`}>Edit</a>
                     </a>
-                    <a className="level-item">
-                      <a href={`${baseUrl}user/${this.state.uid}/my-boards`}>My boards</a>
-                    </a>
                   </div>
                 </nav>
               </div>

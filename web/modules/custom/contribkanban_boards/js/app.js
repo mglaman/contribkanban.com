@@ -2874,6 +2874,10 @@ var _user = __webpack_require__(83);
 
 var _user2 = babelHelpers.interopRequireDefault(_user);
 
+var _nodeBoardForm = __webpack_require__(89);
+
+var _nodeBoardForm2 = babelHelpers.interopRequireDefault(_nodeBoardForm);
+
 if (document.getElementById('Board')) {
   // @todo move into component?
   var resizeTimer = void 0;
@@ -2910,6 +2914,10 @@ if (document.getElementById('AddSprint')) {
 }
 if (document.getElementById('UserProfile')) {
   (0, _reactDom.render)(_react2.default.createElement(_user2.default, null), document.getElementById('UserProfile'));
+}
+
+if (document.getElementById('NodeBoardAddForm')) {
+  (0, _reactDom.render)(_react2.default.createElement(_nodeBoardForm2.default, null), document.getElementById('NodeBoardAddForm'));
 }
 
 /***/ }),
@@ -8541,15 +8549,6 @@ var UserProfile = function (_Component) {
                         { href: baseUrl + "user/" + this.state.uid + "/edit" },
                         "Edit"
                       )
-                    ),
-                    _react2.default.createElement(
-                      "a",
-                      { className: "level-item" },
-                      _react2.default.createElement(
-                        "a",
-                        { href: baseUrl + "user/" + this.state.uid + "/my-boards" },
-                        "My boards"
-                      )
                     )
                   )
                 )
@@ -9025,7 +9024,7 @@ var MyBoards = function (_Component) {
         { className: 'box' },
         _react2.default.createElement(
           'a',
-          { className: 'is-pulled-right button is-outlined is-info', href: baseUrl + 'node-board/add/node_board' },
+          { className: 'is-pulled-right button is-outlined is-info', href: baseUrl + 'user/' + this.props.uid + '/node-boards/add' },
           'Add Board'
         ),
         _react2.default.createElement(
@@ -9105,6 +9104,184 @@ MyBoards.propTypes = {
   uid: _propTypes2.default.number
 };
 exports.default = MyBoards;
+
+/***/ }),
+/* 89 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _superagent = __webpack_require__(2);
+
+var _superagent2 = babelHelpers.interopRequireDefault(_superagent);
+
+var baseUrl = '' + window.location.origin + drupalSettings.path.baseUrl;
+
+var NodeBoardForm = function (_Component) {
+  babelHelpers.inherits(NodeBoardForm, _Component);
+
+  function NodeBoardForm(props) {
+    babelHelpers.classCallCheck(this, NodeBoardForm);
+
+    var _this = babelHelpers.possibleConstructorReturn(this, (NodeBoardForm.__proto__ || Object.getPrototypeOf(NodeBoardForm)).call(this, props));
+
+    _this.state = {
+      processing: false,
+      error: false,
+      boardId: null,
+      uid: drupalSettings.form.uid,
+      boardName: '',
+      nodes: [
+      // Provide a default empty text input.
+      { nid: '' }],
+      csrfToken: drupalSettings.form.csrfToken
+    };
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    return _this;
+  }
+
+  babelHelpers.createClass(NodeBoardForm, [{
+    key: 'handleSubmit',
+    value: function handleSubmit(event) {
+      var _this2 = this;
+
+      event.preventDefault();
+      this.setState({
+        processing: true
+      }, function () {
+        var entityObject = {
+          title: [{
+            value: _this2.state.boardName
+          }],
+          uid: [{
+            target_id: _this2.state.uid
+          }],
+          nids: _this2.state.nodes.map(function (node) {
+            return { value: node.nid };
+          })
+        };
+        if (_this2.state.boardId !== null) {
+          entityObject.board_id = [{
+            value: _this2.state.boardId
+          }];
+        }
+
+        console.log(entityObject);
+        _superagent2.default.post(baseUrl + 'entity/node_board').set('X-CSRF-Token', _this2.state.csrfToken).send(entityObject).end(function (error, res) {
+          if (res.statusCode === 201) {
+            var body = JSON.parse(res.text);
+            window.location.href = baseUrl + 'node-board/' + body.uuid[0].value;
+          } else {
+            console.log(error);
+            console.log(res);
+            alert('Error, check console logs');
+          }
+        });
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this3 = this;
+
+      return _react2.default.createElement(
+        'form',
+        { onSubmit: this.handleSubmit },
+        _react2.default.createElement(
+          'div',
+          { className: 'box' },
+          _react2.default.createElement(
+            'h1',
+            { className: 'is-size-4' },
+            'Add new node board'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'field' },
+            _react2.default.createElement(
+              'label',
+              { className: 'label' },
+              'Title'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'control' },
+              _react2.default.createElement('input', { className: 'input', type: 'text', value: this.state.boardName, onChange: function onChange(e) {
+                  return _this3.setState({ boardName: e.target.value });
+                } })
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'field' },
+            _react2.default.createElement(
+              'label',
+              { className: 'label' },
+              'Issue node IDs'
+            ),
+            this.state.nodes.map(function (node, id) {
+              return _react2.default.createElement(
+                'div',
+                { className: 'control' },
+                _react2.default.createElement('input', {
+                  className: 'input',
+                  type: 'text',
+                  value: node.nid,
+                  style: {
+                    marginBottom: '10px'
+                  },
+                  onChange: function onChange(e) {
+                    var newNid = e.target.value;
+                    _this3.setState({
+                      nodes: _this3.state.nodes.map(function (s, _id) {
+                        if (_id !== id) return s;
+                        return babelHelpers.extends({}, s, { nid: newNid });
+                      })
+                    });
+                  }
+                })
+              );
+            }),
+            _react2.default.createElement(
+              'button',
+              {
+                className: 'is-info button',
+                type: 'button',
+                onClick: function onClick(e) {
+                  _this3.setState({
+                    nodes: _this3.state.nodes.concat([{ nid: '' }])
+                  });
+                }
+              },
+              'Add another'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'control' },
+            _react2.default.createElement(
+              'button',
+              { className: 'is-primary button ' + (this.state.processing ? ['is-loading'] : []) },
+              'Submit'
+            )
+          )
+        )
+      );
+    }
+  }]);
+  return NodeBoardForm;
+}(_react.Component);
+
+exports.default = NodeBoardForm;
 
 /***/ })
 /******/ ]);

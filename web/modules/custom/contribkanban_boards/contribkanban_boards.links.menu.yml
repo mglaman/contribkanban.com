@@ -21,9 +21,3 @@ contribkanban_boards.add_custom_board:
   route_parameters:
     type: 'drupalorg_custom'
   menu_name: account
-contribkanban_boards.add_node_board:
-  title: 'New list board'
-  route_name: 'entity.node_board.add_form'
-  route_parameters:
-    type: 'node_board'
-  menu_name: account
