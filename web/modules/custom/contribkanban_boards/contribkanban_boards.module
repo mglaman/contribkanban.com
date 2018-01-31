@@ -38,7 +38,10 @@ function contribkanban_boards_node_board_view(array &$build, \Drupal\Core\Entity
   /** @var \Drupal\contribkanban_boards\Entity\NodeBoard $board */
   $board = $entity;
   $build['#attached']['library'][] = 'contribkanban_boards/app';
-  $build['#attached']['drupalSettings']['board'] = FieldHelper::stringAsJson($board->get('nids'));
+  $build['#attached']['drupalSettings']['board'] = [
+    'nids' => FieldHelper::stringAsJson($board->get('nids')),
+    'uuid' => $board->uuid(),
+  ];
   $build['output'] = [
     '#markup' => '<div id="NodeBoard" style="position: relative;height: 100%;"></div>',
   ];

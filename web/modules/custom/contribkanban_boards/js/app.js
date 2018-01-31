@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 27);
+/******/ 	return __webpack_require__(__webpack_require__.s = 28);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -93,7 +93,7 @@ if (true) {
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(32)(isValidElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(33)(isValidElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
@@ -124,11 +124,11 @@ if (typeof window !== 'undefined') {
   root = undefined;
 }
 
-var Emitter = __webpack_require__(58);
-var RequestBase = __webpack_require__(59);
-var isObject = __webpack_require__(25);
-var ResponseBase = __webpack_require__(60);
-var Agent = __webpack_require__(62);
+var Emitter = __webpack_require__(59);
+var RequestBase = __webpack_require__(60);
+var isObject = __webpack_require__(26);
+var ResponseBase = __webpack_require__(61);
+var Agent = __webpack_require__(63);
 
 /**
  * Noop.
@@ -1049,15 +1049,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.connect = exports.connectAdvanced = exports.createProvider = exports.Provider = undefined;
 
-var _Provider = __webpack_require__(31);
+var _Provider = __webpack_require__(32);
 
 var _Provider2 = babelHelpers.interopRequireDefault(_Provider);
 
-var _connectAdvanced = __webpack_require__(15);
+var _connectAdvanced = __webpack_require__(16);
 
 var _connectAdvanced2 = babelHelpers.interopRequireDefault(_connectAdvanced);
 
-var _connect = __webpack_require__(37);
+var _connect = __webpack_require__(38);
 
 var _connect2 = babelHelpers.interopRequireDefault(_connect);
 
@@ -1073,7 +1073,7 @@ exports.connect = _connect2.default;
 "use strict";
 
 
-var utils = __webpack_require__(63);
+var utils = __webpack_require__(64);
 
 /**
  * superagentCache constructor
@@ -1087,7 +1087,7 @@ module.exports = function (superagent, cache, defaults) {
   if (!superagent) throw 'superagent-cache requires a superagent instance.';
 
   if (!superagent.patchedBySuperagentCache) {
-    superagent.cache = cache && cache.get ? cache : new (__webpack_require__(64))(cache);
+    superagent.cache = cache && cache.get ? cache : new (__webpack_require__(65))(cache);
     superagent.defaults = defaults || {};
     superagent.pendingRequests = {};
     var Request = superagent.Request;
@@ -1344,27 +1344,27 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
 
-var _createStore = __webpack_require__(16);
+var _createStore = __webpack_require__(17);
 
 var _createStore2 = babelHelpers.interopRequireDefault(_createStore);
 
-var _combineReducers = __webpack_require__(51);
+var _combineReducers = __webpack_require__(52);
 
 var _combineReducers2 = babelHelpers.interopRequireDefault(_combineReducers);
 
-var _bindActionCreators = __webpack_require__(52);
+var _bindActionCreators = __webpack_require__(53);
 
 var _bindActionCreators2 = babelHelpers.interopRequireDefault(_bindActionCreators);
 
-var _applyMiddleware = __webpack_require__(53);
+var _applyMiddleware = __webpack_require__(54);
 
 var _applyMiddleware2 = babelHelpers.interopRequireDefault(_applyMiddleware);
 
-var _compose = __webpack_require__(20);
+var _compose = __webpack_require__(21);
 
 var _compose2 = babelHelpers.interopRequireDefault(_compose);
 
-var _warning = __webpack_require__(19);
+var _warning = __webpack_require__(20);
 
 var _warning2 = babelHelpers.interopRequireDefault(_warning);
 
@@ -1428,15 +1428,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _baseGetTag = __webpack_require__(40);
+var _baseGetTag = __webpack_require__(41);
 
 var _baseGetTag2 = babelHelpers.interopRequireDefault(_baseGetTag);
 
-var _getPrototype = __webpack_require__(45);
+var _getPrototype = __webpack_require__(46);
 
 var _getPrototype2 = babelHelpers.interopRequireDefault(_getPrototype);
 
-var _isObjectLike = __webpack_require__(47);
+var _isObjectLike = __webpack_require__(48);
 
 var _isObjectLike2 = babelHelpers.interopRequireDefault(_isObjectLike);
 
@@ -1505,6 +1505,38 @@ exports.default = isPlainObject;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.objectForeach = objectForeach;
+exports.datasetToJson = datasetToJson;
+function objectForeach(obj, callback) {
+  for (var i in obj) {
+    if (!obj.hasOwnProperty(i)) continue;
+    callback(i, obj[i]);
+  }
+}
+function datasetToJson(map) {
+  var dataset = {};
+  objectForeach(map, function (i, v) {
+    try {
+      dataset[i] = JSON.parse(v);
+    } catch (e) {
+      dataset[i] = v;
+    }
+  });
+  return dataset;
+}
+
+var baseUrl = exports.baseUrl = "" + window.location.origin + drupalSettings.path.baseUrl;
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -1541,7 +1573,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 module.exports = emptyFunction;
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1600,7 +1632,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1614,7 +1646,7 @@ module.exports = invariant;
 
 
 
-var emptyFunction = __webpack_require__(9);
+var emptyFunction = __webpack_require__(10);
 
 /**
  * Similar to invariant but only logs a warning if the condition is not met.
@@ -1668,7 +1700,7 @@ if (true) {
 module.exports = warning;
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1764,7 +1796,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 };
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1782,7 +1814,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 module.exports = ReactPropTypesSecret;
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1811,7 +1843,7 @@ var storeShape = exports.storeShape = _propTypes2.default.shape({
 });
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1822,21 +1854,21 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = connectAdvanced;
 
-var _hoistNonReactStatics = __webpack_require__(34);
+var _hoistNonReactStatics = __webpack_require__(35);
 
 var _hoistNonReactStatics2 = babelHelpers.interopRequireDefault(_hoistNonReactStatics);
 
-var _invariant = __webpack_require__(35);
+var _invariant = __webpack_require__(36);
 
 var _invariant2 = babelHelpers.interopRequireDefault(_invariant);
 
 var _react = __webpack_require__(0);
 
-var _Subscription = __webpack_require__(36);
+var _Subscription = __webpack_require__(37);
 
 var _Subscription2 = babelHelpers.interopRequireDefault(_Subscription);
 
-var _PropTypes = __webpack_require__(14);
+var _PropTypes = __webpack_require__(15);
 
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -2146,7 +2178,7 @@ selectorFactory) {
 }
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2162,7 +2194,7 @@ var _isPlainObject = __webpack_require__(8);
 
 var _isPlainObject2 = babelHelpers.interopRequireDefault(_isPlainObject);
 
-var _symbolObservable = __webpack_require__(48);
+var _symbolObservable = __webpack_require__(49);
 
 var _symbolObservable2 = babelHelpers.interopRequireDefault(_symbolObservable);
 
@@ -2413,7 +2445,7 @@ var ActionTypes = exports.ActionTypes = {
 }
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2423,7 +2455,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _root = __webpack_require__(41);
+var _root = __webpack_require__(42);
 
 var _root2 = babelHelpers.interopRequireDefault(_root);
 
@@ -2433,7 +2465,7 @@ var _Symbol = _root2.default.Symbol;
 exports.default = _Symbol;
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2461,7 +2493,7 @@ try {
 module.exports = g;
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2494,7 +2526,7 @@ function warning(message) {
 }
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2538,7 +2570,7 @@ function compose() {
 }
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2551,7 +2583,7 @@ exports.wrapMapToPropsConstant = wrapMapToPropsConstant;
 exports.getDependsOnOwnProps = getDependsOnOwnProps;
 exports.wrapMapToPropsFunc = wrapMapToPropsFunc;
 
-var _verifyPlainObject = __webpack_require__(22);
+var _verifyPlainObject = __webpack_require__(23);
 
 var _verifyPlainObject2 = babelHelpers.interopRequireDefault(_verifyPlainObject);
 
@@ -2622,7 +2654,7 @@ function wrapMapToPropsFunc(mapToProps, methodName) {
 }
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2648,7 +2680,7 @@ function verifyPlainObject(value, displayName, methodName) {
 }
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2735,7 +2767,7 @@ Select.propTypes = {
 exports.default = Select;
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2800,7 +2832,7 @@ var versionFilterUpdated = exports.versionFilterUpdated = function versionFilter
 };
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2821,7 +2853,7 @@ function isObject(obj) {
 module.exports = isObject;
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2842,7 +2874,7 @@ exports.default = (0, _redux.combineReducers)({
 });
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2852,9 +2884,9 @@ var _react = __webpack_require__(0);
 
 var _react2 = babelHelpers.interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(28);
+var _reactDom = __webpack_require__(29);
 
-var _board = __webpack_require__(29);
+var _board = __webpack_require__(30);
 
 var _board2 = babelHelpers.interopRequireDefault(_board);
 
@@ -2921,13 +2953,13 @@ if (document.getElementById('NodeBoardAddForm')) {
 }
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports) {
 
 module.exports = ReactDOM;
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2941,11 +2973,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = babelHelpers.interopRequireDefault(_react);
 
-var _filters = __webpack_require__(30);
+var _filters = __webpack_require__(31);
 
 var _filters2 = babelHelpers.interopRequireDefault(_filters);
 
-var _list = __webpack_require__(65);
+var _list = __webpack_require__(66);
 
 var _list2 = babelHelpers.interopRequireDefault(_list);
 
@@ -2953,7 +2985,7 @@ var _reactRedux = __webpack_require__(3);
 
 var _redux = __webpack_require__(6);
 
-var _reducers = __webpack_require__(26);
+var _reducers = __webpack_require__(27);
 
 var _reducers2 = babelHelpers.interopRequireDefault(_reducers);
 
@@ -3025,7 +3057,7 @@ var Board = function (_Component) {
 exports.default = Board;
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3041,11 +3073,11 @@ var _react2 = babelHelpers.interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(3);
 
-var _select = __webpack_require__(23);
+var _select = __webpack_require__(24);
 
 var _select2 = babelHelpers.interopRequireDefault(_select);
 
-var _actions = __webpack_require__(24);
+var _actions = __webpack_require__(25);
 
 var Filters = function (_Component) {
   babelHelpers.inherits(Filters, _Component);
@@ -3114,7 +3146,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Filters);
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3131,7 +3163,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = babelHelpers.interopRequireDefault(_propTypes);
 
-var _PropTypes = __webpack_require__(14);
+var _PropTypes = __webpack_require__(15);
 
 var _warning = __webpack_require__(7);
 
@@ -3218,7 +3250,7 @@ function createProvider() {
 exports.default = createProvider();
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3231,13 +3263,13 @@ exports.default = createProvider();
 
 
 
-var emptyFunction = __webpack_require__(9);
-var invariant = __webpack_require__(10);
-var warning = __webpack_require__(11);
-var assign = __webpack_require__(12);
+var emptyFunction = __webpack_require__(10);
+var invariant = __webpack_require__(11);
+var warning = __webpack_require__(12);
+var assign = __webpack_require__(13);
 
-var ReactPropTypesSecret = __webpack_require__(13);
-var checkPropTypes = __webpack_require__(33);
+var ReactPropTypesSecret = __webpack_require__(14);
+var checkPropTypes = __webpack_require__(34);
 
 module.exports = function (isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -3740,7 +3772,7 @@ module.exports = function (isValidElement, throwOnDirectAccess) {
 };
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3754,9 +3786,9 @@ module.exports = function (isValidElement, throwOnDirectAccess) {
 
 
 if (true) {
-  var invariant = __webpack_require__(10);
-  var warning = __webpack_require__(11);
-  var ReactPropTypesSecret = __webpack_require__(13);
+  var invariant = __webpack_require__(11);
+  var warning = __webpack_require__(12);
+  var ReactPropTypesSecret = __webpack_require__(14);
   var loggedTypeFailures = {};
 }
 
@@ -3805,7 +3837,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 module.exports = checkPropTypes;
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3878,7 +3910,7 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
 };
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3932,7 +3964,7 @@ var invariant = function invariant(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4039,7 +4071,7 @@ var Subscription = function () {
 exports.default = Subscription;
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4050,27 +4082,27 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.createConnect = createConnect;
 
-var _connectAdvanced = __webpack_require__(15);
+var _connectAdvanced = __webpack_require__(16);
 
 var _connectAdvanced2 = babelHelpers.interopRequireDefault(_connectAdvanced);
 
-var _shallowEqual = __webpack_require__(38);
+var _shallowEqual = __webpack_require__(39);
 
 var _shallowEqual2 = babelHelpers.interopRequireDefault(_shallowEqual);
 
-var _mapDispatchToProps = __webpack_require__(39);
+var _mapDispatchToProps = __webpack_require__(40);
 
 var _mapDispatchToProps2 = babelHelpers.interopRequireDefault(_mapDispatchToProps);
 
-var _mapStateToProps = __webpack_require__(54);
+var _mapStateToProps = __webpack_require__(55);
 
 var _mapStateToProps2 = babelHelpers.interopRequireDefault(_mapStateToProps);
 
-var _mergeProps = __webpack_require__(55);
+var _mergeProps = __webpack_require__(56);
 
 var _mergeProps2 = babelHelpers.interopRequireDefault(_mergeProps);
 
-var _selectorFactory = __webpack_require__(56);
+var _selectorFactory = __webpack_require__(57);
 
 var _selectorFactory2 = babelHelpers.interopRequireDefault(_selectorFactory);
 
@@ -4184,7 +4216,7 @@ function createConnect() {
 exports.default = createConnect();
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4226,7 +4258,7 @@ function shallowEqual(objA, objB) {
 }
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4241,7 +4273,7 @@ exports.whenMapDispatchToPropsIsObject = whenMapDispatchToPropsIsObject;
 
 var _redux = __webpack_require__(6);
 
-var _wrapMapToProps = __webpack_require__(21);
+var _wrapMapToProps = __webpack_require__(22);
 
 function whenMapDispatchToPropsIsFunction(mapDispatchToProps) {
   return typeof mapDispatchToProps === 'function' ? (0, _wrapMapToProps.wrapMapToPropsFunc)(mapDispatchToProps, 'mapDispatchToProps') : undefined;
@@ -4262,7 +4294,7 @@ function whenMapDispatchToPropsIsObject(mapDispatchToProps) {
 exports.default = [whenMapDispatchToPropsIsFunction, whenMapDispatchToPropsIsMissing, whenMapDispatchToPropsIsObject];
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4272,15 +4304,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Symbol2 = __webpack_require__(17);
+var _Symbol2 = __webpack_require__(18);
 
 var _Symbol3 = babelHelpers.interopRequireDefault(_Symbol2);
 
-var _getRawTag = __webpack_require__(43);
+var _getRawTag = __webpack_require__(44);
 
 var _getRawTag2 = babelHelpers.interopRequireDefault(_getRawTag);
 
-var _objectToString = __webpack_require__(44);
+var _objectToString = __webpack_require__(45);
 
 var _objectToString2 = babelHelpers.interopRequireDefault(_objectToString);
 
@@ -4308,7 +4340,7 @@ function baseGetTag(value) {
 exports.default = baseGetTag;
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4318,7 +4350,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _freeGlobal = __webpack_require__(42);
+var _freeGlobal = __webpack_require__(43);
 
 var _freeGlobal2 = babelHelpers.interopRequireDefault(_freeGlobal);
 
@@ -4331,7 +4363,7 @@ var root = _freeGlobal2.default || freeSelf || Function('return this')();
 exports.default = root;
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4344,10 +4376,10 @@ Object.defineProperty(exports, "__esModule", {
 var freeGlobal = (typeof global === 'undefined' ? 'undefined' : babelHelpers.typeof(global)) == 'object' && global && global.Object === Object && global;
 
 exports.default = freeGlobal;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4357,7 +4389,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Symbol2 = __webpack_require__(17);
+var _Symbol2 = __webpack_require__(18);
 
 var _Symbol3 = babelHelpers.interopRequireDefault(_Symbol2);
 
@@ -4407,7 +4439,7 @@ function getRawTag(value) {
 exports.default = getRawTag;
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4440,7 +4472,7 @@ function objectToString(value) {
 exports.default = objectToString;
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4450,7 +4482,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _overArg = __webpack_require__(46);
+var _overArg = __webpack_require__(47);
 
 var _overArg2 = babelHelpers.interopRequireDefault(_overArg);
 
@@ -4460,7 +4492,7 @@ var getPrototype = (0, _overArg2.default)(Object.getPrototypeOf, Object);
 exports.default = getPrototype;
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4486,7 +4518,7 @@ function overArg(func, transform) {
 exports.default = overArg;
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4526,7 +4558,7 @@ function isObjectLike(value) {
 exports.default = isObjectLike;
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4536,7 +4568,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _ponyfill = __webpack_require__(50);
+var _ponyfill = __webpack_require__(51);
 
 var _ponyfill2 = babelHelpers.interopRequireDefault(_ponyfill);
 
@@ -4557,10 +4589,10 @@ if (typeof self !== 'undefined') {
 
 var result = (0, _ponyfill2.default)(root);
 exports.default = result;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18), __webpack_require__(49)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19), __webpack_require__(50)(module)))
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4590,7 +4622,7 @@ module.exports = function (module) {
 };
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4619,7 +4651,7 @@ function symbolObservablePonyfill(root) {
 };
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4630,13 +4662,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = combineReducers;
 
-var _createStore = __webpack_require__(16);
+var _createStore = __webpack_require__(17);
 
 var _isPlainObject = __webpack_require__(8);
 
 var _isPlainObject2 = babelHelpers.interopRequireDefault(_isPlainObject);
 
-var _warning = __webpack_require__(19);
+var _warning = __webpack_require__(20);
 
 var _warning2 = babelHelpers.interopRequireDefault(_warning);
 
@@ -4768,7 +4800,7 @@ function combineReducers(reducers) {
 }
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4827,7 +4859,7 @@ function bindActionCreators(actionCreators, dispatch) {
 }
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4838,7 +4870,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = applyMiddleware;
 
-var _compose = __webpack_require__(20);
+var _compose = __webpack_require__(21);
 
 var _compose2 = babelHelpers.interopRequireDefault(_compose);
 
@@ -4898,7 +4930,7 @@ function applyMiddleware() {
 }
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4910,7 +4942,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.whenMapStateToPropsIsFunction = whenMapStateToPropsIsFunction;
 exports.whenMapStateToPropsIsMissing = whenMapStateToPropsIsMissing;
 
-var _wrapMapToProps = __webpack_require__(21);
+var _wrapMapToProps = __webpack_require__(22);
 
 function whenMapStateToPropsIsFunction(mapStateToProps) {
   return typeof mapStateToProps === 'function' ? (0, _wrapMapToProps.wrapMapToPropsFunc)(mapStateToProps, 'mapStateToProps') : undefined;
@@ -4925,7 +4957,7 @@ function whenMapStateToPropsIsMissing(mapStateToProps) {
 exports.default = [whenMapStateToPropsIsFunction, whenMapStateToPropsIsMissing];
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4939,7 +4971,7 @@ exports.wrapMergePropsFunc = wrapMergePropsFunc;
 exports.whenMergePropsIsFunction = whenMergePropsIsFunction;
 exports.whenMergePropsIsOmitted = whenMergePropsIsOmitted;
 
-var _verifyPlainObject = __webpack_require__(22);
+var _verifyPlainObject = __webpack_require__(23);
 
 var _verifyPlainObject2 = babelHelpers.interopRequireDefault(_verifyPlainObject);
 
@@ -4996,7 +5028,7 @@ function whenMergePropsIsOmitted(mergeProps) {
 exports.default = [whenMergePropsIsFunction, whenMergePropsIsOmitted];
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5009,7 +5041,7 @@ exports.impureFinalPropsSelectorFactory = impureFinalPropsSelectorFactory;
 exports.pureFinalPropsSelectorFactory = pureFinalPropsSelectorFactory;
 exports.default = finalPropsSelectorFactory;
 
-var _verifySubselectors = __webpack_require__(57);
+var _verifySubselectors = __webpack_require__(58);
 
 var _verifySubselectors2 = babelHelpers.interopRequireDefault(_verifySubselectors);
 
@@ -5119,7 +5151,7 @@ function finalPropsSelectorFactory(dispatch, _ref2) {
 }
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5151,7 +5183,7 @@ function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, dis
 }
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5316,7 +5348,7 @@ Emitter.prototype.hasListeners = function (event) {
 };
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5326,7 +5358,7 @@ Emitter.prototype.hasListeners = function (event) {
  * Module of mixed-in functions shared between node and client code
  */
 
-var isObject = __webpack_require__(25);
+var isObject = __webpack_require__(26);
 
 /**
  * Expose `RequestBase`.
@@ -6012,7 +6044,7 @@ RequestBase.prototype._setTimeouts = function () {
 };
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6022,7 +6054,7 @@ RequestBase.prototype._setTimeouts = function () {
  * Module dependencies.
  */
 
-var utils = __webpack_require__(61);
+var utils = __webpack_require__(62);
 
 /**
  * Expose `ResponseBase`.
@@ -6150,7 +6182,7 @@ ResponseBase.prototype._setStatusProperties = function (status) {
 };
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6227,7 +6259,7 @@ exports.cleanHeader = function (header, changesOrigin) {
 };
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6254,7 +6286,7 @@ Agent.prototype._setDefaults = function (req) {
 module.exports = Agent;
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6484,7 +6516,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6784,7 +6816,7 @@ function cacheModule(config) {
 module.exports = cacheModule;
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6804,7 +6836,7 @@ var _url = __webpack_require__(5);
 
 var _url2 = babelHelpers.interopRequireDefault(_url);
 
-var _utils = __webpack_require__(66);
+var _utils = __webpack_require__(9);
 
 var _superagent = __webpack_require__(2);
 
@@ -6972,36 +7004,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(List);
-
-/***/ }),
-/* 66 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.objectForeach = objectForeach;
-exports.datasetToJson = datasetToJson;
-function objectForeach(obj, callback) {
-  for (var i in obj) {
-    if (!obj.hasOwnProperty(i)) continue;
-    callback(i, obj[i]);
-  }
-}
-function datasetToJson(map) {
-  var dataset = {};
-  objectForeach(map, function (i, v) {
-    try {
-      dataset[i] = JSON.parse(v);
-    } catch (e) {
-      dataset[i] = v;
-    }
-  });
-  return dataset;
-}
 
 /***/ }),
 /* 67 */
@@ -7749,7 +7751,7 @@ var _reactRedux = __webpack_require__(3);
 
 var _redux = __webpack_require__(6);
 
-var _reducers = __webpack_require__(26);
+var _reducers = __webpack_require__(27);
 
 var _reducers2 = babelHelpers.interopRequireDefault(_reducers);
 
@@ -7764,6 +7766,8 @@ var _superagent2 = babelHelpers.interopRequireDefault(_superagent);
 var _superagentCache = __webpack_require__(4);
 
 var _superagentCache2 = babelHelpers.interopRequireDefault(_superagentCache);
+
+var _utils = __webpack_require__(9);
 
 (0, _superagentCache2.default)(_superagent2.default);
 
@@ -7798,7 +7802,7 @@ var NodeBoard = function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      var nids = JSON.parse(drupalSettings.board);
+      var nids = JSON.parse(drupalSettings.board.nids);
       console.log(nids);
 
       var apiUrl = new _url2.default('node');
@@ -7818,6 +7822,7 @@ var NodeBoard = function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var uuid = drupalSettings.board.uuid;
       return _react2.default.createElement(
         _reactRedux.Provider,
         { store: store },
@@ -7827,6 +7832,19 @@ var NodeBoard = function (_Component) {
               position: 'relative',
               height: '100%'
             } },
+          _react2.default.createElement(
+            "div",
+            { className: "board--filters is-pulled-right " },
+            _react2.default.createElement(
+              "div",
+              { className: "control" },
+              _react2.default.createElement(
+                "a",
+                { className: "button is-outlined is-info", href: _utils.baseUrl + "node-board/" + uuid + "/edit" },
+                "Edit"
+              )
+            )
+          ),
           _react2.default.createElement(_filters2.default, null),
           _react2.default.createElement(
             "div",
@@ -7868,11 +7886,11 @@ var _react2 = babelHelpers.interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(3);
 
-var _select = __webpack_require__(23);
+var _select = __webpack_require__(24);
 
 var _select2 = babelHelpers.interopRequireDefault(_select);
 
-var _actions = __webpack_require__(24);
+var _actions = __webpack_require__(25);
 
 var Filters = function (_Component) {
   babelHelpers.inherits(Filters, _Component);
@@ -8653,7 +8671,7 @@ exports.default = Gravatar;
 
 
 var strictUriEncode = __webpack_require__(86);
-var objectAssign = __webpack_require__(12);
+var objectAssign = __webpack_require__(13);
 var decodeComponent = __webpack_require__(87);
 
 function encoderForArrayFormat(opts) {
@@ -8980,7 +8998,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = babelHelpers.interopRequireDefault(_propTypes);
 
-var baseUrl = '' + window.location.origin + drupalSettings.path.baseUrl;
+var _utils = __webpack_require__(9);
 
 var MyBoards = function (_Component) {
   babelHelpers.inherits(MyBoards, _Component);
@@ -9007,7 +9025,7 @@ var MyBoards = function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      _superagent2.default.get(baseUrl + 'api/user/' + this.props.uid + '/boards').end(function (err, _ref2) {
+      _superagent2.default.get(_utils.baseUrl + 'api/user/' + this.props.uid + '/boards').end(function (err, _ref2) {
         var body = _ref2.body;
 
         _this2.setState({
@@ -9024,7 +9042,7 @@ var MyBoards = function (_Component) {
         { className: 'box' },
         _react2.default.createElement(
           'a',
-          { className: 'is-pulled-right button is-outlined is-info', href: baseUrl + 'user/' + this.props.uid + '/node-boards/add' },
+          { className: 'is-pulled-right button is-outlined is-info', href: _utils.baseUrl + 'user/' + this.props.uid + '/node-boards/add' },
           'Add Board'
         ),
         _react2.default.createElement(
@@ -9065,7 +9083,7 @@ var MyBoards = function (_Component) {
                   null,
                   _react2.default.createElement(
                     'a',
-                    { href: baseUrl + 'node-board/' + board.uuid },
+                    { href: _utils.baseUrl + 'node-board/' + board.uuid },
                     board.title
                   )
                 ),
@@ -9083,7 +9101,7 @@ var MyBoards = function (_Component) {
                         { className: 'level-item' },
                         _react2.default.createElement(
                           'a',
-                          { href: baseUrl + 'node-board/' + board.uuid + '/edit' },
+                          { href: _utils.baseUrl + 'node-board/' + board.uuid + '/edit' },
                           'Edit'
                         )
                       )

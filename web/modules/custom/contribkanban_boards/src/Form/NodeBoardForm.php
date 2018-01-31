@@ -14,4 +14,10 @@ class NodeBoardForm extends ContentEntityForm {
     return $form;
   }
 
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    parent::submitForm($form, $form_state);
+    $form_state->setRedirectUrl($this->entity->toUrl());
+  }
+
+
 }

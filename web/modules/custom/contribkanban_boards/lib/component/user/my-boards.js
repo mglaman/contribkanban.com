@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import superagent from 'superagent';
 import PropTypes from 'prop-types'
-
-const baseUrl = `${window.location.origin}${drupalSettings.path.baseUrl}`;
+import {baseUrl} from "../../utils";
 
 class MyBoards extends Component {
   static propTypes = {

@@ -15,3 +15,5 @@ export function datasetToJson(map) {
   });
   return dataset;
 }
+
+export const baseUrl = `${window.location.origin}${drupalSettings.path.baseUrl}`;

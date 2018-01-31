@@ -9,6 +9,7 @@ import ApiUrl from "../../url";
 
 import superagent from 'superagent';
 import superagentCache from 'superagent-cache';
+import {baseUrl} from "../../utils";
 superagentCache(superagent);
 
 let store = createStore(reducers, {
@@ -23,7 +24,7 @@ class NodeBoard extends Component {
     issues: []
   };
   componentDidMount() {
-    const nids = JSON.parse(drupalSettings.board);
+    const nids = JSON.parse(drupalSettings.board.nids);
     console.log(nids);
 
     const apiUrl = new ApiUrl('node');
@@ -42,12 +43,18 @@ class NodeBoard extends Component {
       })
   }
   render() {
+    const uuid = drupalSettings.board.uuid;
     return(
       <Provider store={store}>
         <div style={{
           position: 'relative',
           height: '100%',
         }}>
+          <div className="board--filters is-pulled-right ">
+            <div className="control">
+              <a className="button is-outlined is-info" href={`${baseUrl}node-board/${uuid}/edit`}>Edit</a>
+            </div>
+          </div>
           <Filters/>
           <div className="board--list__scroll-fix">
             <div className="board--list__container">
