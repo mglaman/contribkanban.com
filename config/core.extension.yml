@@ -23,6 +23,8 @@ module:
   page_cache: 0
   page_manager: 0
   page_manager_ui: 0
+  rest: 0
+  serialization: 0
   swiftmailer: 0
   system: 0
   text: 0

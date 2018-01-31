@@ -8481,6 +8481,10 @@ var _gravatar = __webpack_require__(84);
 
 var _gravatar2 = babelHelpers.interopRequireDefault(_gravatar);
 
+var _myBoards = __webpack_require__(88);
+
+var _myBoards2 = babelHelpers.interopRequireDefault(_myBoards);
+
 var baseUrl = "" + window.location.origin + drupalSettings.path.baseUrl;
 
 var UserProfile = function (_Component) {
@@ -8500,55 +8504,60 @@ var UserProfile = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         "div",
-        { className: "box" },
+        null,
         _react2.default.createElement(
-          "section",
-          { className: "media" },
+          "div",
+          { className: "box" },
           _react2.default.createElement(
-            "div",
-            { className: "media-left" },
-            _react2.default.createElement(_gravatar2.default, { md5: this.state.gravatar, name: this.state.email })
-          ),
-          _react2.default.createElement(
-            "div",
-            { className: "media-content" },
+            "section",
+            { className: "media" },
             _react2.default.createElement(
               "div",
-              { className: "content" },
+              { className: "media-left" },
+              _react2.default.createElement(_gravatar2.default, { md5: this.state.gravatar, name: this.state.email })
+            ),
+            _react2.default.createElement(
+              "div",
+              { className: "media-content" },
               _react2.default.createElement(
-                "h1",
-                null,
-                this.state.email
-              ),
-              _react2.default.createElement(
-                "nav",
-                { className: "level is-mobile" },
+                "div",
+                { className: "content" },
                 _react2.default.createElement(
-                  "div",
-                  { className: "level-left" },
+                  "h1",
+                  null,
+                  this.state.email
+                ),
+                _react2.default.createElement(
+                  "nav",
+                  { className: "level is-mobile" },
                   _react2.default.createElement(
-                    "a",
-                    { className: "level-item" },
+                    "div",
+                    { className: "level-left" },
                     _react2.default.createElement(
                       "a",
-                      { href: baseUrl + "user/" + this.state.uid + "/edit" },
-                      "Edit"
-                    )
-                  ),
-                  _react2.default.createElement(
-                    "a",
-                    { className: "level-item" },
+                      { className: "level-item" },
+                      _react2.default.createElement(
+                        "a",
+                        { href: baseUrl + "user/" + this.state.uid + "/edit" },
+                        "Edit"
+                      )
+                    ),
                     _react2.default.createElement(
                       "a",
-                      { href: baseUrl + "user/" + this.state.uid + "/my-boards" },
-                      "My boards"
+                      { className: "level-item" },
+                      _react2.default.createElement(
+                        "a",
+                        { href: baseUrl + "user/" + this.state.uid + "/my-boards" },
+                        "My boards"
+                      )
                     )
                   )
                 )
               )
             )
           )
-        )
+        ),
+        _react2.default.createElement(_myBoards2.default, { uid: this.state.uid })
       );
     }
   }]);
@@ -8948,6 +8957,154 @@ module.exports = function (encodedURI) {
 		return customDecodeURIComponent(encodedURI);
 	}
 };
+
+/***/ }),
+/* 88 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _superagent = __webpack_require__(2);
+
+var _superagent2 = babelHelpers.interopRequireDefault(_superagent);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = babelHelpers.interopRequireDefault(_propTypes);
+
+var baseUrl = '' + window.location.origin + drupalSettings.path.baseUrl;
+
+var MyBoards = function (_Component) {
+  babelHelpers.inherits(MyBoards, _Component);
+
+  function MyBoards() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    babelHelpers.classCallCheck(this, MyBoards);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = MyBoards.__proto__ || Object.getPrototypeOf(MyBoards)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      loaded: false,
+      boards: []
+    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+  }
+
+  babelHelpers.createClass(MyBoards, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      _superagent2.default.get(baseUrl + 'api/user/' + this.props.uid + '/boards').end(function (err, _ref2) {
+        var body = _ref2.body;
+
+        _this2.setState({
+          loaded: true,
+          boards: body
+        });
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'box' },
+        _react2.default.createElement(
+          'a',
+          { className: 'is-pulled-right button is-outlined is-info', href: baseUrl + 'node-board/add/node_board' },
+          'Add Board'
+        ),
+        _react2.default.createElement(
+          'h2',
+          { className: 'is-size-4' },
+          'My Boards'
+        ),
+        _react2.default.createElement(
+          'table',
+          { className: 'table is-fullwidth' },
+          _react2.default.createElement(
+            'thead',
+            null,
+            _react2.default.createElement(
+              'tr',
+              null,
+              _react2.default.createElement(
+                'th',
+                null,
+                'Title'
+              ),
+              _react2.default.createElement(
+                'th',
+                null,
+                'Links'
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'tbody',
+            null,
+            this.state.boards.map(function (board) {
+              return _react2.default.createElement(
+                'tr',
+                null,
+                _react2.default.createElement(
+                  'td',
+                  null,
+                  _react2.default.createElement(
+                    'a',
+                    { href: baseUrl + 'node-board/' + board.uuid },
+                    board.title
+                  )
+                ),
+                _react2.default.createElement(
+                  'td',
+                  null,
+                  _react2.default.createElement(
+                    'nav',
+                    { className: 'level is-mobile' },
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'level-left' },
+                      _react2.default.createElement(
+                        'a',
+                        { className: 'level-item' },
+                        _react2.default.createElement(
+                          'a',
+                          { href: baseUrl + 'node-board/' + board.uuid + '/edit' },
+                          'Edit'
+                        )
+                      )
+                    )
+                  )
+                )
+              );
+            })
+          )
+        )
+      );
+    }
+  }]);
+  return MyBoards;
+}(_react.Component);
+
+MyBoards.propTypes = {
+  uid: _propTypes2.default.number
+};
+exports.default = MyBoards;
 
 /***/ })
 /******/ ]);
