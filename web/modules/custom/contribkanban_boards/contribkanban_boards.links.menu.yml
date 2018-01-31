@@ -9,12 +9,20 @@ contribkanban_boards.node_boards:
   parent: 'system.admin_structure'
   description: 'View and manage node boards.'
 
-contribkanban_boards.add_board:
-  title: 'Add new board'
-  route_name: 'entity.board.add_page'
+contribkanban_boards.add_core_board:
+  title: 'New core board'
+  route_name: 'entity.board.add_form'
+  route_parameters:
+    type: 'drupalorg_core'
+  menu_name: account
+contribkanban_boards.add_custom_board:
+  title: 'New custom board'
+  route_name: 'entity.board.add_form'
+  route_parameters:
+    type: 'drupalorg_custom'
   menu_name: account
 contribkanban_boards.add_node_board:
-  title: 'Add new node board'
+  title: 'New list board'
   route_name: 'entity.node_board.add_form'
   route_parameters:
     type: 'node_board'
