@@ -112,3 +112,31 @@ function contribkanban_boards_js_settings_alter(array &$settings, \Drupal\Core\A
 function contribkanban_boards_page_attachments(array &$attachments) {
   $attachments['#attached']['library'][] = 'contribkanban_boards/app';
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function contribkanban_boards_form_user_login_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  $form['actions']['forgot'] = [
+    '#type' => 'link',
+    '#title' => t('Forgot password?'),
+    '#url' => \Drupal\Core\Url::fromRoute('user.pass'),
+    '#attributes' => [
+      'class' => [
+        'button',
+        'is-link'
+      ],
+    ],
+  ];
+  $form['actions']['signup'] = [
+    '#type' => 'link',
+    '#title' => t('Create an Account'),
+    '#url' => \Drupal\Core\Url::fromRoute('user.register'),
+    '#attributes' => [
+      'class' => [
+        'button',
+        'is-white',
+      ],
+    ],
+  ];
+}
