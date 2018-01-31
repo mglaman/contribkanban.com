@@ -4,6 +4,7 @@ import Board from './component/board';
 import AddBoard from './component/add-board';
 import AddSprint from './component/add-sprint';
 import NodeBoard from './component/node-board';
+import UserProfile from "./component/user";
 
 if (document.getElementById('Board')) {
   // @todo move into component?
@@ -38,4 +39,7 @@ if (document.getElementById('AddBoard')) {
 }
 if (document.getElementById('AddSprint')) {
   render(<AddSprint />, document.getElementById('AddSprint'));
+}
+if (document.getElementById('UserProfile')) {
+  render(<UserProfile />, document.getElementById('UserProfile'));
 }

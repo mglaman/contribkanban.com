@@ -12,6 +12,7 @@
     "builder:helpers": "./node_modules/.bin/babel-external-helpers | ./node_modules/.bin/minify --mangle false >> js/helpers.js"
   },
   "dependencies": {
+    "query-string": "^5.0.1",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "superagent-cache": "^2.0.0"

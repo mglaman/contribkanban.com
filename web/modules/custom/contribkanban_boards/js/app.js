@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 26);
+/******/ 	return __webpack_require__(__webpack_require__.s = 27);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -93,7 +93,7 @@ if (true) {
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(31)(isValidElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(32)(isValidElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
@@ -126,7 +126,7 @@ if (typeof window !== 'undefined') {
 
 var Emitter = __webpack_require__(58);
 var RequestBase = __webpack_require__(59);
-var isObject = __webpack_require__(24);
+var isObject = __webpack_require__(25);
 var ResponseBase = __webpack_require__(60);
 var Agent = __webpack_require__(62);
 
@@ -1049,11 +1049,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.connect = exports.connectAdvanced = exports.createProvider = exports.Provider = undefined;
 
-var _Provider = __webpack_require__(30);
+var _Provider = __webpack_require__(31);
 
 var _Provider2 = babelHelpers.interopRequireDefault(_Provider);
 
-var _connectAdvanced = __webpack_require__(14);
+var _connectAdvanced = __webpack_require__(15);
 
 var _connectAdvanced2 = babelHelpers.interopRequireDefault(_connectAdvanced);
 
@@ -1344,7 +1344,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
 
-var _createStore = __webpack_require__(15);
+var _createStore = __webpack_require__(16);
 
 var _createStore2 = babelHelpers.interopRequireDefault(_createStore);
 
@@ -1360,11 +1360,11 @@ var _applyMiddleware = __webpack_require__(53);
 
 var _applyMiddleware2 = babelHelpers.interopRequireDefault(_applyMiddleware);
 
-var _compose = __webpack_require__(19);
+var _compose = __webpack_require__(20);
 
 var _compose2 = babelHelpers.interopRequireDefault(_compose);
 
-var _warning = __webpack_require__(18);
+var _warning = __webpack_require__(19);
 
 var _warning2 = babelHelpers.interopRequireDefault(_warning);
 
@@ -1672,6 +1672,102 @@ module.exports = warning;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
+
+/* eslint-disable no-unused-vars */
+
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+function shouldUseNative() {
+	try {
+		if (!Object.assign) {
+			return false;
+		}
+
+		// Detect buggy property enumeration order in older V8 versions.
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+		var test1 = new String('abc'); // eslint-disable-line no-new-wrappers
+		test1[5] = 'de';
+		if (Object.getOwnPropertyNames(test1)[0] === '5') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test2 = {};
+		for (var i = 0; i < 10; i++) {
+			test2['_' + String.fromCharCode(i)] = i;
+		}
+		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+			return test2[n];
+		});
+		if (order2.join('') !== '0123456789') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test3 = {};
+		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+			test3[letter] = letter;
+		});
+		if (Object.keys(Object.assign({}, test3)).join('') !== 'abcdefghijklmnopqrst') {
+			return false;
+		}
+
+		return true;
+	} catch (err) {
+		// We don't expect any of the above to throw, but better to be safe.
+		return false;
+	}
+}
+
+module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+	var from;
+	var to = toObject(target);
+	var symbols;
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments[s]);
+
+		for (var key in from) {
+			if (hasOwnProperty.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
+
+		if (getOwnPropertySymbols) {
+			symbols = getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
+
+	return to;
+};
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -1686,7 +1782,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 module.exports = ReactPropTypesSecret;
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1715,7 +1811,7 @@ var storeShape = exports.storeShape = _propTypes2.default.shape({
 });
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1740,7 +1836,7 @@ var _Subscription = __webpack_require__(36);
 
 var _Subscription2 = babelHelpers.interopRequireDefault(_Subscription);
 
-var _PropTypes = __webpack_require__(13);
+var _PropTypes = __webpack_require__(14);
 
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -2050,7 +2146,7 @@ selectorFactory) {
 }
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2317,7 +2413,7 @@ var ActionTypes = exports.ActionTypes = {
 }
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2337,7 +2433,7 @@ var _Symbol = _root2.default.Symbol;
 exports.default = _Symbol;
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2365,7 +2461,7 @@ try {
 module.exports = g;
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2398,7 +2494,7 @@ function warning(message) {
 }
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2442,7 +2538,7 @@ function compose() {
 }
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2455,7 +2551,7 @@ exports.wrapMapToPropsConstant = wrapMapToPropsConstant;
 exports.getDependsOnOwnProps = getDependsOnOwnProps;
 exports.wrapMapToPropsFunc = wrapMapToPropsFunc;
 
-var _verifyPlainObject = __webpack_require__(21);
+var _verifyPlainObject = __webpack_require__(22);
 
 var _verifyPlainObject2 = babelHelpers.interopRequireDefault(_verifyPlainObject);
 
@@ -2526,7 +2622,7 @@ function wrapMapToPropsFunc(mapToProps, methodName) {
 }
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2552,7 +2648,7 @@ function verifyPlainObject(value, displayName, methodName) {
 }
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2639,7 +2735,7 @@ Select.propTypes = {
 exports.default = Select;
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2704,7 +2800,7 @@ var versionFilterUpdated = exports.versionFilterUpdated = function versionFilter
 };
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2725,7 +2821,7 @@ function isObject(obj) {
 module.exports = isObject;
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2746,7 +2842,7 @@ exports.default = (0, _redux.combineReducers)({
 });
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2756,9 +2852,9 @@ var _react = __webpack_require__(0);
 
 var _react2 = babelHelpers.interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(27);
+var _reactDom = __webpack_require__(28);
 
-var _board = __webpack_require__(28);
+var _board = __webpack_require__(29);
 
 var _board2 = babelHelpers.interopRequireDefault(_board);
 
@@ -2773,6 +2869,10 @@ var _addSprint2 = babelHelpers.interopRequireDefault(_addSprint);
 var _nodeBoard = __webpack_require__(75);
 
 var _nodeBoard2 = babelHelpers.interopRequireDefault(_nodeBoard);
+
+var _user = __webpack_require__(83);
+
+var _user2 = babelHelpers.interopRequireDefault(_user);
 
 if (document.getElementById('Board')) {
   // @todo move into component?
@@ -2808,15 +2908,18 @@ if (document.getElementById('AddBoard')) {
 if (document.getElementById('AddSprint')) {
   (0, _reactDom.render)(_react2.default.createElement(_addSprint2.default, null), document.getElementById('AddSprint'));
 }
+if (document.getElementById('UserProfile')) {
+  (0, _reactDom.render)(_react2.default.createElement(_user2.default, null), document.getElementById('UserProfile'));
+}
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports) {
 
 module.exports = ReactDOM;
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2830,7 +2933,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = babelHelpers.interopRequireDefault(_react);
 
-var _filters = __webpack_require__(29);
+var _filters = __webpack_require__(30);
 
 var _filters2 = babelHelpers.interopRequireDefault(_filters);
 
@@ -2842,7 +2945,7 @@ var _reactRedux = __webpack_require__(3);
 
 var _redux = __webpack_require__(6);
 
-var _reducers = __webpack_require__(25);
+var _reducers = __webpack_require__(26);
 
 var _reducers2 = babelHelpers.interopRequireDefault(_reducers);
 
@@ -2914,7 +3017,7 @@ var Board = function (_Component) {
 exports.default = Board;
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2930,11 +3033,11 @@ var _react2 = babelHelpers.interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(3);
 
-var _select = __webpack_require__(22);
+var _select = __webpack_require__(23);
 
 var _select2 = babelHelpers.interopRequireDefault(_select);
 
-var _actions = __webpack_require__(23);
+var _actions = __webpack_require__(24);
 
 var Filters = function (_Component) {
   babelHelpers.inherits(Filters, _Component);
@@ -3003,7 +3106,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Filters);
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3020,7 +3123,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = babelHelpers.interopRequireDefault(_propTypes);
 
-var _PropTypes = __webpack_require__(13);
+var _PropTypes = __webpack_require__(14);
 
 var _warning = __webpack_require__(7);
 
@@ -3107,7 +3210,7 @@ function createProvider() {
 exports.default = createProvider();
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3123,9 +3226,9 @@ exports.default = createProvider();
 var emptyFunction = __webpack_require__(9);
 var invariant = __webpack_require__(10);
 var warning = __webpack_require__(11);
-var assign = __webpack_require__(32);
+var assign = __webpack_require__(12);
 
-var ReactPropTypesSecret = __webpack_require__(12);
+var ReactPropTypesSecret = __webpack_require__(13);
 var checkPropTypes = __webpack_require__(33);
 
 module.exports = function (isValidElement, throwOnDirectAccess) {
@@ -3629,102 +3732,6 @@ module.exports = function (isValidElement, throwOnDirectAccess) {
 };
 
 /***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/*
-object-assign
-(c) Sindre Sorhus
-@license MIT
-*/
-
-
-/* eslint-disable no-unused-vars */
-
-var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-
-function toObject(val) {
-	if (val === null || val === undefined) {
-		throw new TypeError('Object.assign cannot be called with null or undefined');
-	}
-
-	return Object(val);
-}
-
-function shouldUseNative() {
-	try {
-		if (!Object.assign) {
-			return false;
-		}
-
-		// Detect buggy property enumeration order in older V8 versions.
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-		var test1 = new String('abc'); // eslint-disable-line no-new-wrappers
-		test1[5] = 'de';
-		if (Object.getOwnPropertyNames(test1)[0] === '5') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test2 = {};
-		for (var i = 0; i < 10; i++) {
-			test2['_' + String.fromCharCode(i)] = i;
-		}
-		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
-			return test2[n];
-		});
-		if (order2.join('') !== '0123456789') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test3 = {};
-		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
-			test3[letter] = letter;
-		});
-		if (Object.keys(Object.assign({}, test3)).join('') !== 'abcdefghijklmnopqrst') {
-			return false;
-		}
-
-		return true;
-	} catch (err) {
-		// We don't expect any of the above to throw, but better to be safe.
-		return false;
-	}
-}
-
-module.exports = shouldUseNative() ? Object.assign : function (target, source) {
-	var from;
-	var to = toObject(target);
-	var symbols;
-
-	for (var s = 1; s < arguments.length; s++) {
-		from = Object(arguments[s]);
-
-		for (var key in from) {
-			if (hasOwnProperty.call(from, key)) {
-				to[key] = from[key];
-			}
-		}
-
-		if (getOwnPropertySymbols) {
-			symbols = getOwnPropertySymbols(from);
-			for (var i = 0; i < symbols.length; i++) {
-				if (propIsEnumerable.call(from, symbols[i])) {
-					to[symbols[i]] = from[symbols[i]];
-				}
-			}
-		}
-	}
-
-	return to;
-};
-
-/***/ }),
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3741,7 +3748,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 if (true) {
   var invariant = __webpack_require__(10);
   var warning = __webpack_require__(11);
-  var ReactPropTypesSecret = __webpack_require__(12);
+  var ReactPropTypesSecret = __webpack_require__(13);
   var loggedTypeFailures = {};
 }
 
@@ -4035,7 +4042,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.createConnect = createConnect;
 
-var _connectAdvanced = __webpack_require__(14);
+var _connectAdvanced = __webpack_require__(15);
 
 var _connectAdvanced2 = babelHelpers.interopRequireDefault(_connectAdvanced);
 
@@ -4226,7 +4233,7 @@ exports.whenMapDispatchToPropsIsObject = whenMapDispatchToPropsIsObject;
 
 var _redux = __webpack_require__(6);
 
-var _wrapMapToProps = __webpack_require__(20);
+var _wrapMapToProps = __webpack_require__(21);
 
 function whenMapDispatchToPropsIsFunction(mapDispatchToProps) {
   return typeof mapDispatchToProps === 'function' ? (0, _wrapMapToProps.wrapMapToPropsFunc)(mapDispatchToProps, 'mapDispatchToProps') : undefined;
@@ -4257,7 +4264,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Symbol2 = __webpack_require__(16);
+var _Symbol2 = __webpack_require__(17);
 
 var _Symbol3 = babelHelpers.interopRequireDefault(_Symbol2);
 
@@ -4329,7 +4336,7 @@ Object.defineProperty(exports, "__esModule", {
 var freeGlobal = (typeof global === 'undefined' ? 'undefined' : babelHelpers.typeof(global)) == 'object' && global && global.Object === Object && global;
 
 exports.default = freeGlobal;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)))
 
 /***/ }),
 /* 43 */
@@ -4342,7 +4349,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Symbol2 = __webpack_require__(16);
+var _Symbol2 = __webpack_require__(17);
 
 var _Symbol3 = babelHelpers.interopRequireDefault(_Symbol2);
 
@@ -4542,7 +4549,7 @@ if (typeof self !== 'undefined') {
 
 var result = (0, _ponyfill2.default)(root);
 exports.default = result;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17), __webpack_require__(49)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18), __webpack_require__(49)(module)))
 
 /***/ }),
 /* 49 */
@@ -4615,13 +4622,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = combineReducers;
 
-var _createStore = __webpack_require__(15);
+var _createStore = __webpack_require__(16);
 
 var _isPlainObject = __webpack_require__(8);
 
 var _isPlainObject2 = babelHelpers.interopRequireDefault(_isPlainObject);
 
-var _warning = __webpack_require__(18);
+var _warning = __webpack_require__(19);
 
 var _warning2 = babelHelpers.interopRequireDefault(_warning);
 
@@ -4823,7 +4830,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = applyMiddleware;
 
-var _compose = __webpack_require__(19);
+var _compose = __webpack_require__(20);
 
 var _compose2 = babelHelpers.interopRequireDefault(_compose);
 
@@ -4895,7 +4902,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.whenMapStateToPropsIsFunction = whenMapStateToPropsIsFunction;
 exports.whenMapStateToPropsIsMissing = whenMapStateToPropsIsMissing;
 
-var _wrapMapToProps = __webpack_require__(20);
+var _wrapMapToProps = __webpack_require__(21);
 
 function whenMapStateToPropsIsFunction(mapStateToProps) {
   return typeof mapStateToProps === 'function' ? (0, _wrapMapToProps.wrapMapToPropsFunc)(mapStateToProps, 'mapStateToProps') : undefined;
@@ -4924,7 +4931,7 @@ exports.wrapMergePropsFunc = wrapMergePropsFunc;
 exports.whenMergePropsIsFunction = whenMergePropsIsFunction;
 exports.whenMergePropsIsOmitted = whenMergePropsIsOmitted;
 
-var _verifyPlainObject = __webpack_require__(21);
+var _verifyPlainObject = __webpack_require__(22);
 
 var _verifyPlainObject2 = babelHelpers.interopRequireDefault(_verifyPlainObject);
 
@@ -5311,7 +5318,7 @@ Emitter.prototype.hasListeners = function (event) {
  * Module of mixed-in functions shared between node and client code
  */
 
-var isObject = __webpack_require__(24);
+var isObject = __webpack_require__(25);
 
 /**
  * Expose `RequestBase`.
@@ -7734,7 +7741,7 @@ var _reactRedux = __webpack_require__(3);
 
 var _redux = __webpack_require__(6);
 
-var _reducers = __webpack_require__(25);
+var _reducers = __webpack_require__(26);
 
 var _reducers2 = babelHelpers.interopRequireDefault(_reducers);
 
@@ -7853,11 +7860,11 @@ var _react2 = babelHelpers.interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(3);
 
-var _select = __webpack_require__(22);
+var _select = __webpack_require__(23);
 
 var _select2 = babelHelpers.interopRequireDefault(_select);
 
-var _actions = __webpack_require__(23);
+var _actions = __webpack_require__(24);
 
 var Filters = function (_Component) {
   babelHelpers.inherits(Filters, _Component);
@@ -8454,6 +8461,493 @@ IssueProject.propTypes = {
   projectNid: _propTypes.number.isRequired
 };
 exports.default = IssueProject;
+
+/***/ }),
+/* 83 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _gravatar = __webpack_require__(84);
+
+var _gravatar2 = babelHelpers.interopRequireDefault(_gravatar);
+
+var baseUrl = "" + window.location.origin + drupalSettings.path.baseUrl;
+
+var UserProfile = function (_Component) {
+  babelHelpers.inherits(UserProfile, _Component);
+
+  function UserProfile(props) {
+    babelHelpers.classCallCheck(this, UserProfile);
+
+    var _this = babelHelpers.possibleConstructorReturn(this, (UserProfile.__proto__ || Object.getPrototypeOf(UserProfile)).call(this, props));
+
+    _this.state = drupalSettings.user;
+    return _this;
+  }
+
+  babelHelpers.createClass(UserProfile, [{
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        { className: "box" },
+        _react2.default.createElement(
+          "section",
+          { className: "media" },
+          _react2.default.createElement(
+            "div",
+            { className: "media-left" },
+            _react2.default.createElement(_gravatar2.default, { md5: this.state.gravatar, name: this.state.email })
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "media-content" },
+            _react2.default.createElement(
+              "div",
+              { className: "content" },
+              _react2.default.createElement(
+                "h1",
+                null,
+                this.state.email
+              ),
+              _react2.default.createElement(
+                "nav",
+                { className: "level is-mobile" },
+                _react2.default.createElement(
+                  "div",
+                  { className: "level-left" },
+                  _react2.default.createElement(
+                    "a",
+                    { className: "level-item" },
+                    _react2.default.createElement(
+                      "a",
+                      { href: baseUrl + "user/" + this.state.uid + "/edit" },
+                      "Edit"
+                    )
+                  ),
+                  _react2.default.createElement(
+                    "a",
+                    { className: "level-item" },
+                    _react2.default.createElement(
+                      "a",
+                      { href: baseUrl + "user/" + this.state.uid + "/my-boards" },
+                      "My boards"
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+  return UserProfile;
+}(_react.Component);
+
+exports.default = UserProfile;
+
+/***/ }),
+/* 84 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _queryString = __webpack_require__(85);
+
+var _queryString2 = babelHelpers.interopRequireDefault(_queryString);
+
+var _propTypes = __webpack_require__(1);
+
+var _propTypes2 = babelHelpers.interopRequireDefault(_propTypes);
+
+var Gravatar = function (_Component) {
+  babelHelpers.inherits(Gravatar, _Component);
+
+  function Gravatar() {
+    babelHelpers.classCallCheck(this, Gravatar);
+    return babelHelpers.possibleConstructorReturn(this, (Gravatar.__proto__ || Object.getPrototypeOf(Gravatar)).apply(this, arguments));
+  }
+
+  babelHelpers.createClass(Gravatar, [{
+    key: 'render',
+    value: function render() {
+      var base = 'https://www.gravatar.com/avatar/';
+      var query = _queryString2.default.stringify({
+        s: this.props.size,
+        r: this.props.rating,
+        d: this.props.default
+      });
+      var retinaQuery = _queryString2.default.stringify({
+        s: this.props.size * 2,
+        r: this.props.rating,
+        d: this.props.default
+      });
+      var src = '' + base + this.props.md5 + '?' + query;
+      var retinaSrc = '' + base + this.props.md5 + '?' + retinaQuery;
+
+      return _react2.default.createElement(
+        'figure',
+        { className: 'image is-128x128' },
+        _react2.default.createElement('img', {
+          alt: 'Gravatar for ' + this.props.name,
+          style: this.props.style,
+          src: src,
+          srcSet: retinaSrc + ' 2x',
+          height: this.props.size,
+          width: this.props.size,
+          className: 'user-profile-gravatar'
+        })
+      );
+    }
+  }]);
+  return Gravatar;
+}(_react.Component);
+
+Gravatar.propTypes = {
+  name: _propTypes2.default.string,
+  md5: _propTypes2.default.string,
+  size: _propTypes2.default.number,
+  rating: _propTypes2.default.string,
+  default: _propTypes2.default.string
+};
+Gravatar.defaultProps = {
+  size: 128,
+  rating: 'g',
+  default: 'identicon'
+};
+exports.default = Gravatar;
+
+/***/ }),
+/* 85 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var strictUriEncode = __webpack_require__(86);
+var objectAssign = __webpack_require__(12);
+var decodeComponent = __webpack_require__(87);
+
+function encoderForArrayFormat(opts) {
+	switch (opts.arrayFormat) {
+		case 'index':
+			return function (key, value, index) {
+				return value === null ? [encode(key, opts), '[', index, ']'].join('') : [encode(key, opts), '[', encode(index, opts), ']=', encode(value, opts)].join('');
+			};
+
+		case 'bracket':
+			return function (key, value) {
+				return value === null ? encode(key, opts) : [encode(key, opts), '[]=', encode(value, opts)].join('');
+			};
+
+		default:
+			return function (key, value) {
+				return value === null ? encode(key, opts) : [encode(key, opts), '=', encode(value, opts)].join('');
+			};
+	}
+}
+
+function parserForArrayFormat(opts) {
+	var result;
+
+	switch (opts.arrayFormat) {
+		case 'index':
+			return function (key, value, accumulator) {
+				result = /\[(\d*)\]$/.exec(key);
+
+				key = key.replace(/\[\d*\]$/, '');
+
+				if (!result) {
+					accumulator[key] = value;
+					return;
+				}
+
+				if (accumulator[key] === undefined) {
+					accumulator[key] = {};
+				}
+
+				accumulator[key][result[1]] = value;
+			};
+
+		case 'bracket':
+			return function (key, value, accumulator) {
+				result = /(\[\])$/.exec(key);
+				key = key.replace(/\[\]$/, '');
+
+				if (!result) {
+					accumulator[key] = value;
+					return;
+				} else if (accumulator[key] === undefined) {
+					accumulator[key] = [value];
+					return;
+				}
+
+				accumulator[key] = [].concat(accumulator[key], value);
+			};
+
+		default:
+			return function (key, value, accumulator) {
+				if (accumulator[key] === undefined) {
+					accumulator[key] = value;
+					return;
+				}
+
+				accumulator[key] = [].concat(accumulator[key], value);
+			};
+	}
+}
+
+function encode(value, opts) {
+	if (opts.encode) {
+		return opts.strict ? strictUriEncode(value) : encodeURIComponent(value);
+	}
+
+	return value;
+}
+
+function keysSorter(input) {
+	if (Array.isArray(input)) {
+		return input.sort();
+	} else if ((typeof input === 'undefined' ? 'undefined' : babelHelpers.typeof(input)) === 'object') {
+		return keysSorter(Object.keys(input)).sort(function (a, b) {
+			return Number(a) - Number(b);
+		}).map(function (key) {
+			return input[key];
+		});
+	}
+
+	return input;
+}
+
+exports.extract = function (str) {
+	var queryStart = str.indexOf('?');
+	if (queryStart === -1) {
+		return '';
+	}
+	return str.slice(queryStart + 1);
+};
+
+exports.parse = function (str, opts) {
+	opts = objectAssign({ arrayFormat: 'none' }, opts);
+
+	var formatter = parserForArrayFormat(opts);
+
+	// Create an object with no prototype
+	// https://github.com/sindresorhus/query-string/issues/47
+	var ret = Object.create(null);
+
+	if (typeof str !== 'string') {
+		return ret;
+	}
+
+	str = str.trim().replace(/^[?#&]/, '');
+
+	if (!str) {
+		return ret;
+	}
+
+	str.split('&').forEach(function (param) {
+		var parts = param.replace(/\+/g, ' ').split('=');
+		// Firefox (pre 40) decodes `%3D` to `=`
+		// https://github.com/sindresorhus/query-string/pull/37
+		var key = parts.shift();
+		var val = parts.length > 0 ? parts.join('=') : undefined;
+
+		// missing `=` should be `null`:
+		// http://w3.org/TR/2012/WD-url-20120524/#collect-url-parameters
+		val = val === undefined ? null : decodeComponent(val);
+
+		formatter(decodeComponent(key), val, ret);
+	});
+
+	return Object.keys(ret).sort().reduce(function (result, key) {
+		var val = ret[key];
+		if (Boolean(val) && (typeof val === 'undefined' ? 'undefined' : babelHelpers.typeof(val)) === 'object' && !Array.isArray(val)) {
+			// Sort object keys, not values
+			result[key] = keysSorter(val);
+		} else {
+			result[key] = val;
+		}
+
+		return result;
+	}, Object.create(null));
+};
+
+exports.stringify = function (obj, opts) {
+	var defaults = {
+		encode: true,
+		strict: true,
+		arrayFormat: 'none'
+	};
+
+	opts = objectAssign(defaults, opts);
+
+	var formatter = encoderForArrayFormat(opts);
+
+	return obj ? Object.keys(obj).sort().map(function (key) {
+		var val = obj[key];
+
+		if (val === undefined) {
+			return '';
+		}
+
+		if (val === null) {
+			return encode(key, opts);
+		}
+
+		if (Array.isArray(val)) {
+			var result = [];
+
+			val.slice().forEach(function (val2) {
+				if (val2 === undefined) {
+					return;
+				}
+
+				result.push(formatter(key, val2, result.length));
+			});
+
+			return result.join('&');
+		}
+
+		return encode(key, opts) + '=' + encode(val, opts);
+	}).filter(function (x) {
+		return x.length > 0;
+	}).join('&') : '';
+};
+
+/***/ }),
+/* 86 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (str) {
+	return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
+		return '%' + c.charCodeAt(0).toString(16).toUpperCase();
+	});
+};
+
+/***/ }),
+/* 87 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var token = '%[a-f0-9]{2}';
+var singleMatcher = new RegExp(token, 'gi');
+var multiMatcher = new RegExp('(' + token + ')+', 'gi');
+
+function decodeComponents(components, split) {
+	try {
+		// Try to decode the entire string first
+		return decodeURIComponent(components.join(''));
+	} catch (err) {
+		// Do nothing
+	}
+
+	if (components.length === 1) {
+		return components;
+	}
+
+	split = split || 1;
+
+	// Split the array in 2 parts
+	var left = components.slice(0, split);
+	var right = components.slice(split);
+
+	return Array.prototype.concat.call([], decodeComponents(left), decodeComponents(right));
+}
+
+function decode(input) {
+	try {
+		return decodeURIComponent(input);
+	} catch (err) {
+		var tokens = input.match(singleMatcher);
+
+		for (var i = 1; i < tokens.length; i++) {
+			input = decodeComponents(tokens, i).join('');
+
+			tokens = input.match(singleMatcher);
+		}
+
+		return input;
+	}
+}
+
+function customDecodeURIComponent(input) {
+	// Keep track of all the replacements and prefill the map with the `BOM`
+	var replaceMap = {
+		'%FE%FF': '\uFFFD\uFFFD',
+		'%FF%FE': '\uFFFD\uFFFD'
+	};
+
+	var match = multiMatcher.exec(input);
+	while (match) {
+		try {
+			// Decode as big chunks as possible
+			replaceMap[match[0]] = decodeURIComponent(match[0]);
+		} catch (err) {
+			var result = decode(match[0]);
+
+			if (result !== match[0]) {
+				replaceMap[match[0]] = result;
+			}
+		}
+
+		match = multiMatcher.exec(input);
+	}
+
+	// Add `%C2` at the end of the map to make sure it does not replace the combinator before everything else
+	replaceMap['%C2'] = '\uFFFD';
+
+	var entries = Object.keys(replaceMap);
+
+	for (var i = 0; i < entries.length; i++) {
+		// Replace all decoded components
+		var key = entries[i];
+		input = input.replace(new RegExp(key, 'g'), replaceMap[key]);
+	}
+
+	return input;
+}
+
+module.exports = function (encodedURI) {
+	if (typeof encodedURI !== 'string') {
+		throw new TypeError('Expected `encodedURI` to be of type `string`, got `' + (typeof encodedURI === 'undefined' ? 'undefined' : babelHelpers.typeof(encodedURI)) + '`');
+	}
+
+	try {
+		encodedURI = encodedURI.replace(/\+/g, ' ');
+
+		// Try the built in decoder first
+		return decodeURIComponent(encodedURI);
+	} catch (err) {
+		// Fallback to a more advanced decoder
+		return customDecodeURIComponent(encodedURI);
+	}
+};
 
 /***/ })
 /******/ ]);

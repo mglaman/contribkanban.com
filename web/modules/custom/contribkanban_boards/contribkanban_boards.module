@@ -96,3 +96,19 @@ function contribkanban_boards_inline_entity_form_entity_form_alter(&$entity_form
     $entity_form['#attached']['library'][] = 'contribkanban_boards/form';
   }
 }
+
+/**
+ * Implements hook_js_settings_alter().
+ */
+function contribkanban_boards_js_settings_alter(array &$settings, \Drupal\Core\Asset\AttachedAssetsInterface $assets) {
+  $user = \Drupal::currentUser();
+  $settings['user']['email'] = $user->getEmail();
+  $settings['user']['gravatar'] = md5(strtolower(trim($user->getEmail())));
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function contribkanban_boards_page_attachments(array &$attachments) {
+  $attachments['#attached']['library'][] = 'contribkanban_boards/app';
+}
