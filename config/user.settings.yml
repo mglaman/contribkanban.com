@@ -1,5 +1,5 @@
 anonymous: Anonymous
-verify_mail: true
+verify_mail: false
 notify:
   cancel_confirm: true
   password_reset: true

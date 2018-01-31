@@ -1,7 +1,7 @@
-theme: current
+theme: contribkanban
 defaults:
-  sender: php_mail
-  formatter: php_mail
+  sender: swiftmailer
+  formatter: swiftmailer
 _core:
   default_config_hash: IhwTepsVwtbtbcT5GzQKhCXDCRvbk3MNkWqPiuiZ10s
 modules:
