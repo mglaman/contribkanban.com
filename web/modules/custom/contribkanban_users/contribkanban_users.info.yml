@@ -1,0 +1,6 @@
+name: ContribKanban Users
+description: User things
+core: 8.x
+type: module
+dependencies:
+  - user

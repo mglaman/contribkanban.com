@@ -8,9 +8,11 @@ module:
   contribkanban_boards: 0
   contribkanban_pages: 0
   contribkanban_projects: 0
+  contribkanban_users: 0
   ctools: 0
   dblog: 0
   dynamic_page_cache: 0
+  email_registration: 0
   entity: 0
   field: 0
   filter: 0
