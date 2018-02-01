@@ -7507,7 +7507,8 @@ var AddBoard = function (_Component) {
     value: function validateMachineName() {
       var _this3 = this;
 
-      var apiUrl = new _url2.default('node').addParameter('field_project_machine_name', this.state.machineName);
+      var machineName = this.state.machineName.toLowerCase();
+      var apiUrl = new _url2.default('node').addParameter('field_project_machine_name', machineName);
       _superagent2.default.get(apiUrl.getEndpointUrl()).end(function (err, _ref) {
         var body = _ref.body;
 
@@ -7519,7 +7520,7 @@ var AddBoard = function (_Component) {
           });
         } else {
           var baseUrl = '' + window.location.origin + drupalSettings.path.baseUrl;
-          _superagent2.default.post(baseUrl + 'api/boards/add/' + _this3.state.machineName).end(function (err, _ref2) {
+          _superagent2.default.post(baseUrl + 'api/boards/add/' + machineName).end(function (err, _ref2) {
             var body = _ref2.body;
 
             if (err) {

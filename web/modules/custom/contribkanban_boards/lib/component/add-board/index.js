@@ -21,8 +21,9 @@ class AddBoard extends Component {
     });
   }
   validateMachineName() {
+    const machineName = this.state.machineName.toLowerCase();
     const apiUrl = new ApiUrl('node')
-      .addParameter('field_project_machine_name', this.state.machineName);
+      .addParameter('field_project_machine_name', machineName);
     superagent
       .get(apiUrl.getEndpointUrl())
       .end((err, { body }) => {
@@ -35,7 +36,7 @@ class AddBoard extends Component {
         } else {
           const baseUrl = `${window.location.origin}${drupalSettings.path.baseUrl}`;
           superagent
-            .post(`${baseUrl}api/boards/add/${this.state.machineName}`)
+            .post(`${baseUrl}api/boards/add/${machineName}`)
             .end((err, { body }) => {
               if (err) {
                 console.log(err);
