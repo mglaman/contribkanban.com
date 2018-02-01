@@ -43,7 +43,7 @@ function contribkanban_boards_node_board_view(array &$build, \Drupal\Core\Entity
     'uuid' => $board->uuid(),
   ];
   $build['output'] = [
-    '#markup' => '<div id="NodeBoard" style="position: relative;height: 100%;"></div>',
+    '#markup' => \Drupal\Core\Render\Markup::create('<div id="NodeBoard" style="position: relative;height: 100%;"></div>'),
   ];
 }
 

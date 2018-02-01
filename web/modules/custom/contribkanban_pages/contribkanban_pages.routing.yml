@@ -14,3 +14,11 @@ contribkanban_pages.add_node_board:
   requirements:
     _entity_access: 'user.update'
     user: \d+
+contribkanban_pages.user_issues_board:
+  path: '/user/{user}/issues'
+  defaults:
+    _controller: '\Drupal\contribkanban_pages\Controller\BoardsController::userIssuesBoard'
+    _title: 'My issues'
+  requirements:
+    _entity_access: 'user.view'
+    user: \d+

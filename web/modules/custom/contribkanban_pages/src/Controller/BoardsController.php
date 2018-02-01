@@ -2,6 +2,7 @@
 
 namespace Drupal\contribkanban_pages\Controller;
 
+use Drupal\Component\Serialization\Json;
 use Drupal\contribkanban_pages\Form\AddSprintForm;
 use Drupal\contribkanban_pages\Form\SearchBoardsForm;
 use Drupal\Core\Access\CsrfRequestHeaderAccessCheck;
@@ -44,6 +45,24 @@ class BoardsController extends ControllerBase {
       $container->get('entity_type.manager'),
       $container->get('form_builder')
     );
+  }
+
+  public function userIssuesBoard(UserInterface $user) {
+    try {
+      $nids = \Drupal::getContainer()->get('contribkanban_users.issues_feed')->fetch($user);
+    }
+    catch (\Exception $e) {
+      $nids = [];
+    }
+    $build['#attached']['library'][] = 'contribkanban_boards/app';
+    $build['#attached']['drupalSettings']['board'] = [
+      'nids' => Json::encode($nids),
+      'uuid' => '',
+    ];
+    $build['output'] = [
+      '#markup' => \Drupal\Core\Render\Markup::create('<div id="NodeBoard" style="position: relative;height: 100%;"></div>'),
+    ];
+    return $build;
   }
 
   public function addNodeBoard(UserInterface $user) {

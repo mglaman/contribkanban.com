@@ -52,7 +52,11 @@ class NodeBoard extends Component {
         }}>
           <div className="board--filters is-pulled-right ">
             <div className="control">
-              <a className="button is-outlined is-info" href={`${baseUrl}node-board/${uuid}/edit`}>Edit</a>
+              {uuid.length > 0 ? [
+                <a className="button is-outlined is-info" href={`${baseUrl}node-board/${uuid}/edit`}>Edit</a>
+              ] : [
+                <a className="button is-outlined is-info" href={`${baseUrl}user/${drupalSettings.user.uid}`}>Back</a>
+              ]}
             </div>
           </div>
           <Filters/>

@@ -7839,11 +7839,15 @@ var NodeBoard = function (_Component) {
             _react2.default.createElement(
               "div",
               { className: "control" },
-              _react2.default.createElement(
+              uuid.length > 0 ? [_react2.default.createElement(
                 "a",
                 { className: "button is-outlined is-info", href: _utils.baseUrl + "node-board/" + uuid + "/edit" },
                 "Edit"
-              )
+              )] : [_react2.default.createElement(
+                "a",
+                { className: "button is-outlined is-info", href: _utils.baseUrl + "user/" + drupalSettings.user.uid },
+                "Back"
+              )]
             )
           ),
           _react2.default.createElement(_filters2.default, null),
@@ -8531,51 +8535,64 @@ var UserProfile = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         "div",
-        null,
+        { className: "columns" },
         _react2.default.createElement(
           "div",
-          { className: "box" },
+          { className: "column is-half is-offset-one-quarter" },
           _react2.default.createElement(
-            "section",
-            { className: "media" },
+            "div",
+            { className: "box" },
             _react2.default.createElement(
-              "div",
-              { className: "media-left" },
-              _react2.default.createElement(_gravatar2.default, { md5: this.state.gravatar, name: this.state.email })
-            ),
-            _react2.default.createElement(
-              "div",
-              { className: "media-content" },
+              "section",
+              { className: "media" },
               _react2.default.createElement(
                 "div",
-                { className: "content" },
+                { className: "media-left" },
+                _react2.default.createElement(_gravatar2.default, { md5: this.state.gravatar, name: this.state.email })
+              ),
+              _react2.default.createElement(
+                "div",
+                { className: "media-content" },
                 _react2.default.createElement(
-                  "h1",
-                  null,
-                  this.state.email
-                ),
-                _react2.default.createElement(
-                  "nav",
-                  { className: "level is-mobile" },
+                  "div",
+                  { className: "content" },
                   _react2.default.createElement(
-                    "div",
-                    { className: "level-left" },
+                    "h1",
+                    null,
+                    this.state.email
+                  ),
+                  _react2.default.createElement(
+                    "nav",
+                    { className: "level is-mobile" },
                     _react2.default.createElement(
-                      "a",
-                      { className: "level-item" },
+                      "div",
+                      { className: "level-left" },
                       _react2.default.createElement(
-                        "a",
-                        { href: baseUrl + "user/" + this.state.uid + "/edit" },
-                        "Edit"
+                        "div",
+                        { className: "level-item" },
+                        _react2.default.createElement(
+                          "a",
+                          { href: baseUrl + "user/" + this.state.uid + "/edit" },
+                          "Edit"
+                        )
+                      ),
+                      _react2.default.createElement(
+                        "div",
+                        { className: "level-item" },
+                        _react2.default.createElement(
+                          "a",
+                          { href: baseUrl + "user/" + this.state.uid + "/issues" },
+                          "My issues"
+                        )
                       )
                     )
                   )
                 )
               )
             )
-          )
-        ),
-        _react2.default.createElement(_myBoards2.default, { uid: this.state.uid })
+          ),
+          _react2.default.createElement(_myBoards2.default, { uid: this.state.uid })
+        )
       );
     }
   }]);
