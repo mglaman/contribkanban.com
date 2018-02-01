@@ -7,11 +7,13 @@ use Drupal\contribkanban_boards\Entity\BoardList;
 use Drupal\Core\EventSubscriber\CustomPageExceptionHtmlSubscriber;
 use Drupal\Core\ParamConverter\ParamNotConvertedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
 class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscriber {
 
+  /**
+   * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
+   */
   public function on404(GetResponseForExceptionEvent $event) {
     $exception = $event->getException();
     $previous = $exception->getPrevious();
@@ -20,6 +22,24 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
     }
     $route_name = $previous->getRouteName();
     $params = $previous->getRawParameters();
+
+    if ($route_name == 'entity.board.canonical') {
+      $this->handleBoard($event, $route_name, $params);
+    }
+    elseif ($route_name == 'entity.board.canonical_alternative') {
+      $this->handleSprint($event, $route_name, $params);
+    }
+    else {
+      parent::on404($event);
+    }
+  }
+
+  /**
+   * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
+   * @param $route_name
+   * @param array $params
+   */
+  protected function handleBoard(GetResponseForExceptionEvent $event, $route_name, array $params) {
     if ($route_name != 'entity.board.canonical' || !empty($params['board'])) {
       parent::on404($event);
     }
@@ -95,7 +115,76 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
     catch (\Exception $e) {
       parent::on404($event);
     }
+  }
 
+  /**
+   * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
+   * @param $route_name
+   * @param array $params
+   */
+  protected function handleSprint(GetResponseForExceptionEvent $event, $route_name, array $params) {
+    if ($route_name != 'entity.board.canonical_alternative' || !empty($params['board'])) {
+      parent::on404($event);
+    }
+    $machine_name = $params['board'];
+    try {
+      $tag = \Drupal::getContainer()->get('drupalorg_tags')->getTag($machine_name);
+      if (empty($tag)) {
+        throw new \Exception('Unable to determine board type for project');
+      }
+
+      $bundle = 'drupalorg_sprint';
+      $existing_board = \Drupal::entityTypeManager()->getStorage('board')->loadByProperties(['tag' => $tag['tid'], 'type' => $bundle]);
+      if (!empty($existing_board)) {
+        $existing_board = reset($existing_board);
+        $event->setResponse(new RedirectResponse($existing_board->toUrl()->toString()));
+      }
+      else {
+        $active = BoardList::create([
+          'type' => $bundle,
+          'title' => 'Active',
+          'statuses' => [1],
+        ]);
+        $needs_work = BoardList::create([
+          'type' => $bundle,
+          'title' => 'Needs Work',
+          'statuses' => [13],
+        ]);
+        $needs_review = BoardList::create([
+          'type' => $bundle,
+          'title' => 'Needs Review',
+          'statuses' => [8],
+        ]);
+        $rtbc = BoardList::create([
+          'type' => $bundle,
+          'title' => 'Reviewed & Tested',
+          'statuses' => [14,15],
+        ]);
+        $fixed = BoardList::create([
+          'type' => $bundle,
+          'title' => 'Fixed',
+          'statuses' => [2],
+        ]);
+
+        $board = Board::create([
+          'type' => $bundle,
+          'title' => $tag['name'],
+          'tag' => [$tag['tid']],
+          'lists' => [
+            $needs_review,
+            $needs_work,
+            $active,
+            $rtbc,
+            $fixed,
+          ],
+        ]);
+        $board->save();
+        $event->setResponse(new RedirectResponse($board->toUrl()->toString()));
+      }
+    }
+    catch (\Exception $e) {
+      parent::on404($event);
+    }
   }
 
   /**

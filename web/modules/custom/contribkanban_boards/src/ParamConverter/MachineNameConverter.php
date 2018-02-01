@@ -13,7 +13,11 @@ class MachineNameConverter extends EntityConverter {
   public function convert($value, $definition, $name, array $defaults) {
     $entity_type_id = $this->getEntityTypeFromDefaults($definition, $name, $defaults);
     if ($storage = $this->entityManager->getStorage($entity_type_id)) {
-      if (!$entities = $storage->loadByProperties(['machine_name' => $value])) {
+      $params = ['machine_name' => $value];
+      if ($defaults['_route'] == 'entity.board.canonical_alternative') {
+        $params['type'] = 'drupalorg_sprint';
+      }
+      if (!$entities = $storage->loadByProperties($params)) {
         return $storage->load($value);
       }
       $entity = reset($entities);

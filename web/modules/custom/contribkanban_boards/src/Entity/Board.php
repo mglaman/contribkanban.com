@@ -47,6 +47,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *     "delete-form" = "/board/{board}/delete",
  *     "canonical" = "/board/{board}",
  *     "collection" = "/admin/boards",
+ *    "canonical_alternative" = "/sprint/{board}"
  *   },
  * )
  */
@@ -59,8 +60,27 @@ class Board extends ContentEntityBase implements BoardInterface {
     }
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function url($rel = 'canonical', $options = []) {
+    if ($rel == 'canonical' && $this->bundle() == 'drupalorg_sprint') {
+      $rel = 'canonical_alternative';
+    }
+    return parent::url($rel, $options);
+  }
+
+  public function toUrl($rel = 'canonical', array $options = []) {
+    if ($rel == 'canonical' && $this->bundle() == 'drupalorg_sprint') {
+      $rel = 'canonical_alternative';
+    }
+    return parent::toUrl($rel, $options);
+  }
 
   protected function urlRouteParameters($rel) {
+    if ($rel == 'canonical' && $this->bundle() == 'drupalorg_sprint') {
+      $rel = 'canonical_alternative';
+    }
     $uri_route_parameters = parent::urlRouteParameters($rel);
     if (isset($uri_route_parameters[$this->getEntityTypeId()])) {
       if (!$this->get('machine_name')->isEmpty()) {
