@@ -3096,16 +3096,34 @@ var Filters = function (_Component) {
   babelHelpers.createClass(Filters, [{
     key: 'categoryChange',
     value: function categoryChange(e) {
+      ga('send', {
+        hitType: 'event',
+        eventCategory: 'Filters',
+        eventAction: 'change',
+        eventLabel: 'Category'
+      });
       this.props.categoryFilterUpdated(e.target.value);
     }
   }, {
     key: 'priorityChange',
     value: function priorityChange(e) {
+      ga('send', {
+        hitType: 'event',
+        eventCategory: 'Filters',
+        eventAction: 'change',
+        eventLabel: 'Priority'
+      });
       this.props.priorityFilterUpdated(e.target.value);
     }
   }, {
     key: 'versionChange',
     value: function versionChange(e) {
+      ga('send', {
+        hitType: 'event',
+        eventCategory: 'Filters',
+        eventAction: 'change',
+        eventLabel: 'Version'
+      });
       this.props.versionFilterUpdated(e.target.value);
     }
   }, {
@@ -6912,7 +6930,6 @@ var List = function (_Component) {
       var _this2 = this;
 
       var apiUrl = this.buildEndpointUrl();
-      console.log(apiUrl.getEndpointUrl());
       _superagent2.default.get(apiUrl.getEndpointUrl()).backgroundRefresh().end(function (err, _ref) {
         var body = _ref.body;
 
@@ -6943,7 +6960,6 @@ var List = function (_Component) {
 
         var shouldFetchNew = prevProps.categoryFilter !== this.props.categoryFilter || prevProps.priorityFilter !== this.props.priorityFilter || prevProps.versionFilter !== this.props.versionFilter;
         if (shouldFetchNew) {
-          console.log('Fetching new issues for ' + this.props.label);
           this.fetchIssues();
         }
       }
@@ -7530,6 +7546,12 @@ var AddBoard = function (_Component) {
                 error: 'Project not found'
               });
             } else {
+              ga('send', {
+                hitType: 'event',
+                eventCategory: 'Add Board',
+                eventAction: 'add',
+                eventLabel: _this3.state.machineName
+              });
               window.location.href = '' + baseUrl + body.url;
             }
           });
@@ -7667,6 +7689,12 @@ var AddSprint = function (_Component) {
                 error: 'Tag not found'
               });
             } else {
+              ga('send', {
+                hitType: 'event',
+                eventCategory: 'Add Sprint',
+                eventAction: 'add',
+                eventLabel: _this3.state.tag
+              });
               window.location.href = '' + baseUrl + body.url;
             }
           });
@@ -9215,8 +9243,20 @@ var NodeBoardForm = function (_Component) {
         _superagent2.default.post(baseUrl + 'entity/node_board').set('X-CSRF-Token', _this2.state.csrfToken).send(entityObject).end(function (error, res) {
           if (res.statusCode === 201) {
             var body = JSON.parse(res.text);
+            ga('send', {
+              hitType: 'event',
+              eventCategory: 'Add Node Board',
+              eventAction: 'add',
+              eventLabel: _this2.state.boardName
+            });
             window.location.href = baseUrl + 'node-board/' + body.uuid[0].value;
           } else {
+            ga('send', {
+              hitType: 'event',
+              eventCategory: 'Add Node Board',
+              eventAction: 'error',
+              eventLabel: error
+            });
             console.log(error);
             console.log(res);
             alert('Error, check console logs');

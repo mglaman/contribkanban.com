@@ -62,7 +62,6 @@ class List extends Component {
   }
   fetchIssues() {
     const apiUrl = this.buildEndpointUrl();
-    console.log(apiUrl.getEndpointUrl());
     superagent
       .get(apiUrl.getEndpointUrl())
       .backgroundRefresh()
@@ -91,7 +90,6 @@ class List extends Component {
         (prevProps.priorityFilter !== this.props.priorityFilter) ||
         (prevProps.versionFilter !== this.props.versionFilter);
       if (shouldFetchNew) {
-        console.log('Fetching new issues for ' + this.props.label);
         this.fetchIssues();
       }
     }

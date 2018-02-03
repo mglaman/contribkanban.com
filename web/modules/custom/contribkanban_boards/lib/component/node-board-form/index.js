@@ -50,9 +50,21 @@ class NodeBoardForm extends Component {
         .end((error, res) => {
           if (res.statusCode === 201) {
             const body = JSON.parse(res.text);
+            ga('send', {
+              hitType: 'event',
+              eventCategory: 'Add Node Board',
+              eventAction: 'add',
+              eventLabel: this.state.boardName
+            });
             window.location.href = `${baseUrl}node-board/${body.uuid[0].value}`
           }
           else {
+            ga('send', {
+              hitType: 'event',
+              eventCategory: 'Add Node Board',
+              eventAction: 'error',
+              eventLabel: error
+            });
             console.log(error);
             console.log(res);
             alert('Error, check console logs');

@@ -44,6 +44,12 @@ class AddSprint extends Component {
                   error: 'Tag not found',
                 })
               } else {
+                ga('send', {
+                  hitType: 'event',
+                  eventCategory: 'Add Sprint',
+                  eventAction: 'add',
+                  eventLabel: this.state.tag
+                });
                 window.location.href = `${baseUrl}${body.url}`
               }
             });

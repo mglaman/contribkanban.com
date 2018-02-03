@@ -32,12 +32,30 @@ class Filters extends Component {
     {value: '7.x', item: 'Drupal 7'},
   ];
   categoryChange(e) {
+    ga('send', {
+      hitType: 'event',
+      eventCategory: 'Filters',
+      eventAction: 'change',
+      eventLabel: 'Category',
+    });
     this.props.categoryFilterUpdated(e.target.value)
   }
   priorityChange(e) {
+    ga('send', {
+      hitType: 'event',
+      eventCategory: 'Filters',
+      eventAction: 'change',
+      eventLabel: 'Priority'
+    });
     this.props.priorityFilterUpdated(e.target.value)
   }
   versionChange(e) {
+    ga('send', {
+      hitType: 'event',
+      eventCategory: 'Filters',
+      eventAction: 'change',
+      eventLabel: 'Version'
+    });
     this.props.versionFilterUpdated(e.target.value);
   }
   render() {

@@ -45,6 +45,12 @@ class AddBoard extends Component {
                   error: 'Project not found',
                 })
               } else {
+                ga('send', {
+                  hitType: 'event',
+                  eventCategory: 'Add Board',
+                  eventAction: 'add',
+                  eventLabel: this.state.machineName
+                });
                 window.location.href = `${baseUrl}${body.url}`
               }
             });

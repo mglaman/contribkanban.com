@@ -1,3 +1,13 @@
 contribkanban_pages.board_link:
   deriver: Drupal\contribkanban_pages\Plugin\Derivative\BoardMenuLink
   menu_name: main
+contribkanban_pages.repo:
+  title: 'GitHub'
+  url: 'https://github.com/mglaman/contribkanban.com/'
+  menu_name: tools
+  weight: 10
+contribkanban_pages.issues:
+  title: 'Report a bug'
+  url: 'https://github.com/mglaman/contribkanban.com/issues'
+  menu_name: tools
+  weight: 100
