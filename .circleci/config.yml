@@ -35,4 +35,4 @@ workflows:
             - build
           filters:
             branches:
-              only: nextgen
+              only: master
