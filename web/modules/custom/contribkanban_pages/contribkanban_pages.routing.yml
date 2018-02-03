@@ -22,3 +22,11 @@ contribkanban_pages.user_issues_board:
   requirements:
     _entity_access: 'user.view'
     user: \d+
+
+contribkanban_pages.not_found:
+  path: '/not-found'
+  defaults:
+    _controller: '\Drupal\contribkanban_pages\Controller\PagesController::on404'
+    _title: 'Resource not found'
+  requirements:
+    _access: 'TRUE'

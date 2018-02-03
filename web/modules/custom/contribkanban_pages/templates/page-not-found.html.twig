@@ -1,0 +1,20 @@
+<div class="columns">
+  <div class="column is-three-fifths is-offset-one-fifth">
+    <div class="content" style="margin-top: 2rem;">
+      <h1>Resource not found!</h1>
+      {% if message %}
+        <p>{{ message }}</p>
+      {% endif %}
+      <p>Think this was a bug? Please <a href="https://github.com/mglaman/contribkanban.com/issues/new">open an issue</a> so it can be looked into!</p>
+    </div>
+  </div>
+</div>
+<script>
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Error',
+    eventAction: '404',
+    eventLabel: '{{ previous }}'
+  });
+  debugger;
+</script>

@@ -49,7 +49,7 @@ export default class Issue extends Component {
         backgroundColor: this.statusToColor[parseInt(data.field_issue_status)],
         cursor: 'pointer',
       }}>
-        <h3>{data.title} <a className="kanban-board--issue__link" href={Issue.getLink(data.nid)} target="_blank">#{data.nid}</a></h3>
+        <h3 id={`issue_${data.nid}`}>{data.title} <a className="kanban-board--issue__link" id={`issue_link_${data.nid}`} href={Issue.getLink(data.nid)} target="_blank">#{data.nid}</a></h3>
         <div className="kanban-board--issue_tags">
           <IssueVersion version={data.field_issue_version}/>
           <IssuePriority priority={data.field_issue_priority}/>

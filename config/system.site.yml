@@ -3,8 +3,8 @@ name: ContribKanban.com
 mail: noreply@contribkanban.com
 slogan: ''
 page:
-  403: ''
-  404: ''
+  403: /not-found
+  404: /not-found
   front: /boards
 admin_compact_mode: false
 weight_select_max: 100

@@ -19,5 +19,11 @@ function contribkanban_pages_theme() {
     'search_boards_form' => [
       'render element' => 'form',
     ],
+    'page_not_found' => [
+      'variables' => [
+        'message' => '',
+        'previous' => '',
+      ],
+    ],
   ];
 }
