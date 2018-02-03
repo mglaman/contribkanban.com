@@ -17,21 +17,21 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
   public function on404(GetResponseForExceptionEvent $event) {
     $exception = $event->getException();
     $previous = $exception->getPrevious();
-    if (!$previous instanceof ParamNotConvertedException) {
-      parent::on404($event);
-    }
-    $route_name = $previous->getRouteName();
-    $params = $previous->getRawParameters();
+    if ($previous instanceof ParamNotConvertedException) {
+      $route_name = $previous->getRouteName();
+      $params = $previous->getRawParameters();
 
-    if ($route_name == 'entity.board.canonical') {
-      $this->handleBoard($event, $route_name, $params);
+      if ($route_name == 'entity.board.canonical') {
+        $this->handleBoard($event, $route_name, $params);
+      }
+      elseif ($route_name == 'entity.board.canonical_alternative') {
+        $this->handleSprint($event, $route_name, $params);
+      }
+      else {
+        parent::on404($event);
+      }
     }
-    elseif ($route_name == 'entity.board.canonical_alternative') {
-      $this->handleSprint($event, $route_name, $params);
-    }
-    else {
-      parent::on404($event);
-    }
+    parent::on404($event);
   }
 
   /**
