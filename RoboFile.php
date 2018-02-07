@@ -8,8 +8,8 @@
 class RoboFile extends \Robo\Tasks {
 
   public function runServer() {
-    $this->taskServer(8080)
-      ->dir('web')
+    $this->drush('rs')
+      ->arg('8080')
       ->run();
   }
 

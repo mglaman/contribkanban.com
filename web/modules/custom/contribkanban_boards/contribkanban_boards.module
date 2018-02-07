@@ -107,7 +107,7 @@ function contribkanban_boards_page_attachments(array &$attachments) {
   $attachments['#attached']['library'][] = 'contribkanban_boards/app';
 
   $ga_id = \Drupal\Core\Site\Settings::get('google_analytics_id');
-  if ($ga_id) {
+  if ($ga_id && !\Drupal::getContainer()->get('router.admin_context')->isAdminRoute()) {
     $script = <<<SCRIPT
     <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

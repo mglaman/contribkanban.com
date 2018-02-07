@@ -1,0 +1,8 @@
+entity.board.version:
+  path: '/board/{board}/{version}'
+  defaults:
+    _entity_view: 'board.full'
+    _title_callback: '\Drupal\Core\Entity\Controller\EntityController::title'
+    version: ''
+  requirements:
+    _entity_access: 'board.view'
