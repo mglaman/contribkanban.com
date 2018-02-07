@@ -16,7 +16,7 @@ use Drupal\entity\BundleFieldDefinition;
  *   description = @Translation("Add a board for a distribution"),
  * )
  */
-class DrupalOrgModule extends PluginBase implements BoardProviderInterface {
+class DrupalOrgDistribution extends PluginBase implements BoardProviderInterface {
 
   /**
    * {@inheritdoc}
