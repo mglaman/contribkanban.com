@@ -31,7 +31,9 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
         parent::on404($event);
       }
     }
-    parent::on404($event);
+    else {
+      parent::on404($event);
+    }
   }
 
   /**
@@ -169,6 +171,7 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
         $board = Board::create([
           'type' => $bundle,
           'title' => $tag['name'],
+          'machine_name' => str_replace(' ', '', $tag['name']),
           'tag' => [$tag['tid']],
           'lists' => [
             $needs_review,
@@ -191,7 +194,7 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
    * {@inheritdoc}
    */
   protected static function getPriority() {
-    return -30;
+    return 0;
   }
 
 }

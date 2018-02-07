@@ -5,7 +5,7 @@
     - name: Check out Drupal to the docroot.
       git:
         repo: "git@github.com:mglaman/contribkanban.com.git"
-        version: "nextgen"
+        version: "master"
         update: true
         force: yes
         dest: "/var/www/contribkanban.com"
