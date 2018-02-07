@@ -60,7 +60,7 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
       $existing_board = \Drupal::entityTypeManager()->getStorage('board')->loadByProperties(['project_nid' => $project['nid'], 'type' => $bundle]);
       if (!empty($existing_board)) {
         $existing_board = reset($existing_board);
-        $event->setResponse(new RedirectResponse($existing_board->toUrl()->toString()));
+        $event->setResponse(new RedirectResponse($existing_board->toUrl()->toString(), 303));
       }
       else {
         $backlog = BoardList::create([
@@ -109,7 +109,7 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
           ],
         ]);
         $board->save();
-        $event->setResponse(new RedirectResponse($board->toUrl()->toString()));
+        $event->setResponse(new RedirectResponse($board->toUrl()->toString(), 303));
       }
     }
     catch (\Exception $e) {
@@ -137,7 +137,7 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
       $existing_board = \Drupal::entityTypeManager()->getStorage('board')->loadByProperties(['tag' => $tag['tid'], 'type' => $bundle]);
       if (!empty($existing_board)) {
         $existing_board = reset($existing_board);
-        $event->setResponse(new RedirectResponse($existing_board->toUrl()->toString()));
+        $event->setResponse(new RedirectResponse($existing_board->toUrl()->toString(), 303));
       }
       else {
         $active = BoardList::create([
@@ -179,7 +179,7 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
           ],
         ]);
         $board->save();
-        $event->setResponse(new RedirectResponse($board->toUrl()->toString()));
+        $event->setResponse(new RedirectResponse($board->toUrl()->toString(), 303));
       }
     }
     catch (\Exception $e) {
