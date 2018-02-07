@@ -11,14 +11,12 @@ module:
   contribkanban_users: 0
   ctools: 0
   dblog: 0
-  devel: 0
   dynamic_page_cache: 0
   email_registration: 0
   entity: 0
   field: 0
   filter: 0
   inline_entity_form: 0
-  kint: 0
   layout_discovery: 0
   link: 0
   mailsystem: 0
