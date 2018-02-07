@@ -85,6 +85,9 @@ class BoardList extends ContentEntityBase implements BoardListInterface {
     return $this->get('tag');
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function getVersion() {
     foreach ($this->getBoard()->get('version') as $item) {
       $this->get('version')->appendItem($item->value);

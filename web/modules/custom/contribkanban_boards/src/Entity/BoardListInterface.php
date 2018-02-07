@@ -25,6 +25,9 @@ interface BoardListInterface extends ContentEntityInterface {
 
   public function getTags();
 
+  /**
+   * @return \Drupal\Core\Field\FieldItemListInterface
+   */
   public function getVersion();
 
 }

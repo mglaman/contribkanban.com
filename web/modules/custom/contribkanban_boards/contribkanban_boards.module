@@ -48,14 +48,21 @@ function contribkanban_boards_node_board_view(array &$build, \Drupal\Core\Entity
 }
 
 /**
- * Implements hook_preprocess_HOOK().
+ * Implements hook_ENTITY_TYPE_view().
  */
-function contribkanban_boards_preprocess_board(&$variables) {
-  $variables['#attached']['library'][] = 'contribkanban_boards/app';
-  $variables['#attached']['drupalSettings']['board'] = [];
+function contribkanban_boards_board_view(array &$build, \Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display, $view_mode) {
+  $build['#attached']['library'][] = 'contribkanban_boards/app';
+  $build['#attached']['drupalSettings']['board'] = [];
 
   /** @var \Drupal\contribkanban_boards\Entity\BoardInterface $board */
-  $board = $variables['elements']['#board'];
+  $board = $entity;
+
+  $route_match = \Drupal::routeMatch();
+  $version_parameter = $route_match->getParameter('version');
+  if ($version_parameter && strpos($version_parameter, '-dev') === FALSE) {
+    $version_parameter .= '-dev';
+  }
+
   /** @var \Drupal\contribkanban_boards\Entity\BoardListInterface $board_list */
   foreach ($board->get('lists')->referencedEntities() as $board_list) {
     $attributes['title'] = $board_list->label();
@@ -66,28 +73,13 @@ function contribkanban_boards_preprocess_board(&$variables) {
     $attributes['priority'] = FieldHelper::stringAsJson($board_list->getPriority());
     $attributes['statuses'] = FieldHelper::stringAsJson($board_list->getStatuses());
     $attributes['tag'] = FieldHelper::stringAsJson($board_list->getTags());
-    $attributes['version'] = FieldHelper::stringAsJson($board_list->getVersion());
-    $variables['#attached']['drupalSettings']['board'][] = $attributes;
+    $version = $board_list->getVersion();
+    if ($version_parameter) {
+      $version->appendItem($version_parameter);
+    }
+    $attributes['version'] = FieldHelper::stringAsJson($version);
+    $build['#attached']['drupalSettings']['board'][] = $attributes;
   }
-}
-
-/**
- * Implements hook_preprocess_HOOK().
- */
-function contribkanban_boards_preprocess_board_list(&$variables) {
-  /** @var \Drupal\contribkanban_boards\Entity\BoardListInterface $board_list */
-  $board_list = $variables['elements']['#board_list'];
-  $variables['title'] = ['#markup' => $board_list->label()];
-  $attributes =& $variables['attributes'];
-  $attributes['data-drupal-selector'] = 'board-list';
-  $attributes['data-projects'] = FieldHelper::stringAsJson($board_list->getProjects());
-  $attributes['data-category'] = FieldHelper::stringAsJson($board_list->getCategory());
-  $attributes['data-component'] = FieldHelper::stringAsJson($board_list->getComponent());
-  $attributes['data-parent'] = FieldHelper::stringAsJson($board_list->getParentIssue());
-  $attributes['data-priority'] = FieldHelper::stringAsJson($board_list->getPriority());
-  $attributes['data-statuses'] = FieldHelper::stringAsJson($board_list->getStatuses());
-  $attributes['data-tag'] = FieldHelper::stringAsJson($board_list->getTags());
-  $attributes['data-version'] = FieldHelper::stringAsJson($board_list->getVersion());
 }
 
 /**
