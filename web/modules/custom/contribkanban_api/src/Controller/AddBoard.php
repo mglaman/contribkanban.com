@@ -36,6 +36,7 @@ class AddBoard implements ContainerInjectionInterface {
   }
 
   public function handle($machine_name) {
+    $machine_name = urldecode($machine_name);
     $project = $this->projectsHelper->getProject($machine_name);
 
     $bundle = str_replace('project_', 'drupalorg_', $project['projectType']);

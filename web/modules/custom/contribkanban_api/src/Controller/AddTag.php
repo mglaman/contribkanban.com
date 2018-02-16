@@ -34,6 +34,7 @@ class AddTag implements ContainerInjectionInterface {
   }
 
   public function handle($tag) {
+    $tag = urldecode($tag);
     $tag = $this->tagsHelper->getTag($tag);
     $bundle = 'drupalorg_sprint';
     $existing_board = $this->boardStorage->loadByProperties(['tag' => $tag['tid'], 'type' => $bundle]);

@@ -21,7 +21,7 @@ class AddBoard extends Component {
     });
   }
   validateMachineName() {
-    const machineName = this.state.machineName.toLowerCase();
+    const machineName = encodeURIComponent(this.state.machineName.toLowerCase());
     const apiUrl = new ApiUrl('node')
       .addParameter('field_project_machine_name', machineName);
     superagent

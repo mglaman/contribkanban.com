@@ -35,7 +35,7 @@ class AddSprint extends Component {
         } else {
           const baseUrl = `${window.location.origin}${drupalSettings.path.baseUrl}`;
           superagent
-            .post(`${baseUrl}api/boards/add/tag/${this.state.tag}`)
+            .post(`${baseUrl}api/boards/add/tag/${encodeURIComponent(this.state.tag)}`)
             .end((err, { body }) => {
               if (err) {
                 console.log(err);
@@ -44,12 +44,14 @@ class AddSprint extends Component {
                   error: 'Tag not found',
                 })
               } else {
-                ga('send', {
-                  hitType: 'event',
-                  eventCategory: 'Add Sprint',
-                  eventAction: 'add',
-                  eventLabel: this.state.tag
-                });
+                if ((window.ga !== undefined)) {
+                  ga('send', {
+                    hitType: 'event',
+                    eventCategory: 'Add Sprint',
+                    eventAction: 'add',
+                    eventLabel: this.state.tag
+                  });
+                }
                 window.location.href = `${baseUrl}${body.url}`
               }
             });

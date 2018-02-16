@@ -11,7 +11,7 @@ export default class ApiUrl {
     this.entityType = type;
   }
   addParameter(parameter, value) {
-    this.parameters.push(parameter + '=' + value);
+    this.parameters.push(parameter + '=' + encodeURIComponent(value));
     return this;
   }
   getEndpointUrl() {

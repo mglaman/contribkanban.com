@@ -1315,7 +1315,7 @@ var ApiUrl = function () {
   }, {
     key: 'addParameter',
     value: function addParameter(parameter, value) {
-      this.parameters.push(parameter + '=' + value);
+      this.parameters.push(parameter + '=' + encodeURIComponent(value));
       return this;
     }
   }, {
@@ -7115,12 +7115,12 @@ var Issue = function (_Component) {
           } },
         _react2.default.createElement(
           'h3',
-          null,
+          { id: 'issue_' + data.nid },
           data.title,
           ' ',
           _react2.default.createElement(
             'a',
-            { className: 'kanban-board--issue__link', href: Issue.getLink(data.nid), target: '_blank' },
+            { className: 'kanban-board--issue__link', id: 'issue_link_' + data.nid, href: Issue.getLink(data.nid), target: '_blank' },
             '#',
             data.nid
           )
@@ -7679,7 +7679,7 @@ var AddSprint = function (_Component) {
           });
         } else {
           var baseUrl = '' + window.location.origin + drupalSettings.path.baseUrl;
-          _superagent2.default.post(baseUrl + 'api/boards/add/tag/' + _this3.state.tag).end(function (err, _ref2) {
+          _superagent2.default.post(baseUrl + 'api/boards/add/tag/' + encodeURIComponent(_this3.state.tag)).end(function (err, _ref2) {
             var body = _ref2.body;
 
             if (err) {
@@ -7689,12 +7689,15 @@ var AddSprint = function (_Component) {
                 error: 'Tag not found'
               });
             } else {
-              ga('send', {
-                hitType: 'event',
-                eventCategory: 'Add Sprint',
-                eventAction: 'add',
-                eventLabel: _this3.state.tag
-              });
+              if (window.ga !== undefined) {
+                ga('send', {
+                  hitType: 'event',
+                  eventCategory: 'Add Sprint',
+                  eventAction: 'add',
+                  eventLabel: _this3.state.tag
+                });
+              }
+              debugger;
               window.location.href = '' + baseUrl + body.url;
             }
           });
