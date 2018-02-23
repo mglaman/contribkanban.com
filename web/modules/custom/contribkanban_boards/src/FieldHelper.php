@@ -30,13 +30,13 @@ final class FieldHelper {
     }
 
     if (is_string($items)) {
-      return urlencode($items);
+      return $items;
     }
     elseif (is_int($items)) {
       return (int) $items;
     }
 
-    return Json::encode($items);
+    return $items;
   }
 
 }
