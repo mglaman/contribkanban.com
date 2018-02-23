@@ -26,7 +26,7 @@ final class FieldHelper {
     }
 
     if (empty($items)) {
-      $items = NULL;
+      return NULL;
     }
 
     if (is_string($items)) {
@@ -36,7 +36,7 @@ final class FieldHelper {
       return (int) $items;
     }
 
-    return $items;
+    return Json::encode($items);
   }
 
 }
