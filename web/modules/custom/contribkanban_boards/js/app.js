@@ -1394,6 +1394,38 @@ exports.compose = _compose2.default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.objectForeach = objectForeach;
+exports.datasetToJson = datasetToJson;
+function objectForeach(obj, callback) {
+  for (var i in obj) {
+    if (!obj.hasOwnProperty(i)) continue;
+    callback(i, obj[i]);
+  }
+}
+function datasetToJson(map) {
+  var dataset = {};
+  objectForeach(map, function (i, v) {
+    try {
+      dataset[i] = JSON.parse(v);
+    } catch (e) {
+      dataset[i] = v;
+    }
+  });
+  return dataset;
+}
+
+var baseUrl = exports.baseUrl = "" + window.location.origin + drupalSettings.path.baseUrl;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = warning;
 /**
  * Prints a warning in the console if it exists.
@@ -1418,7 +1450,7 @@ function warning(message) {
 }
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1497,38 +1529,6 @@ function isPlainObject(value) {
 }
 
 exports.default = isPlainObject;
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.objectForeach = objectForeach;
-exports.datasetToJson = datasetToJson;
-function objectForeach(obj, callback) {
-  for (var i in obj) {
-    if (!obj.hasOwnProperty(i)) continue;
-    callback(i, obj[i]);
-  }
-}
-function datasetToJson(map) {
-  var dataset = {};
-  objectForeach(map, function (i, v) {
-    try {
-      dataset[i] = JSON.parse(v);
-    } catch (e) {
-      dataset[i] = v;
-    }
-  });
-  return dataset;
-}
-
-var baseUrl = exports.baseUrl = "" + window.location.origin + drupalSettings.path.baseUrl;
 
 /***/ }),
 /* 10 */
@@ -2190,7 +2190,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.ActionTypes = undefined;
 exports.default = createStore;
 
-var _isPlainObject = __webpack_require__(8);
+var _isPlainObject = __webpack_require__(9);
 
 var _isPlainObject2 = babelHelpers.interopRequireDefault(_isPlainObject);
 
@@ -2665,11 +2665,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = verifyPlainObject;
 
-var _isPlainObject = __webpack_require__(8);
+var _isPlainObject = __webpack_require__(9);
 
 var _isPlainObject2 = babelHelpers.interopRequireDefault(_isPlainObject);
 
-var _warning = __webpack_require__(7);
+var _warning = __webpack_require__(8);
 
 var _warning2 = babelHelpers.interopRequireDefault(_warning);
 
@@ -2902,11 +2902,11 @@ var _nodeBoard = __webpack_require__(75);
 
 var _nodeBoard2 = babelHelpers.interopRequireDefault(_nodeBoard);
 
-var _user = __webpack_require__(83);
+var _user = __webpack_require__(84);
 
 var _user2 = babelHelpers.interopRequireDefault(_user);
 
-var _nodeBoardForm = __webpack_require__(89);
+var _nodeBoardForm = __webpack_require__(90);
 
 var _nodeBoardForm2 = babelHelpers.interopRequireDefault(_nodeBoardForm);
 
@@ -3183,7 +3183,7 @@ var _propTypes2 = babelHelpers.interopRequireDefault(_propTypes);
 
 var _PropTypes = __webpack_require__(15);
 
-var _warning = __webpack_require__(7);
+var _warning = __webpack_require__(8);
 
 var _warning2 = babelHelpers.interopRequireDefault(_warning);
 
@@ -4682,7 +4682,7 @@ exports.default = combineReducers;
 
 var _createStore = __webpack_require__(17);
 
-var _isPlainObject = __webpack_require__(8);
+var _isPlainObject = __webpack_require__(9);
 
 var _isPlainObject2 = babelHelpers.interopRequireDefault(_isPlainObject);
 
@@ -5180,7 +5180,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = verifySubselectors;
 
-var _warning = __webpack_require__(7);
+var _warning = __webpack_require__(8);
 
 var _warning2 = babelHelpers.interopRequireDefault(_warning);
 
@@ -6854,7 +6854,7 @@ var _url = __webpack_require__(5);
 
 var _url2 = babelHelpers.interopRequireDefault(_url);
 
-var _utils = __webpack_require__(9);
+var _utils = __webpack_require__(7);
 
 var _superagent = __webpack_require__(2);
 
@@ -7523,7 +7523,7 @@ var AddBoard = function (_Component) {
     value: function validateMachineName() {
       var _this3 = this;
 
-      var machineName = this.state.machineName.toLowerCase();
+      var machineName = encodeURIComponent(this.state.machineName.toLowerCase());
       var apiUrl = new _url2.default('node').addParameter('field_project_machine_name', machineName);
       _superagent2.default.get(apiUrl.getEndpointUrl()).end(function (err, _ref) {
         var body = _ref.body;
@@ -7697,7 +7697,6 @@ var AddSprint = function (_Component) {
                   eventLabel: _this3.state.tag
                 });
               }
-              debugger;
               window.location.href = '' + baseUrl + body.url;
             }
           });
@@ -7799,7 +7798,11 @@ var _superagentCache = __webpack_require__(4);
 
 var _superagentCache2 = babelHelpers.interopRequireDefault(_superagentCache);
 
-var _utils = __webpack_require__(9);
+var _utils = __webpack_require__(7);
+
+var _editButton = __webpack_require__(83);
+
+var _editButton2 = babelHelpers.interopRequireDefault(_editButton);
 
 (0, _superagentCache2.default)(_superagent2.default);
 
@@ -7835,13 +7838,11 @@ var NodeBoard = function (_Component) {
       var _this2 = this;
 
       var nids = JSON.parse(drupalSettings.board.nids);
-      console.log(nids);
 
       var apiUrl = new _url2.default('node');
       for (var i = 0; i < nids.length; i++) {
         apiUrl.addParameter('nid[]', nids[i]);
       }
-      console.log(apiUrl.getEndpointUrl());
       _superagent2.default.get(apiUrl.getEndpointUrl()).backgroundRefresh().end(function (err, _ref2) {
         var body = _ref2.body;
 
@@ -7870,15 +7871,7 @@ var NodeBoard = function (_Component) {
             _react2.default.createElement(
               "div",
               { className: "control" },
-              uuid.length > 0 ? [_react2.default.createElement(
-                "a",
-                { className: "button is-outlined is-info", href: _utils.baseUrl + "node-board/" + uuid + "/edit" },
-                "Edit"
-              )] : [_react2.default.createElement(
-                "a",
-                { className: "button is-outlined is-info", href: _utils.baseUrl + "user/" + drupalSettings.user.uid },
-                "Back"
-              )]
+              _react2.default.createElement(_editButton2.default, { uuid: uuid })
             )
           ),
           _react2.default.createElement(_filters2.default, null),
@@ -8539,11 +8532,89 @@ var _react = __webpack_require__(0);
 
 var _react2 = babelHelpers.interopRequireDefault(_react);
 
-var _gravatar = __webpack_require__(84);
+var _propTypes = __webpack_require__(1);
+
+var _utils = __webpack_require__(7);
+
+var _superagent = __webpack_require__(2);
+
+var _superagent2 = babelHelpers.interopRequireDefault(_superagent);
+
+var EditButton = function (_Component) {
+  babelHelpers.inherits(EditButton, _Component);
+
+  function EditButton() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    babelHelpers.classCallCheck(this, EditButton);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = EditButton.__proto__ || Object.getPrototypeOf(EditButton)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      access: false
+    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+  }
+
+  babelHelpers.createClass(EditButton, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      _superagent2.default.head(_utils.baseUrl + 'node-board/' + this.props.uuid + '/edit').end(function (err, _ref2) {
+        var statusCode = _ref2.statusCode;
+
+        _this2.setState({
+          access: statusCode === 200
+        });
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var uuid = this.props.uuid;
+
+      if (this.state.access !== false) {
+        return _react2.default.createElement(
+          'a',
+          { className: 'button is-outlined is-info', href: _utils.baseUrl + 'node-board/' + uuid + '/edit' },
+          'Edit'
+        );
+      }
+      return null;
+    }
+  }]);
+  return EditButton;
+}(_react.Component);
+
+EditButton.propTypes = {
+  uuid: _propTypes.string.isRequired
+};
+exports.default = EditButton;
+
+/***/ }),
+/* 84 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _gravatar = __webpack_require__(85);
 
 var _gravatar2 = babelHelpers.interopRequireDefault(_gravatar);
 
-var _myBoards = __webpack_require__(88);
+var _myBoards = __webpack_require__(89);
 
 var _myBoards2 = babelHelpers.interopRequireDefault(_myBoards);
 
@@ -8633,7 +8704,7 @@ var UserProfile = function (_Component) {
 exports.default = UserProfile;
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8647,7 +8718,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = babelHelpers.interopRequireDefault(_react);
 
-var _queryString = __webpack_require__(85);
+var _queryString = __webpack_require__(86);
 
 var _queryString2 = babelHelpers.interopRequireDefault(_queryString);
 
@@ -8713,15 +8784,15 @@ Gravatar.defaultProps = {
 exports.default = Gravatar;
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var strictUriEncode = __webpack_require__(86);
+var strictUriEncode = __webpack_require__(87);
 var objectAssign = __webpack_require__(13);
-var decodeComponent = __webpack_require__(87);
+var decodeComponent = __webpack_require__(88);
 
 function encoderForArrayFormat(opts) {
 	switch (opts.arrayFormat) {
@@ -8911,7 +8982,7 @@ exports.stringify = function (obj, opts) {
 };
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8924,7 +8995,7 @@ module.exports = function (str) {
 };
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9025,7 +9096,7 @@ module.exports = function (encodedURI) {
 };
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9047,7 +9118,7 @@ var _propTypes = __webpack_require__(1);
 
 var _propTypes2 = babelHelpers.interopRequireDefault(_propTypes);
 
-var _utils = __webpack_require__(9);
+var _utils = __webpack_require__(7);
 
 var MyBoards = function (_Component) {
   babelHelpers.inherits(MyBoards, _Component);
@@ -9173,7 +9244,7 @@ MyBoards.propTypes = {
 exports.default = MyBoards;
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

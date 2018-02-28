@@ -10,6 +10,7 @@ import ApiUrl from "../../url";
 import superagent from 'superagent';
 import superagentCache from 'superagent-cache';
 import {baseUrl} from "../../utils";
+import EditButton from "./edit-button";
 superagentCache(superagent);
 
 let store = createStore(reducers, {
@@ -25,13 +26,11 @@ class NodeBoard extends Component {
   };
   componentDidMount() {
     const nids = JSON.parse(drupalSettings.board.nids);
-    console.log(nids);
 
     const apiUrl = new ApiUrl('node');
     for (let i = 0; i < nids.length; i++) {
       apiUrl.addParameter('nid[]', nids[i]);
     }
-    console.log(apiUrl.getEndpointUrl());
     superagent
       .get(apiUrl.getEndpointUrl())
       .backgroundRefresh()
@@ -52,11 +51,7 @@ class NodeBoard extends Component {
         }}>
           <div className="board--filters is-pulled-right ">
             <div className="control">
-              {uuid.length > 0 ? [
-                <a className="button is-outlined is-info" href={`${baseUrl}node-board/${uuid}/edit`}>Edit</a>
-              ] : [
-                <a className="button is-outlined is-info" href={`${baseUrl}user/${drupalSettings.user.uid}`}>Back</a>
-              ]}
+              <EditButton uuid={uuid}/>
             </div>
           </div>
           <Filters/>
