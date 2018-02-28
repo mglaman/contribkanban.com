@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {number} from 'prop-types';
-import ApiUrl from "../../../url";
+import ApiUrl from "../../url";
 import superagent from 'superagent';
 import superagentCache from 'superagent-cache';
 superagentCache(superagent);

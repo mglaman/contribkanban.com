@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 28);
+/******/ 	return __webpack_require__(__webpack_require__.s = 32);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -93,7 +93,7 @@ if (true) {
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(33)(isValidElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(37)(isValidElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
@@ -124,11 +124,11 @@ if (typeof window !== 'undefined') {
   root = undefined;
 }
 
-var Emitter = __webpack_require__(59);
-var RequestBase = __webpack_require__(60);
+var Emitter = __webpack_require__(63);
+var RequestBase = __webpack_require__(64);
 var isObject = __webpack_require__(26);
-var ResponseBase = __webpack_require__(61);
-var Agent = __webpack_require__(63);
+var ResponseBase = __webpack_require__(65);
+var Agent = __webpack_require__(67);
 
 /**
  * Noop.
@@ -1049,7 +1049,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.connect = exports.connectAdvanced = exports.createProvider = exports.Provider = undefined;
 
-var _Provider = __webpack_require__(32);
+var _Provider = __webpack_require__(36);
 
 var _Provider2 = babelHelpers.interopRequireDefault(_Provider);
 
@@ -1057,7 +1057,7 @@ var _connectAdvanced = __webpack_require__(16);
 
 var _connectAdvanced2 = babelHelpers.interopRequireDefault(_connectAdvanced);
 
-var _connect = __webpack_require__(38);
+var _connect = __webpack_require__(42);
 
 var _connect2 = babelHelpers.interopRequireDefault(_connect);
 
@@ -1073,7 +1073,7 @@ exports.connect = _connect2.default;
 "use strict";
 
 
-var utils = __webpack_require__(64);
+var utils = __webpack_require__(68);
 
 /**
  * superagentCache constructor
@@ -1087,7 +1087,7 @@ module.exports = function (superagent, cache, defaults) {
   if (!superagent) throw 'superagent-cache requires a superagent instance.';
 
   if (!superagent.patchedBySuperagentCache) {
-    superagent.cache = cache && cache.get ? cache : new (__webpack_require__(65))(cache);
+    superagent.cache = cache && cache.get ? cache : new (__webpack_require__(69))(cache);
     superagent.defaults = defaults || {};
     superagent.pendingRequests = {};
     var Request = superagent.Request;
@@ -1348,15 +1348,15 @@ var _createStore = __webpack_require__(17);
 
 var _createStore2 = babelHelpers.interopRequireDefault(_createStore);
 
-var _combineReducers = __webpack_require__(52);
+var _combineReducers = __webpack_require__(56);
 
 var _combineReducers2 = babelHelpers.interopRequireDefault(_combineReducers);
 
-var _bindActionCreators = __webpack_require__(53);
+var _bindActionCreators = __webpack_require__(57);
 
 var _bindActionCreators2 = babelHelpers.interopRequireDefault(_bindActionCreators);
 
-var _applyMiddleware = __webpack_require__(54);
+var _applyMiddleware = __webpack_require__(58);
 
 var _applyMiddleware2 = babelHelpers.interopRequireDefault(_applyMiddleware);
 
@@ -1460,15 +1460,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _baseGetTag = __webpack_require__(41);
+var _baseGetTag = __webpack_require__(45);
 
 var _baseGetTag2 = babelHelpers.interopRequireDefault(_baseGetTag);
 
-var _getPrototype = __webpack_require__(46);
+var _getPrototype = __webpack_require__(50);
 
 var _getPrototype2 = babelHelpers.interopRequireDefault(_getPrototype);
 
-var _isObjectLike = __webpack_require__(48);
+var _isObjectLike = __webpack_require__(52);
 
 var _isObjectLike2 = babelHelpers.interopRequireDefault(_isObjectLike);
 
@@ -1854,17 +1854,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = connectAdvanced;
 
-var _hoistNonReactStatics = __webpack_require__(35);
+var _hoistNonReactStatics = __webpack_require__(39);
 
 var _hoistNonReactStatics2 = babelHelpers.interopRequireDefault(_hoistNonReactStatics);
 
-var _invariant = __webpack_require__(36);
+var _invariant = __webpack_require__(40);
 
 var _invariant2 = babelHelpers.interopRequireDefault(_invariant);
 
 var _react = __webpack_require__(0);
 
-var _Subscription = __webpack_require__(37);
+var _Subscription = __webpack_require__(41);
 
 var _Subscription2 = babelHelpers.interopRequireDefault(_Subscription);
 
@@ -2194,7 +2194,7 @@ var _isPlainObject = __webpack_require__(9);
 
 var _isPlainObject2 = babelHelpers.interopRequireDefault(_isPlainObject);
 
-var _symbolObservable = __webpack_require__(49);
+var _symbolObservable = __webpack_require__(53);
 
 var _symbolObservable2 = babelHelpers.interopRequireDefault(_symbolObservable);
 
@@ -2455,7 +2455,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _root = __webpack_require__(42);
+var _root = __webpack_require__(46);
 
 var _root2 = babelHelpers.interopRequireDefault(_root);
 
@@ -2862,6 +2862,274 @@ module.exports = isObject;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var IssueCategory = function (_Component) {
+  babelHelpers.inherits(IssueCategory, _Component);
+
+  function IssueCategory() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    babelHelpers.classCallCheck(this, IssueCategory);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = IssueCategory.__proto__ || Object.getPrototypeOf(IssueCategory)).call.apply(_ref, [this].concat(args))), _this), _this.categoryToLabel = {
+      1: 'Bug',
+      2: 'Task',
+      3: 'Feature',
+      4: 'Support',
+      5: 'Plan'
+    }, _this.categoryToClass = {
+      1: 'danger',
+      2: 'info',
+      3: 'info',
+      4: 'active',
+      5: 'active'
+    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+  }
+
+  babelHelpers.createClass(IssueCategory, [{
+    key: 'render',
+    value: function render() {
+      var category = this.props.category;
+
+      return _react2.default.createElement(
+        'span',
+        { className: 'tag is-' + this.categoryToClass[category] },
+        this.categoryToLabel[category]
+      );
+    }
+  }]);
+  return IssueCategory;
+}(_react.Component);
+
+IssueCategory.propTypes = {
+  category: _propTypes.number.isRequired
+};
+exports.default = IssueCategory;
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var IssueVersion = function (_Component) {
+  babelHelpers.inherits(IssueVersion, _Component);
+
+  function IssueVersion() {
+    babelHelpers.classCallCheck(this, IssueVersion);
+    return babelHelpers.possibleConstructorReturn(this, (IssueVersion.__proto__ || Object.getPrototypeOf(IssueVersion)).apply(this, arguments));
+  }
+
+  babelHelpers.createClass(IssueVersion, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'span',
+        { className: 'tag bg-success' },
+        this.props.version
+      );
+    }
+  }]);
+  return IssueVersion;
+}(_react.Component);
+
+IssueVersion.propTypes = {
+  version: _propTypes.string.isRequired
+};
+exports.default = IssueVersion;
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var IssuePriority = function (_Component) {
+  babelHelpers.inherits(IssuePriority, _Component);
+
+  function IssuePriority() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    babelHelpers.classCallCheck(this, IssuePriority);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = IssuePriority.__proto__ || Object.getPrototypeOf(IssuePriority)).call.apply(_ref, [this].concat(args))), _this), _this.priorityToLabel = {
+      400: 'Critical',
+      300: 'Major',
+      200: 'Normal',
+      100: 'Minor'
+    }, _this.priorityToClass = {
+      400: 'danger',
+      300: 'warning',
+      200: 'info',
+      100: 'active'
+    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+  }
+
+  babelHelpers.createClass(IssuePriority, [{
+    key: 'render',
+    value: function render() {
+      var priority = this.props.priority;
+
+      return _react2.default.createElement(
+        'span',
+        { className: 'tag is-' + this.priorityToClass[priority] },
+        this.priorityToLabel[priority]
+      );
+    }
+  }]);
+  return IssuePriority;
+}(_react.Component);
+
+IssuePriority.propTypes = {
+  priority: _propTypes.number.isRequired
+};
+exports.default = IssuePriority;
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var _url = __webpack_require__(5);
+
+var _url2 = babelHelpers.interopRequireDefault(_url);
+
+var _superagent = __webpack_require__(2);
+
+var _superagent2 = babelHelpers.interopRequireDefault(_superagent);
+
+var _superagentCache = __webpack_require__(4);
+
+var _superagentCache2 = babelHelpers.interopRequireDefault(_superagentCache);
+
+(0, _superagentCache2.default)(_superagent2.default);
+
+var IssueProject = function (_Component) {
+  babelHelpers.inherits(IssueProject, _Component);
+
+  function IssueProject() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    babelHelpers.classCallCheck(this, IssueProject);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = IssueProject.__proto__ || Object.getPrototypeOf(IssueProject)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      loaded: false,
+      label: _this.props.projectNid
+    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+  }
+
+  babelHelpers.createClass(IssueProject, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      var nid = this.props.projectNid;
+      if (nid === '3060') {
+        this.setState({
+          label: 'Drupal'
+        });
+      } else {
+        var apiUrl = new _url2.default('node').addParameter('nid', nid);
+        _superagent2.default.get(apiUrl.getEndpointUrl()).end(function (err, _ref2) {
+          var body = _ref2.body;
+
+          _this2.setState({
+            loaded: true,
+            label: body.list[0].title
+          });
+        });
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return this.state.loaded ? [_react2.default.createElement(
+        'span',
+        { className: 'tag is-default' },
+        this.state.label
+      )] : [];
+    }
+  }]);
+  return IssueProject;
+}(_react.Component);
+
+IssueProject.propTypes = {
+  projectNid: _propTypes.number.isRequired
+};
+exports.default = IssueProject;
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _redux = __webpack_require__(6);
 
@@ -2874,7 +3142,7 @@ exports.default = (0, _redux.combineReducers)({
 });
 
 /***/ }),
-/* 28 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2884,9 +3152,9 @@ var _react = __webpack_require__(0);
 
 var _react2 = babelHelpers.interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(29);
+var _reactDom = __webpack_require__(33);
 
-var _board = __webpack_require__(30);
+var _board = __webpack_require__(34);
 
 var _board2 = babelHelpers.interopRequireDefault(_board);
 
@@ -2902,11 +3170,11 @@ var _nodeBoard = __webpack_require__(75);
 
 var _nodeBoard2 = babelHelpers.interopRequireDefault(_nodeBoard);
 
-var _user = __webpack_require__(84);
+var _user = __webpack_require__(80);
 
 var _user2 = babelHelpers.interopRequireDefault(_user);
 
-var _nodeBoardForm = __webpack_require__(90);
+var _nodeBoardForm = __webpack_require__(86);
 
 var _nodeBoardForm2 = babelHelpers.interopRequireDefault(_nodeBoardForm);
 
@@ -2953,13 +3221,13 @@ if (document.getElementById('NodeBoardAddForm')) {
 }
 
 /***/ }),
-/* 29 */
+/* 33 */
 /***/ (function(module, exports) {
 
 module.exports = ReactDOM;
 
 /***/ }),
-/* 30 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2973,11 +3241,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = babelHelpers.interopRequireDefault(_react);
 
-var _filters = __webpack_require__(31);
+var _filters = __webpack_require__(35);
 
 var _filters2 = babelHelpers.interopRequireDefault(_filters);
 
-var _list = __webpack_require__(66);
+var _list = __webpack_require__(70);
 
 var _list2 = babelHelpers.interopRequireDefault(_list);
 
@@ -2985,7 +3253,7 @@ var _reactRedux = __webpack_require__(3);
 
 var _redux = __webpack_require__(6);
 
-var _reducers = __webpack_require__(27);
+var _reducers = __webpack_require__(31);
 
 var _reducers2 = babelHelpers.interopRequireDefault(_reducers);
 
@@ -3057,7 +3325,7 @@ var Board = function (_Component) {
 exports.default = Board;
 
 /***/ }),
-/* 31 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3164,7 +3432,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Filters);
 
 /***/ }),
-/* 32 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3268,7 +3536,7 @@ function createProvider() {
 exports.default = createProvider();
 
 /***/ }),
-/* 33 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3287,7 +3555,7 @@ var warning = __webpack_require__(12);
 var assign = __webpack_require__(13);
 
 var ReactPropTypesSecret = __webpack_require__(14);
-var checkPropTypes = __webpack_require__(34);
+var checkPropTypes = __webpack_require__(38);
 
 module.exports = function (isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -3790,7 +4058,7 @@ module.exports = function (isValidElement, throwOnDirectAccess) {
 };
 
 /***/ }),
-/* 34 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3855,7 +4123,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 module.exports = checkPropTypes;
 
 /***/ }),
-/* 35 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3928,7 +4196,7 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
 };
 
 /***/ }),
-/* 36 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3982,7 +4250,7 @@ var invariant = function invariant(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 /***/ }),
-/* 37 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4089,7 +4357,7 @@ var Subscription = function () {
 exports.default = Subscription;
 
 /***/ }),
-/* 38 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4104,23 +4372,23 @@ var _connectAdvanced = __webpack_require__(16);
 
 var _connectAdvanced2 = babelHelpers.interopRequireDefault(_connectAdvanced);
 
-var _shallowEqual = __webpack_require__(39);
+var _shallowEqual = __webpack_require__(43);
 
 var _shallowEqual2 = babelHelpers.interopRequireDefault(_shallowEqual);
 
-var _mapDispatchToProps = __webpack_require__(40);
+var _mapDispatchToProps = __webpack_require__(44);
 
 var _mapDispatchToProps2 = babelHelpers.interopRequireDefault(_mapDispatchToProps);
 
-var _mapStateToProps = __webpack_require__(55);
+var _mapStateToProps = __webpack_require__(59);
 
 var _mapStateToProps2 = babelHelpers.interopRequireDefault(_mapStateToProps);
 
-var _mergeProps = __webpack_require__(56);
+var _mergeProps = __webpack_require__(60);
 
 var _mergeProps2 = babelHelpers.interopRequireDefault(_mergeProps);
 
-var _selectorFactory = __webpack_require__(57);
+var _selectorFactory = __webpack_require__(61);
 
 var _selectorFactory2 = babelHelpers.interopRequireDefault(_selectorFactory);
 
@@ -4234,7 +4502,7 @@ function createConnect() {
 exports.default = createConnect();
 
 /***/ }),
-/* 39 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4276,7 +4544,7 @@ function shallowEqual(objA, objB) {
 }
 
 /***/ }),
-/* 40 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4312,7 +4580,7 @@ function whenMapDispatchToPropsIsObject(mapDispatchToProps) {
 exports.default = [whenMapDispatchToPropsIsFunction, whenMapDispatchToPropsIsMissing, whenMapDispatchToPropsIsObject];
 
 /***/ }),
-/* 41 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4326,11 +4594,11 @@ var _Symbol2 = __webpack_require__(18);
 
 var _Symbol3 = babelHelpers.interopRequireDefault(_Symbol2);
 
-var _getRawTag = __webpack_require__(44);
+var _getRawTag = __webpack_require__(48);
 
 var _getRawTag2 = babelHelpers.interopRequireDefault(_getRawTag);
 
-var _objectToString = __webpack_require__(45);
+var _objectToString = __webpack_require__(49);
 
 var _objectToString2 = babelHelpers.interopRequireDefault(_objectToString);
 
@@ -4358,7 +4626,7 @@ function baseGetTag(value) {
 exports.default = baseGetTag;
 
 /***/ }),
-/* 42 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4368,7 +4636,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _freeGlobal = __webpack_require__(43);
+var _freeGlobal = __webpack_require__(47);
 
 var _freeGlobal2 = babelHelpers.interopRequireDefault(_freeGlobal);
 
@@ -4381,7 +4649,7 @@ var root = _freeGlobal2.default || freeSelf || Function('return this')();
 exports.default = root;
 
 /***/ }),
-/* 43 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4397,7 +4665,7 @@ exports.default = freeGlobal;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ }),
-/* 44 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4457,7 +4725,7 @@ function getRawTag(value) {
 exports.default = getRawTag;
 
 /***/ }),
-/* 45 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4490,7 +4758,7 @@ function objectToString(value) {
 exports.default = objectToString;
 
 /***/ }),
-/* 46 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4500,7 +4768,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _overArg = __webpack_require__(47);
+var _overArg = __webpack_require__(51);
 
 var _overArg2 = babelHelpers.interopRequireDefault(_overArg);
 
@@ -4510,7 +4778,7 @@ var getPrototype = (0, _overArg2.default)(Object.getPrototypeOf, Object);
 exports.default = getPrototype;
 
 /***/ }),
-/* 47 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4536,7 +4804,7 @@ function overArg(func, transform) {
 exports.default = overArg;
 
 /***/ }),
-/* 48 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4576,7 +4844,7 @@ function isObjectLike(value) {
 exports.default = isObjectLike;
 
 /***/ }),
-/* 49 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4586,7 +4854,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _ponyfill = __webpack_require__(51);
+var _ponyfill = __webpack_require__(55);
 
 var _ponyfill2 = babelHelpers.interopRequireDefault(_ponyfill);
 
@@ -4607,10 +4875,10 @@ if (typeof self !== 'undefined') {
 
 var result = (0, _ponyfill2.default)(root);
 exports.default = result;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19), __webpack_require__(50)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19), __webpack_require__(54)(module)))
 
 /***/ }),
-/* 50 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4640,7 +4908,7 @@ module.exports = function (module) {
 };
 
 /***/ }),
-/* 51 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4669,7 +4937,7 @@ function symbolObservablePonyfill(root) {
 };
 
 /***/ }),
-/* 52 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4818,7 +5086,7 @@ function combineReducers(reducers) {
 }
 
 /***/ }),
-/* 53 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4877,7 +5145,7 @@ function bindActionCreators(actionCreators, dispatch) {
 }
 
 /***/ }),
-/* 54 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4948,7 +5216,7 @@ function applyMiddleware() {
 }
 
 /***/ }),
-/* 55 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4975,7 +5243,7 @@ function whenMapStateToPropsIsMissing(mapStateToProps) {
 exports.default = [whenMapStateToPropsIsFunction, whenMapStateToPropsIsMissing];
 
 /***/ }),
-/* 56 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5046,7 +5314,7 @@ function whenMergePropsIsOmitted(mergeProps) {
 exports.default = [whenMergePropsIsFunction, whenMergePropsIsOmitted];
 
 /***/ }),
-/* 57 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5059,7 +5327,7 @@ exports.impureFinalPropsSelectorFactory = impureFinalPropsSelectorFactory;
 exports.pureFinalPropsSelectorFactory = pureFinalPropsSelectorFactory;
 exports.default = finalPropsSelectorFactory;
 
-var _verifySubselectors = __webpack_require__(58);
+var _verifySubselectors = __webpack_require__(62);
 
 var _verifySubselectors2 = babelHelpers.interopRequireDefault(_verifySubselectors);
 
@@ -5169,7 +5437,7 @@ function finalPropsSelectorFactory(dispatch, _ref2) {
 }
 
 /***/ }),
-/* 58 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5201,7 +5469,7 @@ function verifySubselectors(mapStateToProps, mapDispatchToProps, mergeProps, dis
 }
 
 /***/ }),
-/* 59 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5366,7 +5634,7 @@ Emitter.prototype.hasListeners = function (event) {
 };
 
 /***/ }),
-/* 60 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6062,7 +6330,7 @@ RequestBase.prototype._setTimeouts = function () {
 };
 
 /***/ }),
-/* 61 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6072,7 +6340,7 @@ RequestBase.prototype._setTimeouts = function () {
  * Module dependencies.
  */
 
-var utils = __webpack_require__(62);
+var utils = __webpack_require__(66);
 
 /**
  * Expose `ResponseBase`.
@@ -6200,7 +6468,7 @@ ResponseBase.prototype._setStatusProperties = function (status) {
 };
 
 /***/ }),
-/* 62 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6277,7 +6545,7 @@ exports.cleanHeader = function (header, changesOrigin) {
 };
 
 /***/ }),
-/* 63 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6304,7 +6572,7 @@ Agent.prototype._setDefaults = function (req) {
 module.exports = Agent;
 
 /***/ }),
-/* 64 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6534,7 +6802,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 65 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6834,7 +7102,7 @@ function cacheModule(config) {
 module.exports = cacheModule;
 
 /***/ }),
-/* 66 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6864,7 +7132,7 @@ var _superagentCache = __webpack_require__(4);
 
 var _superagentCache2 = babelHelpers.interopRequireDefault(_superagentCache);
 
-var _issue = __webpack_require__(67);
+var _issue = __webpack_require__(71);
 
 var _issue2 = babelHelpers.interopRequireDefault(_issue);
 
@@ -7022,7 +7290,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(List);
 
 /***/ }),
-/* 67 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7039,19 +7307,19 @@ var _react2 = babelHelpers.interopRequireDefault(_react);
 
 var _propTypes = __webpack_require__(1);
 
-var _version = __webpack_require__(68);
-
-var _version2 = babelHelpers.interopRequireDefault(_version);
-
-var _priority = __webpack_require__(69);
-
-var _priority2 = babelHelpers.interopRequireDefault(_priority);
-
-var _category = __webpack_require__(70);
+var _category = __webpack_require__(27);
 
 var _category2 = babelHelpers.interopRequireDefault(_category);
 
-var _project = __webpack_require__(71);
+var _version = __webpack_require__(28);
+
+var _version2 = babelHelpers.interopRequireDefault(_version);
+
+var _priority = __webpack_require__(29);
+
+var _priority2 = babelHelpers.interopRequireDefault(_priority);
+
+var _project = __webpack_require__(30);
 
 var _project2 = babelHelpers.interopRequireDefault(_project);
 
@@ -7153,274 +7421,6 @@ Issue.propTypes = {
   data: _propTypes.object.isRequired
 };
 exports.default = Issue;
-
-/***/ }),
-/* 68 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _react = __webpack_require__(0);
-
-var _react2 = babelHelpers.interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(1);
-
-var IssueVersion = function (_Component) {
-  babelHelpers.inherits(IssueVersion, _Component);
-
-  function IssueVersion() {
-    babelHelpers.classCallCheck(this, IssueVersion);
-    return babelHelpers.possibleConstructorReturn(this, (IssueVersion.__proto__ || Object.getPrototypeOf(IssueVersion)).apply(this, arguments));
-  }
-
-  babelHelpers.createClass(IssueVersion, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'span',
-        { className: 'tag bg-success' },
-        this.props.version
-      );
-    }
-  }]);
-  return IssueVersion;
-}(_react.Component);
-
-IssueVersion.propTypes = {
-  version: _propTypes.string.isRequired
-};
-exports.default = IssueVersion;
-
-/***/ }),
-/* 69 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _react = __webpack_require__(0);
-
-var _react2 = babelHelpers.interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(1);
-
-var IssuePriority = function (_Component) {
-  babelHelpers.inherits(IssuePriority, _Component);
-
-  function IssuePriority() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
-    babelHelpers.classCallCheck(this, IssuePriority);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = IssuePriority.__proto__ || Object.getPrototypeOf(IssuePriority)).call.apply(_ref, [this].concat(args))), _this), _this.priorityToLabel = {
-      400: 'Critical',
-      300: 'Major',
-      200: 'Normal',
-      100: 'Minor'
-    }, _this.priorityToClass = {
-      400: 'danger',
-      300: 'warning',
-      200: 'info',
-      100: 'active'
-    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
-  }
-
-  babelHelpers.createClass(IssuePriority, [{
-    key: 'render',
-    value: function render() {
-      var priority = this.props.priority;
-
-      return _react2.default.createElement(
-        'span',
-        { className: 'tag is-' + this.priorityToClass[priority] },
-        this.priorityToLabel[priority]
-      );
-    }
-  }]);
-  return IssuePriority;
-}(_react.Component);
-
-IssuePriority.propTypes = {
-  priority: _propTypes.number.isRequired
-};
-exports.default = IssuePriority;
-
-/***/ }),
-/* 70 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _react = __webpack_require__(0);
-
-var _react2 = babelHelpers.interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(1);
-
-var IssueCategory = function (_Component) {
-  babelHelpers.inherits(IssueCategory, _Component);
-
-  function IssueCategory() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
-    babelHelpers.classCallCheck(this, IssueCategory);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = IssueCategory.__proto__ || Object.getPrototypeOf(IssueCategory)).call.apply(_ref, [this].concat(args))), _this), _this.categoryToLabel = {
-      1: 'Bug',
-      2: 'Task',
-      3: 'Feature',
-      4: 'Support',
-      5: 'Plan'
-    }, _this.categoryToClass = {
-      1: 'danger',
-      2: 'info',
-      3: 'info',
-      4: 'active',
-      5: 'active'
-    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
-  }
-
-  babelHelpers.createClass(IssueCategory, [{
-    key: 'render',
-    value: function render() {
-      var category = this.props.category;
-
-      return _react2.default.createElement(
-        'span',
-        { className: 'tag is-' + this.categoryToClass[category] },
-        this.categoryToLabel[category]
-      );
-    }
-  }]);
-  return IssueCategory;
-}(_react.Component);
-
-IssueCategory.propTypes = {
-  category: _propTypes.number.isRequired
-};
-exports.default = IssueCategory;
-
-/***/ }),
-/* 71 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _react = __webpack_require__(0);
-
-var _react2 = babelHelpers.interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(1);
-
-var _url = __webpack_require__(5);
-
-var _url2 = babelHelpers.interopRequireDefault(_url);
-
-var _superagent = __webpack_require__(2);
-
-var _superagent2 = babelHelpers.interopRequireDefault(_superagent);
-
-var _superagentCache = __webpack_require__(4);
-
-var _superagentCache2 = babelHelpers.interopRequireDefault(_superagentCache);
-
-(0, _superagentCache2.default)(_superagent2.default);
-
-var IssueProject = function (_Component) {
-  babelHelpers.inherits(IssueProject, _Component);
-
-  function IssueProject() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
-    babelHelpers.classCallCheck(this, IssueProject);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = IssueProject.__proto__ || Object.getPrototypeOf(IssueProject)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      loaded: false,
-      label: _this.props.projectNid
-    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
-  }
-
-  babelHelpers.createClass(IssueProject, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      var nid = this.props.projectNid;
-      if (nid === '3060') {
-        this.setState({
-          label: 'Drupal'
-        });
-      } else {
-        var apiUrl = new _url2.default('node').addParameter('nid', nid);
-        _superagent2.default.get(apiUrl.getEndpointUrl()).end(function (err, _ref2) {
-          var body = _ref2.body;
-
-          _this2.setState({
-            loaded: true,
-            label: body.list[0].title
-          });
-        });
-      }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return this.state.loaded ? [_react2.default.createElement(
-        'span',
-        { className: 'tag is-default' },
-        this.state.label
-      )] : [];
-    }
-  }]);
-  return IssueProject;
-}(_react.Component);
-
-IssueProject.propTypes = {
-  projectNid: _propTypes.number.isRequired
-};
-exports.default = IssueProject;
 
 /***/ }),
 /* 72 */
@@ -7782,7 +7782,7 @@ var _reactRedux = __webpack_require__(3);
 
 var _redux = __webpack_require__(6);
 
-var _reducers = __webpack_require__(27);
+var _reducers = __webpack_require__(31);
 
 var _reducers2 = babelHelpers.interopRequireDefault(_reducers);
 
@@ -7800,7 +7800,7 @@ var _superagentCache2 = babelHelpers.interopRequireDefault(_superagentCache);
 
 var _utils = __webpack_require__(7);
 
-var _editButton = __webpack_require__(83);
+var _editButton = __webpack_require__(79);
 
 var _editButton2 = babelHelpers.interopRequireDefault(_editButton);
 
@@ -8134,21 +8134,21 @@ var _react2 = babelHelpers.interopRequireDefault(_react);
 
 var _propTypes = __webpack_require__(1);
 
-var _version = __webpack_require__(79);
-
-var _version2 = babelHelpers.interopRequireDefault(_version);
-
-var _priority = __webpack_require__(80);
-
-var _priority2 = babelHelpers.interopRequireDefault(_priority);
-
-var _category = __webpack_require__(81);
+var _category = __webpack_require__(27);
 
 var _category2 = babelHelpers.interopRequireDefault(_category);
 
-var _project = __webpack_require__(82);
+var _version = __webpack_require__(28);
+
+var _version2 = babelHelpers.interopRequireDefault(_version);
+
+var _project = __webpack_require__(30);
 
 var _project2 = babelHelpers.interopRequireDefault(_project);
+
+var _priority = __webpack_require__(29);
+
+var _priority2 = babelHelpers.interopRequireDefault(_priority);
 
 var Issue = function (_Component) {
   babelHelpers.inherits(Issue, _Component);
@@ -8259,274 +8259,6 @@ exports.default = Issue;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
-
-var _react = __webpack_require__(0);
-
-var _react2 = babelHelpers.interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(1);
-
-var IssueVersion = function (_Component) {
-  babelHelpers.inherits(IssueVersion, _Component);
-
-  function IssueVersion() {
-    babelHelpers.classCallCheck(this, IssueVersion);
-    return babelHelpers.possibleConstructorReturn(this, (IssueVersion.__proto__ || Object.getPrototypeOf(IssueVersion)).apply(this, arguments));
-  }
-
-  babelHelpers.createClass(IssueVersion, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'span',
-        { className: 'tag bg-success' },
-        this.props.version
-      );
-    }
-  }]);
-  return IssueVersion;
-}(_react.Component);
-
-IssueVersion.propTypes = {
-  version: _propTypes.string.isRequired
-};
-exports.default = IssueVersion;
-
-/***/ }),
-/* 80 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _react = __webpack_require__(0);
-
-var _react2 = babelHelpers.interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(1);
-
-var IssuePriority = function (_Component) {
-  babelHelpers.inherits(IssuePriority, _Component);
-
-  function IssuePriority() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
-    babelHelpers.classCallCheck(this, IssuePriority);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = IssuePriority.__proto__ || Object.getPrototypeOf(IssuePriority)).call.apply(_ref, [this].concat(args))), _this), _this.priorityToLabel = {
-      400: 'Critical',
-      300: 'Major',
-      200: 'Normal',
-      100: 'Minor'
-    }, _this.priorityToClass = {
-      400: 'danger',
-      300: 'warning',
-      200: 'info',
-      100: 'active'
-    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
-  }
-
-  babelHelpers.createClass(IssuePriority, [{
-    key: 'render',
-    value: function render() {
-      var priority = this.props.priority;
-
-      return _react2.default.createElement(
-        'span',
-        { className: 'tag is-' + this.priorityToClass[priority] },
-        this.priorityToLabel[priority]
-      );
-    }
-  }]);
-  return IssuePriority;
-}(_react.Component);
-
-IssuePriority.propTypes = {
-  priority: _propTypes.number.isRequired
-};
-exports.default = IssuePriority;
-
-/***/ }),
-/* 81 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _react = __webpack_require__(0);
-
-var _react2 = babelHelpers.interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(1);
-
-var IssueCategory = function (_Component) {
-  babelHelpers.inherits(IssueCategory, _Component);
-
-  function IssueCategory() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
-    babelHelpers.classCallCheck(this, IssueCategory);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = IssueCategory.__proto__ || Object.getPrototypeOf(IssueCategory)).call.apply(_ref, [this].concat(args))), _this), _this.categoryToLabel = {
-      1: 'Bug',
-      2: 'Task',
-      3: 'Feature',
-      4: 'Support',
-      5: 'Plan'
-    }, _this.categoryToClass = {
-      1: 'danger',
-      2: 'info',
-      3: 'info',
-      4: 'active',
-      5: 'active'
-    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
-  }
-
-  babelHelpers.createClass(IssueCategory, [{
-    key: 'render',
-    value: function render() {
-      var category = this.props.category;
-
-      return _react2.default.createElement(
-        'span',
-        { className: 'tag is-' + this.categoryToClass[category] },
-        this.categoryToLabel[category]
-      );
-    }
-  }]);
-  return IssueCategory;
-}(_react.Component);
-
-IssueCategory.propTypes = {
-  category: _propTypes.number.isRequired
-};
-exports.default = IssueCategory;
-
-/***/ }),
-/* 82 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _react = __webpack_require__(0);
-
-var _react2 = babelHelpers.interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(1);
-
-var _url = __webpack_require__(5);
-
-var _url2 = babelHelpers.interopRequireDefault(_url);
-
-var _superagent = __webpack_require__(2);
-
-var _superagent2 = babelHelpers.interopRequireDefault(_superagent);
-
-var _superagentCache = __webpack_require__(4);
-
-var _superagentCache2 = babelHelpers.interopRequireDefault(_superagentCache);
-
-(0, _superagentCache2.default)(_superagent2.default);
-
-var IssueProject = function (_Component) {
-  babelHelpers.inherits(IssueProject, _Component);
-
-  function IssueProject() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
-    babelHelpers.classCallCheck(this, IssueProject);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = IssueProject.__proto__ || Object.getPrototypeOf(IssueProject)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-      loaded: false,
-      label: _this.props.projectNid
-    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
-  }
-
-  babelHelpers.createClass(IssueProject, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      var nid = this.props.projectNid;
-      if (nid === '3060') {
-        this.setState({
-          label: 'Drupal'
-        });
-      } else {
-        var apiUrl = new _url2.default('node').addParameter('nid', nid);
-        _superagent2.default.get(apiUrl.getEndpointUrl()).end(function (err, _ref2) {
-          var body = _ref2.body;
-
-          _this2.setState({
-            loaded: true,
-            label: body.list[0].title
-          });
-        });
-      }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return this.state.loaded ? [_react2.default.createElement(
-        'span',
-        { className: 'tag is-default' },
-        this.state.label
-      )] : [];
-    }
-  }]);
-  return IssueProject;
-}(_react.Component);
-
-IssueProject.propTypes = {
-  projectNid: _propTypes.number.isRequired
-};
-exports.default = IssueProject;
-
-/***/ }),
-/* 83 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 
 var _react = __webpack_require__(0);
 
@@ -8596,7 +8328,7 @@ EditButton.propTypes = {
 exports.default = EditButton;
 
 /***/ }),
-/* 84 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8610,11 +8342,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = babelHelpers.interopRequireDefault(_react);
 
-var _gravatar = __webpack_require__(85);
+var _gravatar = __webpack_require__(81);
 
 var _gravatar2 = babelHelpers.interopRequireDefault(_gravatar);
 
-var _myBoards = __webpack_require__(89);
+var _myBoards = __webpack_require__(85);
 
 var _myBoards2 = babelHelpers.interopRequireDefault(_myBoards);
 
@@ -8704,7 +8436,7 @@ var UserProfile = function (_Component) {
 exports.default = UserProfile;
 
 /***/ }),
-/* 85 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8718,7 +8450,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = babelHelpers.interopRequireDefault(_react);
 
-var _queryString = __webpack_require__(86);
+var _queryString = __webpack_require__(82);
 
 var _queryString2 = babelHelpers.interopRequireDefault(_queryString);
 
@@ -8784,15 +8516,15 @@ Gravatar.defaultProps = {
 exports.default = Gravatar;
 
 /***/ }),
-/* 86 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var strictUriEncode = __webpack_require__(87);
+var strictUriEncode = __webpack_require__(83);
 var objectAssign = __webpack_require__(13);
-var decodeComponent = __webpack_require__(88);
+var decodeComponent = __webpack_require__(84);
 
 function encoderForArrayFormat(opts) {
 	switch (opts.arrayFormat) {
@@ -8982,7 +8714,7 @@ exports.stringify = function (obj, opts) {
 };
 
 /***/ }),
-/* 87 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8995,7 +8727,7 @@ module.exports = function (str) {
 };
 
 /***/ }),
-/* 88 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9096,7 +8828,7 @@ module.exports = function (encodedURI) {
 };
 
 /***/ }),
-/* 89 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9244,7 +8976,7 @@ MyBoards.propTypes = {
 exports.default = MyBoards;
 
 /***/ }),
-/* 90 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
