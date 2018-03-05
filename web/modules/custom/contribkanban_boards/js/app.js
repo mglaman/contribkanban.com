@@ -7523,7 +7523,7 @@ var AddBoard = function (_Component) {
     value: function validateMachineName() {
       var _this3 = this;
 
-      var machineName = this.state.machineName.toLowerCase();
+      var machineName = encodeURIComponent(this.state.machineName.toLowerCase());
       var apiUrl = new _url2.default('node').addParameter('field_project_machine_name', machineName);
       _superagent2.default.get(apiUrl.getEndpointUrl()).end(function (err, _ref) {
         var body = _ref.body;
@@ -7697,7 +7697,6 @@ var AddSprint = function (_Component) {
                   eventLabel: _this3.state.tag
                 });
               }
-              debugger;
               window.location.href = '' + baseUrl + body.url;
             }
           });
@@ -7837,19 +7836,23 @@ var NodeBoard = function (_Component) {
       var nids = JSON.parse(drupalSettings.board.nids);
       console.log(nids);
 
-      var apiUrl = new _url2.default('node');
+      var apiUrl = void 0;
       for (var i = 0; i < nids.length; i++) {
+        apiUrl = new _url2.default('node');
         apiUrl.addParameter('nid[]', nids[i]);
-      }
-      console.log(apiUrl.getEndpointUrl());
-      _superagent2.default.get(apiUrl.getEndpointUrl()).backgroundRefresh().end(function (err, _ref2) {
-        var body = _ref2.body;
+        console.log(apiUrl.getEndpointUrl());
+        _superagent2.default.get(apiUrl.getEndpointUrl()).backgroundRefresh().end(function (err, _ref2) {
+          var body = _ref2.body;
 
-        _this2.setState({
-          loaded: true,
-          issues: body.list
+          console.log(body);
+          _this2.setState(function (prevState) {
+            return {
+              loaded: true,
+              issues: [].concat(babelHelpers.toConsumableArray(prevState.issues), [body.list[0]])
+            };
+          });
         });
-      });
+      }
     }
   }, {
     key: "render",
@@ -7893,7 +7896,7 @@ var NodeBoard = function (_Component) {
               _react2.default.createElement(_list2.default, { label: "Needs Work", data: this.state.issues, statuses: [13] }),
               _react2.default.createElement(_list2.default, { label: "Needs Review", data: this.state.issues, statuses: [8] }),
               _react2.default.createElement(_list2.default, { label: "Reviewed & Tested", data: this.state.issues, statuses: [14, 15] }),
-              _react2.default.createElement(_list2.default, { label: "Fixed", data: this.state.issues, statuses: [2] })
+              _react2.default.createElement(_list2.default, { label: "Fixed", data: this.state.issues, statuses: [2, 7] })
             )
           )
         )

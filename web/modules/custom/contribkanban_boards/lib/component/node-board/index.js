@@ -27,20 +27,22 @@ class NodeBoard extends Component {
     const nids = JSON.parse(drupalSettings.board.nids);
     console.log(nids);
 
-    const apiUrl = new ApiUrl('node');
+    let apiUrl;
     for (let i = 0; i < nids.length; i++) {
+      apiUrl = new ApiUrl('node');
       apiUrl.addParameter('nid[]', nids[i]);
-    }
-    console.log(apiUrl.getEndpointUrl());
-    superagent
-      .get(apiUrl.getEndpointUrl())
-      .backgroundRefresh()
-      .end((err, { body }) => {
-        this.setState({
-          loaded: true,
-          issues: body.list,
+      console.log(apiUrl.getEndpointUrl());
+      superagent
+        .get(apiUrl.getEndpointUrl())
+        .backgroundRefresh()
+        .end((err, { body }) => {
+          console.log(body);
+          this.setState(prevState => ({
+            loaded: true,
+            issues: [...prevState.issues, body.list[0]],
+          }))
         })
-      })
+    }
   }
   render() {
     const uuid = drupalSettings.board.uuid;
@@ -67,7 +69,7 @@ class NodeBoard extends Component {
               <List label="Needs Work" data={this.state.issues} statuses={[13]}/>
               <List label="Needs Review" data={this.state.issues} statuses={[8]}/>
               <List label="Reviewed & Tested" data={this.state.issues} statuses={[14,15]}/>
-              <List label="Fixed" data={this.state.issues} statuses={[2]}/>
+              <List label="Fixed" data={this.state.issues} statuses={[2,7]}/>
             </div>
           </div>
         </div>
