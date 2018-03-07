@@ -9196,6 +9196,10 @@ var _inputTags = __webpack_require__(89);
 
 var _inputTags2 = babelHelpers.interopRequireDefault(_inputTags);
 
+var _listControl = __webpack_require__(90);
+
+var _listControl2 = babelHelpers.interopRequireDefault(_listControl);
+
 var CreateBoardForm = function (_Component) {
   babelHelpers.inherits(CreateBoardForm, _Component);
 
@@ -9204,12 +9208,47 @@ var CreateBoardForm = function (_Component) {
 
     var _this = babelHelpers.possibleConstructorReturn(this, (CreateBoardForm.__proto__ || Object.getPrototypeOf(CreateBoardForm)).call(this, props));
 
+    _this.defaultLists = [{
+      "title": "Postponed",
+      "statuses": [4, 16],
+      "tags": [],
+      "parentIssue": ""
+    }, {
+      "title": "Active",
+      "statuses": [1],
+      "tags": [],
+      "parentIssue": ""
+    }, {
+      "title": "Needs Work",
+      "statuses": [13],
+      "tags": [],
+      "parentIssue": ""
+    }, {
+      "title": "Needs Review",
+      "statuses": [8],
+      "tags": [],
+      "parentIssue": ""
+    }, {
+      "title": "Reviewed & Tested",
+      "statuses": [14, 15],
+      "tags": [],
+      "parentIssue": ""
+    }, {
+      "title": "Fixed",
+      "statuses": [2],
+      "tags": [],
+      "parentIssue": ""
+    }];
+
     _this.state = {
       processing: false,
       projectType: '',
+      parentIssue: '',
       filterByProject: false,
       filterByTag: false,
-      boardName: ''
+      filterByParentIssue: false,
+      boardName: '',
+      lists: _this.defaultLists
     };
     _this.onBoardTypeChange = _this.onBoardTypeChange.bind(_this);
     return _this;
@@ -9249,10 +9288,26 @@ var CreateBoardForm = function (_Component) {
             { className: "columns" },
             _react2.default.createElement(
               "div",
-              { className: "column is-one-quarter" },
+              { className: "column is-4" },
               _react2.default.createElement(
                 "div",
                 { className: "box" },
+                _react2.default.createElement(
+                  "div",
+                  { className: "field" },
+                  _react2.default.createElement(
+                    "label",
+                    { className: "label sr-only" },
+                    "Board name"
+                  ),
+                  _react2.default.createElement(
+                    "div",
+                    { className: "control" },
+                    _react2.default.createElement("input", { className: "input", type: "text", value: this.state.boardName, onChange: function onChange(e) {
+                        return _this2.setState({ boardName: e.target.value });
+                      }, placeholder: "Board name" })
+                  )
+                ),
                 _react2.default.createElement(
                   "div",
                   { className: "field" },
@@ -9284,6 +9339,11 @@ var CreateBoardForm = function (_Component) {
                     )
                   )
                 ),
+                this.state.filterByProject ? [_react2.default.createElement(
+                  "div",
+                  { className: "" },
+                  _react2.default.createElement(_inputProjects2.default, null)
+                )] : [],
                 _react2.default.createElement(
                   "div",
                   { className: "field" },
@@ -9304,6 +9364,11 @@ var CreateBoardForm = function (_Component) {
                       " Tags"
                     )
                   ),
+                  this.state.filterByTag ? [_react2.default.createElement(
+                    "div",
+                    { className: "" },
+                    _react2.default.createElement(_inputTags2.default, null)
+                  )] : [],
                   _react2.default.createElement(
                     "div",
                     { className: "control" },
@@ -9330,10 +9395,25 @@ var CreateBoardForm = function (_Component) {
                     _react2.default.createElement(
                       "label",
                       { className: "checkbox" },
-                      _react2.default.createElement("input", { type: "checkbox", name: "filterByParent" }),
+                      _react2.default.createElement("input", { type: "checkbox", name: "filterByParent", onChange: function onChange() {
+                          _this2.setState({ filterByParentIssue: !_this2.state.filterByParentIssue });
+                        } }),
                       " Parent issue"
                     )
                   ),
+                  this.state.filterByParentIssue ? [_react2.default.createElement(
+                    "div",
+                    { className: "control" },
+                    _react2.default.createElement("input", {
+                      placeholder: "Parent Node ID",
+                      className: "input",
+                      type: "text",
+                      value: this.state.parentIssue,
+                      onChange: function onChange(event) {
+                        return _this2.setState({ parentIssue: event.target.value });
+                      }
+                    })
+                  )] : [],
                   _react2.default.createElement(
                     "div",
                     { className: "control" },
@@ -9345,6 +9425,15 @@ var CreateBoardForm = function (_Component) {
                     )
                   )
                 )
+              ),
+              _react2.default.createElement(
+                "div",
+                { className: "control" },
+                _react2.default.createElement(
+                  "button",
+                  { className: "is-primary is-large button " + (this.state.processing ? ['is-loading'] : []), disabled: this.isSubmitDisabled() },
+                  "Submit"
+                )
               )
             ),
             _react2.default.createElement(
@@ -9352,43 +9441,11 @@ var CreateBoardForm = function (_Component) {
               { className: "column" },
               _react2.default.createElement(
                 "div",
-                { className: "field" },
-                _react2.default.createElement(
-                  "label",
-                  { className: "label" },
-                  "Title"
-                ),
-                _react2.default.createElement(
-                  "div",
-                  { className: "control" },
-                  _react2.default.createElement("input", { className: "input", type: "text", value: this.state.boardName, onChange: function onChange(e) {
-                      return _this2.setState({ boardName: e.target.value });
-                    } })
-                )
-              ),
-              _react2.default.createElement(
-                "div",
-                { className: "columns is-multiline" },
-                this.state.filterByProject ? [_react2.default.createElement(
-                  "div",
-                  { className: "column is-one-quarter" },
-                  _react2.default.createElement(_inputProjects2.default, null)
-                )] : [],
-                this.state.filterByTag ? [_react2.default.createElement(
-                  "div",
-                  { className: "column is-one-quarter" },
-                  _react2.default.createElement(_inputTags2.default, null)
-                )] : []
+                null,
+                this.state.lists.map(function (item, _k) {
+                  return _react2.default.createElement(_listControl2.default, { config: item });
+                })
               )
-            )
-          ),
-          _react2.default.createElement(
-            "div",
-            { className: "control" },
-            _react2.default.createElement(
-              "button",
-              { className: "is-primary button " + (this.state.processing ? ['is-loading'] : []), disabled: this.isSubmitDisabled() },
-              "Submit"
             )
           )
         )
@@ -9443,10 +9500,10 @@ var InputProjects = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'field box' },
+        { className: 'field' },
         _react2.default.createElement(
           'label',
-          { className: 'label' },
+          { className: 'label sr-only' },
           'Projects'
         ),
         this.state.projects.map(function (node, id) {
@@ -9456,6 +9513,7 @@ var InputProjects = function (_Component) {
             _react2.default.createElement('input', {
               className: 'input',
               type: 'text',
+              placeholder: 'Project Node ID',
               value: node.nid,
               style: {
                 marginBottom: '10px'
@@ -9475,7 +9533,7 @@ var InputProjects = function (_Component) {
         _react2.default.createElement(
           'button',
           {
-            className: 'is-info button',
+            className: 'is-info button is-small',
             type: 'button',
             onClick: function onClick(e) {
               _this2.setState({
@@ -9536,10 +9594,10 @@ var InputTags = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'field box' },
+        { className: 'field' },
         _react2.default.createElement(
           'label',
-          { className: 'label' },
+          { className: 'label sr-only' },
           'Tags'
         ),
         this.state.tags.map(function (tag, id) {
@@ -9549,6 +9607,7 @@ var InputTags = function (_Component) {
             _react2.default.createElement('input', {
               className: 'input',
               type: 'text',
+              placeholder: 'Term ID',
               value: tag.tid,
               style: {
                 marginBottom: '10px'
@@ -9568,7 +9627,7 @@ var InputTags = function (_Component) {
         _react2.default.createElement(
           'button',
           {
-            className: 'is-info button',
+            className: 'is-info button is-small',
             type: 'button',
             onClick: function onClick(e) {
               _this2.setState({
@@ -9585,6 +9644,90 @@ var InputTags = function (_Component) {
 }(_react.Component);
 
 exports.default = InputTags;
+
+/***/ }),
+/* 90 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(1);
+
+var ListControl = function (_Component) {
+  babelHelpers.inherits(ListControl, _Component);
+
+  function ListControl() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    babelHelpers.classCallCheck(this, ListControl);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = ListControl.__proto__ || Object.getPrototypeOf(ListControl)).call.apply(_ref, [this].concat(args))), _this), _this.propTypes = {
+      config: _propTypes.object.isRequired
+    }, _this.statusMap = {
+      '1': 'Active',
+      '2': 'Fixed',
+      '8': 'Needs Review',
+      '13': 'Needs Work',
+      '14': 'RTBC',
+      '15': 'Patch (to be ported)',
+      '4': 'Postponed',
+      '16': 'Postponed (Needs more info)',
+      '7': 'Closed (Fixed)',
+      '3': 'Closed (Duplicate)',
+      '5': 'Closed (Won\'t Fix)',
+      '6': 'Closed (Works as designed)',
+      '18': 'Closed (Cannot Reproduce)'
+    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+  }
+
+  babelHelpers.createClass(ListControl, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var config = this.props.config;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'box' },
+        _react2.default.createElement(
+          'h4',
+          null,
+          config.title
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'tags' },
+          config.statuses.map(function (status) {
+            return _react2.default.createElement(
+              'span',
+              { className: 'tag' },
+              _this2.statusMap[status]
+            );
+          })
+        )
+      );
+    }
+  }]);
+  return ListControl;
+}(_react.Component);
+
+exports.default = ListControl;
 
 /***/ })
 /******/ ]);

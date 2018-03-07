@@ -9,13 +9,14 @@ class InputProjects extends Component {
   };
   render() {
     return(
-      <div className="field box">
-        <label className="label">Projects</label>
+      <div className="field">
+        <label className="label sr-only">Projects</label>
         {this.state.projects.map((node, id) => (
           <div className="control">
             <input
               className="input"
               type="text"
+              placeholder="Project Node ID"
               value={node.nid}
               style={{
                 marginBottom: '10px'
@@ -33,7 +34,7 @@ class InputProjects extends Component {
           </div>
         ))}
         <button
-          className="is-info button"
+          className="is-info button is-small"
           type="button"
           onClick={(e) => {
             this.setState({
