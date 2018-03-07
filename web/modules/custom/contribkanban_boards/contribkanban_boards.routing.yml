@@ -6,3 +6,11 @@ entity.board.version:
     version: ''
   requirements:
     _entity_access: 'board.view'
+
+entity.board.create_react_form:
+  path: '/create/board'
+  defaults:
+    _controller: '\Drupal\contribkanban_boards\Controller\CreateForm::form'
+    _title: 'Create a new board'
+  requirements:
+    _access: 'TRUE'

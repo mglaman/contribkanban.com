@@ -3178,6 +3178,10 @@ var _nodeBoardForm = __webpack_require__(86);
 
 var _nodeBoardForm2 = babelHelpers.interopRequireDefault(_nodeBoardForm);
 
+var _createBoardForm = __webpack_require__(87);
+
+var _createBoardForm2 = babelHelpers.interopRequireDefault(_createBoardForm);
+
 if (document.getElementById('Board')) {
   // @todo move into component?
   var resizeTimer = void 0;
@@ -3218,6 +3222,10 @@ if (document.getElementById('UserProfile')) {
 
 if (document.getElementById('NodeBoardAddForm')) {
   (0, _reactDom.render)(_react2.default.createElement(_nodeBoardForm2.default, null), document.getElementById('NodeBoardAddForm'));
+}
+
+if (document.getElementById('CreateBoardForm')) {
+  (0, _reactDom.render)(_react2.default.createElement(_createBoardForm2.default, null), document.getElementById('CreateBoardForm'));
 }
 
 /***/ }),
@@ -9164,6 +9172,419 @@ var NodeBoardForm = function (_Component) {
 }(_react.Component);
 
 exports.default = NodeBoardForm;
+
+/***/ }),
+/* 87 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _inputProjects = __webpack_require__(88);
+
+var _inputProjects2 = babelHelpers.interopRequireDefault(_inputProjects);
+
+var _inputTags = __webpack_require__(89);
+
+var _inputTags2 = babelHelpers.interopRequireDefault(_inputTags);
+
+var CreateBoardForm = function (_Component) {
+  babelHelpers.inherits(CreateBoardForm, _Component);
+
+  function CreateBoardForm(props) {
+    babelHelpers.classCallCheck(this, CreateBoardForm);
+
+    var _this = babelHelpers.possibleConstructorReturn(this, (CreateBoardForm.__proto__ || Object.getPrototypeOf(CreateBoardForm)).call(this, props));
+
+    _this.state = {
+      processing: false,
+      projectType: '',
+      filterByProject: false,
+      filterByTag: false,
+      boardName: ''
+    };
+    _this.onBoardTypeChange = _this.onBoardTypeChange.bind(_this);
+    return _this;
+  }
+
+  babelHelpers.createClass(CreateBoardForm, [{
+    key: "isSubmitDisabled",
+    value: function isSubmitDisabled() {
+      return this.state.processing === true || this.state.projectType.length < 'drupalorg_'.length;
+    }
+  }, {
+    key: "onBoardTypeChange",
+    value: function onBoardTypeChange(event) {
+      this.setState({
+        projectType: event.target.value,
+        filterByProject: event.target.value === 'drupalorg_custom'
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        "div",
+        { className: "container" },
+        _react2.default.createElement(
+          "h1",
+          { className: "is-size-4" },
+          "Add a new board"
+        ),
+        _react2.default.createElement(
+          "form",
+          null,
+          _react2.default.createElement(
+            "div",
+            { className: "columns" },
+            _react2.default.createElement(
+              "div",
+              { className: "column is-one-quarter" },
+              _react2.default.createElement(
+                "div",
+                { className: "box" },
+                _react2.default.createElement(
+                  "div",
+                  { className: "field" },
+                  _react2.default.createElement(
+                    "div",
+                    { className: "control" },
+                    _react2.default.createElement(
+                      "div",
+                      { className: "select" },
+                      _react2.default.createElement(
+                        "select",
+                        { value: this.state.projectType, onChange: this.onBoardTypeChange },
+                        _react2.default.createElement(
+                          "option",
+                          { value: "" },
+                          "Type of board"
+                        ),
+                        _react2.default.createElement(
+                          "option",
+                          { value: "drupalorg_core" },
+                          "Drupal core"
+                        ),
+                        _react2.default.createElement(
+                          "option",
+                          { value: "drupalorg_custom" },
+                          "Custom"
+                        )
+                      )
+                    )
+                  )
+                ),
+                _react2.default.createElement(
+                  "div",
+                  { className: "field" },
+                  _react2.default.createElement(
+                    "label",
+                    { className: "label" },
+                    "Filters"
+                  ),
+                  _react2.default.createElement(
+                    "div",
+                    { className: "control" },
+                    _react2.default.createElement(
+                      "label",
+                      { className: "checkbox" },
+                      _react2.default.createElement("input", { type: "checkbox", name: "filterByTags", onChange: function onChange() {
+                          _this2.setState({ filterByTag: !_this2.state.filterByTag });
+                        } }),
+                      " Tags"
+                    )
+                  ),
+                  _react2.default.createElement(
+                    "div",
+                    { className: "control" },
+                    _react2.default.createElement(
+                      "label",
+                      { className: "checkbox" },
+                      _react2.default.createElement("input", { type: "checkbox", name: "filterByVersions" }),
+                      " Versions"
+                    )
+                  ),
+                  _react2.default.createElement(
+                    "div",
+                    { className: "control" },
+                    _react2.default.createElement(
+                      "label",
+                      { className: "checkbox" },
+                      _react2.default.createElement("input", { type: "checkbox", name: "filterByComponent" }),
+                      " Component"
+                    )
+                  ),
+                  _react2.default.createElement(
+                    "div",
+                    { className: "control" },
+                    _react2.default.createElement(
+                      "label",
+                      { className: "checkbox" },
+                      _react2.default.createElement("input", { type: "checkbox", name: "filterByParent" }),
+                      " Parent issue"
+                    )
+                  ),
+                  _react2.default.createElement(
+                    "div",
+                    { className: "control" },
+                    _react2.default.createElement(
+                      "label",
+                      { className: "checkbox" },
+                      _react2.default.createElement("input", { type: "checkbox", name: "filterByPriority" }),
+                      " Priority"
+                    )
+                  )
+                )
+              )
+            ),
+            _react2.default.createElement(
+              "div",
+              { className: "column" },
+              _react2.default.createElement(
+                "div",
+                { className: "field" },
+                _react2.default.createElement(
+                  "label",
+                  { className: "label" },
+                  "Title"
+                ),
+                _react2.default.createElement(
+                  "div",
+                  { className: "control" },
+                  _react2.default.createElement("input", { className: "input", type: "text", value: this.state.boardName, onChange: function onChange(e) {
+                      return _this2.setState({ boardName: e.target.value });
+                    } })
+                )
+              ),
+              _react2.default.createElement(
+                "div",
+                { className: "columns is-multiline" },
+                this.state.filterByProject ? [_react2.default.createElement(
+                  "div",
+                  { className: "column is-one-quarter" },
+                  _react2.default.createElement(_inputProjects2.default, null)
+                )] : [],
+                this.state.filterByTag ? [_react2.default.createElement(
+                  "div",
+                  { className: "column is-one-quarter" },
+                  _react2.default.createElement(_inputTags2.default, null)
+                )] : []
+              )
+            )
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "control" },
+            _react2.default.createElement(
+              "button",
+              { className: "is-primary button " + (this.state.processing ? ['is-loading'] : []), disabled: this.isSubmitDisabled() },
+              "Submit"
+            )
+          )
+        )
+      );
+    }
+  }]);
+  return CreateBoardForm;
+}(_react.Component);
+
+exports.default = CreateBoardForm;
+
+/***/ }),
+/* 88 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var InputProjects = function (_Component) {
+  babelHelpers.inherits(InputProjects, _Component);
+
+  function InputProjects() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    babelHelpers.classCallCheck(this, InputProjects);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = InputProjects.__proto__ || Object.getPrototypeOf(InputProjects)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      projects: [
+      // Provide a default empty text input.
+      { nid: '' }]
+    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+  }
+
+  babelHelpers.createClass(InputProjects, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'field box' },
+        _react2.default.createElement(
+          'label',
+          { className: 'label' },
+          'Projects'
+        ),
+        this.state.projects.map(function (node, id) {
+          return _react2.default.createElement(
+            'div',
+            { className: 'control' },
+            _react2.default.createElement('input', {
+              className: 'input',
+              type: 'text',
+              value: node.nid,
+              style: {
+                marginBottom: '10px'
+              },
+              onChange: function onChange(e) {
+                var newNid = e.target.value;
+                _this2.setState({
+                  projects: _this2.state.projects.map(function (s, _id) {
+                    if (_id !== id) return s;
+                    return babelHelpers.extends({}, s, { nid: newNid });
+                  })
+                });
+              }
+            })
+          );
+        }),
+        _react2.default.createElement(
+          'button',
+          {
+            className: 'is-info button',
+            type: 'button',
+            onClick: function onClick(e) {
+              _this2.setState({
+                projects: _this2.state.projects.concat([{ nid: '' }])
+              });
+            }
+          },
+          'Add another'
+        )
+      );
+    }
+  }]);
+  return InputProjects;
+}(_react.Component);
+
+exports.default = InputProjects;
+
+/***/ }),
+/* 89 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var InputTags = function (_Component) {
+  babelHelpers.inherits(InputTags, _Component);
+
+  function InputTags() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
+    babelHelpers.classCallCheck(this, InputTags);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = InputTags.__proto__ || Object.getPrototypeOf(InputTags)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+      tags: [
+      // Provide a default empty text input.
+      { tid: '' }]
+    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+  }
+
+  babelHelpers.createClass(InputTags, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'field box' },
+        _react2.default.createElement(
+          'label',
+          { className: 'label' },
+          'Tags'
+        ),
+        this.state.tags.map(function (tag, id) {
+          return _react2.default.createElement(
+            'div',
+            { className: 'control' },
+            _react2.default.createElement('input', {
+              className: 'input',
+              type: 'text',
+              value: tag.tid,
+              style: {
+                marginBottom: '10px'
+              },
+              onChange: function onChange(e) {
+                var newNid = e.target.value;
+                _this2.setState({
+                  tags: _this2.state.tags.map(function (s, _id) {
+                    if (_id !== id) return s;
+                    return babelHelpers.extends({}, s, { tid: newNid });
+                  })
+                });
+              }
+            })
+          );
+        }),
+        _react2.default.createElement(
+          'button',
+          {
+            className: 'is-info button',
+            type: 'button',
+            onClick: function onClick(e) {
+              _this2.setState({
+                tags: _this2.state.tags.concat([{ tid: '' }])
+              });
+            }
+          },
+          'Add another'
+        )
+      );
+    }
+  }]);
+  return InputTags;
+}(_react.Component);
+
+exports.default = InputTags;
 
 /***/ })
 /******/ ]);
