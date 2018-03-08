@@ -9209,35 +9209,35 @@ var CreateBoardForm = function (_Component) {
     var _this = babelHelpers.possibleConstructorReturn(this, (CreateBoardForm.__proto__ || Object.getPrototypeOf(CreateBoardForm)).call(this, props));
 
     _this.defaultLists = [{
-      "title": "Postponed",
-      "statuses": [4, 16],
-      "tags": [],
-      "parentIssue": ""
+      title: "Postponed",
+      statuses: [4, 16],
+      tags: [],
+      parentIssue: ""
     }, {
-      "title": "Active",
-      "statuses": [1],
-      "tags": [],
-      "parentIssue": ""
+      title: "Active",
+      statuses: [1],
+      tags: [],
+      parentIssue: ""
     }, {
-      "title": "Needs Work",
-      "statuses": [13],
-      "tags": [],
-      "parentIssue": ""
+      title: "Needs Work",
+      statuses: [13],
+      tags: [],
+      parentIssue: ""
     }, {
-      "title": "Needs Review",
-      "statuses": [8],
-      "tags": [],
-      "parentIssue": ""
+      title: "Needs Review",
+      statuses: [8],
+      tags: [],
+      parentIssue: ""
     }, {
-      "title": "Reviewed & Tested",
-      "statuses": [14, 15],
-      "tags": [],
-      "parentIssue": ""
+      title: "Reviewed & Tested",
+      statuses: [14, 15],
+      tags: [],
+      parentIssue: ""
     }, {
-      "title": "Fixed",
-      "statuses": [2],
-      "tags": [],
-      "parentIssue": ""
+      title: "Fixed",
+      statuses: [2],
+      tags: [],
+      parentIssue: ""
     }];
 
     _this.state = {
@@ -9251,6 +9251,9 @@ var CreateBoardForm = function (_Component) {
       lists: _this.defaultLists
     };
     _this.onBoardTypeChange = _this.onBoardTypeChange.bind(_this);
+    _this.onTagChange = _this.onTagChange.bind(_this);
+    _this.onProjectChange = _this.onProjectChange.bind(_this);
+    _this.onSubmit = _this.onSubmit.bind(_this);
     return _this;
   }
 
@@ -9262,15 +9265,52 @@ var CreateBoardForm = function (_Component) {
   }, {
     key: "onBoardTypeChange",
     value: function onBoardTypeChange(event) {
+      var _this2 = this;
+
       this.setState({
         projectType: event.target.value,
         filterByProject: event.target.value === 'drupalorg_custom'
+      }, function () {
+        if (!_this2.state.filterByProject) {
+          _this2.onProjectChange([{ nid: '3060' }]);
+        } else {
+          _this2.onProjectChange([]);
+        }
       });
+    }
+  }, {
+    key: "onTagChange",
+    value: function onTagChange(data) {
+      this.setState({
+        lists: this.state.lists.map(function (s) {
+          return babelHelpers.extends({}, s, { tags: data });
+        })
+      });
+    }
+  }, {
+    key: "onProjectChange",
+    value: function onProjectChange(data) {
+      this.setState({
+        lists: this.state.lists.map(function (s) {
+          return babelHelpers.extends({}, s, { projectNid: data });
+        })
+      });
+    }
+  }, {
+    key: "onSubmit",
+    value: function onSubmit(event) {
+      event.preventDefault();
+      var board = {
+        type: this.state.projectType,
+        title: this.state.boardName,
+        lists: this.state.lists
+      };
+      debugger;
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _react2.default.createElement(
         "div",
@@ -9282,7 +9322,7 @@ var CreateBoardForm = function (_Component) {
         ),
         _react2.default.createElement(
           "form",
-          null,
+          { onSubmit: this.onSubmit },
           _react2.default.createElement(
             "div",
             { className: "columns" },
@@ -9304,8 +9344,8 @@ var CreateBoardForm = function (_Component) {
                     "div",
                     { className: "control" },
                     _react2.default.createElement("input", { className: "input", type: "text", value: this.state.boardName, onChange: function onChange(e) {
-                        return _this2.setState({ boardName: e.target.value });
-                      }, placeholder: "Board name" })
+                        return _this3.setState({ boardName: e.target.value });
+                      }, placeholder: "Board name", required: true })
                   )
                 ),
                 _react2.default.createElement(
@@ -9342,7 +9382,7 @@ var CreateBoardForm = function (_Component) {
                 this.state.filterByProject ? [_react2.default.createElement(
                   "div",
                   { className: "" },
-                  _react2.default.createElement(_inputProjects2.default, null)
+                  _react2.default.createElement(_inputProjects2.default, { onChange: this.onProjectChange })
                 )] : [],
                 _react2.default.createElement(
                   "div",
@@ -9359,7 +9399,7 @@ var CreateBoardForm = function (_Component) {
                       "label",
                       { className: "checkbox" },
                       _react2.default.createElement("input", { type: "checkbox", name: "filterByTags", onChange: function onChange() {
-                          _this2.setState({ filterByTag: !_this2.state.filterByTag });
+                          _this3.setState({ filterByTag: !_this3.state.filterByTag });
                         } }),
                       " Tags"
                     )
@@ -9367,7 +9407,7 @@ var CreateBoardForm = function (_Component) {
                   this.state.filterByTag ? [_react2.default.createElement(
                     "div",
                     { className: "" },
-                    _react2.default.createElement(_inputTags2.default, null)
+                    _react2.default.createElement(_inputTags2.default, { onChange: this.onTagChange })
                   )] : [],
                   _react2.default.createElement(
                     "div",
@@ -9396,7 +9436,7 @@ var CreateBoardForm = function (_Component) {
                       "label",
                       { className: "checkbox" },
                       _react2.default.createElement("input", { type: "checkbox", name: "filterByParent", onChange: function onChange() {
-                          _this2.setState({ filterByParentIssue: !_this2.state.filterByParentIssue });
+                          _this3.setState({ filterByParentIssue: !_this3.state.filterByParentIssue });
                         } }),
                       " Parent issue"
                     )
@@ -9410,7 +9450,12 @@ var CreateBoardForm = function (_Component) {
                       type: "text",
                       value: this.state.parentIssue,
                       onChange: function onChange(event) {
-                        return _this2.setState({ parentIssue: event.target.value });
+                        return _this3.setState({
+                          parentIssue: event.target.value,
+                          lists: _this3.state.lists.map(function (s) {
+                            return babelHelpers.extends({}, s, { parentIssue: event.target.value });
+                          })
+                        });
                       }
                     })
                   )] : [],
@@ -9475,25 +9520,27 @@ var _react2 = babelHelpers.interopRequireDefault(_react);
 var InputProjects = function (_Component) {
   babelHelpers.inherits(InputProjects, _Component);
 
-  function InputProjects() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
+  function InputProjects(_ref) {
+    var onChange = _ref.onChange;
     babelHelpers.classCallCheck(this, InputProjects);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+    var _this = babelHelpers.possibleConstructorReturn(this, (InputProjects.__proto__ || Object.getPrototypeOf(InputProjects)).call(this));
 
-    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = InputProjects.__proto__ || Object.getPrototypeOf(InputProjects)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+    _this.onChange = onChange;
+    _this.state = {
       projects: [
       // Provide a default empty text input.
       { nid: '' }]
-    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+    };
+    return _this;
   }
 
   babelHelpers.createClass(InputProjects, [{
+    key: 'changeHandler',
+    value: function changeHandler(e) {
+      this.onChange(e);
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -9525,6 +9572,8 @@ var InputProjects = function (_Component) {
                     if (_id !== id) return s;
                     return babelHelpers.extends({}, s, { nid: newNid });
                   })
+                }, function () {
+                  return _this2.changeHandler(_this2.state.projects);
                 });
               }
             })
@@ -9569,25 +9618,27 @@ var _react2 = babelHelpers.interopRequireDefault(_react);
 var InputTags = function (_Component) {
   babelHelpers.inherits(InputTags, _Component);
 
-  function InputTags() {
-    var _ref;
-
-    var _temp, _this, _ret;
-
+  function InputTags(_ref) {
+    var onChange = _ref.onChange;
     babelHelpers.classCallCheck(this, InputTags);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+    var _this = babelHelpers.possibleConstructorReturn(this, (InputTags.__proto__ || Object.getPrototypeOf(InputTags)).call(this));
 
-    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = InputTags.__proto__ || Object.getPrototypeOf(InputTags)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+    _this.onChange = onChange;
+    _this.state = {
       tags: [
       // Provide a default empty text input.
       { tid: '' }]
-    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+    };
+    return _this;
   }
 
   babelHelpers.createClass(InputTags, [{
+    key: 'changeHandler',
+    value: function changeHandler(e) {
+      this.onChange(e);
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -9619,6 +9670,8 @@ var InputTags = function (_Component) {
                     if (_id !== id) return s;
                     return babelHelpers.extends({}, s, { tid: newNid });
                   })
+                }, function () {
+                  return _this2.changeHandler(_this2.state.tags);
                 });
               }
             })

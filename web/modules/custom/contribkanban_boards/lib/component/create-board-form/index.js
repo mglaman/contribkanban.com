@@ -17,43 +17,46 @@ class CreateBoardForm extends Component {
       lists: this.defaultLists
     };
     this.onBoardTypeChange = this.onBoardTypeChange.bind(this);
+    this.onTagChange = this.onTagChange.bind(this);
+    this.onProjectChange = this.onProjectChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
   defaultLists = [
     {
-      "title": "Postponed",
-      "statuses": [4, 16],
-      "tags": [],
-      "parentIssue": ""
+      title: "Postponed",
+      statuses: [4, 16],
+      tags: [],
+      parentIssue: ""
     },
     {
-      "title": "Active",
-      "statuses": [1],
-      "tags": [],
-      "parentIssue": ""
+      title: "Active",
+      statuses: [1],
+      tags: [],
+      parentIssue: ""
     },
     {
-      "title": "Needs Work",
-      "statuses": [13],
-      "tags": [],
-      "parentIssue": ""
+      title: "Needs Work",
+      statuses: [13],
+      tags: [],
+      parentIssue: ""
     },
     {
-      "title": "Needs Review",
-      "statuses": [8],
-      "tags": [],
-      "parentIssue": ""
+      title: "Needs Review",
+      statuses: [8],
+      tags: [],
+      parentIssue: ""
     },
     {
-      "title": "Reviewed & Tested",
-      "statuses": [14,15],
-      "tags": [],
-      "parentIssue": ""
+      title: "Reviewed & Tested",
+      statuses: [14,15],
+      tags: [],
+      parentIssue: ""
     },
     {
-      "title": "Fixed",
-      "statuses": [2],
-      "tags": [],
-      "parentIssue": ""
+      title: "Fixed",
+      statuses: [2],
+      tags: [],
+      parentIssue: ""
     },
   ];
   isSubmitDisabled() {
@@ -63,20 +66,52 @@ class CreateBoardForm extends Component {
     this.setState({
       projectType: event.target.value,
       filterByProject: event.target.value === 'drupalorg_custom'
+    }, () => {
+      if (!this.state.filterByProject) {
+        this.onProjectChange([
+          {nid: '3060'}
+        ])
+      } else {
+        this.onProjectChange([])
+      }
     });
+  }
+  onTagChange(data) {
+    this.setState({
+      lists: this.state.lists.map((s) => {
+        return { ...s, tags: data};
+      }),
+    })
+  }
+  onProjectChange(data) {
+    this.setState({
+      lists: this.state.lists.map((s) => {
+        return { ...s, projectNid: data};
+      }),
+    })
+  }
+  onSubmit(event) {
+    event.preventDefault();
+    const board = {
+      type: this.state.projectType,
+      title: this.state.boardName,
+      lists: this.state.lists
+    };
+    debugger;
+
   }
   render() {
     return (
       <div className="container">
         <h1 className="is-size-4">Add a new board</h1>
-        <form>
+        <form onSubmit={this.onSubmit}>
           <div className="columns">
             <div className="column is-4">
               <div className="box">
                 <div className="field">
                   <label className="label sr-only">Board name</label>
                   <div className="control">
-                    <input className="input" type="text" value={this.state.boardName} onChange={(e) => this.setState({boardName: e.target.value})} placeholder="Board name"/>
+                    <input className="input" type="text" value={this.state.boardName} onChange={(e) => this.setState({boardName: e.target.value})} placeholder="Board name" required/>
                   </div>
                 </div>
                 <div className="field">
@@ -92,7 +127,7 @@ class CreateBoardForm extends Component {
                 </div>
                 {this.state.filterByProject ? [
                   <div className="">
-                    <InputProjects/>
+                    <InputProjects onChange={this.onProjectChange}/>
                   </div>
                 ] : []}
                 <div className="field">
@@ -104,7 +139,7 @@ class CreateBoardForm extends Component {
                   </div>
                   {this.state.filterByTag ? [
                     <div className="">
-                      <InputTags/>
+                      <InputTags onChange={this.onTagChange}/>
                     </div>
                   ] : []}
                   <div className="control">
@@ -129,7 +164,12 @@ class CreateBoardForm extends Component {
                         className="input"
                         type="text"
                         value={this.state.parentIssue}
-                        onChange={(event) => this.setState({parentIssue: event.target.value})}
+                        onChange={(event) => this.setState({
+                          parentIssue: event.target.value,
+                          lists: this.state.lists.map((s) => {
+                            return { ...s, parentIssue: event.target.value};
+                          }),
+                        })}
                       />
                     </div>
                   ] : []}

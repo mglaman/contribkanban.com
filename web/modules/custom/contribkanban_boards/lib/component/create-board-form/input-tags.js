@@ -1,14 +1,21 @@
 import React, {Component} from 'react';
 
 class InputTags extends Component {
-  state = {
-    tags: [
-      // Provide a default empty text input.
-      {tid: ''}
-    ],
-  };
+  constructor({ onChange }) {
+    super();
+    this.onChange = onChange;
+    this.state = {
+      tags: [
+        // Provide a default empty text input.
+        { tid: '' },
+      ],
+    };
+  }
+  changeHandler(e) {
+    this.onChange(e);
+  }
   render() {
-    return(
+    return (
       <div className="field">
         <label className="label sr-only">Tags</label>
         {this.state.tags.map((tag, id) => (
@@ -19,16 +26,16 @@ class InputTags extends Component {
               placeholder="Term ID"
               value={tag.tid}
               style={{
-                marginBottom: '10px'
+                marginBottom: '10px',
               }}
               onChange={(e) => {
                 const newNid = e.target.value;
                 this.setState({
                   tags: this.state.tags.map((s, _id) => {
                     if (_id !== id) return s;
-                    return { ...s, tid: newNid};
+                    return { ...s, tid: newNid };
                   }),
-                });
+                }, () => this.changeHandler(this.state.tags));
               }}
             />
           </div>

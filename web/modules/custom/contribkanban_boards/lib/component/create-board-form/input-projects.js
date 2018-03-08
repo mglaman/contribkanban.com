@@ -1,14 +1,21 @@
 import React, {Component} from 'react';
 
 class InputProjects extends Component {
-  state = {
-    projects: [
-      // Provide a default empty text input.
-      {nid: ''}
-    ],
-  };
+  constructor({ onChange }) {
+    super();
+    this.onChange = onChange;
+    this.state = {
+      projects: [
+        // Provide a default empty text input.
+        { nid: '' },
+      ],
+    };
+  }
+  changeHandler(e) {
+    this.onChange(e);
+  }
   render() {
-    return(
+    return (
       <div className="field">
         <label className="label sr-only">Projects</label>
         {this.state.projects.map((node, id) => (
@@ -26,9 +33,9 @@ class InputProjects extends Component {
                 this.setState({
                   projects: this.state.projects.map((s, _id) => {
                     if (_id !== id) return s;
-                    return { ...s, nid: newNid};
+                    return { ...s, nid: newNid };
                   }),
-                });
+                }, () => this.changeHandler(this.state.projects));
               }}
             />
           </div>
