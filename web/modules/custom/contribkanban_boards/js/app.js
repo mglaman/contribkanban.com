@@ -9229,7 +9229,7 @@ var NodeBoardForm = function (_Component) {
         if (!_this2.isEdit()) {
           request = _superagent2.default.post(baseUrl + 'entity/node_board');
         } else {
-          request = _superagent2.default.patch(baseUrl + '/node-board/' + _this2.state.board.uuid);
+          request = _superagent2.default.patch(baseUrl + 'node-board/' + _this2.state.board.uuid);
         }
         request.set('X-CSRF-Token', _this2.state.csrfToken).send(_this2.state.board).end(function (error, res) {
           if (res.statusCode === 200) {

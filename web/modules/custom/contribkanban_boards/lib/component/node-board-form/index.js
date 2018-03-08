@@ -25,7 +25,7 @@ class NodeBoardForm extends Component {
       if (!this.isEdit()) {
         request = superagent.post(`${baseUrl}entity/node_board`)
       } else {
-        request = superagent.patch(`${baseUrl}/node-board/${this.state.board.uuid}`)
+        request = superagent.patch(`${baseUrl}node-board/${this.state.board.uuid}`)
       }
       request
         .set('X-CSRF-Token', this.state.csrfToken)
