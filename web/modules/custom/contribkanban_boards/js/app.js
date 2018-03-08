@@ -9207,15 +9207,12 @@ var NodeBoardForm = function (_Component) {
     _this.state = {
       processing: false,
       error: false,
-      boardId: null,
+      board: drupalSettings.form.board,
       uid: drupalSettings.form.uid,
-      boardName: '',
-      nodes: [
-      // Provide a default empty text input.
-      { nid: '' }],
       csrfToken: drupalSettings.form.csrfToken
     };
     _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.onCollaborationChange = _this.onCollaborationChange.bind(_this);
     return _this;
   }
 
@@ -9228,40 +9225,36 @@ var NodeBoardForm = function (_Component) {
       this.setState({
         processing: true
       }, function () {
-        var entityObject = {
-          title: [{
-            value: _this2.state.boardName
-          }],
-          uid: [{
-            target_id: _this2.state.uid
-          }],
-          nids: _this2.state.nodes.map(function (node) {
-            return { value: node.nid };
-          })
-        };
-        if (_this2.state.boardId !== null) {
-          entityObject.board_id = [{
-            value: _this2.state.boardId
-          }];
+        var request = void 0;
+        if (!_this2.isEdit()) {
+          request = _superagent2.default.post(baseUrl + 'entity/node_board');
+        } else {
+          request = _superagent2.default.patch(baseUrl + '/node-board/' + _this2.state.board.uuid);
         }
-
-        console.log(entityObject);
-        _superagent2.default.post(baseUrl + 'entity/node_board').set('X-CSRF-Token', _this2.state.csrfToken).send(entityObject).end(function (error, res) {
-          if (res.statusCode === 201) {
-            var body = JSON.parse(res.text);
-            ga('send', {
+        request.set('X-CSRF-Token', _this2.state.csrfToken).send(_this2.state.board).end(function (error, res) {
+          if (res.statusCode === 200) {
+            _this2.analytics({
               hitType: 'event',
-              eventCategory: 'Add Node Board',
+              eventCategory: 'Node Board',
+              eventAction: 'edit',
+              eventLabel: _this2.state.board.title
+            });
+            window.location.href = baseUrl + 'node-board/' + _this2.state.board.uuid;
+          } else if (res.statusCode === 201) {
+            var body = JSON.parse(res.text);
+            _this2.analytics({
+              hitType: 'event',
+              eventCategory: 'Node Board',
               eventAction: 'add',
-              eventLabel: _this2.state.boardName
+              eventLabel: _this2.state.board.title
             });
             window.location.href = baseUrl + 'node-board/' + body.uuid[0].value;
           } else {
-            ga('send', {
+            _this2.analytics({
               hitType: 'event',
               eventCategory: 'Add Node Board',
               eventAction: 'error',
-              eventLabel: error
+              eventLabel: 'error'
             });
             console.log(error);
             console.log(res);
@@ -9271,89 +9264,243 @@ var NodeBoardForm = function (_Component) {
       });
     }
   }, {
+    key: 'analytics',
+    value: function analytics(data) {
+      if (typeof ga !== 'undefined') {
+        ga('send', data);
+      }
+    }
+  }, {
+    key: 'getTitle',
+    value: function getTitle() {
+      return this.isEdit() ? 'Edit board' : 'Add new board';
+    }
+  }, {
+    key: 'isEdit',
+    value: function isEdit() {
+      return this.state.board.board_id !== null;
+    }
+  }, {
+    key: 'canEdit',
+    value: function canEdit() {
+      return parseInt(this.state.uid) === parseInt(this.state.board.uid);
+    }
+  }, {
+    key: 'onCollaborationChange',
+    value: function onCollaborationChange(event) {
+      this.setState({
+        board: babelHelpers.extends({}, this.state.board, {
+          collaboration: event.target.value
+        })
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this3 = this;
 
       return _react2.default.createElement(
-        'form',
-        { onSubmit: this.handleSubmit },
+        'div',
+        { className: 'columns' },
         _react2.default.createElement(
           'div',
-          { className: 'box' },
+          { className: 'column is-8 is-offset-2' },
           _react2.default.createElement(
-            'h1',
-            { className: 'is-size-4' },
-            'Add new node board'
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'field' },
-            _react2.default.createElement(
-              'label',
-              { className: 'label' },
-              'Title'
-            ),
+            'form',
+            { onSubmit: this.handleSubmit },
             _react2.default.createElement(
               'div',
-              { className: 'control' },
-              _react2.default.createElement('input', { className: 'input', type: 'text', value: this.state.boardName, onChange: function onChange(e) {
-                  return _this3.setState({ boardName: e.target.value });
-                } })
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'field' },
-            _react2.default.createElement(
-              'label',
-              { className: 'label' },
-              'Issue node IDs'
-            ),
-            this.state.nodes.map(function (node, id) {
-              return _react2.default.createElement(
+              { className: '' },
+              _react2.default.createElement(
+                'h1',
+                { className: 'title' },
+                this.getTitle()
+              ),
+              _react2.default.createElement(
                 'div',
-                { className: 'control' },
-                _react2.default.createElement('input', {
-                  className: 'input',
-                  type: 'text',
-                  value: node.nid,
-                  style: {
-                    marginBottom: '10px'
-                  },
-                  onChange: function onChange(e) {
-                    var newNid = e.target.value;
-                    _this3.setState({
-                      nodes: _this3.state.nodes.map(function (s, _id) {
-                        if (_id !== id) return s;
-                        return babelHelpers.extends({}, s, { nid: newNid });
-                      })
-                    });
-                  }
-                })
-              );
-            }),
-            _react2.default.createElement(
-              'button',
-              {
-                className: 'is-info button',
-                type: 'button',
-                onClick: function onClick(e) {
-                  _this3.setState({
-                    nodes: _this3.state.nodes.concat([{ nid: '' }])
-                  });
-                }
-              },
-              'Add another'
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'control' },
-            _react2.default.createElement(
-              'button',
-              { className: 'is-primary button ' + (this.state.processing ? ['is-loading'] : []) },
-              'Submit'
+                { className: 'columns', style: { marginBottom: '1em' } },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'column is-4' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'box' },
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'field' },
+                      _react2.default.createElement(
+                        'label',
+                        { className: 'label sr-only' },
+                        'Title'
+                      ),
+                      _react2.default.createElement(
+                        'div',
+                        { className: 'control' },
+                        _react2.default.createElement('input', {
+                          className: 'input',
+                          type: 'text',
+                          placeholder: 'Board name',
+                          required: true,
+                          disabled: !this.canEdit() && this.isEdit(),
+                          readOnly: !this.canEdit() && this.isEdit(),
+                          value: this.state.board.title,
+                          onChange: function onChange(e) {
+                            return _this3.setState({
+                              board: babelHelpers.extends({}, _this3.state.board, {
+                                title: e.target.value
+                              })
+                            });
+                          }
+                        })
+                      )
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'field' },
+                      _react2.default.createElement(
+                        'label',
+                        { className: 'has-text-weight-semibold' },
+                        'Collaboration'
+                      ),
+                      _react2.default.createElement(
+                        'div',
+                        { className: 'control' },
+                        _react2.default.createElement(
+                          'label',
+                          { className: 'radio' },
+                          _react2.default.createElement('input', {
+                            type: 'radio',
+                            value: 'private',
+                            checked: this.state.board.collaboration === 'private',
+                            onChange: this.onCollaborationChange,
+                            disabled: !this.canEdit() && this.isEdit(),
+                            readOnly: !this.canEdit() && this.isEdit(),
+                            style: { marginRight: '5' }
+                          }),
+                          _react2.default.createElement(
+                            'span',
+                            { className: 'is-small' },
+                            'Private: only accessible to you, when logged in'
+                          )
+                        )
+                      ),
+                      _react2.default.createElement(
+                        'div',
+                        { className: 'control' },
+                        _react2.default.createElement(
+                          'label',
+                          { className: 'radio' },
+                          _react2.default.createElement('input', {
+                            type: 'radio',
+                            value: 'shared',
+                            checked: this.state.board.collaboration === 'shared',
+                            onChange: this.onCollaborationChange,
+                            disabled: !this.canEdit() && this.isEdit(),
+                            readOnly: !this.canEdit() && this.isEdit(),
+                            style: { marginRight: '5' }
+                          }),
+                          _react2.default.createElement(
+                            'span',
+                            { className: 'is-small' },
+                            'Shared: only you may edit, but anyone can view via link access'
+                          )
+                        )
+                      ),
+                      _react2.default.createElement(
+                        'div',
+                        { className: 'control' },
+                        _react2.default.createElement(
+                          'label',
+                          { className: 'radio' },
+                          _react2.default.createElement('input', {
+                            type: 'radio',
+                            value: 'public',
+                            checked: this.state.board.collaboration === 'public',
+                            onChange: this.onCollaborationChange,
+                            disabled: !this.canEdit() && this.isEdit(),
+                            readOnly: !this.canEdit() && this.isEdit(),
+                            style: { marginRight: '5' }
+                          }),
+                          _react2.default.createElement(
+                            'span',
+                            { className: 'is-small' },
+                            'Public: anyone with the link can view and edit'
+                          )
+                        )
+                      )
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'control' },
+                      _react2.default.createElement(
+                        'button',
+                        {
+                          className: 'is-primary button ' + (this.state.processing ? ['is-loading'] : []),
+                          tabIndex: 100
+                        },
+                        'Submit'
+                      )
+                    )
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'column' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'box' },
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'field' },
+                      _react2.default.createElement(
+                        'label',
+                        { className: 'label sr-only' },
+                        'Issue node IDs'
+                      ),
+                      this.state.board.nids.map(function (node, id) {
+                        return _react2.default.createElement(
+                          'div',
+                          { className: 'control' },
+                          _react2.default.createElement('input', {
+                            className: 'input',
+                            type: 'text',
+                            placeholder: 'Issue node ID',
+                            value: node,
+                            style: {
+                              marginBottom: '10px'
+                            },
+                            required: _this3.state.board.nids.length === 1,
+                            onChange: function onChange(e) {
+                              var newNid = e.target.value;
+                              _this3.setState({
+                                board: babelHelpers.extends({}, _this3.state.board, {
+                                  nids: _this3.state.board.nids.map(function (s, _id) {
+                                    if (_id !== id) return s;
+                                    return newNid;
+                                  })
+                                })
+                              });
+                            }
+                          })
+                        );
+                      }),
+                      _react2.default.createElement(
+                        'button',
+                        {
+                          className: 'is-info button',
+                          type: 'button',
+                          onClick: function onClick(e) {
+                            _this3.setState({
+                              nodes: _this3.state.board.nids.push("")
+                            });
+                          }
+                        },
+                        'Add another issue'
+                      )
+                    )
+                  )
+                )
+              )
             )
           )
         )

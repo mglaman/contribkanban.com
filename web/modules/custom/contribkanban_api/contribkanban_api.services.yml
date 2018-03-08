@@ -15,3 +15,12 @@ services:
   drupalorg_tags:
     class: Drupal\contribkanban_api\Tags
     arguments: ['@drupalorg_client']
+
+  contribkanban_api.normalizer.field_item:
+    class: Drupal\contribkanban_api\Normalizer\FieldItemNormalizer
+    tags:
+      - { name: normalizer, priority: 8 }
+  contribkanban_api.normalizer.field:
+    class: Drupal\contribkanban_api\Normalizer\FieldNormalizer
+    tags:
+      - { name: normalizer, priority: 9 }

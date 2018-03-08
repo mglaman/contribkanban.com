@@ -12,8 +12,20 @@ contribkanban_pages.add_node_board:
     _controller: '\Drupal\contribkanban_pages\Controller\BoardsController::addNodeBoard'
     _title: 'Add node board'
   requirements:
-    _entity_access: 'user.update'
+    _entity_create_access: 'node_board'
     user: \d+
+contribkanban_pages.edit_node_board:
+  path: '/node-board/{node_board}/edit'
+  defaults:
+    _controller: '\Drupal\contribkanban_pages\Controller\BoardsController::editNodeBoard'
+    _title: 'Edit board'
+  requirements:
+    _entity_access: 'node_board.update'
+  options:
+    no_cache: 'TRUE'
+    parameters:
+      node_board:
+        type: 'entity:node_board'
 contribkanban_pages.user_issues_board:
   path: '/user/{user}/issues'
   defaults:
