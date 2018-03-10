@@ -192,7 +192,6 @@ body.toolbar-horizontal.toolbar-tray-open .app-sidebar {
   margin-bottom: 1em;
 }
 
-
 .is-vertical {
   flex-direction: column;
 }
@@ -209,4 +208,14 @@ body.toolbar-horizontal.toolbar-tray-open .app-sidebar {
 .board--filters .field {
   margin-bottom: 0;
   margin-right: 5px;
+}
+
+.pager {
+  margin: 15px 0;
+  text-align: center;
+}
+
+.pager__item {
+  display: inline-block;
+  margin: 0 5px;
 }
