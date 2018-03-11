@@ -157,6 +157,7 @@ class BoardList extends ContentEntityBase implements BoardListInterface {
     $fields['priority'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Priority'))
       ->setDescription(t('The issue priority'))
+      ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
         'type'   => 'priority_options',
