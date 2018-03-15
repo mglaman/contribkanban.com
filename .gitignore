@@ -25,3 +25,8 @@
 .DS_Store
 
 *.sqlite
+
+# Docker
+/docker/files/
+/docker/private/
+/docker/data/

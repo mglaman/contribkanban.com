@@ -2,7 +2,11 @@ version: '2'
 services:
   php:
     image: mglaman/platform-docker:7.1-fpm
+    links: [mariadb]
     working_dir: /app
+    volumes:
+      - './conf/fpm.conf:/usr/local/etc/php-fpm.conf'
+      - './conf/php.ini:/usr/local/etc/php/conf.d/local.ini'
     volumes_from:
       - app
       - files
@@ -18,6 +22,20 @@ services:
       - app
       - files
       - private
+  mariadb:
+    command: 'mysqld'
+    image: mariadb:10.2
+    ports: ['3306:3306']
+    volumes:
+      - './conf/mysql.cnf:/etc/mysql/my.cnf'
+    volumes_from:
+      - data
+    environment:
+      MYSQL_DATABASE: data
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: mysql
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_ROOT_PASSWORD: 'root'
   app:
     image: mglaman/contribkanban:latest
   private:
@@ -27,4 +45,8 @@ services:
   files:
     image: busybox:1
     volumes:
-      - ./data:/app/web/sites/default/files
+      - ./files:/app/web/sites/default/files
+  data:
+    image: busybox:1
+    volumes:
+      - ./data:/var/lib/mysql
