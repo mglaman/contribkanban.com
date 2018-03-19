@@ -9,7 +9,9 @@ If you want to know how to use it as replacement for
 [Drush Make](https://github.com/drush-ops/drush/blob/8.x/docs/make.md) visit
 the [Documentation on drupal.org](https://www.drupal.org/node/2471553).
 
-## Usage
+## Quick installation
+
+All of the necessary configuration to build the site is stored in the `config` directory. The easiest way to get it all running is to build it locally using Composer and Drush.
 
 First you need to [install composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx).
 
@@ -17,23 +19,28 @@ First you need to [install composer](https://getcomposer.org/doc/00-intro.md#ins
 You might need to replace `composer` with `php composer.phar` (or similar) 
 for your setup.
 
-After that you can create the project:
+After that all of the composer requirements need to be installed:
 
 ```
-composer create-project drupal-composer/drupal-project:8.x-dev some-dir --stability dev --no-interaction
+composer install
 ```
 
-With `composer require ...` you can download new dependencies to your 
-installation.
+Installing the ContribKanban site locally is easiest using sqlite:
 
 ```
-cd some-dir
+cd web
+drush site-install minimal --db-url="sqlite://../private/db.sqlite" --account-mail="youremail@example.com" --account-name="admin" --account-pass="test" --site-mail="webmaster@example.com" --site-name="Contrib Kanban"
+drush config-set "system.site" uuid "00e8f2dd-5bef-40ab-b9df-e9cb85db1b7d"
+drush config-import -y
+```
+
+Note: a local web server is still necessary.
+
+With `composer require ...` you can download new dependencies to your installation as normal:
+
+```
 composer require drupal/devel:~1.0
 ```
-
-The `composer create-project` command passes ownership of all files to the 
-project that is created. You should create a new git repository, and commit 
-all files not excluded by the .gitignore file.
 
 ## What does the template do?
 
