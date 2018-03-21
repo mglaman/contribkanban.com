@@ -16,7 +16,7 @@ All of the necessary configuration to build the site is stored in the `config` d
 First you need to [install composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx).
 
 > Note: The instructions below refer to the [global composer installation](https://getcomposer.org/doc/00-intro.md#globally).
-You might need to replace `composer` with `php composer.phar` (or similar) 
+You might need to replace `composer` with `php composer.phar` (or similar)
 for your setup.
 
 After that all of the composer requirements need to be installed:
@@ -25,17 +25,24 @@ After that all of the composer requirements need to be installed:
 composer install
 ```
 
-Installing the ContribKanban site locally is easiest using sqlite:
+By default, ContribKanban installs using a SQLite database located in the `private` directory. Running the following commands will install the database, import the application configuration, and let you get up and running:
 
-/Be sure to update the command to use the appropriate email addresses, username and password./
+_Be sure to update the command to use the appropriate email addresses, username and password._
+
 ```
 cd web
-drush site-install minimal --account-mail="youremail@example.com" --account-name="admin" --account-pass="test" --site-mail="webmaster@example.com" --site-name="Contrib Kanban"
-drush config-set "system.site" uuid "00e8f2dd-5bef-40ab-b9df-e9cb85db1b7d"
-drush config-import -y
+../bin/drush site-install minimal --account-mail="youremail@example.com" --account-name="admin" --account-pass="test"
+../bin/drush config-set "system.site" uuid "00e8f2dd-5bef-40ab-b9df-e9cb85db1b7d"
+../bin/drush config-import -y
 ```
 
-Note: a local web server is still necessary.
+**Note**: a local web server is still necessary.
+
+You can run the following command for a local development server.
+
+```
+./bin/robo run:server
+```
 
 With `composer require ...` you can download new dependencies to your installation as normal:
 
@@ -60,26 +67,26 @@ When installing the given `composer.json` some tasks are taken care of:
 
 ## Updating Drupal Core
 
-This project will attempt to keep all of your Drupal Core files up-to-date; the 
-project [drupal-composer/drupal-scaffold](https://github.com/drupal-composer/drupal-scaffold) 
-is used to ensure that your scaffold files are updated every time drupal/core is 
-updated. If you customize any of the "scaffolding" files (commonly .htaccess), 
-you may need to merge conflicts if any of your modified files are updated in a 
+This project will attempt to keep all of your Drupal Core files up-to-date; the
+project [drupal-composer/drupal-scaffold](https://github.com/drupal-composer/drupal-scaffold)
+is used to ensure that your scaffold files are updated every time drupal/core is
+updated. If you customize any of the "scaffolding" files (commonly .htaccess),
+you may need to merge conflicts if any of your modified files are updated in a
 new release of Drupal core.
 
 Follow the steps below to update your core files.
 
 1. Run `composer update drupal/core --with-dependencies` to update Drupal Core and its dependencies.
-1. Run `git diff` to determine if any of the scaffolding files have changed. 
-   Review the files for any changes and restore any customizations to 
+1. Run `git diff` to determine if any of the scaffolding files have changed.
+   Review the files for any changes and restore any customizations to
   `.htaccess` or `robots.txt`.
 1. Commit everything all together in a single commit, so `web` will remain in
    sync with the `core` when checking out branches or running `git bisect`.
-1. In the event that there are non-trivial conflicts in step 2, you may wish 
-   to perform these steps on a branch, and use `git merge` to combine the 
-   updated core files with your customized files. This facilitates the use 
-   of a [three-way merge tool such as kdiff3](http://www.gitshah.com/2010/12/how-to-setup-kdiff-as-diff-tool-for-git.html). This setup is not necessary if your changes are simple; 
-   keeping all of your modifications at the beginning or end of the file is a 
+1. In the event that there are non-trivial conflicts in step 2, you may wish
+   to perform these steps on a branch, and use `git merge` to combine the
+   updated core files with your customized files. This facilitates the use
+   of a [three-way merge tool such as kdiff3](http://www.gitshah.com/2010/12/how-to-setup-kdiff-as-diff-tool-for-git.html). This setup is not necessary if your changes are simple;
+   keeping all of your modifications at the beginning or end of the file is a
    good strategy to keep merges easy.
 
 ## Generate composer.json from existing project
@@ -93,7 +100,7 @@ that the generated `composer.json` might differ from this project's file.
 
 ### Should I commit the contrib modules I download?
 
-Composer recommends **no**. They provide [argumentation against but also 
+Composer recommends **no**. They provide [argumentation against but also
 workrounds if a project decides to do it anyway](https://getcomposer.org/doc/faqs/should-i-commit-the-dependencies-in-my-vendor-directory.md).
 
 ### Should I commit the scaffolding files?
@@ -119,11 +126,11 @@ achieve that by registering `@drupal-scaffold` as post-install and post-update c
 ```
 ### How can I apply patches to downloaded modules?
 
-If you need to apply patches (depending on the project being modified, a pull 
-request is often a better solution), you can do so with the 
+If you need to apply patches (depending on the project being modified, a pull
+request is often a better solution), you can do so with the
 [composer-patches](https://github.com/cweagans/composer-patches) plugin.
 
-To add a patch to drupal module foobar insert the patches section in the extra 
+To add a patch to drupal module foobar insert the patches section in the extra
 section of composer.json:
 ```json
 "extra": {
