@@ -27,9 +27,10 @@ composer install
 
 Installing the ContribKanban site locally is easiest using sqlite:
 
+/Be sure to update the command to use the appropriate email addresses, username and password./
 ```
 cd web
-drush site-install minimal --db-url="sqlite://../private/db.sqlite" --account-mail="youremail@example.com" --account-name="admin" --account-pass="test" --site-mail="webmaster@example.com" --site-name="Contrib Kanban"
+drush site-install minimal --account-mail="youremail@example.com" --account-name="admin" --account-pass="test" --site-mail="webmaster@example.com" --site-name="Contrib Kanban"
 drush config-set "system.site" uuid "00e8f2dd-5bef-40ab-b9df-e9cb85db1b7d"
 drush config-import -y
 ```
