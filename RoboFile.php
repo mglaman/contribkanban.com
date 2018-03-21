@@ -7,6 +7,20 @@
  */
 class RoboFile extends \Robo\Tasks {
 
+  public function setup() {
+    $installedLock = __DIR__ . '/private/installed.lock';
+    if (file_exists($installedLock)) {
+      $this->say('The application was already setup.');
+      return 0;
+    }
+
+    $this->drush(['si', '--account-pass=admin'], TRUE)->run();
+    $this->drush(['config-set', 'system.site', 'uuid', '00e8f2dd-5bef-40ab-b9df-e9cb85db1b7d'], TRUE)->run();
+    $this->drush('cim', TRUE)->run();
+
+    touch($installedLock);
+  }
+
   public function runServer() {
     $this->drush('rs')
       ->arg('8080')
@@ -33,6 +47,9 @@ class RoboFile extends \Robo\Tasks {
 
   protected function drush($command, $quiet = FALSE) {
     $task = $this->taskExec(__DIR__ . '/bin/drush');
+    if (!is_array($command)) {
+      $command = [$command];
+    }
     $task->arg($command);
     $task->rawArg(sprintf('-r %s/web', __DIR__));
     if ($quiet) {

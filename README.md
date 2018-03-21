@@ -9,7 +9,7 @@ If you want to know how to use it as replacement for
 [Drush Make](https://github.com/drush-ops/drush/blob/8.x/docs/make.md) visit
 the [Documentation on drupal.org](https://www.drupal.org/node/2471553).
 
-## Quick installation
+## Installation
 
 All of the necessary configuration to build the site is stored in the `config` directory. The easiest way to get it all running is to build it locally using Composer and Drush.
 
@@ -18,6 +18,15 @@ First you need to [install composer](https://getcomposer.org/doc/00-intro.md#ins
 > Note: The instructions below refer to the [global composer installation](https://getcomposer.org/doc/00-intro.md#globally).
 You might need to replace `composer` with `php composer.phar` (or similar)
 for your setup.
+
+### Installing the application
+
+```
+composer run setup
+./bin/robo run:server
+```
+
+### Installing, explicit
 
 After that all of the composer requirements need to be installed:
 
