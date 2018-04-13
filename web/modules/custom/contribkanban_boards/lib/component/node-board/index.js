@@ -69,7 +69,7 @@ class NodeBoard extends Component {
               <List label="Needs Work" data={this.state.issues} statuses={[13]}/>
               <List label="Needs Review" data={this.state.issues} statuses={[8]}/>
               <List label="Reviewed & Tested" data={this.state.issues} statuses={[14,15]}/>
-              <List label="Fixed" data={this.state.issues} statuses={[2,7]}/>
+              <List label="Fixed" data={this.state.issues} statuses={[2]}/>
             </div>
           </div>
         </div>
