@@ -7,6 +7,10 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
+      - run: sudo apt-get install -y libpng-dev
+      - run:
+          name: Install PHP Extensions
+          command: sudo docker-php-ext-install gd
       # Download and cache dependencies
       - restore_cache:
           keys:
