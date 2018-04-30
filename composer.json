@@ -55,7 +55,7 @@
         "apcu-autoloader": true,
         "sort-packages": true,
         "platform": {
-            "php": "7.1.16"
+            "php": "7.0.29"
         }
     },
     "autoload": {
