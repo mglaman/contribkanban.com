@@ -186,6 +186,8 @@ display:
           text: view
           entity_type: node_board
           plugin_id: entity_link
+          output_url_as_text: false
+          absolute: false
       filters: {  }
       sorts: {  }
       title: 'My boards'

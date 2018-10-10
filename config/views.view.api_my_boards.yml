@@ -218,7 +218,7 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          default_action: empty
+          default_action: 'access denied'
           exception:
             value: all
             title_enable: false
@@ -238,11 +238,16 @@ display:
             sort_order: asc
             number_of_records: 0
             format: default_summary
-          specify_validation: false
+          specify_validation: true
           validate:
-            type: none
-            fail: 'not found'
-          validate_options: {  }
+            type: 'entity:user'
+            fail: 'access denied'
+          validate_options:
+            access: true
+            operation: view
+            multiple: 0
+            restrict_roles: false
+            roles: {  }
           break_phrase: false
           not: false
           entity_type: node_board
