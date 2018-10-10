@@ -3,15 +3,18 @@
 namespace Drupal\contribkanban_pages\Controller;
 
 use Drupal\Component\Serialization\Json;
+use Drupal\contribkanban_boards\Entity\NodeBoard;
 use Drupal\contribkanban_pages\Form\AddSprintForm;
 use Drupal\contribkanban_pages\Form\SearchBoardsForm;
 use Drupal\Core\Access\CsrfRequestHeaderAccessCheck;
+use Drupal\Core\Access\CsrfTokenGenerator;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Render\Markup;
 use Drupal\user\UserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManager;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class BoardsController.
@@ -27,14 +30,25 @@ class BoardsController extends ControllerBase {
 
   protected $formBuilder;
 
+  protected $serializer;
+
+  protected $csrfToken;
+
   /**
    * Constructs a new BoardsController object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManager $entity_type_manager
    */
-  public function __construct(EntityTypeManager $entity_type_manager, FormBuilderInterface $form_builder) {
+  public function __construct(
+    EntityTypeManager $entity_type_manager,
+    FormBuilderInterface $form_builder,
+    SerializerInterface $serializer,
+    CsrfTokenGenerator $csrf_token_generator
+  ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->formBuilder = $form_builder;
+    $this->serializer = $serializer;
+    $this->csrfToken = $csrf_token_generator;
   }
 
   /**
@@ -43,7 +57,9 @@ class BoardsController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('entity_type.manager'),
-      $container->get('form_builder')
+      $container->get('form_builder'),
+      $container->get('serializer'),
+      $container->get('csrf_token')
     );
   }
 
@@ -66,12 +82,30 @@ class BoardsController extends ControllerBase {
   }
 
   public function addNodeBoard(UserInterface $user) {
+    /** @var \Drupal\contribkanban_boards\Entity\NodeBoard $node_board */
+    $node_board = NodeBoard::create();
+    $node_board->setOwner($user);
+    $node_board->get('nids')->appendItem('');
+    $data = $this->serializer->normalize($node_board, 'json');
+
     $build = [];
     $build['#attached']['library'][] = 'contribkanban_boards/app';
     $build['#attached']['drupalSettings']['form'] = [
+      'board' => $data,
       'uid' => $user->id(),
-      'nodes' => [],
-      'csrfToken' => \Drupal::csrfToken()->get(CsrfRequestHeaderAccessCheck::TOKEN_KEY),
+      'csrfToken' => $this->csrfToken->get(CsrfRequestHeaderAccessCheck::TOKEN_KEY),
+    ];
+    $build['output']['#markup'] = '<div id="NodeBoardAddForm"></div>';
+    return $build;
+  }
+  public function editNodeBoard(NodeBoard $node_board) {
+    $data = $this->serializer->normalize($node_board, 'json');
+    $build = [];
+    $build['#attached']['library'][] = 'contribkanban_boards/app';
+    $build['#attached']['drupalSettings']['form'] = [
+      'board' => $data,
+      'uid' => \Drupal::currentUser()->id(),
+      'csrfToken' => $this->csrfToken->get(CsrfRequestHeaderAccessCheck::TOKEN_KEY),
     ];
     $build['output']['#markup'] = '<div id="NodeBoardAddForm"></div>';
     return $build;

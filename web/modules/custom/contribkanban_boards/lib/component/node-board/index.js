@@ -27,19 +27,22 @@ class NodeBoard extends Component {
   componentDidMount() {
     const nids = JSON.parse(drupalSettings.board.nids);
 
-    const apiUrl = new ApiUrl('node');
+    let apiUrl;
     for (let i = 0; i < nids.length; i++) {
+      apiUrl = new ApiUrl('node');
       apiUrl.addParameter('nid[]', nids[i]);
-    }
-    superagent
-      .get(apiUrl.getEndpointUrl())
-      .backgroundRefresh()
-      .end((err, { body }) => {
-        this.setState({
-          loaded: true,
-          issues: body.list,
+      console.log(apiUrl.getEndpointUrl());
+      superagent
+        .get(apiUrl.getEndpointUrl())
+        .backgroundRefresh()
+        .end((err, { body }) => {
+          console.log(body);
+          this.setState(prevState => ({
+            loaded: true,
+            issues: [...prevState.issues, body.list[0]],
+          }))
         })
-      })
+    }
   }
   render() {
     const uuid = drupalSettings.board.uuid;

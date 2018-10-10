@@ -61,6 +61,9 @@ input {
   line-height: 24px;
   margin: 8px;
 }
+.board--list__items {
+  margin-bottom: 100px;
+}
 .board--list__item {
   margin: 8px;
   /*box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);*/
@@ -189,7 +192,6 @@ body.toolbar-horizontal.toolbar-tray-open .app-sidebar {
   margin-bottom: 1em;
 }
 
-
 .is-vertical {
   flex-direction: column;
 }
@@ -206,4 +208,14 @@ body.toolbar-horizontal.toolbar-tray-open .app-sidebar {
 .board--filters .field {
   margin-bottom: 0;
   margin-right: 5px;
+}
+
+.pager {
+  margin: 15px 0;
+  text-align: center;
+}
+
+.pager__item {
+  display: inline-block;
+  margin: 0 5px;
 }

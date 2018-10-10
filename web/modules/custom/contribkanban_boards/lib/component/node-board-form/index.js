@@ -9,61 +9,53 @@ class NodeBoardForm extends Component {
     this.state = {
       processing: false,
       error: false,
-      boardId: null,
+      board: drupalSettings.form.board,
       uid: drupalSettings.form.uid,
-      boardName: '',
-      nodes: [
-        // Provide a default empty text input.
-        {nid: ''},
-      ],
       csrfToken: drupalSettings.form.csrfToken,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onCollaborationChange = this.onCollaborationChange.bind(this);
   }
   handleSubmit(event) {
     event.preventDefault();
     this.setState({
       processing: true,
     }, () => {
-      const entityObject = {
-        title: [{
-          value: this.state.boardName
-        }],
-        uid: [{
-          target_id: this.state.uid,
-        }],
-        nids: this.state.nodes.map(node => {
-          return {value: node.nid}
-        })
-      };
-      if (this.state.boardId !== null) {
-        entityObject.board_id = [{
-          value: this.state.boardId
-        }];
+      let request;
+      if (!this.isEdit()) {
+        request = superagent.post(`${baseUrl}entity/node_board`)
+      } else {
+        request = superagent.patch(`${baseUrl}node-board/${this.state.board.uuid}`)
       }
-
-      console.log(entityObject);
-      superagent
-        .post(`${baseUrl}entity/node_board`)
+      request
         .set('X-CSRF-Token', this.state.csrfToken)
-        .send(entityObject)
+        .send(this.state.board)
         .end((error, res) => {
-          if (res.statusCode === 201) {
-            const body = JSON.parse(res.text);
-            ga('send', {
+          if (res.statusCode === 200) {
+            this.analytics({
               hitType: 'event',
-              eventCategory: 'Add Node Board',
+              eventCategory: 'Node Board',
+              eventAction: 'edit',
+              eventLabel: this.state.board.title
+            });
+            window.location.href = `${baseUrl}node-board/${this.state.board.uuid}`
+          }
+          else if (res.statusCode === 201) {
+            const body = JSON.parse(res.text);
+            this.analytics({
+              hitType: 'event',
+              eventCategory: 'Node Board',
               eventAction: 'add',
-              eventLabel: this.state.boardName
+              eventLabel: this.state.board.title
             });
             window.location.href = `${baseUrl}node-board/${body.uuid[0].value}`
           }
           else {
-            ga('send', {
+            this.analytics({
               hitType: 'event',
               eventCategory: 'Add Node Board',
               eventAction: 'error',
-              eventLabel: error
+              eventLabel: 'error'
             });
             console.log(error);
             console.log(res);
@@ -72,55 +64,154 @@ class NodeBoardForm extends Component {
         });
     });
   }
+  analytics(data) {
+    if (typeof ga !== 'undefined') {
+      ga('send', data);
+    }
+  }
+  getTitle() {
+    return this.isEdit() ? 'Edit board' : 'Add new board';
+  }
+  isEdit() { return this.state.board.board_id !== null }
+  canEdit() { return parseInt(this.state.uid) === parseInt(this.state.board.uid) }
+  onCollaborationChange(event) {
+    this.setState({
+      board: {
+        ...this.state.board,
+        collaboration: event.target.value
+      }
+    });
+  }
   render() {
     return(
-      <form onSubmit={this.handleSubmit}>
-        <div className="box">
-          <h1 className="is-size-4">Add new node board</h1>
-          <div className="field">
-            <label className="label">Title</label>
-            <div className="control">
-              <input className="input" type="text" value={this.state.boardName} onChange={(e) => this.setState({boardName: e.target.value})} />
-            </div>
-          </div>
-          <div className="field">
-            <label className="label">Issue node IDs</label>
-            {this.state.nodes.map((node, id) => (
-              <div className="control">
-                <input
-                  className="input"
-                  type="text"
-                  value={node.nid}
-                  style={{
-                    marginBottom: '10px'
-                  }}
-                  onChange={(e) => {
-                    const newNid = e.target.value;
-                    this.setState({
-                      nodes: this.state.nodes.map((s, _id) => {
-                        if (_id !== id) return s;
-                        return { ...s, nid: newNid};
-                      }),
-                    });
-                  }}
-                />
+      <div className="columns">
+        <div className="column is-8 is-offset-2">
+          <form onSubmit={this.handleSubmit}>
+            <div className="">
+              <h1 className="title">{this.getTitle()}</h1>
+              <div className="columns" style={{marginBottom: '1em'}}>
+                <div className="column is-4">
+                  <div className="box">
+                    <div className="field">
+                      <label className="label sr-only">Title</label>
+                      <div className="control">
+                        <input
+                          className="input"
+                          type="text"
+                          placeholder={`Board name`}
+                          required={true}
+                          disabled={!this.canEdit() && this.isEdit()}
+                          readOnly={!this.canEdit() && this.isEdit()}
+                          value={this.state.board.title}
+                          onChange={(e) => this.setState({
+                            board: {
+                              ...this.state.board,
+                              title: e.target.value
+                            }
+                          })}
+                        />
+                      </div>
+                    </div>
+                    <div className={`field`}>
+                      <label className={`has-text-weight-semibold`}>Collaboration</label>
+                      <div className={`control`}>
+                        <label className="radio">
+                          <input
+                            type="radio"
+                            value={`private`}
+                            checked={this.state.board.collaboration === 'private'}
+                            onChange={this.onCollaborationChange}
+                            disabled={!this.canEdit() && this.isEdit()}
+                            readOnly={!this.canEdit() && this.isEdit()}
+                            style={{marginRight: '5'}}
+                          />
+                          <span className={`is-small`}>Private: only accessible to you, when logged in</span>
+                        </label>
+                      </div>
+                      <div className={`control`}>
+                        <label className="radio">
+                          <input
+                            type="radio"
+                            value={`shared`}
+                            checked={this.state.board.collaboration === 'shared'}
+                            onChange={this.onCollaborationChange}
+                            disabled={!this.canEdit() && this.isEdit()}
+                            readOnly={!this.canEdit() && this.isEdit()}
+                            style={{marginRight: '5'}}
+                          />
+                          <span className={`is-small`}>Shared: only you may edit, but anyone can view via link access</span>
+                        </label>
+                      </div>
+                      <div className={`control`}>
+                        <label className="radio">
+                          <input
+                            type="radio"
+                            value={`public`}
+                            checked={this.state.board.collaboration === 'public'}
+                            onChange={this.onCollaborationChange}
+                            disabled={!this.canEdit() && this.isEdit()}
+                            readOnly={!this.canEdit() && this.isEdit()}
+                            style={{marginRight: '5'}}
+                          />
+                          <span className={`is-small`}>Public: anyone with the link can view and edit</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div className="control">
+                      <button
+                        className={`is-primary button ${this.state.processing ? ['is-loading'] : []}`}
+                        tabIndex={100}
+                      >Submit</button>
+                    </div>
+                  </div>
+                </div>
+                <div className="column">
+                  <div className={`box`}>
+                    <div className="field">
+                      <label className="label sr-only">Issue node IDs</label>
+                      {this.state.board.nids.map((node, id) => (
+                        <div className="control">
+                          <input
+                            className="input"
+                            type="text"
+                            placeholder={`Issue node ID`}
+                            value={node}
+                            style={{
+                              marginBottom: '10px'
+                            }}
+                            required={this.state.board.nids.length === 1}
+                            onChange={(e) => {
+                              const newNid = e.target.value;
+                              this.setState({
+                                board: {
+                                  ...this.state.board,
+                                  nids: this.state.board.nids.map((s, _id) => {
+                                    if (_id !== id) return s;
+                                    return newNid;
+                                  })
+                                },
+                              });
+                            }}
+                          />
+                        </div>
+                      ))}
+                      <button
+                        className="is-info button"
+                        type="button"
+                        onClick={(e) => {
+                          this.setState({
+                            nodes: this.state.board.nids.push(""),
+                          });
+                        }}
+                      >Add another issue</button>
+                    </div>
+                  </div>
+                </div>
               </div>
-            ))}
-            <button
-              className="is-info button"
-              type="button"
-              onClick={(e) => {
-                this.setState({
-                  nodes: this.state.nodes.concat([{ nid: '' }])
-                });
-              }}
-            >Add another</button>
-          </div>
-          <div className="control">
-            <button className={`is-primary button ${this.state.processing ? ['is-loading'] : []}`}>Submit</button>
-          </div>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     )
   }
 }
