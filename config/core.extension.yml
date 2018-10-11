@@ -17,6 +17,7 @@ module:
   field: 0
   filter: 0
   inline_entity_form: 0
+  jsonapi: 0
   layout_discovery: 0
   link: 0
   mailsystem: 0
