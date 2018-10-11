@@ -219,3 +219,12 @@ body.toolbar-horizontal.toolbar-tray-open .app-sidebar {
   display: inline-block;
   margin: 0 5px;
 }
+
+.bitcoin-tip {
+  font-family: monospace;
+}
+.bitcoin-tip .bitcoin-tip--address a {
+  font-size: 1.3rem;
+  border-bottom: 1px dotted;
+  word-break: break-all;
+}
