@@ -3,6 +3,7 @@
 namespace Drupal\contribkanban_boards\Entity;
 
 use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 
@@ -93,6 +94,25 @@ class BoardList extends ContentEntityBase implements BoardListInterface {
       $this->get('version')->appendItem($item->value);
     }
     return $this->get('version');
+  }
+
+  public function preSave(EntityStorageInterface $storage) {
+    if (!$this->get('tag')->isEmpty()) {
+      /** @var \Drupal\Core\Field\FieldItemListInterface $item */
+      foreach ($this->get('tag') as $delta => $item) {
+        if (!is_numeric($item->value)) {
+          // Look up the tag ID.
+          $tag = \Drupal::getContainer()->get('drupalorg_tags')->getTag($item->value);
+          if (empty($tag)) {
+            $this->get('tag')->removeItem($delta);
+          }
+          else {
+            $item->value = $tag['tid'];
+          }
+        }
+      }
+    }
+    parent::preSave($storage);
   }
 
   /**
