@@ -99,9 +99,7 @@ class List extends Component {
     return (
       <div className="board--list card is-flex is-vertical">
         <h2>
-          <span className="icon has-text-info board--list__refresh">
-            {this.state.loaded ? [] : [<i className="fa fa-circle-o-notch fa-spin fa-fw " />]}
-          </span>
+          {this.state.loaded ? [] : [<span className="icon has-text-info board--list__refresh"><i className="fa fa-circle-o-notch fa-spin fa-fw " /></span>]}
           {label} ({this.state.loaded ? [this.state.count] : []})</h2>
         <div>
           <div className="board--list__items">
