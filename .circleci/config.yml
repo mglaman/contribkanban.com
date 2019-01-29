@@ -41,7 +41,7 @@ jobs:
           name: Setup
           command: |
             ./bin/robo setup
-            ./bin/robo drush:cr
+            curl -I http://127.0.0.1:8080/
       - run:
           name: Install test dependencies
           command: |
