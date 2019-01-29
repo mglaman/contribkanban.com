@@ -1,7 +1,7 @@
 module.exports = {
   'add Paragraphs project' : function (browser) {
     browser
-      .url('http://127.0.0.1:8080/')
+      .url('http://127.0.0.1:8080')
       .waitForElementVisible('body', 1000);
     browser.setValue('input[placeholder="Project machine name"]', 'paragraphs')
       .click('#AddBoard button')
@@ -10,7 +10,7 @@ module.exports = {
   },
   'add Invalid project' : function (browser) {
     browser
-      .url('http://127.0.0.1:8080/')
+      .url('http://127.0.0.1:8080')
       .waitForElementVisible('body', 1000);
     browser
       .setValue('input[placeholder="Project machine name"]', 'some_fake_project')

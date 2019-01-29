@@ -39,7 +39,9 @@ jobs:
           background: true
       - run:
           name: Setup
-          command: ./bin/robo setup
+          command: |
+            ./bin/robo setup
+            ./bin/robo drush:cr
       - run:
           name: Install test dependencies
           command: |
@@ -49,7 +51,6 @@ jobs:
       - run:
           name: Test the code
           command: |
-            pwd
             cd tests
             ./node_modules/.bin/nightwatch
       - store_test_results:
