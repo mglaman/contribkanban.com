@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "test:nightwatch": "./node_modules/.bin/nightwatch --config ./nightwatch.conf.js"
+  },
+  "devDependencies": {
+    "nightwatch": "^1.0.18"
+  }
+}

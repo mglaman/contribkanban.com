@@ -1,27 +1,49 @@
 version: 2
+
+install_prestissimo: &install_prestissimo
+  name: Hirak
+  command: composer global require "hirak/prestissimo:^0.3"
+restore_cache: &restore_cache
+  keys:
+    - composer-{{ checksum "composer.json" }}
+    - composer-
+save_cache: &save_cache
+  paths:
+    - ./vendor
+    - ~/.composer/cache
+  key: composer-{{ checksum "composer.json" }}
+
 jobs:
   build:
     docker:
-      # specify the version you desire here
-      - image: circleci/php:7.0-browsers
+      - image: mglaman/ci-images:circleci-php7.2-browsers
     working_directory: ~/repo
     steps:
       - checkout
-      - run: sudo apt-get install -y libpng-dev
-      - run:
-          name: Install PHP Extensions
-          command: sudo docker-php-ext-install gd
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - composer-{{ checksum "composer.json" }}
-            - composer-
+      - restore_cache: *restore_cache
+      - run: *install_prestissimo
       - run: composer install -n --prefer-dist
-      - save_cache:
-          paths:
-            - ./vendor
-            - ~/.composer/cache
-          key: composer-{{ checksum "composer.json" }}
+      - save_cache: *save_cache
+      - run:
+          name: Disable xdebug
+          command: |
+            sudo sed -i 's/^zend_extension/;zend_extension/g' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - run:
+          name: Start server
+          command: ./bin/robo run:server
+          background: true
+      - run:
+          name: Setup
+          command: ./bin/robo setup
+      - run:
+          name: Test the code
+          command: |
+            cd tests
+            ./node_modules/.bin/nightwatch
+      - store_test_results:
+          path: tests/tests_output
+      - store_artifacts:
+          path: tests/screenshots
   deploy:
     docker:
       - image: williamyeh/ansible:ubuntu16.04

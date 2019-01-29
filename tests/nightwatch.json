@@ -1,0 +1,32 @@
+{
+  "src_folders": [
+    "features"
+  ],
+  "custom_commands_path": [
+    "commands"
+  ],
+  "webdriver": {
+    "start_process": true,
+    "server_path": "chromedriver",
+    "port": 9515
+  },
+  "test_settings": {
+    "default": {
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "chromeOptions": {
+          "args": [
+            "--headless",
+            "--no-sandbox"
+          ]
+        }
+      },
+      "screenshots": {
+        "enabled": true,
+        "on_failure": true,
+        "on_error": true,
+        "path": "screenshots"
+      }
+    }
+  }
+}

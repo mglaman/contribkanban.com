@@ -23,3 +23,10 @@
 /.idea/
 
 .DS_Store
+
+# /behat.yml
+/tests/failures
+/tests/node_modules
+/tests/chromedriver.log
+/tests/tests_output
+/tests/screenshots

@@ -70,9 +70,9 @@ class AddBoard extends Component {
               placeholder="Project machine name"
               className={`form-text required input ${this.state.error ? ['is-danger'] : []}`}
               required="required"
-              aria-required="true"
               onChange={(e) => this.setState({machineName: e.target.value})}
               disabled={this.state.processing}
+              aria-label={`Project machine name`}
             />
             <button
               type="submit"
