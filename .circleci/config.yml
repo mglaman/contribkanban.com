@@ -24,7 +24,7 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
-      - run: sudo apt update && sudo apt-get install -y libsqlite3-dev
+      - run: sudo apt update && sudo apt-get install -y sqlite3
       - restore_cache: *restore_cache
       - run: *install_prestissimo
       - run: composer install -n --prefer-dist
@@ -48,7 +48,10 @@ jobs:
       - save_cache: *save_yarn_cache
       - run:
           name: Test the code
-          command: ./node_modules/.bin/nightwatch
+          command: |
+            pwd
+            cd tests
+            ./node_modules/.bin/nightwatch
       - store_test_results:
           path: tests/tests_output
       - store_artifacts:
