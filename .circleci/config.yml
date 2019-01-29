@@ -25,6 +25,7 @@ jobs:
     <<: *defaults
     steps:
       - checkout
+      - run: sudo apt update && sudo apt-get install -y sqlite3
       - restore_cache: *restore_cache
       - run: *install_prestissimo
       - run: composer install -n --prefer-dist
