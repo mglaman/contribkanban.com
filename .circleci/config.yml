@@ -34,9 +34,12 @@ jobs:
           command: |
             sudo sed -i 's/^zend_extension/;zend_extension/g' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
       - run:
-          name: Start server
-          command: ./bin/robo run:server
+          name: Start builtin
+          command: php -S 127.0.0.1:8080 -t web
           background: true
+      - run:
+          name: Wait for DB
+          command: dockerize -wait http://127.0.0.1:8080 -timeout 120s
       - run:
           name: Setup
           command: |
