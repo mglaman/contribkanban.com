@@ -1,27 +1,64 @@
 version: 2
+
+defaults: &defaults
+  docker:
+    - image: mglaman/ci-images:circleci-php7.2-browsers
+  working_directory: ~/repo
+install_prestissimo: &install_prestissimo
+  name: Hirak
+  command: composer global require "hirak/prestissimo:^0.3"
+disable_xdebug: &disable_xdebug
+  name: Disable xdebug
+  command: sudo sed -i 's/^zend_extension/;zend_extension/g' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+restore_cache: &restore_cache
+  keys:
+    - composer-{{ checksum "composer.json" }}
+    - composer-
+save_cache: &save_cache
+  paths:
+    - ./vendor
+    - ~/.composer/cache
+  key: composer-{{ checksum "composer.json" }}
+
 jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/php:7.0-browsers
-    working_directory: ~/repo
+  behat:
+    <<: *defaults
     steps:
       - checkout
-      - run: sudo apt-get install -y libpng-dev
-      - run:
-          name: Install PHP Extensions
-          command: sudo docker-php-ext-install gd
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - composer-{{ checksum "composer.json" }}
-            - composer-
+      - run: sudo apt update && sudo apt-get install -y sqlite3
+      - restore_cache: *restore_cache
+      - run: *install_prestissimo
       - run: composer install -n --prefer-dist
-      - save_cache:
-          paths:
-            - ./vendor
-            - ~/.composer/cache
-          key: composer-{{ checksum "composer.json" }}
+      - save_cache: *save_cache
+      - run: *disable_xdebug
+
+      - run:
+          name: Start ChromeDriver
+          command: chromedriver
+          background: true
+      - run:
+          name: Start builtin
+          command: php -S 127.0.0.1:8080 -t web
+          background: true
+      - run:
+          name: Wait for DB
+          command: dockerize -wait http://127.0.0.1:8080 -timeout 120s
+      - run:
+          name: Setup
+          command: |
+            ./bin/robo setup
+            curl -I http://127.0.0.1:8080/
+
+      - run:
+          name: Test the code
+          command: |
+            ./bin/behat --debug
+            ./bin/behat --format junit --out tests/results
+
+      - store_test_results:
+          path: tests/results
+      - store_artifacts:
+          path: tests/failures
   deploy:
     docker:
       - image: williamyeh/ansible:ubuntu16.04
@@ -33,10 +70,10 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - build
+      - behat
       - deploy:
           requires:
-            - build
+            - behat
           filters:
             branches:
               only: master

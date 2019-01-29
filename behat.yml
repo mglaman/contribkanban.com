@@ -1,0 +1,45 @@
+region_map: &region_map
+  # Header
+  App header: '.app-header'
+
+default:
+  autoload:
+    - '%paths.base%/tests/features/bootstrap'
+  suites:
+    default:
+      mink_session: default
+      filters:
+        tags: "~@skip"
+      failure_path: '%paths.base%/tests/failures'
+      paths:
+        features: '%paths.base%/tests/features'
+      contexts:
+        - FailureContext
+        - FeatureContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\DrushContext
+  extensions:
+    Behat\MinkExtension:
+      base_url: "http://127.0.0.1:8080"
+      goutte: ~
+      selenium2:
+        browser: chrome
+      sessions:
+        default:
+          selenium2:
+            browser: chrome
+            wd_host: http://localhost:9515
+            capabilities:
+              chrome:
+                switches:
+                  - "--user-agent=ChromeDriver"
+                  - "--headless"
+                  - "--window-size=1920,1080"
+    Drupal\DrupalExtension:
+      blackbox: ~
+      api_driver: 'drupal'
+      drupal:
+        drupal_root: './web'
+      region_map: *region_map
