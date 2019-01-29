@@ -53,7 +53,7 @@ workflows:
       - behat
       - deploy:
           requires:
-            - build
+            - behat
           filters:
             branches:
               only: master
