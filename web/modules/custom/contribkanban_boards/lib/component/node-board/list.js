@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { string, object, array} from 'prop-types';
+import { string, array} from 'prop-types';
 import superagent from 'superagent';
 import superagentCache from 'superagent-cache';
 import Issue from "./issue";
