@@ -25,4 +25,4 @@
 .DS_Store
 
 /tests/failures
-/tests/results.xml
+/tests/results
