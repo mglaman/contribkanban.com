@@ -35,12 +35,12 @@ module:
   user: 0
   views_ui: 0
   views: 10
-  minimal: 1000
+  contribkanban_installer: 1000
 theme:
   stable: 0
   classy: 0
   seven: 0
   contribkanban: 0
-profile: minimal
+profile: contribkanban_installer
 _core:
   default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
