@@ -26,9 +26,8 @@ class RoboFile extends \Robo\Tasks {
 
   public function deploy() {
     $this->drushCr();
-    $this->drush('cim', TRUE)->run();
     $this->drush('updatedb', TRUE)->run();
-    $this->drush('entup', TRUE)->run();
+    $this->drush('cim', TRUE)->run();
   }
 
   public function drushCr() {
