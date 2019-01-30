@@ -9,7 +9,6 @@ import ApiUrl from "../../url";
 
 import superagent from 'superagent';
 import superagentCache from 'superagent-cache';
-import {baseUrl} from "../../utils";
 import EditButton from "./edit-button";
 superagentCache(superagent);
 

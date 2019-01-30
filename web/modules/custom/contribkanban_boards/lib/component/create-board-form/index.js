@@ -1,80 +1,44 @@
-import React, {Component} from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from "prop-types";
 import InputProjects from "./input-projects";
 import InputTags from "./input-tags";
 import ListControl from "./list-control";
+import defaultLists from "./defaultLists";
+import {connect} from "react-redux";
+import {
+  createBoardChangeBoardName,
+  createBoardChangeProjectType
+} from "../../actions";
 
-class CreateBoardForm extends Component {
+class CreateBoardFormPresentational extends PureComponent {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    projectType: PropTypes.string,
+    filterByProject: PropTypes.bool,
+    projectNids: PropTypes.array,
+    boardName: PropTypes.string,
+  };
   constructor(props) {
     super(props);
     this.state = {
       processing: false,
-      projectType: '',
       parentIssue: '',
-      filterByProject: false,
       filterByTag: false,
       filterByParentIssue: false,
-      boardName: '',
-      lists: this.defaultLists
+      lists: defaultLists
     };
     this.onBoardTypeChange = this.onBoardTypeChange.bind(this);
     this.onTagChange = this.onTagChange.bind(this);
     this.onProjectChange = this.onProjectChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-  defaultLists = [
-    {
-      title: "Postponed",
-      statuses: [4, 16],
-      tags: [],
-      parentIssue: ""
-    },
-    {
-      title: "Active",
-      statuses: [1],
-      tags: [],
-      parentIssue: ""
-    },
-    {
-      title: "Needs Work",
-      statuses: [13],
-      tags: [],
-      parentIssue: ""
-    },
-    {
-      title: "Needs Review",
-      statuses: [8],
-      tags: [],
-      parentIssue: ""
-    },
-    {
-      title: "Reviewed & Tested",
-      statuses: [14,15],
-      tags: [],
-      parentIssue: ""
-    },
-    {
-      title: "Fixed",
-      statuses: [2],
-      tags: [],
-      parentIssue: ""
-    },
-  ];
+
   isSubmitDisabled() {
-    return this.state.processing === true || this.state.projectType.length < 'drupalorg_'.length;
+    return this.state.processing === true || this.props.projectType.length < 'drupalorg_'.length;
   }
   onBoardTypeChange(event) {
-    this.setState({
-      projectType: event.target.value,
-      filterByProject: event.target.value === 'drupalorg_custom'
-    }, () => {
-      if (!this.state.filterByProject) {
-        this.onProjectChange([
-          {nid: '3060'}
-        ])
-      } else {
-        this.onProjectChange([])
-      }
-    });
+    const { dispatch } = this.props;
+    dispatch(createBoardChangeProjectType(event.target.value));
   }
   onTagChange(data) {
     this.setState({
@@ -101,6 +65,7 @@ class CreateBoardForm extends Component {
 
   }
   render() {
+    const { boardName, projectType, filterByProject } = this.props;
     return (
       <div className="container">
         <h1 className="is-size-4">Add a new board</h1>
@@ -111,21 +76,25 @@ class CreateBoardForm extends Component {
                 <div className="field">
                   <label className="label sr-only">Board name</label>
                   <div className="control">
-                    <input className="input" type="text" value={this.state.boardName} onChange={(e) => this.setState({boardName: e.target.value})} placeholder="Board name" required/>
+                    <input className="input" type="text" value={boardName} onChange={(e) => this.props.dispatch(createBoardChangeBoardName(e.target.value))} placeholder="Board name" required/>
                   </div>
                 </div>
                 <div className="field">
                   <div className="control">
                     <div className="select">
-                      <select value={this.state.projectType} onChange={this.onBoardTypeChange}>
-                        <option value="">Type of board</option>
+                      <select value={projectType} onChange={this.onBoardTypeChange}>
+                        <option value="">Board type</option>
                         <option value="drupalorg_core">Drupal core</option>
-                        <option value="drupalorg_custom">Custom</option>
+                        <option value="drupalorg_module">Module</option>
+                        <option value="drupalorg_theme">Theme</option>
+                        <option value="drupalorg_distribution">Distribution</option>
+                        <option value="drupalorg_sprint">Sprint / tag</option>
+                        <option value="drupalorg_custom">Freestyle board</option>
                       </select>
                     </div>
                   </div>
                 </div>
-                {this.state.filterByProject ? [
+                {filterByProject ? [
                   <div className="">
                     <InputProjects onChange={this.onProjectChange}/>
                   </div>
@@ -142,16 +111,16 @@ class CreateBoardForm extends Component {
                       <InputTags onChange={this.onTagChange}/>
                     </div>
                   ] : []}
-                  <div className="control">
-                    <label className="checkbox">
-                      <input type="checkbox" name="filterByVersions" /> Versions
-                    </label>
-                  </div>
-                  <div className="control">
-                    <label className="checkbox">
-                      <input type="checkbox" name="filterByComponent" /> Component
-                    </label>
-                  </div>
+                  {/*<div className="control">*/}
+                    {/*<label className="checkbox">*/}
+                      {/*<input type="checkbox" name="filterByVersions" /> Versions*/}
+                    {/*</label>*/}
+                  {/*</div>*/}
+                  {/*<div className="control">*/}
+                    {/*<label className="checkbox">*/}
+                      {/*<input type="checkbox" name="filterByComponent" /> Component*/}
+                    {/*</label>*/}
+                  {/*</div>*/}
                   <div className="control">
                     <label className="checkbox">
                       <input type="checkbox" name="filterByParent" onChange={() => {this.setState({filterByParentIssue: !this.state.filterByParentIssue})}}  /> Parent issue
@@ -185,10 +154,8 @@ class CreateBoardForm extends Component {
               </div>
             </div>
             <div className="column">
-              <div>
-                {this.state.lists.map((item, _k) => (
-                  <ListControl config={item}/>
-                ))}
+              <div style={{marginBottom: '10px'}}>
+                {this.state.lists.map((item) => (<ListControl config={item}/>))}
               </div>
             </div>
           </div>
@@ -198,4 +165,8 @@ class CreateBoardForm extends Component {
   }
 }
 
-export default CreateBoardForm
+export default connect(
+  (state, props) => {
+    return state.createBoard
+  }
+)(CreateBoardFormPresentational);

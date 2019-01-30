@@ -7,6 +7,15 @@ import NodeBoard from './component/node-board';
 import UserProfile from "./component/user";
 import NodeBoardForm from "./component/node-board-form";
 import CreateBoardForm from "./component/create-board-form";
+import {
+  createStore as createReduxStore,
+} from "redux";
+import {Provider} from "react-redux";
+
+import reducers from './reducers';
+const store = createReduxStore(
+  reducers,
+);
 
 if (document.getElementById('Board')) {
   // @todo move into component?
@@ -52,5 +61,8 @@ if (document.getElementById('NodeBoardAddForm')) {
 
 
 if (document.getElementById('CreateBoardForm')) {
-  render(<CreateBoardForm/>, document.getElementById('CreateBoardForm'));
+  render(
+    <Provider store={store}><CreateBoardForm/></Provider>,
+    document.getElementById('CreateBoardForm')
+  );
 }

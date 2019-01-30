@@ -13,6 +13,7 @@
     "query-string": "^5.0.1",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
+    "redux-actions": "^2.6.4",
     "superagent-cache": "^2.0.0"
   },
   "devDependencies": {

@@ -1,3 +1,5 @@
+import { createAction } from 'redux-actions';
+
 export const categoryFilterUpdated = (value) => {
   return {
     type: 'CATEGORY_FILTER_UPDATED',
@@ -16,3 +18,8 @@ export const versionFilterUpdated = (value) => {
     value
   };
 };
+
+
+// create-board-form
+export const createBoardChangeProjectType = createAction('CREATE_BOARD_CHANGE_PROJECT_TYPE');
+export const createBoardChangeBoardName = createAction('CREATE_BOARD_CHANGE_BOARD_NAME');
