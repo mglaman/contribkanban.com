@@ -26,4 +26,7 @@ function contribkanban_boards_post_update_migrate_to_install_profile() {
   $extension_config->set('module', $modules);
   $extension_config->set('profile', $profile_name);
   $extension_config->save();
+
+  \Drupal::service('module_installer')->install([$profile_name]);
+  \Drupal::service('module_installer')->uninstall(['standard']);
 }
