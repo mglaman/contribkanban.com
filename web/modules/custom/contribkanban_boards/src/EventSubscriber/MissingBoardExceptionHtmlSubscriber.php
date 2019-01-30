@@ -21,10 +21,10 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
       $route_name = $previous->getRouteName();
       $params = $previous->getRawParameters();
 
-      if ($route_name == 'entity.board.canonical') {
+      if ($route_name === 'entity.board.canonical') {
         $this->handleBoard($event, $route_name, $params);
       }
-      elseif ($route_name == 'entity.board.canonical_alternative') {
+      elseif ($route_name === 'entity.board.canonical_alternative') {
         $this->handleSprint($event, $route_name, $params);
       }
       else {
@@ -42,7 +42,7 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
    * @param array $params
    */
   protected function handleBoard(GetResponseForExceptionEvent $event, $route_name, array $params) {
-    if ($route_name != 'entity.board.canonical' || !empty($params['board'])) {
+    if ($route_name !== 'entity.board.canonical' || !empty($params['board'])) {
       parent::on404($event);
     }
     $machine_name = $params['board'];
@@ -52,10 +52,16 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
         throw new \Exception('Unable to determine board type for project');
       }
 
+      // @todo use this to assign a category.
+      /*
       $bundle = str_replace('project_', 'drupalorg_', $project['projectType']);
-      if (preg_match("/commerce|commerce_|dc_/", $machine_name) === 1) {
+      if (preg_match('/commerce|commerce_|dc_/', $machine_name) === 1) {
         $bundle = 'drupalorg_commerce';
       }
+      */
+      // @endtodo
+
+      $bundle = 'drupalorg_project';
       if (!\Drupal::getContainer()->get('plugin.manager.board_provider')->hasDefinition($bundle)) {
         throw new \Exception('Unable to determine board type for project');
       }
@@ -125,7 +131,7 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
    * @param array $params
    */
   protected function handleSprint(GetResponseForExceptionEvent $event, $route_name, array $params) {
-    if ($route_name != 'entity.board.canonical_alternative' || !empty($params['board'])) {
+    if ($route_name !== 'entity.board.canonical_alternative' || !empty($params['board'])) {
       parent::on404($event);
     }
     $machine_name = $params['board'];
