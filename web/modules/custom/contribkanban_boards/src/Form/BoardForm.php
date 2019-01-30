@@ -56,4 +56,9 @@ class BoardForm extends ContentEntityForm {
     return $form;
   }
 
+  public function save(array $form, FormStateInterface $form_state) {
+    parent::save($form, $form_state);
+    $form_state->setRedirectUrl($this->entity->toUrl());
+  }
+
 }

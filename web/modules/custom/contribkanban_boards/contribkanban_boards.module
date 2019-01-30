@@ -6,7 +6,7 @@
  */
 
 use Drupal\contribkanban_boards\FieldHelper;
-use Drupal\Core\Render\Element;
+use Drupal\Core\Site\Settings;
 
 /**
  * Implements hook_theme().
@@ -98,8 +98,8 @@ function contribkanban_boards_inline_entity_form_entity_form_alter(&$entity_form
 function contribkanban_boards_page_attachments(array &$attachments) {
   $attachments['#attached']['library'][] = 'contribkanban_boards/app';
 
-  $ga_id = \Drupal\Core\Site\Settings::get('google_analytics_id');
-  if ($ga_id && !\Drupal::getContainer()->get('router.admin_context')->isAdminRoute()) {
+  $ga_id = Settings::get('google_analytics_id');
+  if (!\Drupal::getContainer()->get('router.admin_context')->isAdminRoute()) {
     $script = <<<SCRIPT
     <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

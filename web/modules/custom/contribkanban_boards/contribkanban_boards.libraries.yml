@@ -23,9 +23,7 @@ form:
 
 app:
   js:
-    js/helpers.js:
-      preprocess: false
-    js/app.js:
+    js/main.js:
       preprocess: false
   dependencies:
     - core/drupalSettings

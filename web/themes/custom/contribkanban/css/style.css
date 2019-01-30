@@ -126,36 +126,56 @@ main {
   cursor: pointer;
 }
 .app-sidebar__backdrop {
-  display: none;
   opacity: .48;
-  z-index: 59;
   background-color: rgba(33,33,33,1.0);
-  -webkit-transition: opacity 450ms;
-  transition: opacity 450ms;
-  position: absolute;
+  position: fixed;
   top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 5;
+  left: -100%;
+  transition: background-color .4s cubic-bezier(.23,1,.32,1) 0s;
 }
-.app-sidebar {
-  display: none;
-  box-sizing: border-box;
-  position: absolute;
-  flex-direction: column;
-  z-index: 60;
-  width: 320px;
-  max-width: 320px;
+.app-sidebar__backdrop.is-animating,
+.app-sidebar__backdrop.is-open {
   left: 0;
+  background-color: rgba(0,0,0,.68);
+  visibility: visible;
+}
+.app-sidebar__backdrop.is-closed {
+  visibility: hidden;
+}
+
+.app-sidebar {
+  position: fixed;
+  min-height: 100%;
+  max-height: none;
   top: 0;
-  -webkit-transform: translate3d(0%, 0, 0);
-  transform: translate3d(0%, 0, 0);
-  bottom: 0;
-  overflow: auto;
+  display: block;
+  transition: transform .3s cubic-bezier(.4,0,.6,1);
+  backface-visibility: hidden;
+  overflow: hidden;
+  z-index: 1000;
+  box-sizing: border-box;
+  flex-direction: column;
   -webkit-overflow-scrolling: touch;
   background-color: rgb(255,255,255);
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+  height: 100%;
+  width: 24em;
+  transform: translate3d(-17em, 0, 0);
 }
+.app-sidebar.is-open {
+  transform: translate3d(0, 0, 0);
+  visibility: visible;
+}
+.app-sidebar.is-closed {
+  max-height: 100%;
+  visibility: hidden;
+  box-shadow: none;
+}
+
+
 body.toolbar-vertical .app-sidebar,
 body.toolbar-horizontal .app-sidebar {
   top: 39px;
@@ -203,7 +223,8 @@ body.toolbar-horizontal.toolbar-tray-open .app-sidebar {
 
 .board--filters {
   align-items: center;
-  padding: 10px 5px;
+  padding: 10px 5px 0;
+  margin-bottom: 0 !important;
 }
 .board--filters .field {
   margin-bottom: 0;
@@ -218,4 +239,13 @@ body.toolbar-horizontal.toolbar-tray-open .app-sidebar {
 .pager__item {
   display: inline-block;
   margin: 0 5px;
+}
+
+.bitcoin-tip {
+  font-family: monospace;
+}
+.bitcoin-tip .bitcoin-tip--address a {
+  font-size: 1.3rem;
+  border-bottom: 1px dotted;
+  word-break: break-all;
 }

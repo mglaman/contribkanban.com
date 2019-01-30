@@ -15,9 +15,6 @@ class RoboFile extends \Robo\Tasks {
     }
 
     $this->drush(['si', '--account-pass=admin'], TRUE)->run();
-    $this->drush(['config-set', 'system.site', 'uuid', '00e8f2dd-5bef-40ab-b9df-e9cb85db1b7d'], TRUE)->run();
-    $this->drush('cim', TRUE)->run();
-
     touch($installedLock);
   }
 
@@ -29,9 +26,8 @@ class RoboFile extends \Robo\Tasks {
 
   public function deploy() {
     $this->drushCr();
-    $this->drush('cim', TRUE)->run();
     $this->drush('updatedb', TRUE)->run();
-    $this->drush('entup', TRUE)->run();
+    $this->drush('cim', TRUE)->run();
   }
 
   public function drushCr() {

@@ -47,20 +47,27 @@
 #}
 <div class="layout-container">
 
+  {% block sidebar %}
   <div class="app-sidebar__backdrop"></div>
-  <div class="app-sidebar" id="app-sidebar" role="menubar">
+  <div class="app-sidebar is-closed" id="app-sidebar" role="menubar">
     {{ page.primary_menu }}
     {{ page.secondary_menu }}
   </div>
+  {% endblock %}
+  {% block header %}
   <header role="banner">
     {{ page.header }}
   </header>
+  {% endblock %}
+
   <main role="main">
     <a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
 
+    {% block main %}
     <div class="layout-content">
       {{ page.content }}
     </div>{# /.layout-content #}
+    {% endblock %}
   </main>
 
   {% if page.footer %}

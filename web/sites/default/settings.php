@@ -249,7 +249,7 @@ $databases = array();
  *   );
  * @endcode
  */
-$config_directories['sync'] = '../config';
+$config_directories[CONFIG_SYNC_DIRECTORY] = '../config';
 
 /**
  * Settings:
@@ -790,4 +790,4 @@ $databases['default']['default'] = array (
   'namespace' => 'Drupal\\Core\\Database\\Driver\\sqlite',
   'driver' => 'sqlite',
 );
-$settings['install_profile'] = 'minimal';
+$settings['install_profile'] = 'contribkanban_installer';

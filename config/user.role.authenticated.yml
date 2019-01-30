@@ -19,3 +19,4 @@ permissions:
   - 'view board'
   - 'view board_list'
   - 'view node_board'
+  - 'view the administration theme'

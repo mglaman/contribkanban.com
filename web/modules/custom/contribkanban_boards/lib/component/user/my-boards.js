@@ -13,7 +13,7 @@ class MyBoards extends Component {
   };
   componentDidMount() {
     superagent
-      .get(`${baseUrl}api/user/${this.props.uid}/boards`)
+      .get(`${baseUrl}api/user/${this.props.uid}/boards?_format=json`)
       .end((err, { body }) => {
         this.setState({
           loaded: true,

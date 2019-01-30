@@ -18,6 +18,7 @@ class List extends Component {
     data: object.isRequired,
   };
   state = {
+    loading: true,
     loaded: false,
     count: 0,
     issueList: []
@@ -61,17 +62,24 @@ class List extends Component {
     return apiUrl;
   }
   fetchIssues() {
-    const apiUrl = this.buildEndpointUrl();
-    superagent
-      .get(apiUrl.getEndpointUrl())
-      .backgroundRefresh()
-      .end((err, { body }) => {
-        this.setState({
-          loaded: true,
-          issueList: body.list,
-          count: body.list.length
+    this.setState({
+      loading: true,
+      issueList: [],
+      count: 0
+    }, () => {
+      const apiUrl = this.buildEndpointUrl();
+      superagent
+        .get(apiUrl.getEndpointUrl())
+        .backgroundRefresh()
+        .end((err, { body }) => {
+          this.setState({
+            loaded: true,
+            loading: false,
+            issueList: body.list,
+            count: body.list.length
+          })
         })
-      })
+    });
   }
   componentDidMount() {
     this.fetchIssues();
@@ -99,10 +107,8 @@ class List extends Component {
     return (
       <div className="board--list card is-flex is-vertical">
         <h2>
-          <span className="icon has-text-info board--list__refresh">
-            {this.state.loaded ? [] : [<i className="fa fa-circle-o-notch fa-spin fa-fw " />]}
-          </span>
-          {label} ({this.state.loaded ? [this.state.count] : []})</h2>
+          {!this.state.loading ? [] : [<span className="icon has-text-info board--list__refresh"><i className="fa fa-circle-o-notch fa-spin fa-fw " /></span>]}
+          {label} ({!this.state.loading ? [this.state.count] : []})</h2>
         <div>
           <div className="board--list__items">
             {this.state.issueList.map(issue => (
