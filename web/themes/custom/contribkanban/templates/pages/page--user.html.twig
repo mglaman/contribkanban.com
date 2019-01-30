@@ -45,28 +45,17 @@
  * @ingroup themeable
  */
 #}
-<div class="layout-container">
-
-  <div class="app-sidebar__backdrop"></div>
-  <div class="app-sidebar" id="app-sidebar" role="menubar">
-    {{ page.primary_menu }}
-    {{ page.secondary_menu }}
-  </div>
-  <header role="banner">
-    {{ page.header }}
-  </header>
-  <main role="main">
-    <a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
-
-    <div class="layout-content" style="margin-top: 0.75rem;">
-      {{ page.content }}
-    </div>{# /.layout-content #}
-  </main>
-
-  {% if page.footer %}
-    <footer role="contentinfo">
-      {{ page.footer }}
-    </footer>
-  {% endif %}
-
-</div>{# /.layout-container #}
+{% extends 'page.html.twig' %}
+{% block main %}
+  <div class="layout-content" style="margin-top: 0.75rem;">
+    <div class="section">
+      <div class="container is-fluid">
+        <div class="columns">
+          <div class="column">
+            {{ page.content }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>{# /.layout-content #}
+{% endblock %}
