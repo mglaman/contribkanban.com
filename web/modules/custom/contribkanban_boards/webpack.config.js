@@ -4,7 +4,10 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "js"),
   },
-  externals: ["react", "react-dom"],
+  externals: {
+    "react": "React",
+    "react-dom": "ReactDOM"
+  },
   module: {
     rules: [
       {
