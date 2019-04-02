@@ -1,0 +1,12 @@
+<?php
+
+function contribkanban_installer_update_8001() {
+  \Drupal::database()->delete('key_value')
+    ->condition('collection', 'system.schema')
+    ->condition('name', 'minimal')
+    ->execute();
+  \Drupal::database()->delete('key_value')
+    ->condition('collection', 'system.schema')
+    ->condition('name', 'devel')
+    ->execute();
+}

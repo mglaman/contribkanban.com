@@ -39,13 +39,16 @@ class AddBoard implements ContainerInjectionInterface {
     $machine_name = urldecode($machine_name);
     $project = $this->projectsHelper->getProject($machine_name);
 
+    // @todo use this to assign a category.
+    /*
     $bundle = str_replace('project_', 'drupalorg_', $project['projectType']);
-    if (preg_match("/commerce|commerce_|dc_/", $machine_name) === 1) {
+    if (preg_match('/commerce|commerce_|dc_/', $machine_name) === 1) {
       $bundle = 'drupalorg_commerce';
     }
-
+    */
+    // @endtodo
+    $bundle = 'drupalorg_project';
     if (!$this->boardProvider->hasDefinition($bundle)) {
-      dpm($project);
       throw new HttpException(500, 'Unable to determine board type for project');
     }
 
