@@ -5,6 +5,8 @@ namespace Drupal\contribkanban_boards;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
+use Drupal\contribkanban_boards\Plugin\BoardProvider\BoardProviderInterface;
+use Drupal\contribkanban_boards\Annotation\BoardProvider;
 
 /**
  * Manages discovery and instantiation of BundlePluginTest plugins.
@@ -26,7 +28,7 @@ class BoardProviderManager extends DefaultPluginManager {
    *   The module handler.
    */
   public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
-    parent::__construct('Plugin/BoardProvider', $namespaces, $module_handler, 'Drupal\contribkanban_boards\Plugin\BoardProvider\BoardProviderInterface', 'Drupal\contribkanban_boards\Annotation\BoardProvider');
+    parent::__construct('Plugin/BoardProvider', $namespaces, $module_handler, BoardProviderInterface::class, BoardProvider::class);
     $this->alterInfo('board_provider_info');
     $this->setCacheBackend($cache_backend, 'board_provider_plugins');
   }

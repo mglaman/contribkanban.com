@@ -31,7 +31,7 @@ function contribkanban_boards_post_update_migrate_to_install_profile() {
   $extension_config->save();
 }
 
-function contribkanban_boards_post_update_migrate_board_providers() {
+function contribkanban_boards_post_update_migrate_board_providers_bundles() {
   $board_provider_manager = \Drupal::getContainer()->get('plugin.manager.board_provider');
   $board_provider_manager->clearCachedDefinitions();
 

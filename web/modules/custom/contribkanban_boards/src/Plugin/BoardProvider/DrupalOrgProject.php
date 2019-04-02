@@ -12,7 +12,7 @@ use Drupal\entity\BundleFieldDefinition;
  *
  * @BoardProvider(
  *   id = "drupalorg_project",
- *   label = @Translation("Project"),
+ *   label = @Translation("Projects"),
  *   description = @Translation("Add a board for a project"),
  * )
  */
