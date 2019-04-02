@@ -60,7 +60,6 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
       }
       */
       // @endtodo
-
       $bundle = 'drupalorg_project';
       if (!\Drupal::getContainer()->get('plugin.manager.board_provider')->hasDefinition($bundle)) {
         throw new \Exception('Unable to determine board type for project');
