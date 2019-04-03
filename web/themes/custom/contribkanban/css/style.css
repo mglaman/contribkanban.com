@@ -249,3 +249,8 @@ body.toolbar-horizontal.toolbar-tray-open .app-sidebar {
   border-bottom: 1px dotted;
   word-break: break-all;
 }
+
+#codefund .cf-wrapper {
+  padding: 0 !important;
+  margin: 0 !important;
+}

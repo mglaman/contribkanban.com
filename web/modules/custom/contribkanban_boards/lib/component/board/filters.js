@@ -61,7 +61,7 @@ class Filters extends Component {
   render() {
     return(
       <div className="columns is-clearfix board--filters">
-        <div className={`column is-flex is-four-fifths`}>
+        <div className={`column is-flex`}>
           <Select data={this.categoryOptions} label="Category" selected={this.props.categoryFilter} onChange={this.categoryChange.bind(this)}/>
           <Select data={this.priorityOptions} label="Priority" selected={this.props.priorityFilter} onChange={this.priorityChange.bind(this)}/>
           {/*<Select data={this.versionOptions} label="Versions" selected={this.props.versionFilter} onChange={this.versionChange.bind(this)}/>*/}

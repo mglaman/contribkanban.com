@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Filters from "./filters";
 import List from "./list";
 import { Provider } from 'react-redux'
+import CodeFund from '../codefund';
 
 import {createStore} from 'redux';
 import reducers from '../../reducers';
@@ -31,6 +32,9 @@ class Board extends Component {
           height: '100%',
         }}>
           <Filters/>
+          <div className={`column is-full`}>
+            <CodeFund template={`horizontal`} theme={`light`}/>
+          </div>
           <div className="board--list__scroll-fix">
             <div className="board--list__container">
               {this.state.loaded ? [
