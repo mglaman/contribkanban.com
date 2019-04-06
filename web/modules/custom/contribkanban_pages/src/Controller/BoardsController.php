@@ -133,7 +133,7 @@ class BoardsController extends ControllerBase {
     $storage = $this->entityTypeManager->getStorage('board');
     $query = $storage->getQuery()->sort('title');
     $query->pager(25);
-    if ($type) {
+    if ($type !== '') {
       $query->condition('type', 'drupalorg_' . $type);
     }
     $entity_ids = $query->execute();
