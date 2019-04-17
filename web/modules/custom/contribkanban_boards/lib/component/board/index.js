@@ -32,9 +32,6 @@ class Board extends Component {
           height: '100%',
         }}>
           <Filters/>
-          <div className={`column is-full`}>
-            <CodeFund template={`horizontal`} theme={`light`}/>
-          </div>
           <div className="board--list__scroll-fix">
             <div className="board--list__container">
               {this.state.loaded ? [
@@ -44,6 +41,7 @@ class Board extends Component {
               ] : []}
             </div>
           </div>
+          <CodeFund template={`bottom-bar`} theme={`light`}/>
         </div>
       </Provider>
     )
