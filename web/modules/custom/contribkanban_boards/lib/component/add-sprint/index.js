@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ApiUrl from "../../url";
-import superagent from 'superagent';
 
 class AddSprint extends Component {
   constructor(props) {
@@ -16,50 +15,41 @@ class AddSprint extends Component {
     event.preventDefault();
     this.setState({
       processing: true,
-    }, () => {
-      this.validateTag()
-    });
+    }, () => this.validateTag());
   }
   validateTag() {
     const apiUrl = new ApiUrl('taxonomy_term')
       .addParameter('name', this.state.tag);
-    superagent
-      .get(apiUrl.getEndpointUrl())
-      .end((err, { body }) => {
-        if (body.list.length === 0) {
+    fetch(apiUrl.getEndpointUrl())
+      .then(resp => resp.json())
+      .then(json => {
+        if (json.list.length === 0) {
           // Not found.
           this.setState({
             processing: false,
             error: 'Tag not found',
           })
         } else {
-          const baseUrl = `${window.location.origin}${drupalSettings.path.baseUrl}`;
-          superagent
-            .post(`${baseUrl}api/boards/add/tag/${encodeURIComponent(this.state.tag)}`)
-            .end((err, { body }) => {
-              if (err) {
-                console.log(err);
-                this.setState({
-                  processing: false,
-                  error: 'Tag not found',
-                })
-              } else {
-                if ((window.ga !== undefined)) {
-                  ga('send', {
-                    hitType: 'event',
-                    eventCategory: 'Add Sprint',
-                    eventAction: 'add',
-                    eventLabel: this.state.tag
-                  });
-                }
-                window.location.href = `${baseUrl}${body.url}`
-              }
-            });
+          try {
+            const baseUrl = `${window.location.origin}${drupalSettings.path.baseUrl}`;
+            fetch(`${baseUrl}api/boards/add/tag/${encodeURIComponent(this.state.tag)}`, {
+              method: 'POST'
+            })
+              .then(resp => resp.json())
+              .then(json => {
+                window.location.href = `${baseUrl}${json.url}`
+              })
+          } catch (e) {
+            this.setState({
+              processing: false,
+              error: 'Error adding tag',
+            })
+          }
         }
-      })
+      });
   }
   render() {
-    return(
+    return (
       <form className="card" onSubmit={this.handleSubmit}>
         <div className="card-content">
           <div className="columns">
@@ -72,7 +62,7 @@ class AddSprint extends Component {
               className={`form-text required input ${this.state.error ? ['is-danger'] : []}`}
               required="required"
               aria-required="true"
-              onChange={(e) => this.setState({tag: e.target.value})}
+              onChange={(e) => this.setState({ tag: e.target.value })}
               disabled={this.state.processing}
             />
             <button
