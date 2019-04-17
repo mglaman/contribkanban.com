@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 import { string, object} from 'prop-types';
 import ApiUrl from "../../url";
 import {datasetToJson, objectForeach} from "../../utils";
-import superagent from 'superagent';
-import superagentCache from 'superagent-cache';
 import Issue from "./issue";
 import { connect } from 'react-redux';
-
-superagentCache(superagent);
 
 class List extends Component {
   constructor(props){
@@ -67,18 +63,14 @@ class List extends Component {
       issueList: [],
       count: 0
     }, () => {
-      const apiUrl = this.buildEndpointUrl();
-      superagent
-        .get(apiUrl.getEndpointUrl())
-        .backgroundRefresh()
-        .end((err, { body }) => {
-          this.setState({
-            loaded: true,
-            loading: false,
-            issueList: body.list,
-            count: body.list.length
-          })
-        })
+      fetch(this.buildEndpointUrl().getEndpointUrl())
+        .then(resp => resp.json())
+        .then(json => this.setState({
+          loaded: true,
+          loading: false,
+          issueList: json.list,
+          count: json.list.length
+        }));
     });
   }
   componentDidMount() {

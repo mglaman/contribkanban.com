@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {string, object} from 'prop-types';
+import {object} from 'prop-types';
 import IssueVersion from "./tags/version";
 import IssuePriority from "./tags/priority";
 import IssueCategory from "./tags/category";

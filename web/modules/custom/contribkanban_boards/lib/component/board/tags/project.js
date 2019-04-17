@@ -1,9 +1,6 @@
-import React, {Component} from 'react';
-import {number} from 'prop-types';
+import React, { Component } from 'react';
+import { number } from 'prop-types';
 import ApiUrl from "../../../url";
-import superagent from 'superagent';
-import superagentCache from 'superagent-cache';
-superagentCache(superagent);
 
 export default class IssueProject extends Component {
   static propTypes = {
@@ -21,14 +18,12 @@ export default class IssueProject extends Component {
       });
     } else {
       const apiUrl = new ApiUrl('node').addParameter('nid', nid);
-      superagent
-        .get(apiUrl.getEndpointUrl())
-        .end((err, { body }) => {
-          this.setState({
-            loaded: true,
-            label: body.list[0].title,
-          })
-        })
+      fetch(apiUrl.getEndpointUrl())
+        .then(resp => resp.json())
+        .then(json => this.setState({
+          loaded: true,
+          label: json.list[0].title,
+        }));
     }
   }
   render() {

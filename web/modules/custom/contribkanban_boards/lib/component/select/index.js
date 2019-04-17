@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { arrayOf, string, func, shape, array } from 'prop-types';
+import { arrayOf, string, func, shape } from 'prop-types';
 
 class Select extends Component {
   static propTypes = {
