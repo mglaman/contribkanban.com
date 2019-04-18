@@ -22,57 +22,34 @@ class NodeBoardForm extends Component {
       processing: true,
     }, () => {
       let request;
+      const payload = this.state.board;
       if (!this.isEdit()) {
         request = superagent.post(`${baseUrl}entity/node_board`)
+        delete payload['board_id'];
       } else {
         request = superagent.patch(`${baseUrl}node-board/${this.state.board.uuid}`)
       }
       request
         .set('X-CSRF-Token', this.state.csrfToken)
-        .send(this.state.board)
+        .send(payload)
         .end((error, res) => {
           if (res.statusCode === 200) {
-            this.analytics({
-              hitType: 'event',
-              eventCategory: 'Node Board',
-              eventAction: 'edit',
-              eventLabel: this.state.board.title
-            });
             window.location.href = `${baseUrl}node-board/${this.state.board.uuid}`
           }
           else if (res.statusCode === 201) {
             const body = JSON.parse(res.text);
-            this.analytics({
-              hitType: 'event',
-              eventCategory: 'Node Board',
-              eventAction: 'add',
-              eventLabel: this.state.board.title
-            });
-            window.location.href = `${baseUrl}node-board/${body.uuid[0].value}`
+            window.location.href = `${baseUrl}node-board/${body.uuid}`
           }
           else {
-            this.analytics({
-              hitType: 'event',
-              eventCategory: 'Add Node Board',
-              eventAction: 'error',
-              eventLabel: 'error'
-            });
-            console.log(error);
-            console.log(res);
-            alert('Error, check console logs');
+            alert(res.text);
           }
         });
     });
   }
-  analytics(data) {
-    if (typeof ga !== 'undefined') {
-      ga('send', data);
-    }
-  }
   getTitle() {
     return this.isEdit() ? 'Edit board' : 'Add new board';
   }
-  isEdit() { return this.state.board.board_id !== null }
+  isEdit() { return this.state.board.hasOwnProperty('board_id') && this.state.board.board_id !== null }
   canEdit() { return parseInt(this.state.uid) === parseInt(this.state.board.uid) }
   onCollaborationChange(event) {
     this.setState({
