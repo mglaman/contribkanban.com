@@ -35,9 +35,13 @@ default:
               chrome:
                 switches:
                   - "--user-agent=ChromeDriver"
-                  - "--headless"
+                  # - "--headless"
                   - "--window-size=1920,1080"
     Drupal\DrupalExtension:
+      text:
+        password_field: "Password"
+        username_field: "Email"
+        log_in: "Log in"
       blackbox: ~
       api_driver: 'drupal'
       drupal:

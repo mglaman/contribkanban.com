@@ -22,57 +22,34 @@ class NodeBoardForm extends Component {
       processing: true,
     }, () => {
       let request;
+      const payload = this.state.board;
       if (!this.isEdit()) {
         request = superagent.post(`${baseUrl}entity/node_board`)
+        delete payload['board_id'];
       } else {
         request = superagent.patch(`${baseUrl}node-board/${this.state.board.uuid}`)
       }
       request
         .set('X-CSRF-Token', this.state.csrfToken)
-        .send(this.state.board)
+        .send(payload)
         .end((error, res) => {
           if (res.statusCode === 200) {
-            this.analytics({
-              hitType: 'event',
-              eventCategory: 'Node Board',
-              eventAction: 'edit',
-              eventLabel: this.state.board.title
-            });
             window.location.href = `${baseUrl}node-board/${this.state.board.uuid}`
           }
           else if (res.statusCode === 201) {
             const body = JSON.parse(res.text);
-            this.analytics({
-              hitType: 'event',
-              eventCategory: 'Node Board',
-              eventAction: 'add',
-              eventLabel: this.state.board.title
-            });
-            window.location.href = `${baseUrl}node-board/${body.uuid[0].value}`
+            window.location.href = `${baseUrl}node-board/${body.uuid}`
           }
           else {
-            this.analytics({
-              hitType: 'event',
-              eventCategory: 'Add Node Board',
-              eventAction: 'error',
-              eventLabel: 'error'
-            });
-            console.log(error);
-            console.log(res);
-            alert('Error, check console logs');
+            alert(res.text);
           }
         });
     });
   }
-  analytics(data) {
-    if (typeof ga !== 'undefined') {
-      ga('send', data);
-    }
-  }
   getTitle() {
     return this.isEdit() ? 'Edit board' : 'Add new board';
   }
-  isEdit() { return this.state.board.board_id !== null }
+  isEdit() { return this.state.board.hasOwnProperty('board_id') && this.state.board.board_id !== null }
   canEdit() { return parseInt(this.state.uid) === parseInt(this.state.board.uid) }
   onCollaborationChange(event) {
     this.setState({
@@ -93,10 +70,12 @@ class NodeBoardForm extends Component {
                 <div className="column is-4">
                   <div className="box">
                     <div className="field">
-                      <label className="label sr-only">Title</label>
+                      <label for="board-title" className="label sr-only">Board name</label>
                       <div className="control">
                         <input
                           className="input"
+                          id="board-title"
+                          aria-label="Board name"
                           type="text"
                           placeholder={`Board name`}
                           required={true}
@@ -168,12 +147,13 @@ class NodeBoardForm extends Component {
                 <div className="column">
                   <div className={`box`}>
                     <div className="field">
-                      <label className="label sr-only">Issue node IDs</label>
                       {this.state.board.nids.map((node, id) => (
                         <div className="control">
+                          <label for={`issue-node-id-${id}`} className="label sr-only">Issue node ID</label>
                           <input
                             className="input"
                             type="text"
+                            id={`issue-node-id-${id}`}
                             placeholder={`Issue node ID`}
                             value={node}
                             style={{

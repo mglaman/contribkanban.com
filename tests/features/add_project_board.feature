@@ -1,4 +1,4 @@
-Feature: Add a project to create a kanban board
+Feature: Add a project to create a default kanban board
   As a Drupalista
   I can add a project
   So that I can view its kanban board
