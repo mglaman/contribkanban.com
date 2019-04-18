@@ -5,6 +5,7 @@ Feature: Create custom node boards
 
   @api @user
   Scenario: I can create a custom node board
+    Given I am an anonymous user
     Given users:
     | name              | status | mail              | pass         |
     | behat@example.com | 1      | behat@example.com | Password123! |
@@ -13,4 +14,11 @@ Feature: Create custom node boards
     | Email    | behat@example.com  |
     | Password | Password123!       |
     And I press "Log in"
+    And I wait
     Then I should see "behat@example.com"
+    When I click "Add Board"
+    And I wait
+    Then I should see "Add new board"
+    When I fill in "Board name" with "Behat Testing board"
+      And I fill in "issue-node-id-0" with "3009338"
+    And I press "Submit"

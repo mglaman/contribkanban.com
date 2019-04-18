@@ -93,10 +93,12 @@ class NodeBoardForm extends Component {
                 <div className="column is-4">
                   <div className="box">
                     <div className="field">
-                      <label className="label sr-only">Title</label>
+                      <label for="board-title" className="label sr-only">Board name</label>
                       <div className="control">
                         <input
                           className="input"
+                          id="board-title"
+                          aria-label="Board name"
                           type="text"
                           placeholder={`Board name`}
                           required={true}
@@ -168,12 +170,13 @@ class NodeBoardForm extends Component {
                 <div className="column">
                   <div className={`box`}>
                     <div className="field">
-                      <label className="label sr-only">Issue node IDs</label>
                       {this.state.board.nids.map((node, id) => (
                         <div className="control">
+                          <label for={`issue-node-id-${id}`} className="label sr-only">Issue node ID</label>
                           <input
                             className="input"
                             type="text"
+                            id={`issue-node-id-${id}`}
                             placeholder={`Issue node ID`}
                             value={node}
                             style={{
