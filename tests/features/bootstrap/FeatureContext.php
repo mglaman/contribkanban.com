@@ -199,5 +199,14 @@ class FeatureContext extends RawDrupalContext {
     }
   }
 
+  /**
+   * @When /^I open the sidebar$/
+   */
+  public function iOpenTheSidebar() {
+    $session = $this->getSession();
+    $trigger = $session->getPage()->find('css', '[data-drupal-selector="app-siderbar-trigger"]');
+    $trigger->click();
+  }
+
 
 }

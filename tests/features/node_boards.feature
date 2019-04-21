@@ -1,9 +1,32 @@
+@api @user
 Feature: Create custom node boards
   In order to provide custom boards
   As a user
   I want to specify specific issue Node IDs
 
-  @api @user
+  Scenario: I can create a custom board from the app sidebar
+    Given I am an anonymous user
+    When I am on the homepage
+    When I open the sidebar
+    Then I should not see the link "New board" in the "App Sidebar"
+
+  Scenario: I can create a custom node board
+    Given I am an anonymous user
+    Given users:
+      | name              | status | mail              | pass         |
+      | behat@example.com | 1      | behat@example.com | Password123! |
+    When I am on "/user/login"
+    And I fill in the following:
+      | Email    | behat@example.com  |
+      | Password | Password123!       |
+    And I press "Log in"
+    And I wait
+    When I am on the homepage
+    And I open the sidebar
+    When I follow "New board" in the "App Sidebar"
+    And I wait
+    Then I should see "Add new board"
+
   Scenario: I can create a custom node board
     Given I am an anonymous user
     Given users:
