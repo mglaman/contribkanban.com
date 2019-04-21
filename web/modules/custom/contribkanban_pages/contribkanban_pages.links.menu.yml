@@ -11,3 +11,7 @@ contribkanban_pages.issues:
   url: 'https://github.com/mglaman/contribkanban.com/issues'
   menu_name: tools
   weight: 100
+contribkanban_pages.add_custom_board:
+  title: 'New board'
+  class: Drupal\contribkanban_pages\Plugin\Menu\AddCustomBoardLink
+  menu_name: account

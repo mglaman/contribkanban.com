@@ -1,6 +1,7 @@
 region_map: &region_map
   # Header
   App header: '.app-header'
+  App Sidebar: '.app-sidebar'
 
 default:
   autoload:
