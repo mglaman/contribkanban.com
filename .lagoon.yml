@@ -1,0 +1,27 @@
+docker-compose-yaml: docker-compose.yml
+
+tasks:
+  post-rollout:
+    - run:
+        name: env variables
+        command: env
+        service: cli
+    - run:
+        name: drush updb
+        command: drush -y updb
+        service: cli
+    - run:
+        name: drush cim
+        command: drush -y cim
+        service: cli
+
+environments:
+  master:
+    cronjobs:
+      - name: drush cron
+        schedule: "H * * * *"
+        command: drush cron
+        service: cli
+    routes:
+      - varnish:
+          - "contribkanban.com"
