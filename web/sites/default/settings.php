@@ -40,6 +40,10 @@ if (getenv('LAGOON_ROUTES')) {
   );
 }
 
+if (getenv('LAGOON_GIT_SHA')) {
+  $settings['deployment_identifier'] = getenv('LAGOON_GIT_SHA');
+}
+
 // Temp directory.
 if (getenv('TMP')) {
   $config['system.file']['path']['temporary'] = getenv('TMP');
