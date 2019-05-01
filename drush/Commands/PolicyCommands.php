@@ -1,6 +1,9 @@
 <?php
 namespace Drush\Commands;
+
 use Consolidation\AnnotatedCommand\CommandData;
+use Drush\Commands\DrushCommands;
+
 /**
  * Edit this file to reflect your organization's needs.
  */
@@ -15,7 +18,8 @@ class PolicyCommands extends DrushCommands {
    */
   public function sqlSyncValidate(CommandData $commandData) {
     if ($commandData->input()->getArgument('target') == '@prod') {
-      throw new \Exception(dt('Per !file, you may never overwrite the production database.', ['!file' => __FILE__]));
+      // @todo enable after migration.
+      // throw new \Exception(dt('Per !file, you may never overwrite the production database.', ['!file' => __FILE__]));
     }
   }
   /**
