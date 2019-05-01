@@ -1,6 +1,10 @@
-# ConribKanban.com
+# ConribKanban
 
 [![CircleCI](https://circleci.com/gh/mglaman/contribkanban.com.svg?style=svg)](https://circleci.com/gh/mglaman/contribkanban.com)
+
+ContribKanban is an application which mirrors Drupal.org issues into kanban boards.
+
+🚀 Hosting for ContribKanban.com provided by [Amazee.io](https://amazee.io)
 
 ## Installation
 
@@ -33,9 +37,7 @@ _Be sure to update the command to use the appropriate email addresses, username 
 
 ```
 cd web
-../bin/drush site-install minimal --account-mail="youremail@example.com" --account-name="admin" --account-pass="test"
-../bin/drush config-set "system.site" uuid "00e8f2dd-5bef-40ab-b9df-e9cb85db1b7d"
-../bin/drush config-import -y
+../bin/drush site-install --account-mail="youremail@example.com" --account-name="admin" --account-pass="test"
 ```
 
 **Note**: a local web server is still necessary.

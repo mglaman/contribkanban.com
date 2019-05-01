@@ -67,7 +67,7 @@ class Filters extends Component {
           {/*<Select data={this.versionOptions} label="Versions" selected={this.props.versionFilter} onChange={this.versionChange.bind(this)}/>*/}
         </div>
         <div className={`column`}>
-          <a className={`button is-pulled-right`} href={`${window.location.href}/edit`}>
+          <a className={`button is-pulled-right is-hidden-mobile`} href={`${window.location.href}/edit`}>
             Edit
           </a>
         </div>
