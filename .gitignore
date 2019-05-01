@@ -26,3 +26,5 @@
 
 /tests/failures
 /tests/results
+
+*.sql
