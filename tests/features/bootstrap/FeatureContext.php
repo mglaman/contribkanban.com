@@ -206,6 +206,7 @@ class FeatureContext extends RawDrupalContext {
     $session = $this->getSession();
     $trigger = $session->getPage()->find('css', '[data-drupal-selector="app-siderbar-trigger"]');
     $trigger->click();
+    $this->iWaitForTheRegion('App Sidebar');
   }
 
 
