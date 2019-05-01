@@ -52,6 +52,9 @@ if (getenv('TMP')) {
 if (getenv('LAGOON')) {
   $settings['hash_salt'] = hash('sha256', getenv('LAGOON_PROJECT'));
 }
+else {
+  $settings['hash_salt'] = 'T2ZRkcIaePNrPQRzQCjQdIg8_E6_17L2n5-JYmHCRrVdIssixO92Q6q174VpimIe390RIHUBsQ';
+}
 
 if (getenv('LAGOON_ENVIRONMENT_TYPE')) {
   // Environment specific settings files.
