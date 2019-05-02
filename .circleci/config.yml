@@ -59,21 +59,9 @@ jobs:
           path: tests/results
       - store_artifacts:
           path: tests/failures
-  deploy:
-    docker:
-      - image: williamyeh/ansible:ubuntu16.04
-    steps:
-      - checkout
-      - run: ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i "${DEPLOY_SERVER}," -u ${DEPLOY_USER} .circleci/playbook.yml
 
 workflows:
   version: 2
-  build_and_deploy:
+  test:
     jobs:
       - behat
-      - deploy:
-          requires:
-            - behat
-          filters:
-            branches:
-              only: master
