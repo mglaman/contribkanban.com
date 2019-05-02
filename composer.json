@@ -27,6 +27,7 @@
         "drupal/entity": "~1.0",
         "drupal/inline_entity_form": "^1.0@beta",
         "drupal/jsonapi": "^2.0",
+        "drupal/redis": "^1.1",
         "drupal/swiftmailer": "^1.0@beta",
         "drush/drush": "^9.0.0",
         "webflo/drupal-finder": "^1.0.0",
