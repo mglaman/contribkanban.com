@@ -84,23 +84,12 @@ services:
     environment:
       << : *default-environment
 
-  ## Uncomment for Redis
-  # redis:
-  #   image: amazeeio/redis
-  #   labels:
-  #     lagoon.type: redis
-  #   environment:
-  #     << : *default-environment
-
-  ## Uncomment for Solr
-  # solr:
-  #   image: amazeeio/solr:6.6-drupal
-  #   labels:
-  #     lagoon.type: solr
-  #   ports:
-  #     - "8983" # exposes the port 8983 with a random local port, find it with `docker-compose port solr 8983`
-  #   environment:
-  #     << : *default-environment
+  redis:
+    image: amazeeio/redis
+    labels:
+      lagoon.type: redis
+    environment:
+      << : *default-environment
 
   varnish:
     image: amazeeio/varnish-drupal
