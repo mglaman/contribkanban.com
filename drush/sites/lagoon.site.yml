@@ -8,8 +8,6 @@ master:
   user: contribkanban-master
   ssh:
     options: '-o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 32222'
-  paths:
-    drush-script: '/app/bin/drush'
 pr-141:
   host: ssh.lagoon.amazeeio.cloud
   options:
@@ -20,5 +18,3 @@ pr-141:
   user: contribkanban-pr-141
   ssh:
     options: '-o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 32222'
-  paths:
-    drush-script: '/app/bin/drush'
