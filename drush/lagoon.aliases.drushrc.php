@@ -2,7 +2,7 @@
 // Don't change anything here, it's magic!
 global $aliases_stub;
 // Only run locally to generate YAML.
-if (getenv('LAGOON_DOMAIN') === 'contribkanban.docker.amazee.io') {
+if (getenv('AMAZEEIO_LOCATION') === 'docker') {
     if (empty($aliases_stub)) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
