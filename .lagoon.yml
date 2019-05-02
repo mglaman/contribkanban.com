@@ -25,8 +25,8 @@ environments:
     routes:
       - nginx:
         - contribkanban.com:
-            tls-acme: 'false'
-            insecure: Allow
+            tls-acme: 'true'
+            insecure: Redirect
         - www.contribkanban.com:
-            tls-acme: 'false'
-            insecure: Allow
+            tls-acme: 'true'
+            insecure: Redirect
