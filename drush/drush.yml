@@ -7,6 +7,3 @@ sql:
       - 'search_*'
       - 'sessions'
       - 'watchdog'
-drush:
-  paths:
-    drush-script: '/app/bin/drush'
