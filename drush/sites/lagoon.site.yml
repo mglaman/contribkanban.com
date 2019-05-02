@@ -8,13 +8,13 @@ master:
   user: contribkanban-master
   ssh:
     options: '-o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 32222'
-pr-137:
+pr-141:
   host: ssh.lagoon.amazeeio.cloud
   options:
     command-specific:
       sql-sync:
         no-ordered-dump: true
   root: /app/web
-  user: contribkanban-pr-137
+  user: contribkanban-pr-141
   ssh:
     options: '-o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 32222'
