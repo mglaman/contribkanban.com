@@ -24,7 +24,7 @@ environments:
         service: cli
     routes:
       - nginx:
-        - contribkanban.com
+        - contribkanban.com:
             tls-acme: 'false'
             insecure: Allow
         - www.contribkanban.com:
