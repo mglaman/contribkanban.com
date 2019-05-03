@@ -8,10 +8,12 @@ tasks:
         command: env
         service: cli
     - run:
+        name: Debugging
+        command: cat ./scripts/github-build-status.sh
+        service: cli
+    - run:
         name: Push a pending status
-        command: |
-        cat ./scripts/github-build-status.sh
-        ./scripts/github-build-status.sh pending
+        command: ./scripts/github-build-status.sh pending
         service: cli
   post-rollout:
     - run:
