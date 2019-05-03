@@ -6,7 +6,7 @@ if [[ -z ${1} ]]; then
 fi
 if [[ -z ${LAGOON_GIT_SHA} ]]; then
     echo "Cannot detect LAGOON_GIT_SHA"
-    exit 0
+    exit 1
 fi
 
 if [[ -z ${GITHUB_TOKEN} ]]; then
