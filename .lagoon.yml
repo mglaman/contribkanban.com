@@ -7,10 +7,10 @@ tasks:
         name: env variables
         command: env
         service: cli
-    - run:
-        name: Push a pending status
-        command: /app/scripts/github-build-status.sh pending
-        service: cli
+    # - run:
+    #     name: Push a pending status
+    #     command: /app/scripts/github-build-status.sh pending
+    #     service: cli
   post-rollout:
     - run:
         name: If this is a pull request, install the database.
