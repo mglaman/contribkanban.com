@@ -53,7 +53,7 @@ jobs:
           name: Test the code
           command: |
             ./bin/behat --debug
-            ./bin/behat --format junit --out tests/results
+            ./bin/behat --format pretty --out std --format junit --out tests/results
 
       - store_test_results:
           path: tests/results

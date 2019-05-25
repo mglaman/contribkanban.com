@@ -4,13 +4,13 @@ Feature: Create custom node boards
   As a user
   I want to specify specific issue Node IDs
 
-  Scenario: I can create a custom board from the app sidebar
+  Scenario: An anonymouse user cannot create an issue collection board.
     Given I am an anonymous user
     When I am on the homepage
     When I open the sidebar
     Then I should not see the link "New board" in the "App Sidebar"
 
-  Scenario: I can create a custom node board
+  Scenario: An authenticated user can create an issue collection board.
     Given I am an anonymous user
     Given users:
       | name              | status | mail              | pass         |
@@ -27,7 +27,7 @@ Feature: Create custom node boards
     And I wait
     Then I should see "Add new board"
 
-  Scenario: I can add a node to my node board
+  Scenario: An authenticated user can add issues to an issue collection board
     Given I am an anonymous user
     Given users:
     | name              | status | mail              | pass         |
