@@ -9,7 +9,7 @@ tasks:
         service: cli
     - run:
         name: Push a pending status
-        command: ./scripts/github-build-status.sh pending
+        command: /app/scripts/github-build-status.sh pending
         service: cli
   post-rollout:
     - run:
