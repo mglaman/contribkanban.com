@@ -17,3 +17,10 @@ $config['system.performance']['css']['preprocess'] = 1;
 $config['system.performance']['js']['preprocess'] = 1;
 // Disabling stage file proxy on production, with that the module can be enabled even on production
 $config['stage_file_proxy.settings']['origin'] = false;
+
+// Configure Swiftmailer for Amazon SES
+$config['swiftmailer.transport']['smtp_host'] = 'email-smtp.us-east-1.amazonaws.com';
+$config['swiftmailer.transport']['smtp_port'] = 25;
+$config['swiftmailer.transport']['smtp_encryption'] = 'tls';
+$config['swiftmailer.transport']['smtp_username'] = getenv('SWIFTMAILER_SMTP_USERNAME');
+$config['swiftmailer.transport']['smtp_password'] = getenv('SWIFTMAILER_SMTP_PASSWORD');
