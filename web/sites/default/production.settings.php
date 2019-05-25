@@ -19,8 +19,14 @@ $config['system.performance']['js']['preprocess'] = 1;
 $config['stage_file_proxy.settings']['origin'] = false;
 
 // Configure Swiftmailer for Amazon SES
+$config['swiftmailer.transport']['transport'] = 'smtp';
 $config['swiftmailer.transport']['smtp_host'] = 'email-smtp.us-east-1.amazonaws.com';
 $config['swiftmailer.transport']['smtp_port'] = 25;
 $config['swiftmailer.transport']['smtp_encryption'] = 'tls';
-$config['swiftmailer.transport']['smtp_username'] = getenv('SWIFTMAILER_SMTP_USERNAME');
-$config['swiftmailer.transport']['smtp_password'] = getenv('SWIFTMAILER_SMTP_PASSWORD');
+$config['swiftmailer.transport']['smtp_credential_provider'] = 'swiftmailer';
+$config['swiftmailer.transport']['smtp_credentials'] = [
+  'swiftmailer' => [
+    'username' => getenv('SWIFTMAILER_SMTP_USERNAME'),
+    'password' => getenv('SWIFTMAILER_SMTP_PASSWORD'),
+  ],
+];
