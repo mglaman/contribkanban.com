@@ -27,7 +27,7 @@ Feature: Create custom node boards
     And I wait
     Then I should see "Add new board"
 
-  Scenario: I can create a custom node board
+  Scenario: I can add a node to my node board
     Given I am an anonymous user
     Given users:
     | name              | status | mail              | pass         |
@@ -46,4 +46,4 @@ Feature: Create custom node boards
       And I fill in "issue-node-id-0" with "3009338"
     And I press "Submit"
     Then I wait to see "Behat Testing board" in the "App header" region
-    And I wait to see "[META] Prepare core and Drupal.org to handle semantic versioning for contrib extensions (modules, themes, etc)"
+    And I wait to see "[META] Support semantic versioning for extensions (modules, themes, etc) in Drupal core"
