@@ -93,7 +93,6 @@ class BoardsController extends ControllerBase {
     $build['#attached']['drupalSettings']['form'] = [
       'board' => $data,
       'uid' => $user->id(),
-      'csrfToken' => $this->csrfToken->get(CsrfRequestHeaderAccessCheck::TOKEN_KEY),
     ];
     $build['output']['#markup'] = '<div id="NodeBoardAddForm"></div>';
     return $build;
@@ -105,7 +104,6 @@ class BoardsController extends ControllerBase {
     $build['#attached']['drupalSettings']['form'] = [
       'board' => $data,
       'uid' => \Drupal::currentUser()->id(),
-      'csrfToken' => $this->csrfToken->get(CsrfRequestHeaderAccessCheck::TOKEN_KEY),
     ];
     $build['output']['#markup'] = '<div id="NodeBoardAddForm"></div>';
     return $build;

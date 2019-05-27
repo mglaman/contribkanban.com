@@ -21,29 +21,33 @@ class NodeBoardForm extends Component {
     this.setState({
       processing: true,
     }, () => {
-      let request;
-      const payload = this.state.board;
-      if (!this.isEdit()) {
-        request = superagent.post(`${baseUrl}entity/node_board`)
-        delete payload['board_id'];
-      } else {
-        request = superagent.patch(`${baseUrl}node-board/${this.state.board.uuid}`)
-      }
-      request
-        .set('X-CSRF-Token', this.state.csrfToken)
-        .send(payload)
-        .end((error, res) => {
-          if (res.statusCode === 200) {
-            window.location.href = `${baseUrl}node-board/${this.state.board.uuid}`
-          }
-          else if (res.statusCode === 201) {
-            const body = JSON.parse(res.text);
-            window.location.href = `${baseUrl}node-board/${body.uuid}`
-          }
-          else {
-            alert(res.text);
-          }
-        });
+      superagent.get(`${baseUrl}/session/token`)
+      .then(res => {
+        const csrfToken = res.text
+        let request;
+        const payload = this.state.board;
+        if (!this.isEdit()) {
+          request = superagent.post(`${baseUrl}entity/node_board`)
+          delete payload['board_id'];
+        } else {
+          request = superagent.patch(`${baseUrl}node-board/${this.state.board.uuid}`)
+        }
+        request
+          .set('X-CSRF-Token', csrfToken)
+          .send(payload)
+          .end((error, res) => {
+            if (res.statusCode === 200) {
+              window.location.href = `${baseUrl}node-board/${this.state.board.uuid}`
+            }
+            else if (res.statusCode === 201) {
+              const body = JSON.parse(res.text);
+              window.location.href = `${baseUrl}node-board/${body.uuid}`
+            }
+            else {
+              alert(res.text);
+            }
+          });
+      })
     });
   }
   getTitle() {
