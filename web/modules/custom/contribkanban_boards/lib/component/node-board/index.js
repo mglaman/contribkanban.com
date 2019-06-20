@@ -36,7 +36,6 @@ class NodeBoard extends Component {
         .get(apiUrl.getEndpointUrl())
         .backgroundRefresh()
         .end((err, { body }) => {
-          console.log(body);
           this.setState(prevState => ({
             loaded: true,
             issues: [...prevState.issues, body.list[0]],
