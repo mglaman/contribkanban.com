@@ -12,7 +12,14 @@ const reorder = (list, startIndex, endIndex) => {
 };
 const getItemStyle = (isDragging, draggableStyle) => ({
   userSelect: "none",
-  background: isDragging ? "#209cee" : "white",
+  backgroundColor: isDragging ? "#209cee" : "white",
+  paddingLeft: '2em',
+  paddingTop: '0.5rem',
+  paddingBottom: '0.5rem',
+  paddingRight: '0.5rem',
+  backgroundImage: `url('/core/misc/icons/bebebe/move.svg')`,
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: '0.5rem center',
   ...draggableStyle
 });
 
@@ -219,9 +226,6 @@ class NodeBoardForm extends Component {
                                             id={`issue-node-id-${index}`}
                                             placeholder={`Issue node ID`}
                                             value={item}
-                                            style={{
-                                              marginBottom: '10px'
-                                            }}
                                             required={this.state.board.nids.length === 1}
                                             onChange={(e) => {
                                               const newNid = e.target.value;
