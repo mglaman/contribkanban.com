@@ -1,7 +1,27 @@
 import React, { Component } from 'react';
 import superagent from 'superagent';
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { baseUrl } from "../../utils";
 
-const baseUrl = `${window.location.origin}${drupalSettings.path.baseUrl}`;
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+const getItemStyle = (isDragging, draggableStyle) => ({
+  userSelect: "none",
+  backgroundColor: isDragging ? "#209cee" : "white",
+  paddingLeft: '2em',
+  paddingTop: '0.5rem',
+  paddingBottom: '0.5rem',
+  paddingRight: '0.5rem',
+  backgroundImage: `url('/core/misc/icons/bebebe/move.svg')`,
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: '0.5rem center',
+  ...draggableStyle
+});
 
 class NodeBoardForm extends Component {
   constructor(props) {
@@ -15,6 +35,8 @@ class NodeBoardForm extends Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onCollaborationChange = this.onCollaborationChange.bind(this);
+    this.addNewIssue = this.addNewIssue.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
   }
   handleSubmit(event) {
     event.preventDefault();
@@ -60,6 +82,32 @@ class NodeBoardForm extends Component {
       board: {
         ...this.state.board,
         collaboration: event.target.value
+      }
+    });
+  }
+  addNewIssue() {
+    this.setState({
+      board: {
+        ...this.state.board,
+        nids: [...this.state.board.nids, '']
+      },
+    });
+  }
+  onDragEnd(result) {
+    if (!result.destination) {
+      return;
+    }
+
+    const items = reorder(
+      this.state.board.nids,
+      result.source.index,
+      result.destination.index
+    );
+
+    this.setState({
+      board: {
+        ...this.state.board,
+        nids: items
       }
     });
   }
@@ -151,42 +199,89 @@ class NodeBoardForm extends Component {
                 <div className="column">
                   <div className={`box`}>
                     <div className="field">
-                      {this.state.board.nids.map((node, id) => (
-                        <div className="control">
-                          <label for={`issue-node-id-${id}`} className="label sr-only">Issue node ID</label>
-                          <input
-                            className="input"
-                            type="text"
-                            id={`issue-node-id-${id}`}
-                            placeholder={`Issue node ID`}
-                            value={node}
-                            style={{
-                              marginBottom: '10px'
-                            }}
-                            required={this.state.board.nids.length === 1}
-                            onChange={(e) => {
-                              const newNid = e.target.value;
-                              this.setState({
-                                board: {
-                                  ...this.state.board,
-                                  nids: this.state.board.nids.map((s, _id) => {
-                                    if (_id !== id) return s;
-                                    return newNid;
-                                  })
-                                },
-                              });
-                            }}
-                          />
-                        </div>
-                      ))}
+                      <DragDropContext onDragEnd={this.onDragEnd}>
+                        <Droppable droppableId="droppable">
+                          {(provided) => (
+                            <div
+                              {...provided.droppableProps}
+                              ref={provided.innerRef}
+                            >
+                              {this.state.board.nids.map((item, index) => (
+                                <Draggable key={item === '' ? `_new${index}` : item} draggableId={item === '' ? `_new${index}` : item} index={index}>
+                                  {(provided, snapshot) => (
+                                    <div
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                      style={getItemStyle(
+                                        snapshot.isDragging,
+                                        provided.draggableProps.style
+                                      )}
+                                    >
+                                        <div className="control">
+                                          <label for={`issue-node-id-${index}`} className="label sr-only">Issue node ID</label>
+                                          <input
+                                            className="input"
+                                            type="text"
+                                            id={`issue-node-id-${index}`}
+                                            placeholder={`Issue node ID`}
+                                            value={item}
+                                            required={this.state.board.nids.length === 1}
+                                            onChange={(e) => {
+                                              const newNid = e.target.value;
+                                              this.setState({
+                                                board: {
+                                                  ...this.state.board,
+                                                  nids: this.state.board.nids.map((s, _id) => {
+                                                    if (_id !== index) return s;
+                                                    return newNid;
+                                                  })
+                                                },
+                                              });
+                                            }}
+                                          />
+                                        </div>
+                                    </div>
+                                  )}
+                                </Draggable>
+                              ))}
+                              {provided.placeholder}
+                            </div>
+                          )}
+                        </Droppable>
+                      </DragDropContext>
+                      {/*{this.state.board.nids.map((node, id) => (*/}
+                      {/*  <div className="control">*/}
+                      {/*    <label for={`issue-node-id-${id}`} className="label sr-only">Issue node ID</label>*/}
+                      {/*    <input*/}
+                      {/*      className="input"*/}
+                      {/*      type="text"*/}
+                      {/*      id={`issue-node-id-${id}`}*/}
+                      {/*      placeholder={`Issue node ID`}*/}
+                      {/*      value={node}*/}
+                      {/*      style={{*/}
+                      {/*        marginBottom: '10px'*/}
+                      {/*      }}*/}
+                      {/*      required={this.state.board.nids.length === 1}*/}
+                      {/*      onChange={(e) => {*/}
+                      {/*        const newNid = e.target.value;*/}
+                      {/*        this.setState({*/}
+                      {/*          board: {*/}
+                      {/*            ...this.state.board,*/}
+                      {/*            nids: this.state.board.nids.map((s, _id) => {*/}
+                      {/*              if (_id !== id) return s;*/}
+                      {/*              return newNid;*/}
+                      {/*            })*/}
+                      {/*          },*/}
+                      {/*        });*/}
+                      {/*      }}*/}
+                      {/*    />*/}
+                      {/*  </div>*/}
+                      {/*))}*/}
                       <button
                         className="is-info button"
                         type="button"
-                        onClick={(e) => {
-                          this.setState({
-                            nodes: this.state.board.nids.push(""),
-                          });
-                        }}
+                        onClick={this.addNewIssue}
                       >Add another issue</button>
                     </div>
                   </div>
