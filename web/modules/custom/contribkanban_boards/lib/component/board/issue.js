@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {object} from 'prop-types';
-import IssueVersion from "./tags/version";
+import IssueVersion from "../board-tags/version";
 import IssuePriority from "./tags/priority";
 import IssueCategory from "./tags/category";
 import IssueProject from "./tags/project";

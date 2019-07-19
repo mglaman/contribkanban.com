@@ -6,8 +6,6 @@ export default class IssueVersion extends Component {
     version: string.isRequired
   }
   render() {
-    return (
-      <span className="tag bg-success">{this.props.version}</span>
-    )
+    return this.props.version !== null ? <span className="tag bg-success">{this.props.version}</span> : null;
   }
 }
