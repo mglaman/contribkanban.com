@@ -114,7 +114,7 @@ class NodeBoardForm extends Component {
   render() {
     return(
       <div className="columns">
-        <div className="column is-8 is-offset-2">
+        <div className="column is-10 is-offset-1">
           <form onSubmit={this.handleSubmit}>
             <div className="">
               <h1 className="title">{this.getTitle()}</h1>
@@ -154,9 +154,9 @@ class NodeBoardForm extends Component {
                             onChange={this.onCollaborationChange}
                             disabled={!this.canEdit() && this.isEdit()}
                             readOnly={!this.canEdit() && this.isEdit()}
-                            style={{marginRight: '5'}}
+                            style={{marginRight: '5px'}}
                           />
-                          <span className={`is-small`}>Private: only accessible to you, when logged in</span>
+                           Private: only accessible to you, when logged in
                         </label>
                       </div>
                       <div className={`control`}>
@@ -168,9 +168,9 @@ class NodeBoardForm extends Component {
                             onChange={this.onCollaborationChange}
                             disabled={!this.canEdit() && this.isEdit()}
                             readOnly={!this.canEdit() && this.isEdit()}
-                            style={{marginRight: '5'}}
+                            style={{marginRight: '5px'}}
                           />
-                          <span className={`is-small`}>Shared: only you may edit, but anyone can view via link access</span>
+                           Shared: only you may edit, but anyone can view via link access
                         </label>
                       </div>
                       <div className={`control`}>
@@ -182,9 +182,9 @@ class NodeBoardForm extends Component {
                             onChange={this.onCollaborationChange}
                             disabled={!this.canEdit() && this.isEdit()}
                             readOnly={!this.canEdit() && this.isEdit()}
-                            style={{marginRight: '5'}}
+                            style={{marginRight: '5px'}}
                           />
-                          <span className={`is-small`}>Public: anyone with the link can view and edit</span>
+                           Public: anyone with the link can view and edit
                         </label>
                       </div>
                     </div>
@@ -250,37 +250,13 @@ class NodeBoardForm extends Component {
                           )}
                         </Droppable>
                       </DragDropContext>
-                      {/*{this.state.board.nids.map((node, id) => (*/}
-                      {/*  <div className="control">*/}
-                      {/*    <label for={`issue-node-id-${id}`} className="label sr-only">Issue node ID</label>*/}
-                      {/*    <input*/}
-                      {/*      className="input"*/}
-                      {/*      type="text"*/}
-                      {/*      id={`issue-node-id-${id}`}*/}
-                      {/*      placeholder={`Issue node ID`}*/}
-                      {/*      value={node}*/}
-                      {/*      style={{*/}
-                      {/*        marginBottom: '10px'*/}
-                      {/*      }}*/}
-                      {/*      required={this.state.board.nids.length === 1}*/}
-                      {/*      onChange={(e) => {*/}
-                      {/*        const newNid = e.target.value;*/}
-                      {/*        this.setState({*/}
-                      {/*          board: {*/}
-                      {/*            ...this.state.board,*/}
-                      {/*            nids: this.state.board.nids.map((s, _id) => {*/}
-                      {/*              if (_id !== id) return s;*/}
-                      {/*              return newNid;*/}
-                      {/*            })*/}
-                      {/*          },*/}
-                      {/*        });*/}
-                      {/*      }}*/}
-                      {/*    />*/}
-                      {/*  </div>*/}
-                      {/*))}*/}
                       <button
                         className="is-info button"
                         type="button"
+                        style={{
+                          marginTop: '1em',
+                          marginLeft: '2em',
+                        }}
                         onClick={this.addNewIssue}
                       >Add another issue</button>
                     </div>
