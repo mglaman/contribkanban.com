@@ -25,8 +25,6 @@ class NodeBoard extends Component {
   };
   componentDidMount() {
     const nids = JSON.parse(drupalSettings.board.nids);
-    console.log(nids);
-
     let apiUrl;
     for (let i = 0; i < nids.length; i++) {
       apiUrl = new ApiUrl('node');

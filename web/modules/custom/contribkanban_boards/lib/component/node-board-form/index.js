@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import superagent from 'superagent';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { baseUrl } from "../../utils";
+import qs from 'qs';
+import ApiUrl from '../../url'
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -37,6 +39,7 @@ class NodeBoardForm extends Component {
     this.onCollaborationChange = this.onCollaborationChange.bind(this);
     this.addNewIssue = this.addNewIssue.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
+    this.removeFixedIssues = this.removeFixedIssues.bind(this);
   }
   handleSubmit(event) {
     event.preventDefault();
@@ -91,6 +94,28 @@ class NodeBoardForm extends Component {
         ...this.state.board,
         nids: [...this.state.board.nids, '']
       },
+    });
+  }
+  removeFixedIssues() {
+    this.setState({
+      processing: true,
+    }, () => {
+      const apiUrl = new ApiUrl('node').getEndpointUrl();
+      const params = qs.stringify({
+        nid: this.state.board.nids
+      });
+      fetch(apiUrl + params)
+      .then(resp => resp.json())
+      .then(json => {
+        const newNids = json.list.filter(item => {
+          return ![3,5,6,7,17,18].includes(parseInt(item.field_issue_status))
+        }).map(item => item.nid);
+        console.log(newNids)
+        this.setState({
+          processing: false,
+          nids: newNids
+        })
+      })
     });
   }
   onDragEnd(result) {
@@ -193,7 +218,7 @@ class NodeBoardForm extends Component {
                         className={`is-primary button ${this.state.processing ? ['is-loading'] : []}`}
                         tabIndex={100}
                       >Submit</button>
-                    </div>
+                      </div>
                   </div>
                 </div>
                 <div className="column">
@@ -250,15 +275,27 @@ class NodeBoardForm extends Component {
                           )}
                         </Droppable>
                       </DragDropContext>
-                      <button
-                        className="is-info button"
-                        type="button"
-                        style={{
+                      <div className={`field is-grouped`}                        style={{
                           marginTop: '1em',
                           marginLeft: '2em',
-                        }}
+                        }} >
+                        <div className={`control`}>
+                        <button
+                        className="is-info button"
+                        type="button"
                         onClick={this.addNewIssue}
                       >Add another issue</button>
+                        </div>
+                        <div className={`control`}>
+                        <button
+                        type="button"
+                        onClick={this.removeFixedIssues}
+                        className={`is-warning button ${this.state.processing ? ['is-loading'] : []}`}
+                      >
+                        Remove fixed issues
+                      </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
