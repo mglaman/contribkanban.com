@@ -113,7 +113,10 @@ class NodeBoardForm extends Component {
         console.log(newNids)
         this.setState({
           processing: false,
-          nids: newNids
+          board: {
+            ...this.state.board,
+            nids: newNids
+          },
         })
       })
     });
