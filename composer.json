@@ -23,7 +23,7 @@
         "drupal-composer/drupal-scaffold": "^2.2",
         "drupal/admin_toolbar": "^1.20",
         "drupal/console": "^1.0.2",
-        "drupal/core": "^8.6.0",
+        "drupal/core": "^8.7",
         "drupal/email_registration": "^1.0@RC",
         "drupal/entity": "~1.0",
         "drupal/inline_entity_form": "^1.0@beta",
@@ -37,7 +37,7 @@
     },
     "require-dev": {
         "drupal/drupal-extension": "^3.4",
-        "webflo/drupal-core-require-dev": "^8.6.0",
+        "webflo/drupal-core-require-dev": "^8.7",
         "zaporylie/composer-drupal-optimizations": "^1.0"
     },
     "conflict": {
