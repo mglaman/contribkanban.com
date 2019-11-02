@@ -45,7 +45,7 @@
  * @ingroup themeable
  */
 #}
-<div class="layout-container">
+<div class="layout-container-fluid">
 
   {% block sidebar %}
   <div class="app-sidebar__backdrop"></div>
@@ -77,6 +77,7 @@
   {% endif %}
 
 </div>{# /.layout-container #}
+{% if fathom_site_id %}
 <!-- Fathom - simple website analytics - https://github.com/usefathom/fathom -->
 <script>
 (function(f, a, t, h, o, m){
@@ -92,3 +93,4 @@ fathom('set', 'siteId', 'GLSCF');
 fathom('trackPageview');
 </script>
 <!-- / Fathom -->
+{% endif %}

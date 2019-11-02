@@ -1,16 +1,21 @@
-/* global domready */
-(function (domready) {
-    domready(function () {
-        var embedParam = false;
-        try {
-            var params = new URLSearchParams(window.location.search);
-            embedParam = params.has('embed')
-        } catch(e) {}
-
-        if (window.frameElement !== null || embedParam === true) {
-            var header =document.querySelector('header[role="banner"]');
-            header.classList.add('hidden');
-        }
-    })
-})(domready);
-  
+const domReady = callback => {
+  if (document.readyState !== 'loading') {
+    callback();
+  } else {
+    const listener = () => {
+      callback();
+      document.removeEventListener('DOMContentLoaded', listener);
+    };
+    document.addEventListener('DOMContentLoaded', listener);
+  }
+};
+domReady(() => {
+  let embedParam = false;
+  try {
+    const params = new URLSearchParams(window.location.search);
+    embedParam = params.has('embed')
+  } catch(e) {}
+  if (window.frameElement !== null || embedParam === true) {
+    document.querySelector('header[role="banner"]').classList.add('hidden');
+  }
+});

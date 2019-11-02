@@ -45,7 +45,11 @@ function contribkanban_preprocess_page(array &$variables) {
  * Implements hook_theme_suggestions_page_alter().
  */
 function contribkanban_theme_suggestions_page_alter(array &$suggestions, array $variables) {
-
+  $environment = getenv('LAGOON_ENVIRONMENT_TYPE') ?: 'development';
+  $variables['fathom_site_id'] = null;
+  if ($environment === 'production') {
+    $variables['fathom_site_id'] = 'GLSCF';
+  }
 }
 
 /**

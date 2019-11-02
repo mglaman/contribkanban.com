@@ -46,7 +46,7 @@ jobs:
       - run:
           name: Setup
           command: |
-            ./bin/robo setup
+            ./bin/drush si --account-pass=admin --yes
             curl -I http://127.0.0.1:8080/
 
       - run:

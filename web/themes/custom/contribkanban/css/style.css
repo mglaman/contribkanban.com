@@ -22,15 +22,10 @@ body {
   padding: 0;
 }
 
-
-html,
-body,
-button,
-select,
-html,
-textarea,
-input {
-  font-family: Roboto, "Helvetica Neue", sans-serif; }
+.layout-container-fluid {
+  margin: 0;
+  padding: 0;
+}
 
 .board--list__container {
   display: flex;
