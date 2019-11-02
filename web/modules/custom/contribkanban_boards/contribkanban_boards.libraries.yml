@@ -1,20 +1,3 @@
-mappers:
-  js:
-    /libraries/contribkanban-app/js/mappers.js: { }
-url:
-  js:
-    /libraries/contribkanban-app/js/url.js: { }
-template:
-  js:
-    /libraries/contribkanban-app/js/template.js: { }
-board_list:
-  js:
-    /libraries/contribkanban-app/js/board-list.js: { }
-  dependencies:
-    - core/drupal
-    - contribkanban_boards/template
-    - contribkanban_boards/mappers
-    - contribkanban_boards/url
 form:
   version: VERSION
   css:
@@ -25,10 +8,10 @@ app:
   js:
     /libraries/contribkanban-app/js/main.js:
       preprocess: false
+      minified: true
   dependencies:
     - core/drupalSettings
     - contribkanban_boards/react
-
 react:
   js:
     https://unpkg.com/react@16/umd/react.production.min.js:
