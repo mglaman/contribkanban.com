@@ -7,10 +7,7 @@ import {createStore} from 'redux';
 import reducers from '../../reducers';
 import ApiUrl from "../../url";
 
-import superagent from 'superagent';
-import superagentCache from 'superagent-cache';
 import {baseUrl} from "../../utils";
-superagentCache(superagent);
 
 let store = createStore(reducers, {
   categoryFilterReducer: '_any',
@@ -30,15 +27,12 @@ class NodeBoard extends Component {
       apiUrl = new ApiUrl('node');
       apiUrl.addParameter('nid[]', nids[i]);
       console.log(apiUrl.getEndpointUrl());
-      superagent
-        .get(apiUrl.getEndpointUrl())
-        .backgroundRefresh()
-        .end((err, { body }) => {
-          this.setState(prevState => ({
-            loaded: true,
-            issues: [...prevState.issues, body.list[0]],
-          }))
-        })
+      fetch(apiUrl.getEndpointUrl())
+        .then(resp => resp.json())
+        .then(json => this.setState(prevState => ({
+          loaded: true,
+          issues: [...prevState.issues, json.list[0]],
+        })))
     }
   }
   render() {

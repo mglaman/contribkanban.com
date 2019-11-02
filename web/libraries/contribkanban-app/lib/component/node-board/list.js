@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { string, array} from 'prop-types';
-import superagent from 'superagent';
-import superagentCache from 'superagent-cache';
 import Issue from "./issue";
 import { connect } from 'react-redux';
-
-superagentCache(superagent);
 
 class List extends Component {
   constructor(props){

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import superagent from 'superagent';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { baseUrl } from "../../utils";
 import qs from 'qs';
@@ -43,36 +42,41 @@ class NodeBoardForm extends Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    this.setState({
-      processing: true,
-    }, () => {
-      superagent.get(`${baseUrl}/session/token`)
-      .then(res => {
-        const csrfToken = res.text
-        let request;
-        const payload = this.state.board;
-        if (!this.isEdit()) {
-          request = superagent.post(`${baseUrl}entity/node_board`)
-          delete payload['board_id'];
-        } else {
-          request = superagent.patch(`${baseUrl}node-board/${this.state.board.uuid}`)
-        }
-        request
-          .set('X-CSRF-Token', csrfToken)
-          .send(payload)
-          .end((error, res) => {
+    this.setState({processing: true}, () => {
+      fetch(`${baseUrl}/session/token`)
+        .then(res => res.text())
+        .then(csrfToken => {
+          let apiUrl, apiMethod;
+          const payload = this.state.board;
+          if (!this.isEdit()) {
+            apiUrl = `${baseUrl}entity/node_board`;
+            apiMethod = 'POST';
+            delete payload['board_id'];
+          } else {
+            apiUrl = `${baseUrl}node-board/${this.state.board.uuid}`;
+            apiMethod = 'PATCH'
+          }
+          fetch(apiUrl, {
+            method: apiMethod,
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': csrfToken
+            },
+            body: JSON.stringify(payload)
+          }).then(res => {
             if (res.statusCode === 200) {
               window.location.href = `${baseUrl}node-board/${this.state.board.uuid}`
             }
-            else if (res.statusCode === 201) {
-              const body = JSON.parse(res.text);
-              window.location.href = `${baseUrl}node-board/${body.uuid}`
-            }
-            else {
-              alert(res.text);
-            }
-          });
-      })
+            return res.json();
+          })
+            .then(json => {
+              window.location.href = `${baseUrl}node-board/${json.uuid}`
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+
+        });
     });
   }
   getTitle() {

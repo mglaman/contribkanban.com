@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import superagent from 'superagent';
 import PropTypes from 'prop-types'
 import {baseUrl} from "../../utils";
 
@@ -12,14 +11,12 @@ class MyBoards extends Component {
     boards: [],
   };
   componentDidMount() {
-    superagent
-      .get(`${baseUrl}api/user/${this.props.uid}/boards?_format=json`)
-      .end((err, { body }) => {
-        this.setState({
-          loaded: true,
-          boards: body,
-        })
-      });
+    fetch(`${baseUrl}api/user/${this.props.uid}/boards?_format=json`)
+      .then(res => res.json())
+      .then(json => this.setState({
+        loaded: true,
+        boards: json,
+      }))
   }
   render() {
     return (
