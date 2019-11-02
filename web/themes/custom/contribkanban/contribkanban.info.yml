@@ -3,10 +3,15 @@ type: theme
 description: Theme for ContribKanban
 package: Other
 core: 8.x
+base theme: claro
 libraries:
   - contribkanban/global-styling
-base theme: claro
-
+libraries-override:
+  system/admin:
+    css:
+      theme:
+        /core/themes/stable/css/system/system.admin.css: css/overrides/system-admin--layout.css
+        /core/themes/claro/css/src/layout/system-admin--layout.css: css/overrides/system-admin--layout.css
 regions:
   header: 'Header'
   pre_content: 'Pre-content'

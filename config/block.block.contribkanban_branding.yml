@@ -1,6 +1,6 @@
 uuid: 4e765315-d1f6-459f-9339-3fd1d93758c6
 langcode: en
-status: true
+status: false
 dependencies:
   module:
     - system
@@ -10,7 +10,7 @@ _core:
   default_config_hash: fRKXNB91UxDvEMkzCR8ZBsawfC6Fqbme2gtobei3gu4
 id: contribkanban_branding
 theme: contribkanban
-region: primary_menu
+region: header
 weight: -2
 provider: null
 plugin: system_branding_block

@@ -14,7 +14,6 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
   color: rgba(0,0,0,0.87);
   background-color: rgb(250,250,250);
-  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 body {
   overflow-y: auto;
@@ -249,3 +248,4 @@ body.toolbar-horizontal.toolbar-tray-open .app-sidebar {
   padding: 0 !important;
   margin: 0 !important;
 }
+

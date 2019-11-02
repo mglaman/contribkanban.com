@@ -1,6 +1,6 @@
 uuid: de787181-35f3-4617-9a7f-7087fc9e3a3e
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - system.menu.account
@@ -10,7 +10,7 @@ dependencies:
     - contribkanban
 id: useraccountmenu
 theme: contribkanban
-region: secondary_menu
+region: header
 weight: 0
 provider: null
 plugin: 'system_menu_block:account'
@@ -21,4 +21,5 @@ settings:
   label_display: '0'
   level: 1
   depth: 0
+  expand_all_items: false
 visibility: {  }

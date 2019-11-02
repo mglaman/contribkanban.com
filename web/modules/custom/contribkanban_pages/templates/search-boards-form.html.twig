@@ -1,9 +1,5 @@
-<div class="card">
-  <div class="card-content">
-    <div class="columns">
-      {{ form.query }}
-      {{ form.submit }}
-    </div>
-    {{ form|without('query', 'submit') }}
-  </div>
+<div class="container-inline">
+  {{ form.query }}
+  {{ form.submit }}
+  {{ form|without('query', 'submit') }}
 </div>

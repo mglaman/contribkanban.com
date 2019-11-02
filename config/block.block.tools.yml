@@ -1,6 +1,6 @@
 uuid: 55df23ab-de82-4146-9006-cc3fd69b2c0f
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - system.menu.tools
@@ -10,7 +10,7 @@ dependencies:
     - contribkanban
 id: tools
 theme: contribkanban
-region: primary_menu
+region: header
 weight: 0
 provider: null
 plugin: 'system_menu_block:tools'
@@ -21,4 +21,5 @@ settings:
   label_display: '0'
   level: 1
   depth: 0
+  expand_all_items: false
 visibility: {  }

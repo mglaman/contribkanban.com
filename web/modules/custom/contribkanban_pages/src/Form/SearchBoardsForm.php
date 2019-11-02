@@ -18,15 +18,12 @@ class SearchBoardsForm extends FormBase {
       '#title' => $this->t('Board name'),
       '#title_display' => 'hidden',
       '#placeholder' => $this->t('Board name'),
+      '#size' => 50
     ];
     $form['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('Search'),
-      '#attributes' => [
-        'class' => [
-          'is-info',
-        ],
-      ],
+      '#button_type' => 'primary',
     ];
     return $form;
   }

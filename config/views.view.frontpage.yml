@@ -88,6 +88,8 @@ display:
               authenticated: authenticated
             required: false
             use_operator: false
+            operator_limit_selection: false
+            operator_list: {  }
           exposed: false
           field: promote
           group: 1
@@ -115,6 +117,8 @@ display:
         status:
           expose:
             operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
           field: status
           group: 1
           id: status
@@ -148,6 +152,8 @@ display:
             remember_roles:
               authenticated: authenticated
             reduce: false
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''

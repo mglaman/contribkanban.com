@@ -1,0 +1,20 @@
+uuid: 2af04338-059a-4d70-8c90-b33fe73bd5e0
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - contribkanban
+id: messages
+theme: contribkanban
+region: highlighted
+weight: 0
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: Messages
+  provider: system
+  label_display: '0'
+visibility: {  }

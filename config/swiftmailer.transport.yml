@@ -10,6 +10,6 @@ smtp_credentials:
   key:
     username: ''
     password: ''
-sendmail_path: '/usr/sbin/sendmail'
-sendmail_mode: 'bs'
+sendmail_path: /usr/sbin/sendmail
+sendmail_mode: bs
 spool_directory: ''
