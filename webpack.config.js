@@ -1,8 +1,8 @@
 path = require('path');
 module.exports = {
-  entry: "./lib",
+  entry: "./web/libraries/contribkanban-app/lib",
   output: {
-    path: path.resolve(__dirname, "js"),
+    path: path.resolve(__dirname, "web/libraries/contribkanban-app/js"),
   },
   externals: {
     "react": "React",

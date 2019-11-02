@@ -1,15 +1,15 @@
 mappers:
   js:
-    js/mappers.js: { }
+    /libraries/contribkanban-app/js/mappers.js: { }
 url:
   js:
-    js/url.js: { }
+    /libraries/contribkanban-app/js/url.js: { }
 template:
   js:
-    js/template.js: { }
+    /libraries/contribkanban-app/js/template.js: { }
 board_list:
   js:
-    js/board-list.js: { }
+    /libraries/contribkanban-app/js/board-list.js: { }
   dependencies:
     - core/drupal
     - contribkanban_boards/template
@@ -23,7 +23,7 @@ form:
 
 app:
   js:
-    js/main.js:
+    /libraries/contribkanban-app/js/main.js:
       preprocess: false
   dependencies:
     - core/drupalSettings
