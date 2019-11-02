@@ -3,7 +3,7 @@ type: profile
 core: 8.x
 
 config_install: true
-config_install_path: '../config/sync'
+config_install_path: '../config'
 
 themes:
   - seven
@@ -11,3 +11,5 @@ themes:
 
 distribution:
   name: ContribKanban.com
+  install:
+    theme: seven

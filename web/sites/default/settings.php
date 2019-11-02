@@ -40,7 +40,7 @@ if (getenv('LAGOON')){
   $settings['redis.connection']['port'] = 6379;
   $settings['cache_prefix']['default'] = getenv('LAGOON_PROJECT') . '_' . getenv('LAGOON_GIT_SAFE_BRANCH');
   # Do not set the cache during installations of Drupal
-  if (!drupal_installation_attempted() && extension_loaded('redis')) {
+  if (FALSE && !drupal_installation_attempted() && extension_loaded('redis')) {
     $settings['cache']['default'] = 'cache.backend.redis';
     // Include the default example.services.yml from the module, which will
     // replace all supported backend services (that currently includes the cache tags

@@ -32,10 +32,6 @@
     <title>{{ head_title|safe_join(' | ') }}</title>
     <css-placeholder token="{{ placeholder_token }}">
     <js-placeholder token="{{ placeholder_token }}">
-      <script type="text/javascript">
-        function createKeenWebAutoCollector(){window.keenWebAutoCollector=window.KeenWebAutoCollector.create({projectId:'5a75238346e0fb000143e12e',writeKey:'DACB2F5CC44CCBC9312D1E2FA1BE028F515040CAE805640C460DF877C9288E5B2898C475161D1B8251D0AC8BFF2DACC7D7C07E394FC94EC66C3A2A51E9927A33A88199DFA8ECFD4B5271F1351BDE314C3FCFA0862FDDD6EA66F553D8159DDBB4',onloadCallbacks:window.keenWebAutoCollector.onloadCallbacks}),window.keenWebAutoCollector.loaded()}function initKeenWebAutoCollector(){window.keenWebAutoCollector.domReady()?window.createKeenWebAutoCollector():document.addEventListener("readystatechange",function(){window.keenWebAutoCollector.domReady()&&window.createKeenWebAutoCollector()})}window.keenWebAutoCollector={onloadCallbacks:[],onload:function(a){this.onloadCallbacks.push(a)},domReady:function(){return["ready","complete"].indexOf(document.readyState)>-1}};
-      </script>
-      <script async type="text/javascript" src="https://d26b395fwzu5fz.cloudfront.net/keen-web-autocollector-1.0.8.min.js" onload="initKeenWebAutoCollector()"></script>
     </head>
   <body{{ attributes }}>
     {#
