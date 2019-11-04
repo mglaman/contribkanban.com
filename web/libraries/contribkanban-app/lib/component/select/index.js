@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { arrayOf, string, func, shape } from 'prop-types';
 
-class Select extends Component {
+class Select extends PureComponent {
   static propTypes = {
     data: arrayOf(
       shape({
@@ -13,9 +13,9 @@ class Select extends Component {
     onChange: func.isRequired,
     selected: string
   };
-  constructor({ onChange }) {
-    super();
-    this.onChange = onChange;
+  constructor(props) {
+    super(props);
+    this.onChange = props.onChange;
   }
   changeHandler = e => {
     this.onChange(e);
@@ -23,21 +23,20 @@ class Select extends Component {
   render() {
     const { label, data, selected } = this.props;
     return (
-      <div className="field">
-        <div className="control">
-          <div className="select">
-            <select
-              key={`select-${label || 'select'}`}
-              onChange={this.changeHandler}
-              value={selected}
-            >
-              {data.map(({ value, item }) => (
-                <option key={`${item}-${value}`} value={value}>
-                  {item}
-                </option>
-              ))}
-            </select>
-          </div>
+      <div className={`form-item`}>
+        <div className={`select`}>
+          <select
+            key={`select-${label || 'select'}`}
+            onChange={this.changeHandler}
+            value={selected}
+            className={`form-select form-element form-element--type-select`}
+          >
+            {data.map(({ value, item }) => (
+              <option key={`${item}-${value}`} value={value}>
+                {item}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
     );

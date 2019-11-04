@@ -11,7 +11,10 @@ libraries-override:
     css:
       theme:
         /core/themes/stable/css/system/system.admin.css: css/overrides/system-admin--layout.css
-        /core/themes/claro/css/src/layout/system-admin--layout.css: css/overrides/system-admin--layout.css
+  claro/system.admin:
+    css:
+      layout:
+        css/src/layout/system-admin--layout.css: css/overrides/system-admin--layout.css
 regions:
   header: 'Header'
   pre_content: 'Pre-content'

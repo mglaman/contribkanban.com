@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import Select from "../select";
 import {
@@ -7,7 +7,7 @@ import {
   versionFilterUpdated
 } from "../../actions";
 
-class Filters extends Component {
+class Filters extends PureComponent {
   constructor(props){
     super(props);
   }
@@ -61,26 +61,23 @@ class Filters extends Component {
   render() {
     return(
       <div className="columns is-clearfix board--filters">
-        <div className={`column is-flex`}>
+        <div className={`container-inline`}>
           <Select data={this.categoryOptions} label="Category" selected={this.props.categoryFilter} onChange={this.categoryChange.bind(this)}/>
           <Select data={this.priorityOptions} label="Priority" selected={this.props.priorityFilter} onChange={this.priorityChange.bind(this)}/>
           {/*<Select data={this.versionOptions} label="Versions" selected={this.props.versionFilter} onChange={this.versionChange.bind(this)}/>*/}
         </div>
-        <div className={`column`}>
-          <a className={`button is-pulled-right is-hidden-mobile`} href={`${window.location.href}/edit`}>
-            Edit
-          </a>
-        </div>
+          {/*Hidden for now until proper access.*/}
+          <a className={`button button--primary visually-hidden`} href={`${window.location.href}/edit`}>Edit</a>
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({categoryFilterReducer, priorityFilterReducer, versionFilterReducer}) => {
   return {
-    categoryFilter: state.categoryFilterReducer,
-    priorityFilter: state.priorityFilterReducer,
-    versionFilter: state.versionFilterReducer,
+    categoryFilter: categoryFilterReducer,
+    priorityFilter: priorityFilterReducer,
+    versionFilter: versionFilterReducer,
   }
 };
 const mapDispatchToProps = (dispatch) => {
