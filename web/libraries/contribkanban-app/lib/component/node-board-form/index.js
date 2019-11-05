@@ -42,7 +42,7 @@ class NodeBoardForm extends Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    this.setState({processing: true}, () => {
+    this.setState({ processing: true }, () => {
       fetch(`${baseUrl}/session/token`)
         .then(res => res.text())
         .then(csrfToken => {
@@ -79,9 +79,6 @@ class NodeBoardForm extends Component {
         });
     });
   }
-  getTitle() {
-    return this.isEdit() ? 'Edit board' : 'Add new board';
-  }
   isEdit() { return this.state.board.hasOwnProperty('board_id') && this.state.board.board_id !== null }
   canEdit() { return parseInt(this.state.uid) === parseInt(this.state.board.uid) }
   onCollaborationChange(event) {
@@ -109,20 +106,19 @@ class NodeBoardForm extends Component {
         nid: this.state.board.nids
       });
       fetch(apiUrl + params)
-      .then(resp => resp.json())
-      .then(json => {
-        const newNids = json.list.filter(item => {
-          return ![3,5,6,7,17,18].includes(parseInt(item.field_issue_status))
-        }).map(item => item.nid);
-        console.log(newNids)
-        this.setState({
-          processing: false,
-          board: {
-            ...this.state.board,
-            nids: newNids
-          },
+        .then(resp => resp.json())
+        .then(json => {
+          const newNids = json.list.filter(item => {
+            return ![3, 5, 6, 7, 17, 18].includes(parseInt(item.field_issue_status))
+          }).map(item => item.nid);
+          this.setState({
+            processing: false,
+            board: {
+              ...this.state.board,
+              nids: newNids
+            },
+          })
         })
-      })
     });
   }
   onDragEnd(result) {
@@ -144,13 +140,13 @@ class NodeBoardForm extends Component {
     });
   }
   render() {
-    return(
+    return (
       <div className="columns">
         <div className="column is-10 is-offset-1">
           <form onSubmit={this.handleSubmit}>
             <div className="">
-              <h1 className="title">{this.getTitle()}</h1>
-              <div className="columns" style={{marginBottom: '1em'}}>
+              <h1 className="title">{this.isEdit() ? 'Edit board' : 'Add new board'}</h1>
+              <div className="columns" style={{ marginBottom: '1em' }}>
                 <div className="column is-4">
                   <div className="box">
                     <div className="field">
@@ -186,9 +182,9 @@ class NodeBoardForm extends Component {
                             onChange={this.onCollaborationChange}
                             disabled={!this.canEdit() && this.isEdit()}
                             readOnly={!this.canEdit() && this.isEdit()}
-                            style={{marginRight: '5px'}}
+                            style={{ marginRight: '5px' }}
                           />
-                           Private: only accessible to you, when logged in
+                          Private: only accessible to you, when logged in
                         </label>
                       </div>
                       <div className={`control`}>
@@ -200,9 +196,9 @@ class NodeBoardForm extends Component {
                             onChange={this.onCollaborationChange}
                             disabled={!this.canEdit() && this.isEdit()}
                             readOnly={!this.canEdit() && this.isEdit()}
-                            style={{marginRight: '5px'}}
+                            style={{ marginRight: '5px' }}
                           />
-                           Shared: only you may edit, but anyone can view via link access
+                          Shared: only you may edit, but anyone can view via link access
                         </label>
                       </div>
                       <div className={`control`}>
@@ -214,9 +210,9 @@ class NodeBoardForm extends Component {
                             onChange={this.onCollaborationChange}
                             disabled={!this.canEdit() && this.isEdit()}
                             readOnly={!this.canEdit() && this.isEdit()}
-                            style={{marginRight: '5px'}}
+                            style={{ marginRight: '5px' }}
                           />
-                           Public: anyone with the link can view and edit
+                          Public: anyone with the link can view and edit
                         </label>
                       </div>
                     </div>
@@ -225,7 +221,7 @@ class NodeBoardForm extends Component {
                         className={`is-primary button ${this.state.processing ? ['is-loading'] : []}`}
                         tabIndex={100}
                       >Submit</button>
-                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="column">
@@ -250,29 +246,29 @@ class NodeBoardForm extends Component {
                                         provided.draggableProps.style
                                       )}
                                     >
-                                        <div className="control">
-                                          <label for={`issue-node-id-${index}`} className="label sr-only">Issue node ID</label>
-                                          <input
-                                            className="input"
-                                            type="text"
-                                            id={`issue-node-id-${index}`}
-                                            placeholder={`Issue node ID`}
-                                            value={item}
-                                            required={this.state.board.nids.length === 1}
-                                            onChange={(e) => {
-                                              const newNid = e.target.value;
-                                              this.setState({
-                                                board: {
-                                                  ...this.state.board,
-                                                  nids: this.state.board.nids.map((s, _id) => {
-                                                    if (_id !== index) return s;
-                                                    return newNid;
-                                                  })
-                                                },
-                                              });
-                                            }}
-                                          />
-                                        </div>
+                                      <div className="control">
+                                        <label for={`issue-node-id-${index}`} className="label sr-only">Issue node ID</label>
+                                        <input
+                                          className="input"
+                                          type="text"
+                                          id={`issue-node-id-${index}`}
+                                          placeholder={`Issue node ID`}
+                                          value={item}
+                                          required={this.state.board.nids.length === 1}
+                                          onChange={(e) => {
+                                            const newNid = e.target.value;
+                                            this.setState({
+                                              board: {
+                                                ...this.state.board,
+                                                nids: this.state.board.nids.map((s, _id) => {
+                                                  if (_id !== index) return s;
+                                                  return newNid;
+                                                })
+                                              },
+                                            });
+                                          }}
+                                        />
+                                      </div>
                                     </div>
                                   )}
                                 </Draggable>
@@ -282,24 +278,24 @@ class NodeBoardForm extends Component {
                           )}
                         </Droppable>
                       </DragDropContext>
-                      <div className={`field is-grouped`}                        style={{
-                          marginTop: '1em',
-                          marginLeft: '2em',
-                        }} >
+                      <div className={`field is-grouped`} style={{
+                        marginTop: '1em',
+                        marginLeft: '2em',
+                      }} >
                         <div className={`control`}>
-                        <button
-                        className="is-info button"
-                        type="button"
-                        onClick={this.addNewIssue}
-                      >Add another issue</button>
+                          <button
+                            className="is-info button"
+                            type="button"
+                            onClick={this.addNewIssue}
+                          >Add another issue</button>
                         </div>
                         <div className={`control`}>
-                        <button
-                        type="button"
-                        onClick={this.removeFixedIssues}
-                        className={`is-warning button ${this.state.processing ? ['is-loading'] : []}`}
-                      >
-                        Remove fixed issues
+                          <button
+                            type="button"
+                            onClick={this.removeFixedIssues}
+                            className={`is-warning button ${this.state.processing ? ['is-loading'] : []}`}
+                          >
+                            Remove fixed issues
                       </button>
                         </div>
                       </div>

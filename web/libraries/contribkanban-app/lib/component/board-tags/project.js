@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {number} from 'prop-types';
-import ApiUrl from "../../../url";
+import React, { PureComponent } from 'react';
+import { number } from 'prop-types';
+import ApiUrl from "../../url";
 
-export default class IssueProject extends Component {
+export default class IssueProject extends PureComponent {
   static propTypes = {
     projectNid: number.isRequired
   };
@@ -19,11 +19,11 @@ export default class IssueProject extends Component {
     } else {
       const apiUrl = new ApiUrl('node').addParameter('nid', nid);
       fetch(apiUrl.getEndpointUrl())
-        .then(res => res.json())
+        .then(resp => resp.json())
         .then(json => this.setState({
           loaded: true,
           label: json.list[0].title,
-        }))
+        }));
     }
   }
   render() {

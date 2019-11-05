@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {object} from 'prop-types';
 import IssueVersion from "../board-tags/version";
-import IssuePriority from "./tags/priority";
-import IssueCategory from "./tags/category";
-import IssueProject from "./tags/project";
+import IssuePriority from "../board-tags/priority";
+import IssueCategory from "../board-tags/category";
+import IssueProject from "../board-tags/project";
 
 export default class Issue extends Component {
   static propTypes = {
