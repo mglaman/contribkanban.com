@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { string, array} from 'prop-types';
-import Issue from "./issue";
+import Issue from "../board/issue";
 import { connect } from 'react-redux';
 
 class List extends Component {

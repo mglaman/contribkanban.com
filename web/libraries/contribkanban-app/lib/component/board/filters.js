@@ -6,31 +6,12 @@ import {
   priorityFilterUpdated,
   versionFilterUpdated
 } from "../../actions";
+import {
+  categoryOptions,
+  priorityOptions
+} from "../../utils"
 
 class Filters extends Component {
-  constructor(props){
-    super(props);
-  }
-  categoryOptions = [
-    {value: '_any', item: 'Any category'},
-    {value: 1, item: 'Bug report'},
-    {value: 2, item: 'Task'},
-    {value: 3, item: 'Feature request'},
-    {value: 4, item: 'Support request'},
-    {value: 5, item: 'Plan'},
-  ];
-  priorityOptions = [
-    {value: '_any', item: 'Any priority'},
-    {value: 400, item: 'Critical'},
-    {value: 300, item: 'Major'},
-    {value: 200, item: 'Normal'},
-    {value: 100, item: 'Minor'},
-  ];
-  versionOptions = [
-    {value: '_any', item: 'Any version'},
-    {value: '8.x', item: 'Drupal 8'},
-    {value: '7.x', item: 'Drupal 7'},
-  ];
   categoryChange(e) {
     ga('send', {
       hitType: 'event',
@@ -62,8 +43,8 @@ class Filters extends Component {
     return(
       <div className="columns is-clearfix board--filters">
         <div className={`column is-flex`}>
-          <Select data={this.categoryOptions} label="Category" selected={this.props.categoryFilter} onChange={this.categoryChange.bind(this)}/>
-          <Select data={this.priorityOptions} label="Priority" selected={this.props.priorityFilter} onChange={this.priorityChange.bind(this)}/>
+          <Select data={categoryOptions} label="Category" selected={this.props.categoryFilter} onChange={this.categoryChange.bind(this)}/>
+          <Select data={priorityOptions} label="Priority" selected={this.props.priorityFilter} onChange={this.priorityChange.bind(this)}/>
           {/*<Select data={this.versionOptions} label="Versions" selected={this.props.versionFilter} onChange={this.versionChange.bind(this)}/>*/}
         </div>
         <div className={`column`}>

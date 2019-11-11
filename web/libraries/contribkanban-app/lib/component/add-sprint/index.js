@@ -70,7 +70,7 @@ class AddSprint extends Component {
               className={`is-info button ${this.state.processing ? ['is-loading'] : []}`}
               disabled={this.state.processing}
             >
-              Add sprint
+              Add tag
             </button>
           </div>
           {this.state.error ? [<p className="help is-danger">This tag is invalid</p>] : []}

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Filters from "./filters";
 import List from "./list";
 import { Provider } from 'react-redux'
@@ -13,7 +13,7 @@ let store = createStore(reducers, {
   versionFilterReducer: '_any',
 });
 
-class Board extends Component {
+class Board extends PureComponent {
   state = {
     loaded: false,
     board: []
