@@ -1,7 +1,7 @@
 import React from 'react';
 import {number} from 'prop-types';
 
-const IssuePriority = ({ priority }) => <span className={`tag is-${this.priorityToClass[priority]}`}>{this.priorityToLabel[priority]}</span>
+const IssuePriority = ({ priority }) => <span className={`tag is-${IssuePriority.priorityToClass[priority]}`}>{IssuePriority.priorityToLabel[priority]}</span>
 IssuePriority.propTypes = {
   priority: number.isRequired
 };
