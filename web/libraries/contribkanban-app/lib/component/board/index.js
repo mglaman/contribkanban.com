@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import Filters from "./filters";
 import List from "./list";
 import { Provider } from 'react-redux'
-import CodeFund from '../codefund';
 
 import {createStore} from 'redux';
 import reducers from '../../reducers';
@@ -41,7 +40,6 @@ class Board extends PureComponent {
               ] : []}
             </div>
           </div>
-          <CodeFund template={`bottom-bar`} theme={`light`}/>
         </div>
       </Provider>
     )
