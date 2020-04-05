@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Filters from "./filters";
 import List from "./list";
 import { Provider } from 'react-redux'
-import CodeFund from '../codefund';
 import {createStore} from 'redux';
 import reducers from '../../reducers';
 import ApiUrl from "../../url";
