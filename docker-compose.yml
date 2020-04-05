@@ -23,6 +23,17 @@ x-environment:
 
 services:
 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    image: *lagoon-project
+    labels:
+      # Lagoon Labels
+      lagoon.type: nginx
+    environment:
+      << : *default-environment # loads the defined environment variables from the top
+
   cli:
     build:
       context: .

@@ -28,7 +28,8 @@ tasks:
         name: Push a pending status
         command: ./scripts/github-build-status.sh success
         service: cli
-
+routes:
+  insecure: Redirect
 environments:
   master:
     cronjobs:
@@ -37,6 +38,10 @@ environments:
         command: drush cron
         service: cli
     routes:
+      - app:
+        - app.contribkanban.com:
+            tls-acme: 'true'
+            insecure: Redirect
       - nginx:
         - contribkanban.com:
             tls-acme: 'true'
