@@ -3,5 +3,6 @@ description: Creates kanban boards for contributed projects.
 core: 8.x
 type: module
 dependencies:
-  - entity
-  - inline_entity_form
+  - drupal:options
+  - entity:entity
+  - inline_entity_form:inline_entity_form

@@ -14,7 +14,6 @@ description: ''
 tag: ''
 base_table: node_board
 base_field: board_id
-core: 8.x
 display:
   default:
     display_plugin: default

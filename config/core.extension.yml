@@ -23,6 +23,7 @@ module:
   node: 0
   options: 0
   page_cache: 0
+  path_alias: 0
   rest: 0
   serialization: 0
   swiftmailer: 0
