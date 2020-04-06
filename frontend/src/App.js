@@ -8,6 +8,7 @@ import {
 import AppBar from './components/AppBar'
 import Home from './pages/Home'
 import Board from './pages/Board'
+import Create from './pages/Create'
 
 const styles = theme => ({
 })
@@ -18,6 +19,7 @@ function App({ classes }) {
       <AppBar />
       <Switch>
         <Route path={`/board/:machineName`} component={Board} />
+        <Route path={`/create`} component={Create} />
         <Route path="/about">
           <p>About</p>
         </Route>
