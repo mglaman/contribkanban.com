@@ -1,35 +1,30 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
+import AppBar from './components/AppBar'
+import Home from './pages/Home'
+import Board from './pages/Board'
 
-function App() {
+const styles = theme => ({
+})
+
+function App({ classes }) {
   return (
     <Router>
-      <AppBar position="fixed">
-      <Toolbar>
-      <Typography variant="h6">ContribKanban</Typography>
-      </Toolbar>
-      </AppBar>
-      <div className={``} style={{
-        height: '64px'
-      }}/>
+      <AppBar />
       <Switch>
-        <Route path="/">
-          <p>Home</p>
-        </Route>
+        <Route path={`/board/:machineName`} component={Board} />
         <Route path="/about">
           <p>About</p>
         </Route>
+        <Route path="/" component={Home}/>
       </Switch>
     </Router>
   );
 }
 
-export default App;
+export default withStyles(styles)(App);

@@ -5,9 +5,14 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import { createMuiTheme } from '@material-ui/core/styles';
+const muiTheme = createMuiTheme({
+
+});
+
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider>
+    <ThemeProvider theme={muiTheme}>
       <CssBaseline />
       <App />
     </ThemeProvider>
