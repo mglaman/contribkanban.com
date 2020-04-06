@@ -1,3 +1,17 @@
+export function getApiHostname() {
+  if (process.env.REACT_APP_API_HOSTNAME) {
+    return process.env.REACT_APP_API_HOSTNAME
+  }
+  if (process.env.REACT_APP_LAGOON_DOMAIN === "") {
+    return 'nginx.contribkanban-app.docker.amazee.io'
+  }
+  if (process.env.REACT_APP_LAGOON_BRANCH === 'master') {
+    // @todo api.contribkanban.com
+    return 'contribkanban.com'
+  }
+  return `nginx-${process.env.REACT_APP_LAGOON_PROJECT}-${process.env.REACT_APP_LAGOON_BRANCH}.us.amazee.io`
+}
+
 
 
 export const getMappedIncludes = document =>
