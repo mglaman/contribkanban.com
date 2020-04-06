@@ -24,3 +24,8 @@ services:
     class: Drupal\contribkanban_api\Normalizer\FieldNormalizer
     tags:
       - { name: normalizer, priority: 9 }
+  contribkanban_api.resource_type_build_subscriber:
+    class: Drupal\contribkanban_api\EventSubscriber\ResourceTypeBuildSubscriber
+    tags:
+      - { name: event_subscriber }
+

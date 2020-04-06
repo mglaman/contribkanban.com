@@ -16,6 +16,8 @@ module:
   filter: 0
   inline_entity_form: 0
   jsonapi: 0
+  jsonapi_resources: 0
+  jsonapi_search_api: 0
   lagoon_logs: 0
   layout_discovery: 0
   link: 0
@@ -25,6 +27,8 @@ module:
   page_cache: 0
   path_alias: 0
   rest: 0
+  search_api: 0
+  search_api_db: 0
   serialization: 0
   swiftmailer: 0
   system: 0
