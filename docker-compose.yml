@@ -14,7 +14,7 @@ x-environment:
   &default-environment
     LAGOON_PROJECT: *lagoon-project
     # Route that should be used locally
-    LAGOON_ROUTE: http://contribkanban.docker.amazee.io
+    LAGOON_ROUTE: http://contribkanban-app.docker.amazee.io
     # Uncomment if you like to have the system behave like in production
     #LAGOON_ENVIRONMENT_TYPE: production
     # Uncomment to enable xdebug and then restart via `docker-compose up -d`
@@ -23,16 +23,20 @@ x-environment:
 
 services:
 
-  app:
+  frontend:
     build:
-      context: .
-      dockerfile: Dockerfile.app
-    image: *lagoon-project
+      context: frontend
+      dockerfile: ../Dockerfile.app
     labels:
       # Lagoon Labels
       lagoon.type: nginx
     environment:
-      << : *default-environment # loads the defined environment variables from the top
+      << : *default-environment
+      LAGOON_LOCALDEV_URL: contribkanban-app.docker.amazee.io
+      API: http://drupal-varnish.contribkanban-app.docker.amazee.io/
+    networks:
+      - amazeeio-network
+      - default
 
   cli:
     build:
@@ -64,7 +68,7 @@ services:
       - cli # basically just tells docker-compose to build the cli first
     environment:
       << : *default-environment # loads the defined environment variables from the top
-      LAGOON_LOCALDEV_URL: nginx-contribkanban.docker.amazee.io # generate another route for nginx, by default we go to varnish
+      LAGOON_LOCALDEV_URL: nginx.contribkanban-app.docker.amazee.io # generate another route for nginx, by default we go to varnish
     networks:
       - amazeeio-network
       - default
@@ -84,7 +88,6 @@ services:
       - cli # basically just tells docker-compose to build the cli first
     environment:
       << : *default-environment # loads the defined environment variables from the top
-
 
   mariadb:
     image: amazeeio/mariadb-drupal
@@ -111,6 +114,7 @@ services:
     environment:
       << : *default-environment
       VARNISH_BYPASS: "true" # by default we bypass varnish, change to 'false' or remove in order to tell varnish to cache if possible
+      LAGOON_LOCALDEV_URL: drupal-varnish.contribkanban-app.docker.amazee.io
     networks:
       - amazeeio-network
       - default
