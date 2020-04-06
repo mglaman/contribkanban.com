@@ -4,7 +4,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-
+import "./index.css";
 import { createMuiTheme } from "@material-ui/core/styles";
 const muiTheme = createMuiTheme({});
 

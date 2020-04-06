@@ -22,6 +22,14 @@ field_settings:
         - contribkanban_boards
         - contribkanban_boards
         - contribkanban_boards
+  machine_name:
+    label: 'The machine name used for routing'
+    datasource_id: 'entity:board'
+    property_path: machine_name
+    type: string
+    dependencies:
+      module:
+        - contribkanban_boards
   priority:
     label: 'Lists » Board list » Priority'
     datasource_id: 'entity:board'
@@ -90,6 +98,7 @@ processor_settings:
     all_fields: true
     fields:
       - category
+      - machine_name
       - priority
       - project
       - statuses

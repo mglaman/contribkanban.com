@@ -12,7 +12,7 @@ import TextField from "@material-ui/core/TextField";
 
 import { Link as RouterLink } from "react-router-dom";
 import { FormControl } from "@material-ui/core";
-import { getApiHostname } from "../api";
+import { getApiBaseUrl } from "../api";
 
 const styles = (theme) => ({
   margin: {
@@ -21,7 +21,7 @@ const styles = (theme) => ({
 });
 
 function BoardListing({ classes }) {
-  const baseApiSearchUrl = `https://${getApiHostname()}/jsonapi/index/boards?sort=title`;
+  const baseApiSearchUrl = `${getApiBaseUrl()}/jsonapi/index/boards?sort=title`;
   const [currentState, setCurrentState] = useState("LOADING");
   const [boards, setBoards] = useState({});
   const [apiSearchUrl, setApiSearchUrl] = useState(baseApiSearchUrl);
