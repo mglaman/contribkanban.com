@@ -13,6 +13,7 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Chip from "@material-ui/core/Chip";
+import usePageTitle from "../hooks/pageTitle";
 
 const styles = (theme) => ({
   root: {
@@ -76,13 +77,14 @@ function Board({ classes }) {
     setHeightFix(windowHeight - 70 - 32);
   }, [windowHeight]);
 
+  const boardTitle = board?.data?.[0].attributes.title;
+  usePageTitle(boardTitle ? boardTitle : "Board");
   if (currentState === "LOADING") {
     return <span>Loading...</span>;
   }
   if (currentState === "ERROR") {
     return <span>Error!</span>;
   }
-
   const mappedIncludes = getMappedIncludes(board);
   const lists = getRelationshipFromMappedIncludes(
     board.data[0],

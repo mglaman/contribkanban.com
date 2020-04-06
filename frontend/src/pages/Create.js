@@ -1,7 +1,9 @@
 import React from "react";
 import { Container, Paper, Grid } from "@material-ui/core";
+import usePageTitle from "../hooks/pageTitle";
 
 function Create() {
+  usePageTitle(`Create a new board`);
   return (
     <Container>
       <Paper>

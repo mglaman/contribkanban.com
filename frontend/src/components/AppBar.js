@@ -29,9 +29,6 @@ const styles = (theme) => ({
     flexGrow: 1,
   },
   placeholder: toolbarStyles(theme).root,
-  offset: {
-    marginBottom: theme.spacing(4),
-  },
   toolbar: {
     justifyContent: "space-between",
   },
@@ -121,7 +118,6 @@ function AppBar({ classes }) {
         </List>
       </Drawer>
       <div className={classes.placeholder} />
-      <div className={classes.offset} />
     </Fragment>
   );
 }

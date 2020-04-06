@@ -6,11 +6,11 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import amazeeHosting from "./amazeeio-hosted-badge.png";
 import BoardListing from "../components/BoardListing";
-
+import usePageTitle from "../hooks/pageTitle";
 const styles = (theme) => ({
   root: {
     display: "flex",
-    overflow: "hidden",
+    marginTop: theme.spacing(2),
   },
   container: {
     // marginTop: theme.spacing(15),
@@ -28,6 +28,7 @@ const styles = (theme) => ({
 });
 
 function Home({ classes }) {
+  usePageTitle(`All boards`);
   return (
     <section className={classes.root}>
       <Container className={classes.container}>

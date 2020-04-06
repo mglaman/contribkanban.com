@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-const usePageTitle = () => {
-  const [pageTitle, setPageTitle] = useState("ContribKanban");
-  return pageTitle;
-};
+export default function usePageTitle(title) {
+  useEffect(() => {
+    document.title = `${title} - ContribKanban`;
+  }, [title]);
+}
