@@ -1,4 +1,5 @@
 export function getApiHostname() {
+  console.log(process.env)
   if (process.env.REACT_APP_API_HOSTNAME) {
     return process.env.REACT_APP_API_HOSTNAME
   }
