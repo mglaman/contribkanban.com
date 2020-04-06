@@ -3,7 +3,7 @@ export function getApiHostname() {
   if (process.env.REACT_APP_API_HOSTNAME) {
     return process.env.REACT_APP_API_HOSTNAME
   }
-  if (process.env.REACT_APP_LAGOON_DOMAIN === "") {
+  if (process.env.REACT_APP_LAGOON_BRANCH === "") {
     return 'nginx.contribkanban-app.docker.amazee.io'
   }
   if (process.env.REACT_APP_LAGOON_BRANCH === 'master') {
