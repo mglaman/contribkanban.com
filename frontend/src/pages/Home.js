@@ -40,8 +40,10 @@ function Home({ classes }) {
           </Grid>
           <Grid item xs={12} md={4}>
             <Paper className={classes.paper}>
-              <Typography variant="h5">Welcome to Contrib Kanban!</Typography>
-              <Typography variant="body1">
+              <Typography gutterBottom variant="h5">
+                Welcome to Contrib Kanban!
+              </Typography>
+              <Typography gutterBottom variant="body1">
                 This is a tool built by{" "}
                 <a href="http://glamanate.com">Matt Glaman</a>
               </Typography>

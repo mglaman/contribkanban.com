@@ -57,6 +57,7 @@ const categoryToLabel = {
 const styles = (theme) => ({
   root: {
     marginBottom: theme.spacing(1),
+    cursor: "pointer",
   },
   actions: {
     flexWrap: "wrap",
@@ -69,7 +70,7 @@ function BoardCard({ data, classes }) {
       variant="outlined"
       className={classes.root}
       onClick={() => {
-        console.log(data);
+        window.open(data.url);
       }}
       style={{
         backgroundColor: statusToColor[parseInt(data.field_issue_status)],
@@ -78,7 +79,7 @@ function BoardCard({ data, classes }) {
       <CardContent>
         <Typography gutterBottom variant="body1">
           {data.title}{" "}
-          <Link color="inherit" href={data.url}>
+          <Link color="inherit" href={data.url} target={`_blank`}>
             #{data.nid}
           </Link>
         </Typography>
