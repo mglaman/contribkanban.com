@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import ApiUrl from "../../url";
 
 class AddBoard extends Component {
@@ -7,45 +7,52 @@ class AddBoard extends Component {
     this.state = {
       processing: false,
       error: false,
-      machineName: ''
+      machineName: "",
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleSubmit(event) {
     event.preventDefault();
-    this.setState({
-      processing: true,
-    }, () => this.validateMachineName());
+    this.setState(
+      {
+        processing: true,
+      },
+      () => this.validateMachineName()
+    );
   }
   validateMachineName() {
-    const machineName = encodeURIComponent(this.state.machineName.toLowerCase());
-    const apiUrl = new ApiUrl('node')
-      .addParameter('field_project_machine_name', machineName);
+    const machineName = encodeURIComponent(
+      this.state.machineName.toLowerCase()
+    );
+    const apiUrl = new ApiUrl("node").addParameter(
+      "field_project_machine_name",
+      machineName
+    );
 
     fetch(apiUrl.getEndpointUrl())
-      .then(resp => resp.json())
-      .then(json => {
+      .then((resp) => resp.json())
+      .then((json) => {
         if (json.list.length === 0) {
           // Not found.
           this.setState({
             processing: false,
-            error: 'Project not found',
-          })
+            error: "Project not found",
+          });
         } else {
           try {
             const baseUrl = `${window.location.origin}${drupalSettings.path.baseUrl}`;
             fetch(`${baseUrl}api/boards/add/${machineName}`, {
-              method: 'POST'
+              method: "POST",
             })
-              .then(resp => resp.json())
-              .then(json => {
-                window.location.href = `${baseUrl}${json.url}`
+              .then((resp) => resp.json())
+              .then((json) => {
+                window.location.href = `${baseUrl}${json.url}`;
               });
           } catch (e) {
             this.setState({
               processing: false,
               error: `Error adding ${machineName}`,
-            })
+            });
           }
         }
       });
@@ -61,7 +68,9 @@ class AddBoard extends Component {
               size="60"
               maxLength="128"
               placeholder="Project machine name"
-              className={`form-text required input ${this.state.error ? ['is-danger'] : []}`}
+              className={`form-text required input ${
+                this.state.error ? ["is-danger"] : []
+              }`}
               required="required"
               aria-required="true"
               onChange={(e) => this.setState({ machineName: e.target.value })}
@@ -69,16 +78,20 @@ class AddBoard extends Component {
             />
             <button
               type="submit"
-              className={`is-info button ${this.state.processing ? ['is-loading'] : []}`}
+              className={`is-info button ${
+                this.state.processing ? ["is-loading"] : []
+              }`}
               disabled={this.state.processing}
             >
               Add a project
             </button>
           </div>
-          {this.state.error ? [<p className="help is-danger">This project is invalid</p>] : []}
+          {this.state.error
+            ? [<p className="help is-danger">This project is invalid</p>]
+            : []}
         </div>
       </form>
-    )
+    );
   }
 }
 

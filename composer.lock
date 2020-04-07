@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6ba71ec2819eaca2bd40ead6852ff793",
+    "content-hash": "663d51aec8c2a51886acc1db2bdfe326",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2957,6 +2957,9 @@
                         "status": "not-covered",
                         "message": "Project has not opted into security advisory coverage!"
                     }
+                },
+                "patches_applied": {
+                    "Cache tag invalidation on newly indexed items": "https://www.drupal.org/files/issues/2020-04-07/3125571-2.patch"
                 }
             },
             "notification-url": "https://packages.drupal.org/8/downloads",

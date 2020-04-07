@@ -7,15 +7,10 @@ import {
   CardActions,
   Grid,
   Typography,
-  TextField,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
 } from "@material-ui/core";
 import usePageTitle from "../hooks/pageTitle";
+import CreateProjectDialog from "../components/Dialogs/CreateProjectDialog";
 
 const styles = (theme) => ({
   root: {
@@ -26,6 +21,21 @@ const styles = (theme) => ({
     padding: theme.spacing(2),
   },
 });
+
+function DialogFactory({ type, ...rest }) {
+  switch (type) {
+    case "project":
+      return <CreateProjectDialog {...rest} />;
+    case "sprint":
+      return null;
+    case "node_board":
+      return null;
+    case "custom":
+      return null;
+    default:
+      return null;
+  }
+}
 
 function Create({ classes }) {
   usePageTitle(`Create a new board`);
@@ -117,21 +127,7 @@ function Create({ classes }) {
           </Card>
         </Grid>
       </Grid>
-      <Dialog open={open} onClose={handleClose} fullWidth={true}>
-        <DialogTitle>Create {createType}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>Instructions will go here</DialogContentText>
-          <TextField autoFocus margin="dense" id="name" label="Foo" fullWidth />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="secondary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Add board
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <DialogFactory type={createType} open={open} handleClose={handleClose} />
     </Container>
   );
 }

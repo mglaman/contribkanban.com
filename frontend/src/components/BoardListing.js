@@ -20,7 +20,7 @@ const styles = (theme) => ({
   },
 });
 
-function BoardListing({ classes }) {
+function BoardListing({ boardType, classes }) {
   const baseApiSearchUrl = `${getApiBaseUrl()}/jsonapi/index/boards?sort=title`;
   const [currentState, setCurrentState] = useState("LOADING");
   const [boards, setBoards] = useState({});
