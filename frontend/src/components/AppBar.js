@@ -11,6 +11,8 @@ import {
   BugReport as BugReportIcon,
   AccountCircle as AccountCircleIcon,
   NoteAddRounded as NoteAddRoundedIcon,
+  Launch as LaunchIcon,
+  FavoriteBorder as FavoriteBorderIcon,
 } from "@material-ui/icons";
 
 import { Link as RouterLink, useLocation } from "react-router-dom";
@@ -39,6 +41,13 @@ const styles = (theme) => ({
     width: 250,
   },
 });
+
+const boardLinks = [
+  { text: "All", href: "/" },
+  { text: "Drupal core", href: "/core" },
+  { text: "Projects", href: "/projects" },
+  { text: "Sprints", href: "/sprints" },
+];
 
 function AppBar({ classes }) {
   const location = useLocation();
@@ -77,12 +86,17 @@ function AppBar({ classes }) {
       </MuiAppBar>
       <Drawer onClose={handleDrawerClose} open={drawerOpen}>
         <List className={classes.drawerList}>
-          {["All", "Drupal core", "Projects", "Sprints"].map((text, index) => (
-            <ListItem button component={RouterLink} to="/" key={text}>
+          {boardLinks.map((link) => (
+            <ListItem
+              button
+              component={RouterLink}
+              to={link.href}
+              key={link.text}
+            >
               <ListItemIcon>
                 <DashboardIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={link.text} />
             </ListItem>
           ))}
           <ListItem button component={RouterLink} to="/create">
@@ -94,7 +108,11 @@ function AppBar({ classes }) {
         </List>
         <Divider />
         <List className={classes.drawerList}>
-          <ListItem button>
+          <ListItem
+            button
+            component={Link}
+            href="https://github.com/mglaman/contribkanban.com"
+          >
             <ListItemIcon>
               <GitHubIcon />
             </ListItemIcon>
@@ -105,6 +123,26 @@ function AppBar({ classes }) {
               <BugReportIcon />
             </ListItemIcon>
             <ListItemText primary={`Report a bug`} />
+          </ListItem>
+          <ListItem
+            button
+            component={Link}
+            href="https://opencollective.com/contribkanban"
+          >
+            <ListItemIcon>
+              <LaunchIcon />
+            </ListItemIcon>
+            <ListItemText primary={`OpenCollective`} />
+          </ListItem>
+          <ListItem
+            button
+            component={Link}
+            href="https://github.com/sponsors/mglaman"
+          >
+            <ListItemIcon>
+              <FavoriteBorderIcon />
+            </ListItemIcon>
+            <ListItemText primary={`Sponsor`} />
           </ListItem>
         </List>
         <Divider />
