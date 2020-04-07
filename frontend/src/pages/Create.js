@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import {
   Container,
-  Paper,
   Card,
   CardContent,
   CardActions,
@@ -32,7 +31,6 @@ function Create({ classes }) {
   usePageTitle(`Create a new board`);
   const [open, setOpen] = useState(false);
   const [createType, setCreateType] = useState(null);
-  const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
@@ -120,7 +118,7 @@ function Create({ classes }) {
         </Grid>
       </Grid>
       <Dialog open={open} onClose={handleClose} fullWidth={true}>
-        <DialogTitle>Dialog</DialogTitle>
+        <DialogTitle>Create {createType}</DialogTitle>
         <DialogContent>
           <DialogContentText>Instructions will go here</DialogContentText>
           <TextField autoFocus margin="dense" id="name" label="Foo" fullWidth />

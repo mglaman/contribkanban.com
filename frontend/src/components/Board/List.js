@@ -25,80 +25,79 @@ function BoardList({ board, list, classes }) {
   const [currentState, setCurrentState] = useState("LOADING");
   const [listItems, setListItems] = useState([]);
 
-  async function fetchListItems() {
-    const filterData = {
-      ...list,
-      project_nid: list.project_nid.concat(board.attributes.project_nid),
-      tag: list.tag.concat(board.attributes.tag),
-      parent_issue: board.attributes.parent_issue
-        ? board.attributes.parent_issue
-        : list.parent_issue,
-      version: list.version.concat(board.attributes.version),
-    };
-    const queryString = {
-      limit: 100,
-      type: "project_issue",
-      sort: "field_issue_priority",
-      direction: "DESC",
-      field_project: {
-        target_id: filterData.project_nid,
-      },
-      field_issue_status: {
-        value: filterData.statuses,
-      },
-    };
-
-    if (filterData.tag.length > 0) {
-      queryString["taxonomy_vocabulary_9"] = {
-        tid: filterData.tag,
-      };
-    }
-    if (filterData.version.length > 0) {
-      queryString["field_issue_version"] = {
-        value: filterData.tag,
-      };
-    }
-    if (filterData.category !== null) {
-      queryString["field_issue_category"] = filterData.category;
-    }
-    if (filterData.component !== null) {
-      queryString["field_issue_component"] = filterData.component;
-    }
-    if (filterData.parent_issue !== null) {
-      queryString["field_issue_parent"] = filterData.parent_issue;
-    }
-    if (filterData.priority !== null) {
-      queryString["field_issue_priority"] = filterData.priority;
-    }
-
-    const apiUrl = `https://www.drupal.org/api-d7/node.json?${qs.stringify(
-      queryString
-    )}`;
-    console.log(apiUrl);
-
-    const res = await fetch(apiUrl, {
-      headers: {
-        Accept: "application/json",
-      },
-    });
-    if (![200].includes(res.status)) {
-      setCurrentState("ERROR");
-      setListItems([]);
-    } else {
-      res
-        .json()
-        .then((data) => {
-          setListItems(data.list);
-          setCurrentState("OK");
-        })
-        .catch((err) => {
-          setCurrentState("ERROR");
-          setListItems([]);
-        });
-    }
-  }
-
   useEffect(() => {
+    async function fetchListItems() {
+      const filterData = {
+        ...list,
+        project_nid: list.project_nid.concat(board.attributes.project_nid),
+        tag: list.tag.concat(board.attributes.tag),
+        parent_issue: board.attributes.parent_issue
+          ? board.attributes.parent_issue
+          : list.parent_issue,
+        version: list.version.concat(board.attributes.version),
+      };
+      const queryString = {
+        limit: 100,
+        type: "project_issue",
+        sort: "field_issue_priority",
+        direction: "DESC",
+        field_project: {
+          target_id: filterData.project_nid,
+        },
+        field_issue_status: {
+          value: filterData.statuses,
+        },
+      };
+
+      if (filterData.tag.length > 0) {
+        queryString["taxonomy_vocabulary_9"] = {
+          tid: filterData.tag,
+        };
+      }
+      if (filterData.version.length > 0) {
+        queryString["field_issue_version"] = {
+          value: filterData.tag,
+        };
+      }
+      if (filterData.category !== null) {
+        queryString["field_issue_category"] = filterData.category;
+      }
+      if (filterData.component !== null) {
+        queryString["field_issue_component"] = filterData.component;
+      }
+      if (filterData.parent_issue !== null) {
+        queryString["field_issue_parent"] = filterData.parent_issue;
+      }
+      if (filterData.priority !== null) {
+        queryString["field_issue_priority"] = filterData.priority;
+      }
+
+      const apiUrl = `https://www.drupal.org/api-d7/node.json?${qs.stringify(
+        queryString
+      )}`;
+      console.log(apiUrl);
+
+      const res = await fetch(apiUrl, {
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      if (![200].includes(res.status)) {
+        setCurrentState("ERROR");
+        setListItems([]);
+      } else {
+        res
+          .json()
+          .then((data) => {
+            setListItems(data.list);
+            setCurrentState("OK");
+          })
+          .catch((err) => {
+            setCurrentState("ERROR");
+            setListItems([]);
+          });
+      }
+    }
     fetchListItems();
   }, [board, list]);
 

@@ -52,35 +52,37 @@ function BoardListing({ classes }) {
       </React.Fragment>
     );
   }
-  async function getBoards() {
-    const res = await fetch(apiSearchUrl, {
-      headers: {
-        Accept: "application/vnd.api+json",
-      },
-    });
-    if (![200, 201, 204].includes(res.status)) {
-      setCurrentState("ERROR");
-    } else {
-      res
-        .json()
-        .then((data) => {
-          setBoards(data);
-          setCurrentState("OK");
-        })
-        .catch((err) => setCurrentState("ERROR"));
-    }
-  }
 
   useEffect(() => {
+    async function getBoards() {
+      const res = await fetch(apiSearchUrl, {
+        headers: {
+          Accept: "application/vnd.api+json",
+        },
+      });
+      if (![200, 201, 204].includes(res.status)) {
+        setCurrentState("ERROR");
+      } else {
+        res
+          .json()
+          .then((data) => {
+            setBoards(data);
+            setCurrentState("OK");
+          })
+          .catch((err) => setCurrentState("ERROR"));
+      }
+    }
     getBoards();
   }, [apiSearchUrl]);
 
   useEffect(() => {
     const typingTimer = setTimeout(() => {
-      setApiSearchUrl(`${baseApiSearchUrl}&filter[fulltext]=${filterName}`);
+      if (filterName !== "") {
+        setApiSearchUrl(`${baseApiSearchUrl}&filter[fulltext]=${filterName}`);
+      }
     }, 300);
     return () => clearTimeout(typingTimer);
-  }, [filterName]);
+  }, [filterName, baseApiSearchUrl]);
 
   if (currentState === "LOADING") {
     return <span>Loading...</span>;

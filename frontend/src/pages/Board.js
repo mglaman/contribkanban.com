@@ -24,29 +24,29 @@ function Board({ classes }) {
   const [heightFix, setHeightFix] = useState("100%");
   const windowHeight = useWindowHeight();
 
-  async function getBoard() {
-    const baseUrl = getApiBaseUrl();
-    const res = await fetch(
-      `${baseUrl}/jsonapi/index/boards?filter[machine_name]=${machineName}&include=lists`,
-      {
-        headers: {
-          Accept: "application/vnd.api+json",
-        },
-      }
-    );
-    if (![200].includes(res.status)) {
-      setCurrentState("ERROR");
-    } else {
-      res
-        .json()
-        .then((data) => {
-          setBoard(data);
-          setCurrentState("OK");
-        })
-        .catch((err) => setCurrentState("ERROR"));
-    }
-  }
   useEffect(() => {
+    async function getBoard() {
+      const baseUrl = getApiBaseUrl();
+      const res = await fetch(
+        `${baseUrl}/jsonapi/index/boards?filter[machine_name]=${machineName}&include=lists`,
+        {
+          headers: {
+            Accept: "application/vnd.api+json",
+          },
+        }
+      );
+      if (![200].includes(res.status)) {
+        setCurrentState("ERROR");
+      } else {
+        res
+          .json()
+          .then((data) => {
+            setBoard(data);
+            setCurrentState("OK");
+          })
+          .catch((err) => setCurrentState("ERROR"));
+      }
+    }
     getBoard();
   }, [machineName]);
   useEffect(() => {

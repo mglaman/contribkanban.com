@@ -23,21 +23,6 @@ const statusToColor = {
   16: "#eff1f3",
   18: "#fddddd",
 };
-const statusToLabel = {
-  1: "Active",
-  2: "Fixed",
-  3: "Closed (Duplicate)",
-  4: "Postponed",
-  5: "Closed (Won't Fix)",
-  6: "Closed (Works as designed)",
-  7: "Closed (Fixed)",
-  8: "Needs Review",
-  13: "Needs Work",
-  14: "RTBC",
-  15: "Patch (to be ported)",
-  16: "Postponed (Needs more info)",
-  18: "Closed (Cannot Reproduce)",
-};
 
 const priorityToLabel = {
   400: "Critical",
