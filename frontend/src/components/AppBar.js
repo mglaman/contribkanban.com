@@ -54,7 +54,6 @@ function AppBar({ classes }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const handleDrawerOpen = () => setDrawerOpen(true);
   const handleDrawerClose = () => setDrawerOpen(false);
-
   useEffect(() => {
     setDrawerOpen(false);
   }, [location]);
@@ -108,6 +107,21 @@ function AppBar({ classes }) {
         </List>
         <Divider />
         <List className={classes.drawerList}>
+          <ListItem button component={RouterLink} to="/login">
+            <ListItemIcon>
+              <AccountCircleIcon />
+            </ListItemIcon>
+            <ListItemText primary={`Log in`} />
+          </ListItem>
+          <ListItem button component={RouterLink} to="/register">
+            <ListItemIcon>
+              <AccountCircleIcon />
+            </ListItemIcon>
+            <ListItemText primary={`Register`} />
+          </ListItem>
+        </List>
+        <Divider />
+        <List className={classes.drawerList}>
           <ListItem
             button
             component={Link}
@@ -143,15 +157,6 @@ function AppBar({ classes }) {
               <FavoriteBorderIcon />
             </ListItemIcon>
             <ListItemText primary={`Sponsor`} />
-          </ListItem>
-        </List>
-        <Divider />
-        <List className={classes.drawerList}>
-          <ListItem button component={RouterLink} to="/login">
-            <ListItemIcon>
-              <AccountCircleIcon />
-            </ListItemIcon>
-            <ListItemText primary={`Log in`} />
           </ListItem>
         </List>
       </Drawer>

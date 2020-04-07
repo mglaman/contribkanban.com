@@ -11,14 +11,14 @@ import {
 import { useHistory } from "react-router-dom";
 import { getApiBaseUrl } from "../../api";
 
-function CreateProjectDialog({ open, handleClose }) {
+function CreateSprintDialog({ open, handleClose }) {
   const history = useHistory();
-  const [machineName, setMachineName] = useState("");
+  const [tagName, setTagName] = useState("");
   const [currentState, setCurrentState] = useState("OK");
   const [message, setMessage] = useState(null);
 
   async function addBoard() {
-    if (machineName === "") {
+    if (tagName === "") {
       setCurrentState("ERROR");
       setMessage("Machine name cannot be empty.");
       return;
@@ -27,20 +27,20 @@ function CreateProjectDialog({ open, handleClose }) {
     setMessage(null);
 
     const projectListRes = await fetch(
-      `https://www.drupal.org/api-d7/node.json?field_project_machine_name=${machineName}`
+      `https://www.drupal.org/api-d7/taxonomy_term.json?name=${tagName}`
     );
     const projectListJson = await projectListRes.json();
     if (projectListJson.list.length === 0) {
       setCurrentState("ERROR");
-      setMessage(`Cannot find a project for "${machineName}"`);
+      setMessage(`Cannot find a project for "${tagName}"`);
       return;
     }
 
-    fetch(`${getApiBaseUrl()}/api/boards/add/${machineName}`, {
+    fetch(`${getApiBaseUrl()}/api/boards/add/tag/${tagName}`, {
       method: "POST",
     })
       .then((res) => res.json())
-      .then(() => history.push(`/board/${machineName}`))
+      .then(() => history.push(`/board/${tagName}`))
       .catch((err) => {
         setCurrentState("ERROR");
         setMessage("Error adding board, see console.");
@@ -55,12 +55,9 @@ function CreateProjectDialog({ open, handleClose }) {
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth={true}>
-      <DialogTitle>Create project board</DialogTitle>
+      <DialogTitle>Create sprint board</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          Create a board for a specific Drupal.org project by entering in its{" "}
-          <em>machine name</em> below.
-        </DialogContentText>
+        <DialogContentText>Create a board for an issue tag.</DialogContentText>
         {message ? (
           <DialogContentText color="error">{message}</DialogContentText>
         ) : null}
@@ -74,10 +71,10 @@ function CreateProjectDialog({ open, handleClose }) {
             autoFocus
             margin="dense"
             id="name"
-            label="Project machine name"
+            label="Tag name"
             fullWidth
-            value={machineName}
-            onChange={(event) => setMachineName(event.target.value)}
+            value={tagName}
+            onChange={(event) => setTagName(event.target.value)}
             disabled={currentState === "LOADING"}
           />
         </form>
@@ -101,4 +98,4 @@ function CreateProjectDialog({ open, handleClose }) {
     </Dialog>
   );
 }
-export default CreateProjectDialog;
+export default CreateSprintDialog;

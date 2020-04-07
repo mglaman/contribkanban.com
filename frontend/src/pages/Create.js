@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import usePageTitle from "../hooks/pageTitle";
 import CreateProjectDialog from "../components/Dialogs/CreateProjectDialog";
+import CreateSprintDialog from "../components/Dialogs/CreateSprintDialog";
 
 const styles = (theme) => ({
   root: {
@@ -27,7 +28,7 @@ function DialogFactory({ type, ...rest }) {
     case "project":
       return <CreateProjectDialog {...rest} />;
     case "sprint":
-      return null;
+      return <CreateSprintDialog {...rest} />;
     case "node_board":
       return null;
     case "custom":
