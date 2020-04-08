@@ -22,10 +22,12 @@ use Drupal\user\UserInterface;
  *     "id" = "board_id",
  *     "uuid" = "uuid",
  *     "label" = "title",
+ *     "owner" = "uid",
  *   },
  *   handlers = {
  *     "access" = "\Drupal\contribkanban_boards\NodeBoardAccessControlHandler",
  *     "permission_provider" = "\Drupal\entity\EntityPermissionProvider",
+ *     "query_access" = "\Drupal\entity\QueryAccess\QueryAccessHandler",
  *     "views_data" = "\Drupal\views\EntityViewsData",
  *     "form" = {
  *       "default" = "\Drupal\contribkanban_boards\Form\NodeBoardForm",
@@ -45,13 +47,15 @@ use Drupal\user\UserInterface;
  *   },
  * )
  */
-class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwnerInterface {
+class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwnerInterface
+{
 
   const IS_PRIVATE = 'private';
   const IS_SHARED = 'shared';
   const IS_PUBLIC = 'public';
 
-  protected function urlRouteParameters($rel) {
+  protected function urlRouteParameters($rel)
+  {
     $uri_route_parameters = parent::urlRouteParameters($rel);
     if (isset($uri_route_parameters[$this->getEntityTypeId()])) {
       $uri_route_parameters[$this->getEntityTypeId()] = $this->uuid();
@@ -62,21 +66,24 @@ class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwner
   /**
    * {@inheritdoc}
    */
-  public function getOwner() {
+  public function getOwner()
+  {
     return $this->get('uid')->entity;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getOwnerId() {
+  public function getOwnerId()
+  {
     return $this->get('uid')->target_id;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setOwnerId($uid) {
+  public function setOwnerId($uid)
+  {
     $this->set('uid', $uid);
     return $this;
   }
@@ -84,7 +91,8 @@ class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwner
   /**
    * {@inheritdoc}
    */
-  public function setOwner(UserInterface $account) {
+  public function setOwner(UserInterface $account)
+  {
     $this->set('uid', $account->id());
     return $this;
   }
@@ -92,7 +100,8 @@ class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwner
   /**
    * {@inheritdoc}
    */
-  public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
+  public static function baseFieldDefinitions(EntityTypeInterface $entity_type)
+  {
     $fields = parent::baseFieldDefinitions($entity_type);
     $fields['title'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Title'))
@@ -145,8 +154,8 @@ class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwner
    * @return array
    *   An array of default values.
    */
-  public static function getCurrentUserId() {
+  public static function getCurrentUserId()
+  {
     return [\Drupal::currentUser()->id()];
   }
-
 }

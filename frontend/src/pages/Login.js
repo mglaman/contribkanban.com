@@ -27,7 +27,7 @@ const styles = (theme) => ({
 function LoginForm({ classes }) {
   usePageTitle("Login");
   const history = useHistory();
-  const { setAuthTokens } = useAuth();
+  const { auth } = useAuth();
   const [authUsername, setAuthUsername] = useState("");
   const [authPassword, setAuthPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState();
@@ -52,7 +52,7 @@ function LoginForm({ classes }) {
       console.log(json);
       setErrorMessage(json.message);
     } else {
-      setAuthTokens(json);
+      auth.setAuthTokens(json);
       history.push(`/me`);
     }
   }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { AuthContext } from "./context/auth";
+import { AuthContext, OAuth } from "./context/auth";
 import AuthRoute from "./routing/AuthRoute";
 import GuestRoute from "./routing/GuestRoute";
 
@@ -27,14 +27,15 @@ function App() {
     setAuthTokens(null);
   };
 
+  const auth = new OAuth(authTokens, setTokens, expireTokens);
+
   return (
     <AuthContext.Provider
       value={{
         authTokens,
         currentUser,
-        setAuthTokens: setTokens,
-        expireTokens,
         setCurrentUser,
+        auth,
       }}
     >
       <Router>

@@ -7,6 +7,7 @@ const styles = (theme) => ({
   root: {
     width: theme.spacing(7),
     height: theme.spacing(7),
+    marginBottom: theme.spacing(2),
   },
 });
 

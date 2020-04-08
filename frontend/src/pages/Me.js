@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Paper,
@@ -12,6 +12,7 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 import { useAuth } from "../context/auth";
 import Gravatar from "../components/Gravatar";
+import { getApiBaseUrl } from "../api";
 
 const styles = (theme) => ({
   root: {
@@ -23,12 +24,31 @@ const styles = (theme) => ({
   acccountButtons: {
     width: "100%",
   },
+  accountBadge: {
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+  },
 });
 
 function Me({ classes }) {
-  const { currentUser } = useAuth();
+  const { auth, currentUser } = useAuth();
+  const [nodeBoards, setNodeBoards] = useState(null);
   useEffect(() => {
     console.log(currentUser);
+    async function fetchBoards() {
+      const res = await auth.fetchAsAuthenticated(
+        `${getApiBaseUrl()}/jsonapi/node_board/node_board?filter[uid.id]=${
+          currentUser.data.id
+        }`
+      );
+      const json = await res.json();
+      setNodeBoards(json);
+      console.log(json);
+    }
+    if (currentUser !== null) {
+      fetchBoards();
+    }
   }, [currentUser]);
   if (currentUser === null) {
     return null;
@@ -38,10 +58,13 @@ function Me({ classes }) {
       <Grid container spacing={4}>
         <Grid item md={6} lg={4} xl={3}>
           <Card>
-            <CardContent>
+            <CardContent className={classes.accountBadge}>
               <Gravatar emailHash={"tdodoneedhash"} />
-              <Typography variant="body2">
+              <Typography gutterBottom variant="body1">
                 {currentUser.data.attributes.mail}
+              </Typography>
+              <Typography gutterBottom variant="body1">
+                {currentUser.data.attributes.drupalorg_username}
               </Typography>
             </CardContent>
             <CardActions>
@@ -51,7 +74,11 @@ function Me({ classes }) {
           </Card>
         </Grid>
         <Grid item md={6} lg={8} xl={9}>
-          others
+          <Grid>
+            <Card>
+              <CardContent>boards</CardContent>
+            </Card>
+          </Grid>
         </Grid>
       </Grid>
     </Container>
