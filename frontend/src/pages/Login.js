@@ -1,9 +1,18 @@
-import React from "react";
-import { Container, TextField, Button, Grid, Link } from "@material-ui/core";
+import React, { useState } from "react";
+import {
+  Container,
+  TextField,
+  Button,
+  Grid,
+  Link,
+  Typography,
+} from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import usePageTitle from "../hooks/pageTitle";
 import { useAuth } from "../context/auth";
+import { getApiBaseUrl } from "../api";
+import qs from "querystring";
 
 const styles = (theme) => ({
   form: {
@@ -19,6 +28,34 @@ function LoginForm({ classes }) {
   usePageTitle("Login");
   const history = useHistory();
   const { setAuthTokens } = useAuth();
+  const [authUsername, setAuthUsername] = useState("");
+  const [authPassword, setAuthPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  async function doLogin() {
+    setErrorMessage(null);
+    const res = await fetch(`${getApiBaseUrl()}/oauth/token`, {
+      method: "POST",
+      body: qs.stringify({
+        grant_type: "password",
+        client_id: "d4f7c501-cff9-4a3f-bae7-aec1db19456c",
+        username: authUsername,
+        password: authPassword,
+      }),
+      headers: {
+        "Content-type": "application/x-www-form-urlencoded",
+      },
+    });
+    const json = await res.json();
+
+    if (!res.ok) {
+      console.log(json);
+      setErrorMessage(json.message);
+    } else {
+      setAuthTokens(json);
+      history.push(`/me`);
+    }
+  }
 
   return (
     <Container maxWidth="xs">
@@ -26,13 +63,12 @@ function LoginForm({ classes }) {
         className={classes.form}
         onSubmit={(event) => {
           event.preventDefault();
-          setAuthTokens({
-            token: "FOO",
-            refreshToken: "BAR",
-          });
-          history.push(`/me`);
+          doLogin();
         }}
       >
+        {errorMessage ? (
+          <Typography color="error">{errorMessage}</Typography>
+        ) : null}
         <TextField
           variant="outlined"
           margin="normal"
@@ -43,6 +79,8 @@ function LoginForm({ classes }) {
           name="email"
           autoComplete="email"
           autoFocus
+          value={authUsername}
+          onChange={(event) => setAuthUsername(event.target.value)}
         />
         <TextField
           variant="outlined"
@@ -54,6 +92,8 @@ function LoginForm({ classes }) {
           type="password"
           id="password"
           autoComplete="current-password"
+          value={authPassword}
+          onChange={(event) => setAuthPassword(event.target.value)}
         />
         <Button
           type="submit"

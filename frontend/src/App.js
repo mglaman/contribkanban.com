@@ -15,10 +15,10 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Me from "./pages/Me";
 
 function App() {
-  const storedTokens = localStorage.getItem("authTokens");
+  const storedTokens = localStorage.getItem("oauth");
   const [authTokens, setAuthTokens] = useState(storedTokens);
   const setTokens = (data) => {
-    localStorage.setItem("authTokens", JSON.stringify(data));
+    localStorage.setItem("oauth", JSON.stringify(data));
     setAuthTokens(data);
   };
 

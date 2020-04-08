@@ -25,7 +25,7 @@ if (getenv('LAGOON')) {
     'prefix' => '',
   );
 } else {
-  $databases['default']['default'] = array (
+  $databases['default']['default'] = array(
     'database' => '../private/db.sqlite',
     'prefix' => '',
     'namespace' => 'Drupal\\Core\\Database\\Driver\\sqlite',
@@ -34,7 +34,7 @@ if (getenv('LAGOON')) {
 }
 
 ### Lagoon Redis connection
-if (getenv('LAGOON')){
+if (getenv('LAGOON')) {
   $settings['redis.connection']['interface'] = 'PhpRedis';
   $settings['redis.connection']['host'] = getenv('REDIS_HOST') ?: 'redis';
   $settings['redis.connection']['port'] = 6379;
@@ -85,7 +85,7 @@ if (getenv('LAGOON')){
 
 if (getenv('LAGOON_ROUTES')) {
   $settings['trusted_host_patterns'] = array(
-  // Escape dots, remove schema, use commas as regex separator.
+    // Escape dots, remove schema, use commas as regex separator.
     '^' . str_replace(['.', 'https://', 'http://', ','], ['\.', '', '', '|'], getenv('LAGOON_ROUTES')) . '$',
   );
 }
@@ -101,9 +101,15 @@ if (getenv('TMP')) {
 // Hash Salt.
 if (getenv('LAGOON')) {
   $settings['hash_salt'] = hash('sha256', getenv('LAGOON_PROJECT'));
-}
-else {
+} else {
   $settings['hash_salt'] = 'T2ZRkcIaePNrPQRzQCjQdIg8_E6_17L2n5-JYmHCRrVdIssixO92Q6q174VpimIe390RIHUBsQ';
+}
+
+// Private directory.
+if (getenv('LAGOON')) {
+  $settings['file_private_path'] = 'sites/default/files/private';
+} else {
+  $settings['file_private_path'] = '../private';
 }
 
 if (getenv('LAGOON_ENVIRONMENT_TYPE')) {
