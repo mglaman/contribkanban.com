@@ -6,13 +6,8 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Drawer from "@material-ui/core/Drawer";
 import {
-  Dashboard as DashboardIcon,
-  GitHub as GitHubIcon,
-  BugReport as BugReportIcon,
   AccountCircle as AccountCircleIcon,
-  NoteAddRounded as NoteAddRoundedIcon,
-  Launch as LaunchIcon,
-  FavoriteBorder as FavoriteBorderIcon,
+  PersonAdd as PersonAddIcon,
 } from "@material-ui/icons";
 
 import { Link as RouterLink, useLocation } from "react-router-dom";
@@ -24,6 +19,8 @@ import {
   List,
   Divider,
 } from "@material-ui/core";
+import BoardMenu from "./Menus/BoardMenu";
+import ProjectMenu from "./Menus/ProjectMenu";
 
 const styles = (theme) => ({
   title: {
@@ -41,13 +38,6 @@ const styles = (theme) => ({
     width: 250,
   },
 });
-
-const boardLinks = [
-  { text: "All", href: "/" },
-  { text: "Drupal core", href: "/core" },
-  { text: "Projects", href: "/projects" },
-  { text: "Sprints", href: "/sprints" },
-];
 
 function AppBar({ classes }) {
   const location = useLocation();
@@ -84,27 +74,7 @@ function AppBar({ classes }) {
         </Toolbar>
       </MuiAppBar>
       <Drawer onClose={handleDrawerClose} open={drawerOpen}>
-        <List className={classes.drawerList}>
-          {boardLinks.map((link) => (
-            <ListItem
-              button
-              component={RouterLink}
-              to={link.href}
-              key={link.text}
-            >
-              <ListItemIcon>
-                <DashboardIcon />
-              </ListItemIcon>
-              <ListItemText primary={link.text} />
-            </ListItem>
-          ))}
-          <ListItem button component={RouterLink} to="/create">
-            <ListItemIcon>
-              <NoteAddRoundedIcon />
-            </ListItemIcon>
-            <ListItemText primary={`Add a board`} />
-          </ListItem>
-        </List>
+        <BoardMenu />
         <Divider />
         <List className={classes.drawerList}>
           <ListItem button component={RouterLink} to="/login">
@@ -115,50 +85,13 @@ function AppBar({ classes }) {
           </ListItem>
           <ListItem button component={RouterLink} to="/register">
             <ListItemIcon>
-              <AccountCircleIcon />
+              <PersonAddIcon />
             </ListItemIcon>
             <ListItemText primary={`Register`} />
           </ListItem>
         </List>
         <Divider />
-        <List className={classes.drawerList}>
-          <ListItem
-            button
-            component={Link}
-            href="https://github.com/mglaman/contribkanban.com"
-          >
-            <ListItemIcon>
-              <GitHubIcon />
-            </ListItemIcon>
-            <ListItemText primary={`GitHub`} />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <BugReportIcon />
-            </ListItemIcon>
-            <ListItemText primary={`Report a bug`} />
-          </ListItem>
-          <ListItem
-            button
-            component={Link}
-            href="https://opencollective.com/contribkanban"
-          >
-            <ListItemIcon>
-              <LaunchIcon />
-            </ListItemIcon>
-            <ListItemText primary={`OpenCollective`} />
-          </ListItem>
-          <ListItem
-            button
-            component={Link}
-            href="https://github.com/sponsors/mglaman"
-          >
-            <ListItemIcon>
-              <FavoriteBorderIcon />
-            </ListItemIcon>
-            <ListItemText primary={`Sponsor`} />
-          </ListItem>
-        </List>
+        <ProjectMenu />
       </Drawer>
       <div className={classes.placeholder} />
     </Fragment>

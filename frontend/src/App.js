@@ -1,32 +1,46 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
-import AppBar from './components/AppBar'
-import Home from './pages/Home'
-import Board from './pages/Board'
-import Create from './pages/Create'
+import React, { useState } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-const styles = theme => ({
-})
+import { AuthContext } from "./context/auth";
+import AuthRoute from "./routing/AuthRoute";
+import GuestRoute from "./routing/GuestRoute";
 
-function App({ classes }) {
+import AppBar from "./components/AppBar";
+import Home from "./pages/Home";
+import Board from "./pages/Board";
+import Create from "./pages/Create";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import Me from "./pages/Me";
+
+function App() {
+  const storedTokens = localStorage.getItem("authTokens");
+  const [authTokens, setAuthTokens] = useState(storedTokens);
+  const setTokens = (data) => {
+    localStorage.setItem("authTokens", JSON.stringify(data));
+    setAuthTokens(data);
+  };
+
   return (
-    <Router>
-      <AppBar />
-      <Switch>
-        <Route path={`/board/:machineName`} component={Board} />
-        <Route path={`/create`} component={Create} />
-        <Route path="/about">
-          <p>About</p>
-        </Route>
-        <Route path="/" component={Home}/>
-      </Switch>
-    </Router>
+    <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
+      <Router>
+        <AppBar />
+        <Switch>
+          <Route path={`/board/:machineName`} component={Board} />
+          <Route path={`/create`} component={Create} />
+          <GuestRoute path={`/login`} component={Login} />
+          <GuestRoute path={`/register`} component={Register} />
+          <GuestRoute path={`/forgot-password`} component={ForgotPassword} />
+          <Route path="/about">
+            <p>About</p>
+          </Route>
+          <AuthRoute path={`/me`} component={Me} />
+          <Route exact path="/" component={Home} />
+        </Switch>
+      </Router>
+    </AuthContext.Provider>
   );
 }
 
-export default withStyles(styles)(App);
+export default App;
