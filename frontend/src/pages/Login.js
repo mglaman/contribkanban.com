@@ -30,7 +30,7 @@ function LoginForm({ classes }) {
   const { setAuthTokens } = useAuth();
   const [authUsername, setAuthUsername] = useState("");
   const [authPassword, setAuthPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState();
 
   async function doLogin() {
     setErrorMessage(null);

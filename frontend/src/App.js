@@ -16,14 +16,27 @@ import Me from "./pages/Me";
 
 function App() {
   const storedTokens = localStorage.getItem("oauth");
-  const [authTokens, setAuthTokens] = useState(storedTokens);
+  const [authTokens, setAuthTokens] = useState(JSON.parse(storedTokens));
+  const [currentUser, setCurrentUser] = useState(null);
   const setTokens = (data) => {
     localStorage.setItem("oauth", JSON.stringify(data));
     setAuthTokens(data);
   };
+  const expireTokens = () => {
+    localStorage.removeItem("oauth");
+    setAuthTokens(null);
+  };
 
   return (
-    <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
+    <AuthContext.Provider
+      value={{
+        authTokens,
+        currentUser,
+        setAuthTokens: setTokens,
+        expireTokens,
+        setCurrentUser,
+      }}
+    >
       <Router>
         <AppBar />
         <Switch>
