@@ -8,6 +8,7 @@ import GuestRoute from "./routing/GuestRoute";
 import AppBar from "./components/AppBar";
 import Home from "./pages/Home";
 import Board from "./pages/Board";
+import NodeBoard from "./pages/NodeBoard";
 import Create from "./pages/Create";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -41,7 +42,8 @@ function App() {
       <Router>
         <AppBar />
         <Switch>
-          <Route path={`/board/:machineName`} component={Board} />
+          <Route exact path={`/board/:machineName`} component={Board} />
+          <Route path={`/node-board/:uuid`} component={NodeBoard} />
           <Route path={`/create`} component={Create} />
           <GuestRoute path={`/login`} component={Login} />
           <GuestRoute path={`/register`} component={Register} />

@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import {
   Container,
-  Paper,
   Grid,
   Typography,
   Card,
   CardContent,
   CardActions,
   Button,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  ListItemSecondaryAction,
+  IconButton,
+  Avatar,
 } from "@material-ui/core";
+import { Dashboard as FolderIcon, Edit as EditIcon } from "@material-ui/icons";
 import { withStyles } from "@material-ui/core/styles";
 import { useAuth } from "../context/auth";
 import Gravatar from "../components/Gravatar";
@@ -32,8 +40,11 @@ const styles = (theme) => ({
 });
 
 function Me({ classes }) {
+  const history = useHistory();
   const { auth, currentUser } = useAuth();
-  const [nodeBoards, setNodeBoards] = useState(null);
+  const [nodeBoards, setNodeBoards] = useState({
+    data: [],
+  });
   useEffect(() => {
     console.log(currentUser);
     async function fetchBoards() {
@@ -49,10 +60,12 @@ function Me({ classes }) {
     if (currentUser !== null) {
       fetchBoards();
     }
-  }, [currentUser]);
+  }, [currentUser, auth]);
+
   if (currentUser === null) {
     return null;
   }
+
   return (
     <Container maxWidth="md" className={classes.root}>
       <Grid container spacing={4}>
@@ -60,10 +73,10 @@ function Me({ classes }) {
           <Card>
             <CardContent className={classes.accountBadge}>
               <Gravatar emailHash={"tdodoneedhash"} />
-              <Typography gutterBottom variant="body1">
+              <Typography gutterBottom variant="subtitle2">
                 {currentUser.data.attributes.mail}
               </Typography>
-              <Typography gutterBottom variant="body1">
+              <Typography gutterBottom variant="subtitle2">
                 {currentUser.data.attributes.drupalorg_username}
               </Typography>
             </CardContent>
@@ -76,7 +89,31 @@ function Me({ classes }) {
         <Grid item md={6} lg={8} xl={9}>
           <Grid>
             <Card>
-              <CardContent>boards</CardContent>
+              <List>
+                {nodeBoards.data.map((board) => {
+                  return (
+                    <ListItem
+                      button
+                      key={board.id}
+                      onClick={() => {
+                        history.push(`/node-board/${board.id}`);
+                      }}
+                    >
+                      <ListItemAvatar>
+                        <Avatar>
+                          <FolderIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText primary={board.attributes.title} />
+                      <ListItemSecondaryAction>
+                        <IconButton edge="end" aria-label="edit">
+                          <EditIcon />
+                        </IconButton>
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  );
+                })}
+              </List>
             </Card>
           </Grid>
         </Grid>

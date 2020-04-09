@@ -5,22 +5,12 @@ import MuiAppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Drawer from "@material-ui/core/Drawer";
-import {
-  AccountCircle as AccountCircleIcon,
-  PersonAdd as PersonAddIcon,
-} from "@material-ui/icons";
-
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import Toolbar, { styles as toolbarStyles } from "./Toolbar";
-import {
-  ListItemText,
-  ListItemIcon,
-  ListItem,
-  List,
-  Divider,
-} from "@material-ui/core";
+import { Divider } from "@material-ui/core";
 import BoardMenu from "./Menus/BoardMenu";
 import ProjectMenu from "./Menus/ProjectMenu";
+import UserMenu from "./Menus/UserMenu";
 
 const styles = (theme) => ({
   title: {
@@ -76,20 +66,7 @@ function AppBar({ classes }) {
       <Drawer onClose={handleDrawerClose} open={drawerOpen}>
         <BoardMenu />
         <Divider />
-        <List className={classes.drawerList}>
-          <ListItem button component={RouterLink} to="/login">
-            <ListItemIcon>
-              <AccountCircleIcon />
-            </ListItemIcon>
-            <ListItemText primary={`Log in`} />
-          </ListItem>
-          <ListItem button component={RouterLink} to="/register">
-            <ListItemIcon>
-              <PersonAddIcon />
-            </ListItemIcon>
-            <ListItemText primary={`Register`} />
-          </ListItem>
-        </List>
+        <UserMenu />
         <Divider />
         <ProjectMenu />
       </Drawer>

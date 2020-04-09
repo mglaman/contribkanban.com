@@ -26,7 +26,7 @@ function AuthRoute({ component: Component, ...rest }) {
     if (authTokens && authTokens.access_token) {
       fetchCurrentUser();
     }
-  }, []);
+  }, [auth, authTokens, setCurrentUser]);
   return (
     <Route
       {...rest}
