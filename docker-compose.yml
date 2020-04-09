@@ -1,37 +1,33 @@
-version: '2.3'
+version: "2.3"
 
 x-lagoon-project:
   # Lagoon project name (leave `&lagoon-project` when you edit this)
   &lagoon-project contribkanban
 
 x-volumes:
-  &default-volumes
-    # Define all volumes you would like to have real-time mounted into the docker containers
-    volumes:
-      - .:/app:delegated
+  &default-volumes # Define all volumes you would like to have real-time mounted into the docker containers
+  volumes:
+    - .:/app:delegated
 
-x-environment:
-  &default-environment
-    LAGOON_PROJECT: *lagoon-project
-    # Route that should be used locally
-    LAGOON_ROUTE: http://contribkanban-app.docker.amazee.io
-    # Uncomment if you like to have the system behave like in production
-    #LAGOON_ENVIRONMENT_TYPE: production
-    # Uncomment to enable xdebug and then restart via `docker-compose up -d`
-    #XDEBUG_ENABLE: "true"
-
+x-environment: &default-environment
+  LAGOON_PROJECT: *lagoon-project
+  # Route that should be used locally
+  LAGOON_ROUTE: http://contribkanban-app.docker.amazee.io
+  # Uncomment if you like to have the system behave like in production
+  #LAGOON_ENVIRONMENT_TYPE: production
+  # Uncomment to enable xdebug and then restart via `docker-compose up -d`
+  #XDEBUG_ENABLE: "true"
 
 services:
-
   frontend:
     build:
       context: frontend
-      dockerfile: ../Dockerfile.app
+      dockerfile: ../lagoon/Dockerfile.app
     labels:
       # Lagoon Labels
       lagoon.type: nginx
     environment:
-      << : *default-environment
+      <<: *default-environment
       LAGOON_LOCALDEV_URL: contribkanban-app.docker.amazee.io
       REACT_APP_API_HOSTNAME: http://drupal-varnish.contribkanban-app.docker.amazee.io/
     networks:
@@ -41,33 +37,33 @@ services:
   cli:
     build:
       context: .
-      dockerfile: Dockerfile.cli
+      dockerfile: lagoon/Dockerfile.cli
     image: *lagoon-project
     labels:
       # Lagoon Labels
       lagoon.type: cli-persistent
       lagoon.persistent.name: nginx # mount the persistent storage of nginx into this container
       lagoon.persistent: /app/web/sites/default/files/ # location where the persistent storage should be mounted
-    << : *default-volumes # loads the defined volumes from the top
+    <<: *default-volumes # loads the defined volumes from the top
     volumes_from: # mount the ssh-agent from the pygmy or cachalot ssh-agent
       - container:amazeeio-ssh-agent
     environment:
-      << : *default-environment # loads the defined environment variables from the top
+      <<: *default-environment # loads the defined environment variables from the top
 
   nginx:
     build:
       context: .
-      dockerfile: Dockerfile.nginx
+      dockerfile: lagoon/Dockerfile.nginx
       args:
         CLI_IMAGE: *lagoon-project # Inject the name of the cli image
     labels:
       lagoon.type: nginx-php-persistent
       lagoon.persistent: /app/web/sites/default/files/ # define where the persistent storage should be mounted too
-    << : *default-volumes # loads the defined volumes from the top
+    <<: *default-volumes # loads the defined volumes from the top
     depends_on:
       - cli # basically just tells docker-compose to build the cli first
     environment:
-      << : *default-environment # loads the defined environment variables from the top
+      <<: *default-environment # loads the defined environment variables from the top
       LAGOON_LOCALDEV_URL: nginx.contribkanban-app.docker.amazee.io # generate another route for nginx, by default we go to varnish
     networks:
       - amazeeio-network
@@ -76,18 +72,18 @@ services:
   php:
     build:
       context: .
-      dockerfile: Dockerfile.php
+      dockerfile: lagoon/Dockerfile.php
       args:
         CLI_IMAGE: *lagoon-project
     labels:
       lagoon.type: nginx-php-persistent
       lagoon.name: nginx # we want this service be part of the nginx pod in Lagoon
       lagoon.persistent: /app/web/sites/default/files/ # define where the persistent storage should be mounted too
-    << : *default-volumes # loads the defined volumes from the top
+    <<: *default-volumes # loads the defined volumes from the top
     depends_on:
       - cli # basically just tells docker-compose to build the cli first
     environment:
-      << : *default-environment # loads the defined environment variables from the top
+      <<: *default-environment # loads the defined environment variables from the top
 
   mariadb:
     image: amazeeio/mariadb-drupal
@@ -96,14 +92,14 @@ services:
     ports:
       - "3306" # exposes the port 3306 with a random local port, find it with `docker-compose port mariadb 3306`
     environment:
-      << : *default-environment
+      <<: *default-environment
 
   redis:
     image: amazeeio/redis
     labels:
       lagoon.type: redis
     environment:
-      << : *default-environment
+      <<: *default-environment
 
   varnish:
     image: amazeeio/varnish-drupal
@@ -112,7 +108,7 @@ services:
     links:
       - nginx # links varnish to the nginx in this docker-compose project, or it would try to connect to any nginx running in docker
     environment:
-      << : *default-environment
+      <<: *default-environment
       VARNISH_BYPASS: "true" # by default we bypass varnish, change to 'false' or remove in order to tell varnish to cache if possible
       LAGOON_LOCALDEV_URL: drupal-varnish.contribkanban-app.docker.amazee.io
     networks:

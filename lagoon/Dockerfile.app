@@ -12,3 +12,4 @@ RUN yarn build
 
 FROM amazeeio/nginx
 COPY --from=builder /app/build /app
+COPY app.nginx.conf /etc/nginx/conf.d/app.conf
