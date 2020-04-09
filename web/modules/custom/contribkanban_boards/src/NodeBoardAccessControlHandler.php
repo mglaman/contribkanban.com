@@ -8,10 +8,16 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\entity\EntityAccessControlHandler;
 
-class NodeBoardAccessControlHandler extends EntityAccessControlHandler {
+class NodeBoardAccessControlHandler extends EntityAccessControlHandler
+{
 
-  protected function checkAccess(EntityInterface $entity, $operation, AccountInterface $account) {
+  protected function checkAccess(EntityInterface $entity, $operation, AccountInterface $account)
+  {
     $access = parent::checkAccess($entity, $operation, $account);
+    if ($access->isAllowed()) {
+      return $access;
+    }
+
     // Instance check for type hint. Also bail if delete operation and use
     // the default access, we don't want anonymous users to delete boards if
     // the setting is public.
@@ -32,10 +38,7 @@ class NodeBoardAccessControlHandler extends EntityAccessControlHandler {
     elseif ($collaboration === NodeBoard::IS_PUBLIC) {
       $access = AccessResult::allowed();
     }
-    // dpm($access);
 
     return $access;
-
   }
-
 }

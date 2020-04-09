@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 
 import { AuthContext, OAuth } from "./context/auth";
 import AuthRoute from "./routing/AuthRoute";
@@ -52,6 +57,13 @@ function App() {
             <p>About</p>
           </Route>
           <AuthRoute path={`/me`} component={Me} />
+          <Route
+            path={`/logout`}
+            render={() => {
+              expireTokens();
+              return <Redirect to="/login" />;
+            }}
+          />
           <Route exact path="/" component={Home} />
         </Switch>
       </Router>

@@ -12,6 +12,7 @@ import {
 import usePageTitle from "../hooks/pageTitle";
 import CreateProjectDialog from "../components/Dialogs/CreateProjectDialog";
 import CreateSprintDialog from "../components/Dialogs/CreateSprintDialog";
+import { useAuth } from "../context/auth";
 
 const styles = (theme) => ({
   root: {
@@ -40,6 +41,7 @@ function DialogFactory({ type, ...rest }) {
 
 function Create({ classes }) {
   usePageTitle(`Create a new board`);
+  const { authTokens } = useAuth();
   const [open, setOpen] = useState(false);
   const [createType, setCreateType] = useState(null);
   const handleClose = () => setOpen(false);
@@ -104,8 +106,8 @@ function Create({ classes }) {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small" disabled>
-                Create
+              <Button size="small" disabled={!authTokens}>
+                {authTokens ? `Create` : `Log in to create`}
               </Button>
             </CardActions>
           </Card>

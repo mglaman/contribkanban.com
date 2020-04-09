@@ -6,7 +6,9 @@ use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\user\EntityOwnerInterface;
+use Drupal\user\EntityOwnerTrait;
 use Drupal\user\UserInterface;
 
 /**
@@ -14,10 +16,10 @@ use Drupal\user\UserInterface;
  *
  * @ContentEntityType(
  *   id = "node_board",
- *   label = @Translation("Board: Node list"),
+ *   label = @Translation("Issue collection"),
  *   base_table = "node_board",
  *   fieldable = FALSE,
- *   admin_permission = "administer node board",
+ *   admin_permission = "administer node_board",
  *   entity_keys = {
  *     "id" = "board_id",
  *     "uuid" = "uuid",
@@ -49,6 +51,7 @@ use Drupal\user\UserInterface;
  */
 class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwnerInterface
 {
+  use EntityOwnerTrait;
 
   const IS_PRIVATE = 'private';
   const IS_SHARED = 'shared';
@@ -66,55 +69,22 @@ class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwner
   /**
    * {@inheritdoc}
    */
-  public function getOwner()
-  {
-    return $this->get('uid')->entity;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getOwnerId()
-  {
-    return $this->get('uid')->target_id;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setOwnerId($uid)
-  {
-    $this->set('uid', $uid);
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setOwner(UserInterface $account)
-  {
-    $this->set('uid', $account->id());
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type)
   {
     $fields = parent::baseFieldDefinitions($entity_type);
+    $fields += static::ownerBaseFieldDefinitions($entity_type);
     $fields['title'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Title'))
+      ->setLabel(new TranslatableMarkup('Title'))
       ->setRequired(TRUE)
-      ->setDescription(t('The board title'))
+      ->setDescription(new TranslatableMarkup('The board title'))
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
         'weight' => -5,
       ]);
     $fields['nids'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Issue Node IDs'))
-      ->setDescription(t('The node IDs for issues on this board'))
+      ->setLabel(new TranslatableMarkup('Issue Node IDs'))
+      ->setDescription(new TranslatableMarkup('The node IDs for issues on this board'))
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
       ->setRequired(TRUE)
       ->setSetting('max_length', 255)
@@ -122,20 +92,15 @@ class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwner
         'type'   => 'string_textfield',
         'weight' => 0,
       ]);
-    $fields['uid'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('User ID'))
-      ->setDescription(t('The user ID of the file.'))
-      ->setDefaultValueCallback('Drupal\contribkanban_boards\Entity\NodeBoard::getCurrentUserId')
-      ->setSetting('target_type', 'user');
 
     $fields['collaboration'] = BaseFieldDefinition::create('list_string')
-      ->setLabel(t('Collaboration'))
-      ->setDescription(t('Collaboration settings for the board.'))
+      ->setLabel(new TranslatableMarkup('Collaboration'))
+      ->setDescription(new TranslatableMarkup('Collaboration settings for the board.'))
       ->setRequired(TRUE)
       ->setSetting('allowed_values', [
-        self::IS_PRIVATE => t('Private: only accessible to you, when logged in'),
-        self::IS_SHARED => t('Shared: only you may edit, but anyone can view via link access'),
-        self::IS_PUBLIC => t('Public: anyone with the link can view and edit'),
+        self::IS_PRIVATE => new TranslatableMarkup('Private: only accessible to you, when logged in'),
+        self::IS_SHARED => new TranslatableMarkup('Shared: only you may edit, but anyone can view via link access'),
+        self::IS_PUBLIC => new TranslatableMarkup('Public: anyone with the link can view and edit'),
       ])
       ->setDisplayOptions('form', [
         'type' => 'options_buttons',
@@ -144,18 +109,5 @@ class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwner
       ->setDisplayConfigurable('form', TRUE)
       ->setDefaultValue(self::IS_SHARED);
     return $fields;
-  }
-
-  /**
-   * Default value callback for 'uid' base field definition.
-   *
-   * @see ::baseFieldDefinitions()
-   *
-   * @return array
-   *   An array of default values.
-   */
-  public static function getCurrentUserId()
-  {
-    return [\Drupal::currentUser()->id()];
   }
 }

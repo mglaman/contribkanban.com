@@ -29,6 +29,9 @@ const styles = (theme) => ({
   paper: {
     marginBottom: theme.spacing(4),
   },
+  accountActions: {
+    flexDirection: "column",
+  },
   acccountButtons: {
     width: "100%",
   },
@@ -80,15 +83,19 @@ function Me({ classes }) {
                 {currentUser.data.attributes.drupalorg_username}
               </Typography>
             </CardContent>
-            <CardActions>
+            <CardActions className={classes.accountActions}>
               <Button className={classes.acccountButtons}>Edit account</Button>
               <Button className={classes.acccountButtons}>My issues</Button>
+              <Button className={classes.acccountButtons}>
+                New issue collection
+              </Button>
             </CardActions>
           </Card>
         </Grid>
         <Grid item md={6} lg={8} xl={9}>
           <Grid>
             <Card>
+              <CardActions></CardActions>
               <List>
                 {nodeBoards.data.map((board) => {
                   return (
