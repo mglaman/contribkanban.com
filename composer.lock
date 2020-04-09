@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "13f5ea37d14ab387c0f0216b848ec98d",
+    "content-hash": "6cefe6e9d49dc1ae5b1a8d5e5abc28fc",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2982,6 +2982,70 @@
             }
         },
         {
+            "name": "drupal/jsonapi_hypermedia",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/jsonapi_hypermedia.git",
+                "reference": "8.x-1.6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/jsonapi_hypermedia-8.x-1.6.zip",
+                "reference": "8.x-1.6",
+                "shasum": "10f9e9fdfe8ae465d277f13c1d98e9389b14dec1"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.6",
+                    "datestamp": "1582916946",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Gabriel SULLICE",
+                    "homepage": "https://www.drupal.org/user/3616626",
+                    "email": "gabriel@sullice.com"
+                },
+                {
+                    "name": "Wim Leers",
+                    "homepage": "https://www.drupal.org/user/99777"
+                },
+                {
+                    "name": "e0ipso",
+                    "homepage": "https://www.drupal.org/user/550110"
+                },
+                {
+                    "name": "gabesullice",
+                    "homepage": "https://www.drupal.org/user/2287430"
+                },
+                {
+                    "name": "zrpnr",
+                    "homepage": "https://www.drupal.org/user/1448368"
+                }
+            ],
+            "description": "Complements the JSON API module with Hypermedia as the Engine of Application State",
+            "homepage": "https://www.drupal.org/project/jsonapi_hypermedia",
+            "support": {
+                "source": "https://git.drupalcode.org/project/jsonapi_hypermedia"
+            }
+        },
+        {
             "name": "drupal/jsonapi_resources",
             "version": "1.0.0-beta3",
             "source": {
@@ -3094,6 +3158,61 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/jsonapi_search_api",
                 "issues": "https://www.drupal.org/project/issues/jsonapi_search_api"
+            }
+        },
+        {
+            "name": "drupal/jsonapi_user_resources",
+            "version": "1.0.0-alpha2",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/jsonapi_user_resources.git",
+                "reference": "8.x-1.0-alpha2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/jsonapi_user_resources-8.x-1.0-alpha2.zip",
+                "reference": "8.x-1.0-alpha2",
+                "shasum": "3c67a3c637fa24ba4415a4f8b90fbed08079353c"
+            },
+            "require": {
+                "drupal/core": "^8.8@alpha",
+                "drupal/jsonapi_resources": "^1.0@beta"
+            },
+            "require-dev": {
+                "drupal/jsonapi_hypermedia": "^1.4"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0-alpha2",
+                    "datestamp": "1584501935",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "mglaman",
+                    "homepage": "https://www.drupal.org/user/2416470"
+                }
+            ],
+            "description": "Provides JSON:API resources for users, such as registration.",
+            "homepage": "https://www.drupal.org/project/jsonapi_user_resources",
+            "keywords": [
+                "Drupal",
+                "JSON API"
+            ],
+            "support": {
+                "source": "https://git.drupalcode.org/project/jsonapi_user_resources"
             }
         },
         {
@@ -10552,6 +10671,7 @@
         "drupal/email_registration": 5,
         "drupal/inline_entity_form": 10,
         "drupal/jsonapi_search_api": 10,
+        "drupal/jsonapi_user_resources": 15,
         "drupal/swiftmailer": 10,
         "behat/mink-selenium2-driver": 20
     },

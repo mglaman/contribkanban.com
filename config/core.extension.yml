@@ -19,8 +19,10 @@ module:
   image: 0
   inline_entity_form: 0
   jsonapi: 0
+  jsonapi_hypermedia: 0
   jsonapi_resources: 0
   jsonapi_search_api: 0
+  jsonapi_user_resources: 0
   lagoon_logs: 0
   layout_discovery: 0
   link: 0
