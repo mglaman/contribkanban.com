@@ -2,8 +2,18 @@ import { createContext, useContext } from "react";
 import qs from "qs";
 import { getApiBaseUrl } from "../api";
 
+const clientId = "d4f7c501-cff9-4a3f-bae7-aec1db19456c";
+
+/**
+ * @typedef {Object} AuthContextValue
+ * @property {OAuth} auth
+ */
+
 export const AuthContext = createContext();
 
+/**
+ * @return {AuthContextValue}
+ */
 export function useAuth() {
   return useContext(AuthContext);
 }
@@ -51,7 +61,7 @@ export class OAuth {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: qs.stringify({
-        client_id: "d4f7c501-cff9-4a3f-bae7-aec1db19456c",
+        client_id: clientId,
         grant_type: "refresh_token",
         refresh_token: this.refresh_token,
       }),
@@ -62,5 +72,30 @@ export class OAuth {
       return null;
     }
     return result;
+  };
+
+  usePasswordGrant = async (username, password) => {
+    let success = false;
+    let result;
+    try {
+      const res = await fetch(`${getApiBaseUrl()}/oauth/token`, {
+        method: "POST",
+        body: qs.stringify({
+          grant_type: "password",
+          client_id: clientId,
+          username,
+          password,
+        }),
+        headers: {
+          "Content-type": "application/x-www-form-urlencoded",
+        },
+      });
+      result = await res.json();
+      success = res.ok;
+    } catch (err) {
+      success = false;
+    }
+    debugger;
+    return { success, result };
   };
 }

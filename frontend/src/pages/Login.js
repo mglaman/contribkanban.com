@@ -11,8 +11,6 @@ import { withStyles } from "@material-ui/core/styles";
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import usePageTitle from "../hooks/pageTitle";
 import { useAuth } from "../context/auth";
-import { getApiBaseUrl } from "../api";
-import qs from "querystring";
 
 const styles = (theme) => ({
   form: {
@@ -34,25 +32,15 @@ function LoginForm({ classes }) {
 
   async function doLogin() {
     setErrorMessage(null);
-    const res = await fetch(`${getApiBaseUrl()}/oauth/token`, {
-      method: "POST",
-      body: qs.stringify({
-        grant_type: "password",
-        client_id: "d4f7c501-cff9-4a3f-bae7-aec1db19456c",
-        username: authUsername,
-        password: authPassword,
-      }),
-      headers: {
-        "Content-type": "application/x-www-form-urlencoded",
-      },
-    });
-    const json = await res.json();
-
-    if (!res.ok) {
-      console.log(json);
-      setErrorMessage(json.message);
+    const { success, result } = await auth.usePasswordGrant(
+      authUsername,
+      authPassword
+    );
+    if (!success) {
+      console.log(result);
+      setErrorMessage(result.message);
     } else {
-      auth.setAuthTokens(json);
+      auth.setAuthTokens(result);
       history.push(`/me`);
     }
   }

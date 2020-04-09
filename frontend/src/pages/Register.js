@@ -8,8 +8,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useHistory } from "react-router-dom";
 import usePageTitle from "../hooks/pageTitle";
+import { useAuth } from "../context/auth";
+import { getApiBaseUrl } from "../api";
 
 const styles = (theme) => ({
   form: {
@@ -23,6 +25,8 @@ const styles = (theme) => ({
 
 function RegisterForm({ classes }) {
   usePageTitle("Register");
+  const history = useHistory();
+  const { auth } = useAuth();
   const [errorMessage, setErrorMessage] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState("");
@@ -34,6 +38,50 @@ function RegisterForm({ classes }) {
     setPasswordsMatch(password === confirmPassword);
   }, [password, confirmPassword]);
 
+  async function doRegister() {
+    const body = {
+      type: "user--user",
+      attributes: {
+        mail: email,
+        name: email,
+        pass: password,
+        drupalorg_username: drupalorgUsername,
+      },
+    };
+    try {
+      const res = await fetch(`${getApiBaseUrl()}/jsonapi/user/register`, {
+        method: "POST",
+        body: JSON.stringify({
+          data: body,
+        }),
+        headers: {
+          "Content-Type": "application/vnd.api+json",
+          Accept: "application/vnd.api+json",
+        },
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        console.log(json.errors);
+        setErrorMessage(json.errors[0].detail);
+      } else {
+        const { success, result } = await auth.usePasswordGrant(
+          email,
+          password
+        );
+        if (!success) {
+          console.log(result);
+          setErrorMessage(result.message);
+        } else {
+          auth.setAuthTokens(result);
+          history.push(`/me`);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      setErrorMessage("error, see console");
+    }
+  }
+
   return (
     <Container maxWidth="xs">
       <form
@@ -43,6 +91,7 @@ function RegisterForm({ classes }) {
           if (!passwordsMatch) {
             setErrorMessage("Passwords do not match");
           } else {
+            doRegister();
           }
         }}
       >
