@@ -1,4 +1,5 @@
 format: text/html
+filter_format: plain_text
 respect_format: true
 convert_mode: true
 character_set: UTF-8

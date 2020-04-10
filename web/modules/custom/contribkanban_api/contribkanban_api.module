@@ -1,20 +1,50 @@
 <?php
 
-/**
- * Implements hook_entity_type_build().
- */
-function contribkanban_api_entity_type_build(array &$entity_types) {
-  /** @var $entity_types \Drupal\Core\Entity\EntityTypeInterface[] */
-  $entities_marked_internal = [
-    'block', 'field_config', 'field_storage_config', 'filter_format',
-    'view', 'base_field_override', 'entity_view_mode', 'entity_view_display',
-    'entity_form_mode', 'date_format', 'user_role', 'entity_form_display',
-    'menu', 'action', 'rest_resource_config', 'page', 'page_variant', 'node_type',
-    'node',
-  ];
-  foreach ($entities_marked_internal as $entity_type_id) {
-    if (isset($entity_types[$entity_type_id])) {
-      $entity_types[$entity_type_id]->set('internal', TRUE);
+declare(strict_types=1);
+
+use Drupal\consumers\Entity\Consumer;
+use Drupal\Core\Entity\EntityRepositoryInterface;
+use Drupal\user\Entity\Role;
+
+function contribkanban_api_ensure_default_consumer()
+{
+    $entity_repository = \Drupal::service('entity.repository');
+    assert($entity_repository instanceof EntityRepositoryInterface);
+
+    $exists = $entity_repository->loadEntityByUuid('consumer', 'd4f7c501-cff9-4a3f-bae7-aec1db19456c');
+    if ($exists === null) {
+        $consumer_role = Role::load('frontend_user');
+        if (!$consumer_role) {
+            Role::create([
+                'id' => 'frontend_user',
+                'name' => 'Frontend user'
+            ])->save();
+        }
+
+        $consumer = Consumer::create([
+            'uuid' => 'd4f7c501-cff9-4a3f-bae7-aec1db19456c',
+            'owner_id' => '',
+            'label' => 'Frontend',
+            'is_default' => TRUE,
+            'secret' => user_password(),
+            'confidential' => FALSE,
+            'third_party' => FALSE,
+            'roles' => [['target_id' => 'frontend_user']],
+        ]);
+        $consumer->save();
     }
-  }
+}
+
+/**
+ * Implements hook_modules_installed().
+ */
+function contribkanban_api_modules_installed($modules)
+{
+    if (in_array('consumers', $modules)) {
+        $initial_consumer = Consumer::load(1);
+        if ($initial_consumer) {
+            $initial_consumer->delete();
+        }
+        contribkanban_api_ensure_default_consumer();
+    }
 }

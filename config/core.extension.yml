@@ -4,6 +4,7 @@ module:
   automated_cron: 0
   block: 0
   breakpoint: 0
+  consumers: 0
   contribkanban_api: 0
   contribkanban_boards: 0
   contribkanban_pages: 0
@@ -13,9 +14,15 @@ module:
   email_registration: 0
   entity: 0
   field: 0
+  file: 0
   filter: 0
+  image: 0
   inline_entity_form: 0
   jsonapi: 0
+  jsonapi_hypermedia: 0
+  jsonapi_resources: 0
+  jsonapi_search_api: 0
+  jsonapi_user_resources: 0
   lagoon_logs: 0
   layout_discovery: 0
   link: 0
@@ -25,7 +32,10 @@ module:
   page_cache: 0
   path_alias: 0
   rest: 0
+  search_api: 0
+  search_api_db: 0
   serialization: 0
+  simple_oauth: 0
   swiftmailer: 0
   system: 0
   text: 0

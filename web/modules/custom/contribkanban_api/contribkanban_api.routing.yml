@@ -1,14 +1,22 @@
 conribkanban_api.add_board:
-  path: '/api/boards/add/{machine_name}'
-  methods: ['POST']
+  path: "/api/boards/add/{machine_name}"
+  methods: ["POST"]
   defaults:
     _controller: '\Drupal\contribkanban_api\Controller\AddBoard::handle'
   requirements:
-    _access: 'TRUE'
+    _access: "TRUE"
 conribkanban_api.add_tag:
-  path: '/api/boards/add/tag/{tag}'
-  methods: ['POST']
+  path: "/api/boards/add/tag/{tag}"
+  methods: ["POST"]
   defaults:
     _controller: '\Drupal\contribkanban_api\Controller\AddTag::handle'
   requirements:
-    _access: 'TRUE'
+    _access: "TRUE"
+conribkanban_api.jsonapi.me:
+  path: "/%jsonapi%/me"
+  methods: [GET]
+  defaults:
+    _jsonapi_resource: Drupal\contribkanban_api\Resource\Me
+    _jsonapi_resource_types: ["user--user"]
+  requirements:
+    _user_is_logged_in: "TRUE"

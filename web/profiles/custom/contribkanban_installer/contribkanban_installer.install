@@ -1,6 +1,69 @@
 <?php
 
-function contribkanban_installer_update_8001() {
+use Drupal\Core\Extension\ModuleInstallerInterface;
+use Drupal\Core\File\FileSystem;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\Core\Utility\UpdateException;
+use Drupal\simple_oauth\Service\Filesystem\FileSystemChecker;
+use Drupal\simple_oauth\Service\KeyGeneratorService;
+
+function contribkanban_installer_install_tasks($install_state)
+{
+  return [
+    'contribkanban_installer_generate_keys' => [
+      'display_name' => new TranslatableMarkup('Generate OAuth2 keys'),
+    ],
+  ];
+}
+
+/**
+ * Generate OAuth2 keys.
+ *
+ * @param $install_state
+ *   An array of information about the current installation state.
+ */
+function contribkanban_installer_generate_keys()
+{
+  $key_gen = \Drupal::service('simple_oauth.key.generator');
+  assert($key_gen instanceof KeyGeneratorService);
+  $file_system_checker = \Drupal::service('simple_oauth.filesystem_checker');
+  assert($file_system_checker instanceof FileSystemChecker);
+  $file_system = \Drupal::service('file_system');
+  assert($file_system instanceof FileSystem);
+
+  if (!$file_system_checker->isDirectory('sites/default/files/private')) {
+    if (!$file_system->mkdir('sites/default/files/private')) {
+      throw new UpdateException("Unable to created 'sites/default/files/private");
+    }
+  }
+
+  $dir = 'private://keys';
+  if (!$file_system_checker->isDirectory($dir)) {
+    if (!$file_system->mkdir($dir)) {
+      throw new UpdateException("Unable to created '$dir'");
+    }
+  }
+
+  $real_dir = $file_system->realpath($dir);
+  $public_key_filename = $real_dir . '/public.key';
+  $private_key_filename = $real_dir . '/private.key';
+  if ($file_system_checker->fileExist($public_key_filename) && $file_system_checker->fileExist($public_key_filename)) {
+    $file_system->chmod($public_key_filename, 0600);
+    $file_system->chmod($private_key_filename, 0600);
+  } else {
+    // 2. Generate the pair in the selected directory.
+    try {
+      $key_gen->generateKeys($real_dir);
+    } catch (\Exception $e) {
+      // Unable to generate files after all.
+      return;
+    }
+  }
+}
+
+
+function contribkanban_installer_update_8001()
+{
   \Drupal::database()->delete('key_value')
     ->condition('collection', 'system.schema')
     ->condition('name', 'minimal')
@@ -9,4 +72,17 @@ function contribkanban_installer_update_8001() {
     ->condition('collection', 'system.schema')
     ->condition('name', 'devel')
     ->execute();
+}
+
+function contribkanban_installer_update_8002()
+{
+  \Drupal::state()->delete('system.profile.files');
+}
+
+function contribkanban_installer_update_8003()
+{
+  $module_installer = \Drupal::service('module_installer');
+  assert($module_installer instanceof ModuleInstallerInterface);
+  $module_installer->install(['consumers', 'simple_oauth']);
+  contribkanban_installer_generate_keys();
 }

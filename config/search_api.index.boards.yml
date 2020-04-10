@@ -1,0 +1,129 @@
+uuid: 774f5711-20e8-43e2-a5d7-ae811d50a146
+langcode: en
+status: true
+dependencies:
+  module:
+    - contribkanban_boards
+    - search_api
+  config:
+    - search_api.server.database_server
+id: boards
+name: Boards
+description: ''
+read_only: false
+field_settings:
+  category:
+    label: 'Lists » Board list » Category'
+    datasource_id: 'entity:board'
+    property_path: 'lists:entity:category'
+    type: string
+    dependencies:
+      module:
+        - contribkanban_boards
+        - contribkanban_boards
+        - contribkanban_boards
+  machine_name:
+    label: 'The machine name used for routing'
+    datasource_id: 'entity:board'
+    property_path: machine_name
+    type: string
+    dependencies:
+      module:
+        - contribkanban_boards
+  priority:
+    label: 'Lists » Board list » Priority'
+    datasource_id: 'entity:board'
+    property_path: 'lists:entity:priority'
+    type: string
+    dependencies:
+      module:
+        - contribkanban_boards
+        - contribkanban_boards
+        - contribkanban_boards
+  project:
+    label: 'Lists » Board list » Projects'
+    datasource_id: 'entity:board'
+    property_path: 'lists:entity:project_nid'
+    type: string
+    dependencies:
+      module:
+        - contribkanban_boards
+        - contribkanban_boards
+        - contribkanban_boards
+  statuses:
+    label: 'Lists » Board list » Statuses'
+    datasource_id: 'entity:board'
+    property_path: 'lists:entity:statuses'
+    type: string
+    dependencies:
+      module:
+        - contribkanban_boards
+        - contribkanban_boards
+        - contribkanban_boards
+  tag:
+    label: 'Lists » Board list » Tags'
+    datasource_id: 'entity:board'
+    property_path: 'lists:entity:tag'
+    type: string
+    dependencies:
+      module:
+        - contribkanban_boards
+        - contribkanban_boards
+        - contribkanban_boards
+  title:
+    label: Title
+    datasource_id: 'entity:board'
+    property_path: title
+    type: text
+    dependencies:
+      module:
+        - contribkanban_boards
+  title_sort:
+    label: Title
+    datasource_id: 'entity:board'
+    property_path: title
+    type: string
+    dependencies:
+      module:
+        - contribkanban_boards
+datasource_settings:
+  'entity:board':
+    bundles:
+      default: true
+      selected: {  }
+processor_settings:
+  add_url: {  }
+  aggregated_field: {  }
+  ignorecase:
+    all_fields: true
+    fields:
+      - category
+      - machine_name
+      - priority
+      - project
+      - statuses
+      - tag
+      - title
+      - title_sort
+    weights:
+      preprocess_index: -20
+      preprocess_query: -20
+  language_with_fallback: {  }
+  rendered_item: {  }
+  tokenizer:
+    all_fields: true
+    fields:
+      - title
+    spaces: ''
+    overlap_cjk: 1
+    minimum_word_size: '3'
+    weights:
+      preprocess_index: -6
+      preprocess_query: -6
+tracker_settings:
+  default:
+    indexing_order: fifo
+options:
+  index_directly: true
+  cron_limit: 50
+server: database_server

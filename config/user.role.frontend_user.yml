@@ -1,0 +1,9 @@
+uuid: 226cd1a5-ba4a-4643-b6b4-8ff62ef3058b
+langcode: en
+status: true
+dependencies: {  }
+id: frontend_user
+label: 'Frontend user'
+weight: 2
+is_admin: null
+permissions: {  }

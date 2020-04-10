@@ -1,0 +1,14 @@
+uuid: 9ec1bff2-38f2-4a09-b391-a27842378fee
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.frontend_user
+  module:
+    - user
+id: user_remove_role_action.frontend_user
+label: 'Remove the Frontend user role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: frontend_user
