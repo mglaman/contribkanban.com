@@ -53,84 +53,39 @@ function NodeBoard({ board, classes }) {
     }
   }, [board]);
 
+  function NodeBoardList({ issues, label, statuses }) {
+    return (
+      <Grid item className={classes.item}>
+        <Paper elevation={0} className={classes.paper}>
+          <Typography variant="subtitle1">{label}</Typography>
+          {issues
+            .filter((item) => {
+              return statuses.includes(parseInt(item.field_issue_status));
+            })
+            .map((item) => (
+              <KanbanCard key={item.nid} data={item} />
+            ))}
+        </Paper>
+      </Grid>
+    );
+  }
+
   if (!board) {
     return <p>Loading...</p>;
   }
 
   return (
     <Grid container className={classes.root}>
-      <Grid item className={classes.item}>
-        <Paper elevation={0} className={classes.paper}>
-          <Typography variant="subtitle1">Postponed</Typography>
-          {issues
-            .filter((item) => {
-              return [4, 16].includes(parseInt(item.field_issue_status));
-            })
-            .map((item) => (
-              <KanbanCard key={item.nid} data={item} />
-            ))}
-        </Paper>
-      </Grid>
-      <Grid item className={classes.item}>
-        <Paper elevation={0} className={classes.paper}>
-          <Typography variant="subtitle1">Active</Typography>
-          {issues
-            .filter((item) => {
-              return [1].includes(parseInt(item.field_issue_status));
-            })
-            .map((item) => (
-              <KanbanCard key={item.nid} data={item} />
-            ))}
-        </Paper>
-      </Grid>
-      <Grid item className={classes.item}>
-        <Paper elevation={0} className={classes.paper}>
-          <Typography variant="subtitle1">Needs work</Typography>
-          {issues
-            .filter((item) => {
-              return [13].includes(parseInt(item.field_issue_status));
-            })
-            .map((item) => (
-              <KanbanCard key={item.nid} data={item} />
-            ))}
-        </Paper>
-      </Grid>
-      <Grid item className={classes.item}>
-        <Paper elevation={0} className={classes.paper}>
-          <Typography variant="subtitle1">Needs review</Typography>
-          {issues
-            .filter((item) => {
-              return [8].includes(parseInt(item.field_issue_status));
-            })
-            .map((item) => (
-              <KanbanCard key={item.nid} data={item} />
-            ))}
-        </Paper>
-      </Grid>
-      <Grid item className={classes.item}>
-        <Paper elevation={0} className={classes.paper}>
-          <Typography variant="subtitle1">Reviewed & tested</Typography>
-          {issues
-            .filter((item) => {
-              return [14, 15].includes(parseInt(item.field_issue_status));
-            })
-            .map((item) => (
-              <KanbanCard key={item.nid} data={item} />
-            ))}
-        </Paper>
-      </Grid>
-      <Grid item className={classes.item}>
-        <Paper elevation={0} className={classes.paper}>
-          <Typography variant="subtitle1">Fixed</Typography>
-          {issues
-            .filter((item) => {
-              return [2, 7].includes(parseInt(item.field_issue_status));
-            })
-            .map((item) => (
-              <KanbanCard key={item.nid} data={item} />
-            ))}
-        </Paper>
-      </Grid>
+      <NodeBoardList issues={issues} label={`Postponed`} statuses={[4, 16]} />
+      <NodeBoardList issues={issues} label={`Active`} statuses={[1]} />
+      <NodeBoardList issues={issues} label={`Needs work`} statuses={[13]} />
+      <NodeBoardList issues={issues} label={`Needs review`} statuses={[8]} />
+      <NodeBoardList
+        issues={issues}
+        label={`Reviewed & tested`}
+        statuses={[14, 15]}
+      />
+      <NodeBoardList issues={issues} label={`Fixed`} statuses={[2, 7]} />
     </Grid>
   );
 }

@@ -1,12 +1,13 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
-
-import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import Chip from "@material-ui/core/Chip";
-import { Link } from "@material-ui/core";
+import {
+  Typography,
+  Card,
+  CardActions,
+  CardContent,
+  Chip,
+  Link,
+} from "@material-ui/core";
 
 const statusToColor = {
   1: "#fcfcfc",
