@@ -51,15 +51,7 @@ function App() {
           <Route exact path={`/board/:machineName`} component={Board} />
           <Route exact path={`/node-board/:uuid`} component={NodeBoard} />
           <Route path={`/create`} component={Create} />
-          <Route exact path={`/projects`}>
-            <p>Coming soon</p>
-          </Route>
-          <Route exact path={`/sprints`}>
-            <p>Coming soon</p>
-          </Route>
-          <Route exact path={`/core`}>
-            <p>Coming soon</p>
-          </Route>
+
           <GuestRoute path={`/login`} component={Login} />
           <GuestRoute path={`/register`} component={Register} />
           <GuestRoute path={`/forgot-password`} component={ForgotPassword} />
@@ -79,6 +71,8 @@ function App() {
               return <Redirect to="/login" />;
             }}
           />
+          <Route exact path={`/boards/:boardType`} component={Home} />
+          <Route exact path={`/boards`} component={Home} />
           <Route exact path="/" component={Home} />
         </Switch>
       </Router>

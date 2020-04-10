@@ -11,7 +11,6 @@ import {
 import {
   BugReport as BugIcon,
   AssignmentTurnedIn as TaskIcon,
-  Face as FaceIcon,
   Stars as FeatureRequestIcon,
   Help as SupportIcon,
   Note as PlanIcon,
@@ -38,14 +37,6 @@ const priorityToLabel = {
   300: "Major",
   200: "Normal",
   100: "Minor",
-};
-
-const categoryToLabel = {
-  1: "Bug",
-  2: "Task",
-  3: "Feature",
-  4: "Support",
-  5: "Plan",
 };
 
 const categoryToIcon = {

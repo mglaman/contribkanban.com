@@ -9,9 +9,10 @@ function BoardMenu() {
     <AppBoardMenu
       links={[
         { text: "All", to: "/", icon: <DashboardIcon /> },
-        { text: "Drupal core", to: "/core", icon: <DashboardIcon /> },
-        { text: "Projects", to: "/projects", icon: <DashboardIcon /> },
-        { text: "Sprints", to: "/sprints", icon: <DashboardIcon /> },
+        { text: "Drupal core", to: "/boards/core", icon: <DashboardIcon /> },
+        { text: "Projects", to: "/boards/project", icon: <DashboardIcon /> },
+        { text: "Sprints", to: "/boards/sprint", icon: <DashboardIcon /> },
+        { text: "Custom", to: "/boards/custom", icon: <DashboardIcon /> },
         { text: "Create", to: "/create", icon: <NoteAddRoundedIcon /> },
       ]}
     />

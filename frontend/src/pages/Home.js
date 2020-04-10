@@ -1,9 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
+import { Grid, Container, Paper, Typography } from "@material-ui/core";
 import amazeeHosting from "./amazeeio-hosted-badge.png";
 import BoardListing from "../components/BoardListing";
 import usePageTitle from "../hooks/pageTitle";
@@ -27,7 +24,8 @@ const styles = (theme) => ({
   },
 });
 
-function Home({ classes }) {
+function Home({ match, classes }) {
+  const { boardType } = match.params;
   usePageTitle(`All boards`);
   return (
     <section className={classes.root}>
@@ -35,7 +33,7 @@ function Home({ classes }) {
         <Grid container spacing={4}>
           <Grid item xs={12} md={8}>
             <Paper className={classes.paper}>
-              <BoardListing />
+              <BoardListing boardType={boardType || null} />
             </Paper>
           </Grid>
           <Grid item xs={12} md={4}>

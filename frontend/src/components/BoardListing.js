@@ -23,17 +23,10 @@ const styles = (theme) => ({
   },
 });
 
-function BoardListing({ classes }) {
+function BoardListing({ boardType, classes }) {
   const [currentState, setCurrentState] = useState("LOADING");
   const [boards, setBoards] = useState({});
-  const [apiSearchUrl, setApiSearchUrl] = useState(
-    `/index/boards?${qs.stringify({
-      sort: "title",
-      page: {
-        limit: 10,
-      },
-    })}`
-  );
+  const [apiSearchUrl, setApiSearchUrl] = useState();
   const [filterName, setFilterName] = useState("");
 
   function PagerButton({ link, text }) {
@@ -101,6 +94,22 @@ function BoardListing({ classes }) {
   }
 
   useEffect(() => {
+    setFilterName("");
+    const query = {
+      sort: "title",
+      page: {
+        limit: 10,
+      },
+    };
+    if (boardType) {
+      query.filter = {
+        board_type: `drupalorg_${boardType}`,
+      };
+    }
+    setApiSearchUrl(`/index/boards?${qs.stringify(query)}`);
+  }, [boardType]);
+
+  useEffect(() => {
     async function getBoards() {
       const res = await apiFetch(apiSearchUrl);
       if (res.status !== 200) {
@@ -111,27 +120,31 @@ function BoardListing({ classes }) {
         setCurrentState("OK");
       }
     }
-    getBoards();
+    if (apiSearchUrl) {
+      getBoards();
+    }
   }, [apiSearchUrl]);
 
   useEffect(() => {
     const typingTimer = setTimeout(() => {
       if (filterName !== "") {
-        setApiSearchUrl(
-          `/index/boards?${qs.stringify({
-            sort: "title",
-            filter: {
-              fulltext: filterName,
-            },
-            page: {
-              limit: 10,
-            },
-          })}`
-        );
+        const query = {
+          sort: "title",
+          filter: {
+            fulltext: filterName,
+          },
+          page: {
+            limit: 10,
+          },
+        };
+        if (boardType) {
+          query.filter.board_type = `drupalorg_${boardType}`;
+        }
+        setApiSearchUrl(`/index/boards?${qs.stringify(query)}`);
       }
     }, 300);
     return () => clearTimeout(typingTimer);
-  }, [filterName]);
+  }, [filterName, boardType]);
 
   return (
     <section>
