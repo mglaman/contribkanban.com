@@ -48,7 +48,7 @@ function NodeBoardEditForm({ classes }) {
   useEffect(() => {
     async function getBoard() {
       const baseUrl = getApiBaseUrl();
-      const res = await fetch(
+      const res = await auth.fetchAsAuthenticated(
         `${baseUrl}/jsonapi/node_board/node_board/${uuid}`,
         {
           headers: {
@@ -252,7 +252,7 @@ function NodeBoardEditForm({ classes }) {
 
 function IssueTextField({ onBlur, setRef, nid }) {
   const [value, setValue] = useState(nid);
-  const issue = useFetchIssue(nid);
+  const { error, issue } = useFetchIssue(nid);
   return (
     <TextField
       inputRef={(ref) => setRef(nid, ref)}
@@ -263,7 +263,7 @@ function IssueTextField({ onBlur, setRef, nid }) {
         onBlur,
       }}
       onChange={(event) => setValue(event.target.value)}
-      helperText={issue?.title}
+      helperText={error ? `Invalid issue ID` : issue?.title}
     />
   );
 }

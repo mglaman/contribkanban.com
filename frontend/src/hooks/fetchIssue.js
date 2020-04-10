@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 const useFetchIssue = (nid) => {
   const [issue, setIssue] = useState(null);
+  const [error, setError] = useState(false);
   useEffect(() => {
     async function doFetch() {
       const res = await fetch(
@@ -13,16 +14,23 @@ const useFetchIssue = (nid) => {
         }
       );
       if (!res.ok) {
-        setIssue(null);
+        setError(true);
       } else {
         const json = await res.json();
-        setIssue(json);
+        if (json.type === "project_issue") {
+          setIssue(json);
+        } else {
+          setError(true);
+        }
       }
     }
     if (nid && nid !== "") {
       doFetch();
+    } else {
+      setError(false);
+      setIssue(null);
     }
   }, [nid]);
-  return issue;
+  return { error, issue };
 };
 export default useFetchIssue;
