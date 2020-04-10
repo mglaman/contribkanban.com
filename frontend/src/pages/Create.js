@@ -12,6 +12,7 @@ import {
 import usePageTitle from "../hooks/pageTitle";
 import CreateProjectDialog from "../components/Dialogs/CreateProjectDialog";
 import CreateSprintDialog from "../components/Dialogs/CreateSprintDialog";
+import CreateIssueCollectionDialog from "../components/Dialogs/CreateIssueCollectionDialog";
 import { useAuth } from "../context/auth";
 
 const styles = (theme) => ({
@@ -31,7 +32,7 @@ function DialogFactory({ type, ...rest }) {
     case "sprint":
       return <CreateSprintDialog {...rest} />;
     case "node_board":
-      return null;
+      return <CreateIssueCollectionDialog {...rest} />;
     case "custom":
       return null;
     default:
@@ -106,7 +107,14 @@ function Create({ classes }) {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small" disabled={!authTokens}>
+              <Button
+                size="small"
+                onClick={() => {
+                  setOpen(true);
+                  setCreateType("node_board");
+                }}
+                disabled={!authTokens}
+              >
                 {authTokens ? `Create` : `Log in to create`}
               </Button>
             </CardActions>

@@ -32,6 +32,10 @@ function NodeBoard({ board, classes }) {
   useEffect(() => {
     async function fetchIssues() {
       const nids = board.data.attributes.nids;
+      if (nids.length === 0) {
+        setIssues([]);
+        return;
+      }
       const apiUrl = `https://www.drupal.org/api-d7/node.json?${qs.stringify({
         nid: nids,
       })}`;
@@ -55,7 +59,6 @@ function NodeBoard({ board, classes }) {
     return <p>Loading...</p>;
   }
 
-  console.log(issues);
   return (
     <Grid container className={classes.root}>
       <Grid item className={classes.item}>
@@ -63,7 +66,7 @@ function NodeBoard({ board, classes }) {
           <Typography variant="subtitle1">Postponed</Typography>
           {issues
             .filter((item) => {
-              return [4, 6].includes(parseInt(item.field_issue_status));
+              return [4, 16].includes(parseInt(item.field_issue_status));
             })
             .map((item) => (
               <KanbanCard key={item.nid} data={item} />

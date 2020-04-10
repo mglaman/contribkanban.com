@@ -19,6 +19,7 @@ import {
 import { Dashboard as FolderIcon, Edit as EditIcon } from "@material-ui/icons";
 import { withStyles } from "@material-ui/core/styles";
 import { useAuth } from "../context/auth";
+import CreateIssueCollectionDialog from "../components/Dialogs/CreateIssueCollectionDialog";
 import Gravatar from "../components/Gravatar";
 import { getApiBaseUrl } from "../api";
 
@@ -48,6 +49,9 @@ function Me({ classes }) {
   const [nodeBoards, setNodeBoards] = useState({
     data: [],
   });
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
+
   useEffect(() => {
     console.log(currentUser);
     async function fetchBoards() {
@@ -58,12 +62,11 @@ function Me({ classes }) {
       );
       const json = await res.json();
       setNodeBoards(json);
-      console.log(json);
     }
     if (currentUser !== null) {
       fetchBoards();
     }
-  }, [currentUser, auth]);
+  }, [currentUser]);
 
   if (currentUser === null) {
     return null;
@@ -71,6 +74,7 @@ function Me({ classes }) {
 
   return (
     <Container maxWidth="md" className={classes.root}>
+      <CreateIssueCollectionDialog open={open} handleClose={handleClose} />
       <Grid container spacing={4}>
         <Grid item md={6} lg={4} xl={3}>
           <Card>
@@ -86,7 +90,10 @@ function Me({ classes }) {
             <CardActions className={classes.accountActions}>
               <Button className={classes.acccountButtons}>Edit account</Button>
               <Button className={classes.acccountButtons}>My issues</Button>
-              <Button className={classes.acccountButtons}>
+              <Button
+                className={classes.acccountButtons}
+                onClick={() => setOpen(true)}
+              >
                 New issue collection
               </Button>
             </CardActions>
@@ -102,9 +109,7 @@ function Me({ classes }) {
                     <ListItem
                       button
                       key={board.id}
-                      onClick={() => {
-                        history.push(`/node-board/${board.id}`);
-                      }}
+                      onClick={() => history.push(`/node-board/${board.id}`)}
                     >
                       <ListItemAvatar>
                         <Avatar>
@@ -112,7 +117,11 @@ function Me({ classes }) {
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText primary={board.attributes.title} />
-                      <ListItemSecondaryAction>
+                      <ListItemSecondaryAction
+                        onClick={() =>
+                          history.push(`/node-board/${board.id}/edit`)
+                        }
+                      >
                         <IconButton edge="end" aria-label="edit">
                           <EditIcon />
                         </IconButton>

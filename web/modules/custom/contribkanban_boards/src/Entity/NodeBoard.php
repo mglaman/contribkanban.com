@@ -86,7 +86,7 @@ class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwner
       ->setLabel(new TranslatableMarkup('Issue Node IDs'))
       ->setDescription(new TranslatableMarkup('The node IDs for issues on this board'))
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
-      ->setRequired(TRUE)
+      ->setRequired(FALSE)
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
         'type'   => 'string_textfield',

@@ -19,6 +19,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import Me from "./pages/Me";
+import NodeBoardEditForm from "./pages/NodeBoardEditForm";
 
 function App() {
   const storedTokens = localStorage.getItem("oauth");
@@ -48,7 +49,7 @@ function App() {
         <AppBar />
         <Switch>
           <Route exact path={`/board/:machineName`} component={Board} />
-          <Route path={`/node-board/:uuid`} component={NodeBoard} />
+          <Route exact path={`/node-board/:uuid`} component={NodeBoard} />
           <Route path={`/create`} component={Create} />
           <GuestRoute path={`/login`} component={Login} />
           <GuestRoute path={`/register`} component={Register} />
@@ -57,6 +58,11 @@ function App() {
             <p>About</p>
           </Route>
           <AuthRoute path={`/me`} component={Me} />
+          <AuthRoute
+            exact
+            path={`/node-board/:uuid/edit`}
+            component={NodeBoardEditForm}
+          />
           <Route
             path={`/logout`}
             render={() => {

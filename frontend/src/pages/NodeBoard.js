@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
+import { Button } from "@material-ui/core";
 import { useParams } from "react-router-dom";
 import { getApiBaseUrl } from "../api";
+import { useAuth } from "../context/auth";
 import useWindowHeight from "../hooks/windowHeight";
 import usePageTitle from "../hooks/pageTitle";
 import KanbanBoard from "../components/Board/NodeBoard";
@@ -15,15 +17,17 @@ const styles = (theme) => ({
 
 function NodeBoard({ classes }) {
   const { uuid } = useParams();
+  const { auth } = useAuth();
   const [currentState, setCurrentState] = useState("LOADING");
   const [board, setBoard] = useState(null);
+  const [canEdit, setCanEdit] = useState(false);
   const [heightFix, setHeightFix] = useState("100%");
   const windowHeight = useWindowHeight();
 
   useEffect(() => {
     async function getBoard() {
       const baseUrl = getApiBaseUrl();
-      const res = await fetch(
+      const res = await auth.fetchAsAuthenticated(
         `${baseUrl}/jsonapi/node_board/node_board/${uuid}`,
         {
           headers: {
@@ -38,6 +42,9 @@ function NodeBoard({ classes }) {
           .json()
           .then((data) => {
             setBoard(data);
+            setCanEdit(
+              data.data.links.self?.meta?.linkParams?.rel.includes("update")
+            );
             setCurrentState("OK");
           })
           .catch((err) => setCurrentState("ERROR"));
@@ -48,8 +55,9 @@ function NodeBoard({ classes }) {
   useEffect(() => {
     // toolbar height, offset.
     // @todo keep dynamic based off of styles.
-    setHeightFix(windowHeight - 70);
-  }, [windowHeight]);
+    let adjustment = 70;
+    setHeightFix(windowHeight - adjustment);
+  }, [windowHeight, canEdit]);
 
   const boardTitle = board?.data?.attributes.title;
   usePageTitle(boardTitle ? boardTitle : "Board");
@@ -59,6 +67,7 @@ function NodeBoard({ classes }) {
   if (currentState === "ERROR") {
     return <span>Error!</span>;
   }
+
   return (
     <div
       className={classes.root}
@@ -66,7 +75,7 @@ function NodeBoard({ classes }) {
         height: heightFix,
       }}
     >
-      <KanbanBoard board={board} />
+      <KanbanBoard board={board} canEdit={canEdit} />
     </div>
   );
 }

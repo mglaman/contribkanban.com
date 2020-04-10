@@ -40,13 +40,17 @@ export class OAuth {
   };
 
   fetchAsAuthenticated = async (url, opts) => {
+    let res;
     const request = new Request(url, opts);
-    let res = await this.fetchWithToken(request.clone(), this.access_token);
-    if (!res.ok && res.status === 401) {
-      const refreshedTokens = await this.refreshToken();
-      debugger;
-      this.setAuthTokens(refreshedTokens);
-      res = await this.fetchWithToken(request, refreshedTokens.access_token);
+    if (this.access_token) {
+      res = await this.fetchWithToken(request.clone(), this.access_token);
+      if (!res.ok && res.status === 401) {
+        const refreshedTokens = await this.refreshToken();
+        this.setAuthTokens(refreshedTokens);
+        res = await this.fetchWithToken(request, refreshedTokens.access_token);
+      }
+    } else {
+      res = await fetch(request);
     }
     return res;
   };
@@ -95,7 +99,6 @@ export class OAuth {
     } catch (err) {
       success = false;
     }
-    debugger;
     return { success, result };
   };
 }
