@@ -28,6 +28,9 @@ export async function apiFetch(resource, opts) {
   }
   const request = new Request(resource, opts);
   request.headers.set("Accept", "application/vnd.api+json");
+  if (opts && (opts.method === "POST" || opts.method === "PATCH")) {
+    request.headers.set("Content-Type", "application/vnd.api+json");
+  }
   const res = await fetch(request);
 
   return res;

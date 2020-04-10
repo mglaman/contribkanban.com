@@ -1,6 +1,10 @@
 import React from "react";
 
 function ForgotPasswordForm() {
-  return <form></form>;
+  return (
+    <form>
+      <p>In progress</p>
+    </form>
+  );
 }
 export default ForgotPasswordForm;
