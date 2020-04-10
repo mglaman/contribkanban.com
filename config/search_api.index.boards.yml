@@ -12,6 +12,14 @@ name: Boards
 description: ''
 read_only: false
 field_settings:
+  board_type:
+    label: 'Board provider'
+    datasource_id: 'entity:board'
+    property_path: type
+    type: string
+    dependencies:
+      module:
+        - contribkanban_boards
   category:
     label: 'Lists » Board list » Category'
     datasource_id: 'entity:board'
@@ -97,6 +105,7 @@ processor_settings:
   ignorecase:
     all_fields: true
     fields:
+      - board_type
       - category
       - machine_name
       - priority
