@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import { Folder as FolderIcon } from "@material-ui/icons";
 import { Link as RouterLink } from "react-router-dom";
+import qs from "qs";
 import { apiFetch } from "../api";
 
 const styles = (theme) => ({
@@ -25,7 +26,14 @@ const styles = (theme) => ({
 function BoardListing({ classes }) {
   const [currentState, setCurrentState] = useState("LOADING");
   const [boards, setBoards] = useState({});
-  const [apiSearchUrl, setApiSearchUrl] = useState(`/index/boards?sort=title`);
+  const [apiSearchUrl, setApiSearchUrl] = useState(
+    `/index/boards?${qs.stringify({
+      sort: "title",
+      page: {
+        limit: 10,
+      },
+    })}`
+  );
   const [filterName, setFilterName] = useState("");
 
   function PagerButton({ link, text }) {
@@ -110,7 +118,15 @@ function BoardListing({ classes }) {
     const typingTimer = setTimeout(() => {
       if (filterName !== "") {
         setApiSearchUrl(
-          `/index/boards?sort=title&filter[fulltext]=${filterName}`
+          `/index/boards?${qs.stringify({
+            sort: "title",
+            filter: {
+              fulltext: filterName,
+            },
+            page: {
+              limit: 10,
+            },
+          })}`
         );
       }
     }, 300);
