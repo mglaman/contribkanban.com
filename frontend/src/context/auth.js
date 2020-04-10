@@ -39,9 +39,24 @@ export class OAuth {
     this.expireTokensCallback();
   };
 
-  fetchAsAuthenticated = async (url, opts) => {
+  /**
+   *
+   * @param {RequestInfo} resource
+   * @param {RequestInit} opts
+   *
+   * @returns {Promise<Response>}
+   */
+  fetchAsAuthenticated = async (resource, opts) => {
+    if (resource.substr(0, 1) === "/") {
+      resource = `${getApiBaseUrl()}/jsonapi${resource}`;
+    }
     let res;
-    const request = new Request(url, opts);
+    const request = new Request(resource, opts);
+    request.headers.set("Accept", "application/vnd.api+json");
+    if (opts && (opts.method === "POST" || opts.method === "PATCH")) {
+      request.headers.set("Content-Type", "application/vnd.api+json");
+    }
+
     if (this.access_token) {
       res = await this.fetchWithToken(request.clone(), this.access_token);
       if (!res.ok && res.status === 401) {

@@ -15,6 +15,39 @@ export function getApiBaseUrl() {
   return `https://nginx-${process.env.REACT_APP_LAGOON_PROJECT}-${process.env.REACT_APP_LAGOON_BRANCH}.us.amazee.io`;
 }
 
+/**
+ *
+ * @param {RequestInfo} resource
+ * @param {RequestInit} opts
+ *
+ * @returns {Promise<Response>}
+ */
+export async function apiFetch(resource, opts) {
+  if (resource.substr(0, 1) === "/") {
+    resource = `${getApiBaseUrl()}/jsonapi${resource}`;
+  }
+  const request = new Request(resource, opts);
+  request.headers.set("Accept", "application/vnd.api+json");
+  const res = await fetch(request);
+
+  return res;
+}
+
+/**
+ *
+ * @param {RequestInfo} resource
+ * @param {RequestInit} opts
+ *
+ * @returns {Promise<Response>}
+ */
+export async function legacyApiFetch(resource, opts) {
+  const request = new Request(`${getApiBaseUrl()}${resource}`, opts);
+  request.headers.set("Accept", "application/json");
+  const res = await fetch(request);
+
+  return res;
+}
+
 export const getMappedIncludes = (document) =>
   document.included
     ? document.included.reduce((accumulator, include) => {

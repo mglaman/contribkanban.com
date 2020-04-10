@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemText from "@material-ui/core/ListItemText";
-import Avatar from "@material-ui/core/Avatar";
-import FolderIcon from "@material-ui/icons/Dashboard";
-import Button from "@material-ui/core/Button";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import TextField from "@material-ui/core/TextField";
-
+import {
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Avatar,
+  Button,
+  ButtonGroup,
+  TextField,
+  FormControl,
+  Grid,
+} from "@material-ui/core";
+import { Folder as FolderIcon } from "@material-ui/icons";
 import { Link as RouterLink } from "react-router-dom";
-import { FormControl } from "@material-ui/core";
-import { getApiBaseUrl } from "../api";
+import { apiFetch } from "../api";
 
 const styles = (theme) => ({
   margin: {
@@ -20,17 +22,15 @@ const styles = (theme) => ({
   },
 });
 
-function BoardListing({ boardType, classes }) {
-  const baseApiSearchUrl = `${getApiBaseUrl()}/jsonapi/index/boards?sort=title`;
+function BoardListing({ classes }) {
   const [currentState, setCurrentState] = useState("LOADING");
   const [boards, setBoards] = useState({});
-  const [apiSearchUrl, setApiSearchUrl] = useState(baseApiSearchUrl);
+  const [apiSearchUrl, setApiSearchUrl] = useState(`/index/boards?sort=title`);
   const [filterName, setFilterName] = useState("");
 
   function PagerButton({ link, text }) {
     return (
       <Button
-        disableRipple
         onClick={() => setApiSearchUrl(link.href)}
         disabled={!link || !link.href}
       >
@@ -40,36 +40,67 @@ function BoardListing({ boardType, classes }) {
   }
   function PagerButtonGroup({ links }) {
     return (
-      <React.Fragment>
+      <Grid
+        container
+        direction="row"
+        justify="space-between"
+        alignItems="center"
+      >
         <ButtonGroup variant="text" color="primary">
-          <PagerButton link={links.next} text={`Next`} />
-          <PagerButton link={links.prev} text={`Previous`} />
+          <PagerButton link={links?.prev} text={`Previous`} />
+          <PagerButton link={links?.next} text={`Next`} />
         </ButtonGroup>
         <ButtonGroup variant="text" color="primary">
-          <PagerButton link={links.first} text={`First`} />
-          <PagerButton link={links.last} text={`Last`} />
+          <PagerButton link={links?.last} text={`Last`} />
+          <PagerButton link={links?.first} text={`First`} />
         </ButtonGroup>
-      </React.Fragment>
+      </Grid>
+    );
+  }
+
+  function BoardList({ boards }) {
+    if (currentState === "LOADING") {
+      return <span>Loading...</span>;
+    }
+    if (currentState === "ERROR") {
+      return <span>Error!</span>;
+    }
+    if (currentState !== "OK") {
+      return <span>Unknown state</span>;
+    }
+    return (
+      <List>
+        {boards.data.map((board) => {
+          return (
+            <ListItem
+              key={board.id}
+              underline="none"
+              color="inherit"
+              component={RouterLink}
+              to={`/board/${board.attributes.machine_name}`}
+            >
+              <ListItemAvatar>
+                <Avatar>
+                  <FolderIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={board.attributes.title} />
+            </ListItem>
+          );
+        })}
+      </List>
     );
   }
 
   useEffect(() => {
     async function getBoards() {
-      const res = await fetch(apiSearchUrl, {
-        headers: {
-          Accept: "application/vnd.api+json",
-        },
-      });
-      if (![200, 201, 204].includes(res.status)) {
+      const res = await apiFetch(apiSearchUrl);
+      if (res.status !== 200) {
         setCurrentState("ERROR");
       } else {
-        res
-          .json()
-          .then((data) => {
-            setBoards(data);
-            setCurrentState("OK");
-          })
-          .catch((err) => setCurrentState("ERROR"));
+        const json = await res.json();
+        setBoards(json);
+        setCurrentState("OK");
       }
     }
     getBoards();
@@ -78,57 +109,31 @@ function BoardListing({ boardType, classes }) {
   useEffect(() => {
     const typingTimer = setTimeout(() => {
       if (filterName !== "") {
-        setApiSearchUrl(`${baseApiSearchUrl}&filter[fulltext]=${filterName}`);
+        setApiSearchUrl(
+          `/index/boards?sort=title&filter[fulltext]=${filterName}`
+        );
       }
     }, 300);
     return () => clearTimeout(typingTimer);
-  }, [filterName, baseApiSearchUrl]);
+  }, [filterName]);
 
-  if (currentState === "LOADING") {
-    return <span>Loading...</span>;
-  }
-  if (currentState === "ERROR") {
-    return <span>Error!</span>;
-  }
-  if (currentState === "OK") {
-    return (
-      <section>
-        <form>
-          <FormControl fullWidth className={classes.margin}>
-            <TextField
-              label="Search"
-              variant="standard"
-              value={filterName}
-              onChange={(event) => setFilterName(event.target.value)}
-            />
-          </FormControl>
-        </form>
-        <PagerButtonGroup links={boards.links} />
-        <List>
-          {boards.data.map((board) => {
-            return (
-              <ListItem
-                key={board.id}
-                underline="none"
-                color="inherit"
-                component={RouterLink}
-                to={`/board/${board.attributes.machine_name}`}
-              >
-                <ListItemAvatar>
-                  <Avatar>
-                    <FolderIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={board.attributes.title} />
-              </ListItem>
-            );
-          })}
-        </List>
-        <PagerButtonGroup links={boards.links} />
-      </section>
-    );
-  }
-  return <span>Unknown state</span>;
+  return (
+    <section>
+      <form>
+        <FormControl fullWidth className={classes.margin}>
+          <TextField
+            label="Search"
+            variant="standard"
+            value={filterName}
+            onChange={(event) => setFilterName(event.target.value)}
+          />
+        </FormControl>
+      </form>
+      <PagerButtonGroup links={boards.links} />
+      <BoardList boards={boards} />
+      <PagerButtonGroup links={boards.links} />
+    </section>
+  );
 }
 
 export default withStyles(styles)(BoardListing);

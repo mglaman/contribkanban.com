@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { getApiBaseUrl } from "../../api";
+import { legacyApiFetch } from "../../api";
 
 function CreateSprintDialog({ open, handleClose }) {
   const history = useHistory();
@@ -36,7 +36,7 @@ function CreateSprintDialog({ open, handleClose }) {
       return;
     }
 
-    fetch(`${getApiBaseUrl()}/api/boards/add/tag/${tagName}`, {
+    legacyApiFetch(`/api/boards/add/tag/${tagName}`, {
       method: "POST",
     })
       .then((res) => res.json())

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import { Button } from "@material-ui/core";
 import { useParams } from "react-router-dom";
-import { getApiBaseUrl } from "../api";
 import { useAuth } from "../context/auth";
 import useWindowHeight from "../hooks/windowHeight";
 import usePageTitle from "../hooks/pageTitle";
@@ -26,19 +24,13 @@ function NodeBoard({ classes }) {
 
   useEffect(() => {
     async function getBoard() {
-      const baseUrl = getApiBaseUrl();
       const res = await auth.fetchAsAuthenticated(
-        `${baseUrl}/jsonapi/node_board/node_board/${uuid}`,
-        {
-          headers: {
-            Accept: "application/vnd.api+json",
-          },
-        }
+        `/node_board/node_board/${uuid}`
       );
 
       const json = await res.json();
       setBoard(json);
-      if (![200].includes(res.status)) {
+      if (!res.ok) {
         setCurrentState("ERROR");
       } else {
         setCanEdit(

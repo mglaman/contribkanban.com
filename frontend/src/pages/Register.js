@@ -11,7 +11,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import usePageTitle from "../hooks/pageTitle";
 import { useAuth } from "../context/auth";
-import { getApiBaseUrl } from "../api";
+import { apiFetch } from "../api";
 
 const styles = (theme) => ({
   form: {
@@ -49,15 +49,11 @@ function RegisterForm({ classes }) {
       },
     };
     try {
-      const res = await fetch(`${getApiBaseUrl()}/jsonapi/user/register`, {
+      const res = await apiFetch(`/user/register`, {
         method: "POST",
         body: JSON.stringify({
           data: body,
         }),
-        headers: {
-          "Content-Type": "application/vnd.api+json",
-          Accept: "application/vnd.api+json",
-        },
       });
       const json = await res.json();
       if (!res.ok) {

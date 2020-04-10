@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import {
   Container,
@@ -24,7 +24,6 @@ import { DeleteOutline as DeleteOutlineIcon } from "@material-ui/icons";
 import { useParams, useHistory } from "react-router-dom";
 import { useAuth } from "../context/auth";
 import useFetchIssue from "../hooks/fetchIssue";
-import { getApiBaseUrl } from "../api";
 
 const styles = (theme) => ({
   root: {
@@ -47,16 +46,10 @@ function NodeBoardEditForm({ classes }) {
 
   useEffect(() => {
     async function getBoard() {
-      const baseUrl = getApiBaseUrl();
       const res = await auth.fetchAsAuthenticated(
-        `${baseUrl}/jsonapi/node_board/node_board/${uuid}`,
-        {
-          headers: {
-            Accept: "application/vnd.api+json",
-          },
-        }
+        `/node_board/node_board/${uuid}`
       );
-      if (![200].includes(res.status)) {
+      if (!res.ok) {
         setCurrentState("ERROR");
       } else {
         res
@@ -65,6 +58,9 @@ function NodeBoardEditForm({ classes }) {
             const { title, collaboration, nids } = data.data.attributes;
             setBoardTitle(title);
             setCollaboration(collaboration);
+            if (nids.length === 0) {
+              nids.push("");
+            }
             setNids(nids);
             setCurrentState("OK");
           })
@@ -119,14 +115,10 @@ function NodeBoardEditForm({ classes }) {
     };
     try {
       const res = await auth.fetchAsAuthenticated(
-        `${getApiBaseUrl()}/jsonapi/node_board/node_board/${uuid}`,
+        `/node_board/node_board/${uuid}`,
         {
           method: "PATCH",
           body: JSON.stringify(body),
-          headers: {
-            Accept: "application/vnd.api+json",
-            "Content-Type": "application/vnd.api+json",
-          },
         }
       );
       const json = await res.json();
@@ -262,6 +254,7 @@ function IssueTextField({ onBlur, setRef, nid }) {
       InputProps={{
         onBlur,
       }}
+      placeholder={"Issue ID"}
       onChange={(event) => setValue(event.target.value)}
       helperText={error ? `Invalid issue ID` : issue?.title}
     />

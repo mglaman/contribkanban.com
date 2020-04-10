@@ -15,7 +15,6 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
-import { getApiBaseUrl } from "../../api";
 import { useAuth } from "../../context/auth";
 
 const styles = (theme) => ({
@@ -52,25 +51,17 @@ function CreateIssueCollectionDialog({ classes, open, handleClose }) {
       },
     };
     try {
-      const res = await auth.fetchAsAuthenticated(
-        `${getApiBaseUrl()}/jsonapi/node_board/node_board`,
-        {
-          method: "POST",
-          body: JSON.stringify(body),
-          headers: {
-            Accept: "application/vnd.api+json",
-            "Content-Type": "application/vnd.api+json",
-          },
-        }
-      );
+      const res = await auth.fetchAsAuthenticated(`/node_board/node_board`, {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
       const json = await res.json();
-      console.log(json);
       if (!res.ok) {
         setCurrentState("ERROR");
         setMessage(json.errors[0].detail);
       } else {
         setCurrentState("OK");
-        history.push(`/node-board/${json.data.id}`);
+        history.push(`/node-board/${json.data.id}/edit`);
       }
     } catch (error) {
       setCurrentState("ERROR");

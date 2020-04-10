@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { getApiBaseUrl } from "../../api";
+import { legacyApiFetch } from "../../api";
 
 function CreateProjectDialog({ open, handleClose }) {
   const history = useHistory();
@@ -36,16 +36,23 @@ function CreateProjectDialog({ open, handleClose }) {
       return;
     }
 
-    fetch(`${getApiBaseUrl()}/api/boards/add/${machineName}`, {
-      method: "POST",
-    })
-      .then((res) => res.json())
-      .then(() => history.push(`/board/${machineName}`))
-      .catch((err) => {
+    try {
+      const res = await legacyApiFetch(`/api/boards/add/${machineName}`, {
+        method: "POST",
+      });
+      const json = await res.json();
+      if (res.ok) {
+        history.push(`/board/${machineName}`);
+      } else {
         setCurrentState("ERROR");
         setMessage("Error adding board, see console.");
-        console.log(err);
-      });
+        console.log(json);
+      }
+    } catch (error) {
+      setCurrentState("ERROR");
+      setMessage("Error adding board, see console.");
+      console.log(error);
+    }
   }
 
   useEffect(() => {

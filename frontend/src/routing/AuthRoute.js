@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useAuth } from "../context/auth";
-import { getApiBaseUrl } from "../api";
 
 function AuthRoute({ component: Component, ...rest }) {
   const { auth, authTokens, setCurrentUser } = useAuth();
@@ -9,9 +8,7 @@ function AuthRoute({ component: Component, ...rest }) {
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        const res = await auth.fetchAsAuthenticated(
-          `${getApiBaseUrl()}/jsonapi/me`
-        );
+        const res = await auth.fetchAsAuthenticated(`/me`);
         const json = await res.json();
         if (res.ok) {
           setCurrentUser(json);

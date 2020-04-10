@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { useParams } from "react-router-dom";
 import {
-  getApiBaseUrl,
+  apiFetch,
   getMappedIncludes,
   getRelationshipFromMappedIncludes,
 } from "../api";
@@ -10,7 +10,7 @@ import useWindowHeight from "../hooks/windowHeight";
 import usePageTitle from "../hooks/pageTitle";
 import KanbanBoard from "../components/Board/Board";
 
-const styles = (theme) => ({
+const styles = () => ({
   root: {
     position: "relative",
     height: "100%",
@@ -26,16 +26,10 @@ function Board({ classes }) {
 
   useEffect(() => {
     async function getBoard() {
-      const baseUrl = getApiBaseUrl();
-      const res = await fetch(
-        `${baseUrl}/jsonapi/index/boards?filter[machine_name]=${machineName}&include=lists`,
-        {
-          headers: {
-            Accept: "application/vnd.api+json",
-          },
-        }
+      const res = await apiFetch(
+        `/index/boards?filter[machine_name]=${machineName}&include=lists`
       );
-      if (![200].includes(res.status)) {
+      if (!res.ok) {
         setCurrentState("ERROR");
       } else {
         res

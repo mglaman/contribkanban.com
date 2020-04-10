@@ -21,7 +21,6 @@ import { withStyles } from "@material-ui/core/styles";
 import { useAuth } from "../context/auth";
 import CreateIssueCollectionDialog from "../components/Dialogs/CreateIssueCollectionDialog";
 import Gravatar from "../components/Gravatar";
-import { getApiBaseUrl } from "../api";
 
 const styles = (theme) => ({
   root: {
@@ -53,12 +52,9 @@ function Me({ classes }) {
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
-    console.log(currentUser);
     async function fetchBoards() {
       const res = await auth.fetchAsAuthenticated(
-        `${getApiBaseUrl()}/jsonapi/node_board/node_board?filter[uid.id]=${
-          currentUser.data.id
-        }`
+        `/node_board/node_board?filter[uid.id]=${currentUser.data.id}`
       );
       const json = await res.json();
       setNodeBoards(json);
