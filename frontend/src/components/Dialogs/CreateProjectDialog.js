@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { legacyApiFetch } from "../../api";
+import { legacyApiFetch, drupalApiFetch } from "../../api";
 
 function CreateProjectDialog({ open, handleClose }) {
   const history = useHistory();
@@ -26,8 +26,8 @@ function CreateProjectDialog({ open, handleClose }) {
     setCurrentState("LOADING");
     setMessage(null);
 
-    const projectListRes = await fetch(
-      `https://www.drupal.org/api-d7/node.json?field_project_machine_name=${machineName}`
+    const projectListRes = await drupalApiFetch(
+      `/node.json?field_project_machine_name=${machineName}`
     );
     const projectListJson = await projectListRes.json();
     if (projectListJson.list.length === 0) {

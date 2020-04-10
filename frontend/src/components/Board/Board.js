@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import BoardList from "./List";
 
-const styles = (theme) => ({
+const styles = () => ({
   root: {
     overflowX: "auto",
     overflowY: "hidden",

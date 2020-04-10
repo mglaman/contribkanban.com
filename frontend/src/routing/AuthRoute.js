@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useAuth } from "../context/auth";
 
 function AuthRoute({ component: Component, ...rest }) {
   const { auth, authTokens, setCurrentUser } = useAuth();
-
   useEffect(() => {
+    console.log("AuthRoute useEffect called");
     const fetchCurrentUser = async () => {
       try {
         const res = await auth.fetchAsAuthenticated(`/me`);

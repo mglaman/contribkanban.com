@@ -1,18 +1,12 @@
 import { useState, useEffect } from "react";
+import { drupalApiFetch } from "../api";
 
 const useFetchIssue = (nid) => {
   const [issue, setIssue] = useState(null);
   const [error, setError] = useState(false);
   useEffect(() => {
     async function doFetch() {
-      const res = await fetch(
-        `https://www.drupal.org/api-d7/node/${nid}.json`,
-        {
-          headers: {
-            Accept: "application/json",
-          },
-        }
-      );
+      const res = await drupalApiFetch(`/node/${nid}.json`);
       if (!res.ok) {
         setError(true);
       } else {

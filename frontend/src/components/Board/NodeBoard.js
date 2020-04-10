@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { Grid, Typography, Paper } from "@material-ui/core";
 import qs from "qs";
+import { drupalApiFetch } from "../../api";
 import KanbanCard from "./Card";
 
 const styles = (theme) => ({
@@ -36,14 +37,11 @@ function NodeBoard({ board, classes }) {
         setIssues([]);
         return;
       }
-      const apiUrl = `https://www.drupal.org/api-d7/node.json?${qs.stringify({
-        nid: nids,
-      })}`;
-      const res = await fetch(apiUrl, {
-        headers: {
-          Accept: "application/json",
-        },
-      });
+      const res = await drupalApiFetch(
+        `/node.json?${qs.stringify({
+          nid: nids,
+        })}`
+      );
       if (!res.ok) {
         setIssues([]);
       }

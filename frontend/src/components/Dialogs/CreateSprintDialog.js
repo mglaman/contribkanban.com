@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { legacyApiFetch } from "../../api";
+import { legacyApiFetch, drupalApiFetch } from "../../api";
 
 function CreateSprintDialog({ open, handleClose }) {
   const history = useHistory();
@@ -26,8 +26,8 @@ function CreateSprintDialog({ open, handleClose }) {
     setCurrentState("LOADING");
     setMessage(null);
 
-    const projectListRes = await fetch(
-      `https://www.drupal.org/api-d7/taxonomy_term.json?name=${tagName}`
+    const projectListRes = await drupalApiFetch(
+      `/taxonomy_term.json?name=${tagName}`
     );
     const projectListJson = await projectListRes.json();
     if (projectListJson.list.length === 0) {

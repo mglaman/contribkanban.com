@@ -48,6 +48,19 @@ export async function legacyApiFetch(resource, opts) {
   return res;
 }
 
+/**
+ *
+ * @param {RequestInfo} resource
+ *
+ * @returns {Promise<Response>}
+ */
+export async function drupalApiFetch(resource) {
+  const request = new Request(`https://www.drupal.org/api-d7${resource}`);
+  request.headers.set("Accept", "application/json");
+  const res = await fetch(request);
+  return res;
+}
+
 export const getMappedIncludes = (document) =>
   document.included
     ? document.included.reduce((accumulator, include) => {

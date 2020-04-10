@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
+import { Grid, Paper, Typography } from "@material-ui/core";
 import qs from "qs";
-import { Grid, Paper } from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
+import { drupalApiFetch } from "../../api";
 import KanbanCard from "./Card";
 
 const styles = (theme) => ({
@@ -72,17 +72,10 @@ function BoardList({ board, list, classes }) {
         queryString["field_issue_priority"] = filterData.priority;
       }
 
-      const apiUrl = `https://www.drupal.org/api-d7/node.json?${qs.stringify(
-        queryString
-      )}`;
-      console.log(apiUrl);
-
-      const res = await fetch(apiUrl, {
-        headers: {
-          Accept: "application/json",
-        },
-      });
-      if (![200].includes(res.status)) {
+      const res = await drupalApiFetch(
+        `/node.json?${qs.stringify(queryString)}`
+      );
+      if (!res.ok) {
         setCurrentState("ERROR");
         setListItems([]);
       } else {
@@ -108,7 +101,7 @@ function BoardList({ board, list, classes }) {
           {list.title} ({listItems.length})
         </Typography>
         {currentState !== "OK"
-          ? [<span>Loading...</span>]
+          ? [<span key={list.id}>Loading...</span>]
           : listItems.map((item) => <KanbanCard key={item.nid} data={item} />)}
       </Paper>
     </Grid>
