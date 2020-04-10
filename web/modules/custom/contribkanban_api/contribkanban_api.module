@@ -1,14 +1,26 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use Drupal\consumers\Entity\Consumer;
 use Drupal\Core\Entity\EntityRepositoryInterface;
+use Drupal\user\Entity\Role;
 
-function contribkanban_api_ensure_default_consumer() {
+function contribkanban_api_ensure_default_consumer()
+{
     $entity_repository = \Drupal::service('entity.repository');
     assert($entity_repository instanceof EntityRepositoryInterface);
 
     $exists = $entity_repository->loadEntityByUuid('consumer', 'd4f7c501-cff9-4a3f-bae7-aec1db19456c');
     if ($exists === null) {
+        $consumer_role = Role::load('frontend_user');
+        if (!$consumer_role) {
+            Role::create([
+                'id' => 'frontend_user',
+                'name' => 'Frontend user'
+            ])->save();
+        }
+
         $consumer = Consumer::create([
             'uuid' => 'd4f7c501-cff9-4a3f-bae7-aec1db19456c',
             'owner_id' => '',
@@ -17,7 +29,7 @@ function contribkanban_api_ensure_default_consumer() {
             'secret' => user_password(),
             'confidential' => FALSE,
             'third_party' => FALSE,
-            'roles' => [['target_id' => 'frontend']],
+            'roles' => [['target_id' => 'frontend_user']],
         ]);
         $consumer->save();
     }
@@ -26,7 +38,8 @@ function contribkanban_api_ensure_default_consumer() {
 /**
  * Implements hook_modules_installed().
  */
-function contribkanban_api_modules_installed($modules) {
+function contribkanban_api_modules_installed($modules)
+{
     if (in_array('consumers', $modules)) {
         $initial_consumer = Consumer::load(1);
         if ($initial_consumer) {

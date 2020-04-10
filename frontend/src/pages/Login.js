@@ -38,7 +38,11 @@ function LoginForm({ classes }) {
     );
     if (!success) {
       console.log(result);
-      setErrorMessage(result.message);
+      if (!result) {
+        setErrorMessage("Unknown error occurred, see console.");
+      } else {
+        setErrorMessage(result.message);
+      }
     } else {
       auth.setAuthTokens(result);
       history.push(`/me`);
