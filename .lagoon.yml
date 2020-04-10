@@ -46,7 +46,7 @@ environments:
         command: drush cron
         service: cli
     routes:
-      - app:
+      - frontend:
           - app.contribkanban.com:
               tls-acme: "true"
               insecure: Redirect
