@@ -57,3 +57,6 @@ environments:
           - www.contribkanban.com:
               tls-acme: "true"
               insecure: Redirect
+          - api.contribkanban.com:
+              tls-acme: "true"
+              insecure: Redirect
