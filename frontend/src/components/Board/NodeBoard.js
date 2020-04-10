@@ -19,8 +19,8 @@ const styles = (theme) => ({
     overflow: "scroll",
   },
   item: {
-    flex: "0 0 380px",
-    maxWidth: "380px",
+    flex: "0 0 300px",
+    maxWidth: "300px",
     position: "relative",
     transform: "translate3d(0, 0, 0)",
     maxHeight: "100%",

@@ -8,6 +8,14 @@ import {
   Chip,
   Link,
 } from "@material-ui/core";
+import {
+  BugReport as BugIcon,
+  AssignmentTurnedIn as TaskIcon,
+  Face as FaceIcon,
+  Stars as FeatureRequestIcon,
+  Help as SupportIcon,
+  Note as PlanIcon,
+} from "@material-ui/icons";
 
 const statusToColor = {
   1: "#fcfcfc",
@@ -40,6 +48,14 @@ const categoryToLabel = {
   5: "Plan",
 };
 
+const categoryToIcon = {
+  1: <BugIcon titleAccess="Bug report" fontSize="small" color="error" />,
+  2: <TaskIcon titleAccess="Task" fontSize="small" htmlColor="#4CC27B" />,
+  3: <FeatureRequestIcon titleAccess="Feature request" fontSize="small" />,
+  4: <SupportIcon titleAccess="Support question" fontSize="small" />,
+  5: <PlanIcon titleAccess="Plan" fontSize="small" />,
+};
+
 const styles = (theme) => ({
   root: {
     marginBottom: theme.spacing(1),
@@ -47,6 +63,10 @@ const styles = (theme) => ({
   },
   actions: {
     flexWrap: "wrap",
+  },
+  chip: {
+    fontSize: theme.typography.pxToRem(12),
+    margin: theme.spacing(0.5),
   },
 });
 
@@ -63,7 +83,7 @@ function BoardCard({ data, classes }) {
       }}
     >
       <CardContent>
-        <Typography gutterBottom variant="body1">
+        <Typography gutterBottom variant="body2">
           {data.title}{" "}
           <Link color="inherit" href={data.url} target={`_blank`}>
             #{data.nid}
@@ -71,16 +91,22 @@ function BoardCard({ data, classes }) {
         </Typography>
       </CardContent>
       <CardActions className={classes.actions}>
-        <Chip label={data.field_issue_version} size="small" />
+        {categoryToIcon[parseInt(data.field_issue_category)]}
+        <Chip
+          label={data.field_issue_version}
+          size="small"
+          className={classes.chip}
+        />
         <Chip
           label={priorityToLabel[parseInt(data.field_issue_priority)]}
           size="small"
+          className={classes.chip}
         />
-        <Chip label={data.field_issue_component} size="small" />
-        <Chip
-          label={categoryToLabel[parseInt(data.field_issue_category)]}
+        {/* <Chip
+          label={data.field_issue_component}
           size="small"
-        />
+          className={classes.chip}
+        /> */}
         {/* <Chip label={data.field_project.id} size="small" /> */}
       </CardActions>
     </Card>
