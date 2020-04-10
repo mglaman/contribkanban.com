@@ -35,19 +35,16 @@ function NodeBoard({ classes }) {
           },
         }
       );
+
+      const json = await res.json();
+      setBoard(json);
       if (![200].includes(res.status)) {
         setCurrentState("ERROR");
       } else {
-        res
-          .json()
-          .then((data) => {
-            setBoard(data);
-            setCanEdit(
-              data.data.links.self?.meta?.linkParams?.rel.includes("update")
-            );
-            setCurrentState("OK");
-          })
-          .catch((err) => setCurrentState("ERROR"));
+        setCanEdit(
+          json.data.links.self?.meta?.linkParams?.rel.includes("update")
+        );
+        setCurrentState("OK");
       }
     }
     getBoard();
@@ -65,7 +62,13 @@ function NodeBoard({ classes }) {
     return <span>Loading...</span>;
   }
   if (currentState === "ERROR") {
-    return <span>Error!</span>;
+    const error = board.errors[0];
+    if (["403", "404"].includes(error.status)) {
+      return <p>Sorry, this board does not seem to exist.</p>;
+    } else {
+      console.log(board);
+      return <p>Oh no! An error has happened, please inspect the console</p>;
+    }
   }
 
   return (

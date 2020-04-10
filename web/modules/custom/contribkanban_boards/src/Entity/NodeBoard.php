@@ -3,13 +3,11 @@
 namespace Drupal\contribkanban_boards\Entity;
 
 use Drupal\Core\Entity\ContentEntityBase;
-use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\user\EntityOwnerInterface;
 use Drupal\user\EntityOwnerTrait;
-use Drupal\user\UserInterface;
 
 /**
  * Defines the 'board' entity class.
@@ -28,7 +26,7 @@ use Drupal\user\UserInterface;
  *   },
  *   handlers = {
  *     "access" = "\Drupal\contribkanban_boards\NodeBoardAccessControlHandler",
- *     "permission_provider" = "\Drupal\entity\EntityPermissionProvider",
+ *     "permission_provider" = "\Drupal\entity\UncacheableEntityPermissionProvider",
  *     "query_access" = "\Drupal\entity\QueryAccess\QueryAccessHandler",
  *     "views_data" = "\Drupal\views\EntityViewsData",
  *     "form" = {
