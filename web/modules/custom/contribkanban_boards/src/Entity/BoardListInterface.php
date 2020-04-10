@@ -11,18 +11,39 @@ interface BoardListInterface extends ContentEntityInterface {
    */
   public function getBoard();
 
+  /**
+   *
+   */
   public function getProjects();
 
+  /**
+   *
+   */
   public function getCategory();
 
+  /**
+   *
+   */
   public function getComponent();
 
+  /**
+   *
+   */
   public function getParentIssue();
 
+  /**
+   *
+   */
   public function getPriority();
 
+  /**
+   *
+   */
   public function getStatuses();
 
+  /**
+   *
+   */
   public function getTags();
 
   /**

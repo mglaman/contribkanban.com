@@ -7,6 +7,9 @@ use Drupal\Core\Form\FormStateInterface;
 
 class BoardForm extends ContentEntityForm {
 
+  /**
+   *
+   */
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
     $form['#theme'] = ['board_form'];
@@ -56,6 +59,9 @@ class BoardForm extends ContentEntityForm {
     return $form;
   }
 
+  /**
+   *
+   */
   public function save(array $form, FormStateInterface $form_state) {
     parent::save($form, $form_state);
     $form_state->setRedirectUrl($this->entity->toUrl());

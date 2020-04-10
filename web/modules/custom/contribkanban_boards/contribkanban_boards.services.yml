@@ -6,14 +6,14 @@ services:
     class: Drupal\contribkanban_boards\ParamConverter\MachineNameConverter
     tags:
       - { name: paramconverter, priority: 10 }
-    arguments: ['@entity.manager']
+    arguments: ["@entity.manager"]
   paramconverter.contribkanban_boards.entity_uuid:
     class: Drupal\contribkanban_boards\ParamConverter\EntityUuidConverter
     tags:
       - { name: paramconverter, priority: 10 }
-    arguments: ['@entity.manager']
-  exception.missing_board_html:
-    class: Drupal\contribkanban_boards\EventSubscriber\MissingBoardExceptionHtmlSubscriber
-    tags:
-      - { name: event_subscriber }
-    arguments: ['@config.factory', '@http_kernel', '@logger.channel.php', '@redirect.destination', '@router.no_access_checks', '@access_manager']
+    arguments: ["@entity.manager"]
+  # exception.missing_board_html:
+  #   class: Drupal\contribkanban_boards\EventSubscriber\MissingBoardExceptionHtmlSubscriber
+  #   tags:
+  #     - { name: event_subscriber }
+  #   arguments: ['@config.factory', '@http_kernel', '@logger.channel.php', '@redirect.destination', '@router.no_access_checks', '@access_manager']

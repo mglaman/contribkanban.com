@@ -16,6 +16,9 @@ class BoardHtmlRouteProvider extends AdminHtmlRouteProvider {
     return 'string';
   }
 
+  /**
+   *
+   */
   public function getRoutes(EntityTypeInterface $entity_type) {
     $collection = parent::getRoutes($entity_type);
     $entity_type_id = $entity_type->id();

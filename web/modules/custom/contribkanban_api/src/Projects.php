@@ -4,7 +4,6 @@ namespace Drupal\contribkanban_api;
 
 use Drupal\Component\Serialization\Json;
 use GuzzleHttp\ClientInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Projects {
 
@@ -13,10 +12,16 @@ class Projects {
    */
   protected $client;
 
+  /**
+   *
+   */
   public function __construct(ClientInterface $client) {
     $this->client = $client;
   }
 
+  /**
+   *
+   */
   public function getProject($machine_name) {
     $params = [
       'field_project_machine_name' => $machine_name,
@@ -45,6 +50,9 @@ class Projects {
     return $project;
   }
 
+  /**
+   *
+   */
   public function getProjects($type = 'full', $page = 1, $limit = 100) {
     $params = [
       'field_project_type' => $type,

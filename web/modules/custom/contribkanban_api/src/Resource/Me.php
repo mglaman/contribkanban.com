@@ -17,43 +17,46 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @internal
  */
-class Me extends EntityResourceBase implements ContainerInjectionInterface
-{
+class Me extends EntityResourceBase implements ContainerInjectionInterface {
 
-    private $currentUser;
+  private $currentUser;
 
-    public function __construct(AccountInterface $account)
-    {
-        $this->currentUser = $account;
-    }
+  /**
+   *
+   */
+  public function __construct(AccountInterface $account) {
+    $this->currentUser = $account;
+  }
 
-    public static function create(ContainerInterface $container)
-    {
-        return new self(
-            $container->get('current_user')
-        );
-    }
+  /**
+   *
+   */
+  public static function create(ContainerInterface $container) {
+    return new self(
+          $container->get('current_user')
+      );
+  }
 
-    /**
-     * Process the resource request.
-     *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *   The request.
-     *
-     * @return \Drupal\jsonapi\ResourceResponse
-     *   The response.
-     *
-     * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-     * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
-     */
-    public function process(Request $request)
-    {
-        $user_storage = $this->entityTypeManager->getStorage('user');
-        $current_user = $user_storage->load($this->currentUser->id());
-        assert($current_user instanceof UserInterface);
-        $top_level_data = $this->createIndividualDataFromEntity($current_user);
-        $response = $this->createJsonapiResponse($top_level_data, $request);
-        $response->addCacheableDependency((new CacheableMetadata())->addCacheContexts(['user']));
-        return $response;
-    }
+  /**
+   * Process the resource request.
+   *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request.
+   *
+   * @return \Drupal\jsonapi\ResourceResponse
+   *   The response.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function process(Request $request) {
+    $user_storage = $this->entityTypeManager->getStorage('user');
+    $current_user = $user_storage->load($this->currentUser->id());
+    assert($current_user instanceof UserInterface);
+    $top_level_data = $this->createIndividualDataFromEntity($current_user);
+    $response = $this->createJsonapiResponse($top_level_data, $request);
+    $response->addCacheableDependency((new CacheableMetadata())->addCacheContexts(['user']));
+    return $response;
+  }
+
 }

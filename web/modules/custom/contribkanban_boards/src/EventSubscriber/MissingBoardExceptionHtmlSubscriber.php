@@ -56,9 +56,9 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
       /*
       $bundle = str_replace('project_', 'drupalorg_', $project['projectType']);
       if (preg_match('/commerce|commerce_|dc_/', $machine_name) === 1) {
-        $bundle = 'drupalorg_commerce';
+      $bundle = 'drupalorg_commerce';
       }
-      */
+       */
       // @endtodo
       $bundle = 'drupalorg_project';
       if (!\Drupal::getContainer()->get('plugin.manager.board_provider')->hasDefinition($bundle)) {
@@ -93,7 +93,7 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
         $rtbc = BoardList::create([
           'type' => $bundle,
           'title' => 'Reviewed & Tested',
-          'statuses' => [14,15],
+          'statuses' => [14, 15],
         ]);
         $fixed = BoardList::create([
           'type' => $bundle,
@@ -112,7 +112,7 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
             $needs_work,
             $needs_review,
             $rtbc,
-            $fixed
+            $fixed,
           ],
         ]);
         $board->save();
@@ -165,7 +165,7 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
         $rtbc = BoardList::create([
           'type' => $bundle,
           'title' => 'Reviewed & Tested',
-          'statuses' => [14,15],
+          'statuses' => [14, 15],
         ]);
         $fixed = BoardList::create([
           'type' => $bundle,

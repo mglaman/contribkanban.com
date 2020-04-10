@@ -10,7 +10,6 @@ use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AddBoard implements ContainerInjectionInterface {
@@ -21,12 +20,18 @@ class AddBoard implements ContainerInjectionInterface {
 
   protected $boardStorage;
 
+  /**
+   *
+   */
   public function __construct(Projects $projects, BoardProviderManager $board_provider, EntityTypeManagerInterface $entity_type_manager) {
     $this->projectsHelper = $projects;
     $this->boardProvider = $board_provider;
     $this->boardStorage = $entity_type_manager->getStorage('board');
   }
 
+  /**
+   *
+   */
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('drupalorg_projects'),
@@ -35,6 +40,9 @@ class AddBoard implements ContainerInjectionInterface {
     );
   }
 
+  /**
+   *
+   */
   public function handle($machine_name) {
     $machine_name = urldecode($machine_name);
     $project = $this->projectsHelper->getProject($machine_name);
@@ -43,9 +51,9 @@ class AddBoard implements ContainerInjectionInterface {
     /*
     $bundle = str_replace('project_', 'drupalorg_', $project['projectType']);
     if (preg_match('/commerce|commerce_|dc_/', $machine_name) === 1) {
-      $bundle = 'drupalorg_commerce';
+    $bundle = 'drupalorg_commerce';
     }
-    */
+     */
     // @endtodo
     $bundle = 'drupalorg_project';
     if (!$this->boardProvider->hasDefinition($bundle)) {
@@ -56,7 +64,7 @@ class AddBoard implements ContainerInjectionInterface {
     if (!empty($existing_board)) {
       $existing_board = reset($existing_board);
       return new JsonResponse([
-        'url' => $existing_board->toUrl()->toString()
+        'url' => $existing_board->toUrl()->toString(),
       ], 200);
     }
 
@@ -83,7 +91,7 @@ class AddBoard implements ContainerInjectionInterface {
     $rtbc = BoardList::create([
       'type' => $bundle,
       'title' => 'Reviewed & Tested',
-      'statuses' => [14,15],
+      'statuses' => [14, 15],
     ]);
     $fixed = BoardList::create([
       'type' => $bundle,
@@ -102,13 +110,13 @@ class AddBoard implements ContainerInjectionInterface {
         $needs_work,
         $needs_review,
         $rtbc,
-        $fixed
+        $fixed,
       ],
     ]);
     $board->save();
 
     return new JsonResponse([
-      'url' => $board->toUrl()->toString()
+      'url' => $board->toUrl()->toString(),
     ], 201);
   }
 

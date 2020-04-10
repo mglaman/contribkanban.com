@@ -46,6 +46,9 @@ abstract class StringOptionsWidget extends WidgetBase {
     $form_state->setValueForElement($element, $items);
   }
 
-  public abstract function getOptions();
+  /**
+   *
+   */
+  abstract public function getOptions();
 
 }

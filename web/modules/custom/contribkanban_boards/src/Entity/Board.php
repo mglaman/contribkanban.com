@@ -53,6 +53,9 @@ use Drupal\Core\Field\BaseFieldDefinition;
  */
 class Board extends ContentEntityBase implements BoardInterface {
 
+  /**
+   *
+   */
   public function preSave(EntityStorageInterface $storage) {
     parent::preSave($storage);
     if ($this->get('machine_name')->isEmpty()) {
@@ -70,6 +73,9 @@ class Board extends ContentEntityBase implements BoardInterface {
     return parent::url($rel, $options);
   }
 
+  /**
+   *
+   */
   public function toUrl($rel = 'canonical', array $options = []) {
     if ($rel == 'canonical' && $this->bundle() == 'drupalorg_sprint') {
       $rel = 'canonical_alternative';
@@ -77,6 +83,9 @@ class Board extends ContentEntityBase implements BoardInterface {
     return parent::toUrl($rel, $options);
   }
 
+  /**
+   *
+   */
   protected function urlRouteParameters($rel) {
     if ($rel == 'canonical' && $this->bundle() == 'drupalorg_sprint') {
       $rel = 'canonical_alternative';
@@ -105,6 +114,9 @@ class Board extends ContentEntityBase implements BoardInterface {
     }
   }
 
+  /**
+   *
+   */
   public static function postDelete(EntityStorageInterface $storage, array $entities) {
     /** @var \Drupal\contribkanban_boards\Entity\Board[] $entities */
     parent::postDelete($storage, $entities);

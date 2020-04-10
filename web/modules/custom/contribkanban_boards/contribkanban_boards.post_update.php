@@ -1,5 +1,6 @@
 <?php
 
+use Drupal\contribkanban_boards\Entity\NodeBoard;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Utility\UpdateException;
 
@@ -10,7 +11,7 @@ function contribkanban_boards_post_update_node_boards_collaboration() {
   \Drupal::entityDefinitionUpdateManager()->applyUpdates();
   $node_board_storage = \Drupal::entityTypeManager()->getStorage('node_board');
   foreach ($node_board_storage->loadMultiple() as $node_board) {
-    $node_board->get('collaboration')->setValue(\Drupal\contribkanban_boards\Entity\NodeBoard::IS_SHARED);
+    $node_board->get('collaboration')->setValue(NodeBoard::IS_SHARED);
     $node_board->save();
   }
 }
@@ -31,6 +32,9 @@ function contribkanban_boards_post_update_migrate_to_install_profile() {
   $extension_config->save();
 }
 
+/**
+ *
+ */
 function contribkanban_boards_post_update_migrate_board_providers_bundles() {
   $board_provider_manager = \Drupal::getContainer()->get('plugin.manager.board_provider');
   $board_provider_manager->clearCachedDefinitions();
@@ -40,7 +44,8 @@ function contribkanban_boards_post_update_migrate_board_providers_bundles() {
   try {
     $board_definition = $entity_type_manager->getDefinition('board');
     $board_list_definition = $entity_type_manager->getDefinition('board_list');
-  } catch (PluginNotFoundException $e) {
+  }
+  catch (PluginNotFoundException $e) {
     throw new UpdateException('Should not happen.', 0, $e);
   }
   if (!$board_definition || !$board_list_definition) {
@@ -55,7 +60,7 @@ function contribkanban_boards_post_update_migrate_board_providers_bundles() {
   }
   $database->update($board_data_table)
     ->fields([
-      'type' => 'drupalorg_project'
+      'type' => 'drupalorg_project',
     ])
     ->condition('type', [
       'drupalorg_commerce',
@@ -72,7 +77,7 @@ function contribkanban_boards_post_update_migrate_board_providers_bundles() {
   }
   $database->update($board_list_data_table)
     ->fields([
-      'type' => 'drupalorg_project'
+      'type' => 'drupalorg_project',
     ])
     ->condition('type', [
       'drupalorg_commerce',

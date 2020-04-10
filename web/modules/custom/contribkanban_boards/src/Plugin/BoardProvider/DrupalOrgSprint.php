@@ -2,11 +2,8 @@
 
 namespace Drupal\contribkanban_boards\Plugin\BoardProvider;
 
-use Drupal\contribkanban_boards\Annotation\BoardProvider;
 use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Plugin\PluginBase;
-use Drupal\entity\BundleFieldDefinition;
 
 /**
  * Provides the first bundle plugin.

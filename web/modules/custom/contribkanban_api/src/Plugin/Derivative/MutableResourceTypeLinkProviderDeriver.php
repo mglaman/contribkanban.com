@@ -11,8 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Derives plugins that add HATEOAS controls for mutable resources.
  */
-class MutableResourceTypeLinkProviderDeriver extends DeriverBase implements ContainerDeriverInterface
-{
+class MutableResourceTypeLinkProviderDeriver extends DeriverBase implements ContainerDeriverInterface {
 
   /**
    * The JSON:API resource type repository.
@@ -27,16 +26,14 @@ class MutableResourceTypeLinkProviderDeriver extends DeriverBase implements Cont
    * @param \Drupal\jsonapi\ResourceType\ResourceTypeRepositoryInterface $resource_type_repository
    *   The JSON:API resource type repository.
    */
-  public function __construct(ResourceTypeRepositoryInterface $resource_type_repository)
-  {
+  public function __construct(ResourceTypeRepositoryInterface $resource_type_repository) {
     $this->resourceTypeRepository = $resource_type_repository;
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, $base_plugin_id)
-  {
+  public static function create(ContainerInterface $container, $base_plugin_id) {
     return new static(
       $container->get('jsonapi.resource_type.repository')
     );
@@ -45,8 +42,7 @@ class MutableResourceTypeLinkProviderDeriver extends DeriverBase implements Cont
   /**
    * {@inheritdoc}
    */
-  public function getDerivativeDefinitions($base_plugin_definition)
-  {
+  public function getDerivativeDefinitions($base_plugin_definition) {
     $resource_types = array_filter($this->resourceTypeRepository->all(), function (ResourceType $resource_type) {
       return $resource_type->isLocatable() && $resource_type->isMutable();
     });
@@ -68,4 +64,5 @@ class MutableResourceTypeLinkProviderDeriver extends DeriverBase implements Cont
     }, []);
     return $derivative_definitions;
   }
+
 }

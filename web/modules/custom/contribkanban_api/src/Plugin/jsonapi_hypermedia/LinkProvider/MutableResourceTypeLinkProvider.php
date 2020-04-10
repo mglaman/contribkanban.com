@@ -22,8 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   deriver = "Drupal\contribkanban_api\Plugin\Derivative\MutableResourceTypeLinkProviderDeriver",
  * )
  */
-final class MutableResourceTypeLinkProvider extends LinkProviderBase implements ContainerFactoryPluginInterface
-{
+final class MutableResourceTypeLinkProvider extends LinkProviderBase implements ContainerFactoryPluginInterface {
 
   use ResourceObjectEntityLoaderTrait;
 
@@ -37,8 +36,7 @@ final class MutableResourceTypeLinkProvider extends LinkProviderBase implements 
   /**
    * {@inheritdoc}
    */
-  protected function __construct(array $configuration, string $plugin_id, $plugin_definition)
-  {
+  protected function __construct(array $configuration, string $plugin_id, $plugin_definition) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     assert(!empty($configuration['operation']) && in_array($configuration['operation'], ['update', 'remove'], TRUE), "The operation must be set to either 'update' or 'remove'.");
     $this->operation = $configuration['operation'];
@@ -47,8 +45,7 @@ final class MutableResourceTypeLinkProvider extends LinkProviderBase implements 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
-  {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     $provider = new static($configuration, $plugin_id, $plugin_definition);
     $provider->setEntityRepository($container->get('entity.repository'));
     return $provider;
@@ -57,8 +54,7 @@ final class MutableResourceTypeLinkProvider extends LinkProviderBase implements 
   /**
    * {@inheritdoc}
    */
-  public function getLink($resource_object)
-  {
+  public function getLink($resource_object) {
     assert($resource_object instanceof ResourceObject);
     $entity = $this->loadEntityFromResourceObject($resource_object);
     $entity_operation_mapping = [
@@ -68,9 +64,11 @@ final class MutableResourceTypeLinkProvider extends LinkProviderBase implements 
     $access = $entity->access($entity_operation_mapping[$this->operation], NULL, TRUE);
     if ($access->isAllowed()) {
       \Drupal::logger('contribkanban')->info("{$this->operation} allowed");
-    } else {
+    }
+    else {
       \Drupal::logger('contribkanban')->info("{$this->operation} not allowed");
     }
     return AccessRestrictedLink::createLink($access, new CacheableMetadata(), $resource_object->toUrl(), $this->getLinkRelationType());
   }
+
 }

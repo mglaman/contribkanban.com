@@ -3,8 +3,6 @@
 namespace Drupal\contribkanban_boards\Plugin\Field\FieldWidget;
 
 use Drupal\Core\Field\FieldDefinitionInterface;
-use Drupal\Core\Field\FieldItemListInterface;
-use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Plugin implementation of the 'status_options' widget.

@@ -72,7 +72,7 @@ screen and (min-width: 780px),
   .layout-region-board-secondary .form-number,
   .layout-region-board-secondary .form-color,
   .layout-region-board-secondary textarea {
-    box-sizing:         border-box;
+    box-sizing: border-box;
     width: 100%;
     max-width: 100%;
   }

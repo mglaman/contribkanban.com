@@ -10,8 +10,7 @@ use Drupal\jsonapi\JsonApiResource\ResourceObject;
  *
  * @internal
  */
-trait ResourceObjectEntityLoaderTrait
-{
+trait ResourceObjectEntityLoaderTrait {
 
   /**
    * The entity repository.
@@ -26,8 +25,7 @@ trait ResourceObjectEntityLoaderTrait
    * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
    *   The entity repository service.
    */
-  protected function setEntityRepository(EntityRepositoryInterface $entity_repository)
-  {
+  protected function setEntityRepository(EntityRepositoryInterface $entity_repository) {
     $this->entityRepository = $entity_repository;
   }
 
@@ -43,8 +41,8 @@ trait ResourceObjectEntityLoaderTrait
    * @throws \Drupal\Core\Entity\EntityStorageException
    *   Thrown in case the requested entity type does not support UUIDs.
    */
-  public function loadEntityFromResourceObject(ResourceObject $resource_object)
-  {
+  public function loadEntityFromResourceObject(ResourceObject $resource_object) {
     return $this->entityRepository->loadEntityByUuid($resource_object->getResourceType()->getEntityTypeId(), $resource_object->getId());
   }
+
 }

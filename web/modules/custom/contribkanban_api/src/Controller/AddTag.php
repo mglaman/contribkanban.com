@@ -19,12 +19,18 @@ class AddTag implements ContainerInjectionInterface {
 
   protected $boardStorage;
 
+  /**
+   *
+   */
   public function __construct(Tags $tags, BoardProviderManager $board_provider, EntityTypeManagerInterface $entity_type_manager) {
     $this->tagsHelper = $tags;
     $this->boardProvider = $board_provider;
     $this->boardStorage = $entity_type_manager->getStorage('board');
   }
 
+  /**
+   *
+   */
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('drupalorg_tags'),
@@ -33,6 +39,9 @@ class AddTag implements ContainerInjectionInterface {
     );
   }
 
+  /**
+   *
+   */
   public function handle($tag) {
     $tag = urldecode($tag);
     $tag = $this->tagsHelper->getTag($tag);
@@ -41,7 +50,7 @@ class AddTag implements ContainerInjectionInterface {
     if (!empty($existing_board)) {
       $existing_board = reset($existing_board);
       return new JsonResponse([
-        'url' => $existing_board->toUrl()->toString()
+        'url' => $existing_board->toUrl()->toString(),
       ], 200);
     }
 
@@ -63,7 +72,7 @@ class AddTag implements ContainerInjectionInterface {
     $rtbc = BoardList::create([
       'type' => $bundle,
       'title' => 'Reviewed & Tested',
-      'statuses' => [14,15],
+      'statuses' => [14, 15],
     ]);
     $fixed = BoardList::create([
       'type' => $bundle,
@@ -86,7 +95,8 @@ class AddTag implements ContainerInjectionInterface {
     $board->save();
 
     return new JsonResponse([
-      'url' => $board->toUrl()->toString()
+      'url' => $board->toUrl()->toString(),
     ], 201);
   }
+
 }

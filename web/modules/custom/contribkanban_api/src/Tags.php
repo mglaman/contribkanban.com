@@ -12,10 +12,16 @@ class Tags {
    */
   protected $client;
 
+  /**
+   *
+   */
   public function __construct(ClientInterface $client) {
     $this->client = $client;
   }
 
+  /**
+   *
+   */
   public function getTag($tag) {
     $params = [
       'limit' => 1,

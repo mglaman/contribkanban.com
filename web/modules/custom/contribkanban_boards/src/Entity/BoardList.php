@@ -60,10 +60,16 @@ class BoardList extends ContentEntityBase implements BoardListInterface {
     return $this->get('category');
   }
 
+  /**
+   *
+   */
   public function getComponent() {
     return $this->get('component');
   }
 
+  /**
+   *
+   */
   public function getParentIssue() {
     foreach ($this->getBoard()->get('parent_issue') as $item) {
       $this->get('parent_issue')->appendItem($item->value);
@@ -71,14 +77,23 @@ class BoardList extends ContentEntityBase implements BoardListInterface {
     return $this->get('parent_issue');
   }
 
+  /**
+   *
+   */
   public function getPriority() {
     return $this->get('priority');
   }
 
+  /**
+   *
+   */
   public function getStatuses() {
     return $this->get('statuses');
   }
 
+  /**
+   *
+   */
   public function getTags() {
     foreach ($this->getBoard()->get('tag') as $item) {
       $this->get('tag')->appendItem($item->value);
@@ -96,6 +111,9 @@ class BoardList extends ContentEntityBase implements BoardListInterface {
     return $this->get('version');
   }
 
+  /**
+   *
+   */
   public function preSave(EntityStorageInterface $storage) {
     if (!$this->get('tag')->isEmpty()) {
       /** @var \Drupal\Core\Field\FieldItemListInterface $item */

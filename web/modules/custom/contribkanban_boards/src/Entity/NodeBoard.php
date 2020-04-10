@@ -47,16 +47,17 @@ use Drupal\user\EntityOwnerTrait;
  *   },
  * )
  */
-class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwnerInterface
-{
+class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwnerInterface {
   use EntityOwnerTrait;
 
   const IS_PRIVATE = 'private';
   const IS_SHARED = 'shared';
   const IS_PUBLIC = 'public';
 
-  protected function urlRouteParameters($rel)
-  {
+  /**
+   *
+   */
+  protected function urlRouteParameters($rel) {
     $uri_route_parameters = parent::urlRouteParameters($rel);
     if (isset($uri_route_parameters[$this->getEntityTypeId()])) {
       $uri_route_parameters[$this->getEntityTypeId()] = $this->uuid();
@@ -67,8 +68,7 @@ class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwner
   /**
    * {@inheritdoc}
    */
-  public static function baseFieldDefinitions(EntityTypeInterface $entity_type)
-  {
+  public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
     $fields += static::ownerBaseFieldDefinitions($entity_type);
     $fields['title'] = BaseFieldDefinition::create('string')
@@ -108,4 +108,5 @@ class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwner
       ->setDefaultValue(self::IS_SHARED);
     return $fields;
   }
+
 }

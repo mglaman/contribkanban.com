@@ -26,6 +26,9 @@ class MachineNameConverter extends EntityConverter {
     return NULL;
   }
 
+  /**
+   *
+   */
   public function applies($definition, $name, Route $route) {
     if (!empty($definition['type']) && strpos($definition['type'], 'entity:') === 0) {
       $entity_type_id = substr($definition['type'], strlen('entity:'));
