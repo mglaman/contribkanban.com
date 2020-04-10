@@ -14,7 +14,7 @@ function contribkanban_users_post_update_fix_usernames()
     assert($user_storage instanceof UserStorageInterface);
     $query = $user_storage->getQuery();
     $query->accessCheck(FALSE);
-    $query->condition('uid', 1, '<>');
+    $query->condition('uid', 1, '>');
     $uids = $query->execute();
     $users = $user_storage->loadMultiple($uids);
     foreach ($users as $user) {
