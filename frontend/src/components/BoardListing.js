@@ -74,6 +74,7 @@ function BoardListing({ boardType, classes }) {
         {boards.data.map((board) => {
           return (
             <ListItem
+              button
               key={board.id}
               underline="none"
               color="inherit"
