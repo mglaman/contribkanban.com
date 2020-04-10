@@ -5,14 +5,14 @@ import { withStyles } from "@material-ui/core/styles";
 
 const styles = (theme) => ({
   root: {
-    width: theme.spacing(7),
-    height: theme.spacing(7),
+    width: 128,
+    height: 128,
     marginBottom: theme.spacing(2),
   },
 });
 
 function Gravatar({ emailHash, classes }) {
-  const imgUrl = `https://www.gravatar.com/avatar/${emailHash}${qs.stringify({
+  const imgUrl = `https://www.gravatar.com/avatar/${emailHash}?${qs.stringify({
     s: 128,
     r: "g",
     d: "identicon",

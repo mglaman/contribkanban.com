@@ -75,7 +75,7 @@ function Me({ classes }) {
         <Grid item md={6} lg={4} xl={3}>
           <Card>
             <CardContent className={classes.accountBadge}>
-              <Gravatar emailHash={"tdodoneedhash"} />
+              <Gravatar emailHash={currentUser.data.attributes.mail_hash} />
               <Typography gutterBottom variant="subtitle2">
                 {currentUser.data.attributes.mail}
               </Typography>

@@ -1,12 +1,15 @@
 <?php
 
 use Drupal\Component\Serialization\Json;
+use Drupal\contribkanban_users\GravatarFieldItemList;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function contribkanban_users_form_user_login_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+function contribkanban_users_form_user_login_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id)
+{
   $form['actions']['forgot'] = [
     '#type' => 'link',
     '#title' => t('Forgot password?'),
@@ -34,7 +37,8 @@ function contribkanban_users_form_user_login_form_alter(&$form, \Drupal\Core\For
 /**
  * Implements hook_js_settings_alter().
  */
-function contribkanban_users_js_settings_alter(array &$settings, \Drupal\Core\Asset\AttachedAssetsInterface $assets) {
+function contribkanban_users_js_settings_alter(array &$settings, \Drupal\Core\Asset\AttachedAssetsInterface $assets)
+{
   $user = \Drupal::currentUser();
   $settings['user']['email'] = $user->getEmail();
   $settings['user']['gravatar'] = md5(strtolower(trim($user->getEmail())));
@@ -43,21 +47,28 @@ function contribkanban_users_js_settings_alter(array &$settings, \Drupal\Core\As
 /**
  * Implements hook_entity_base_field_info().
  */
-function contribkanban_users_entity_base_field_info(\Drupal\Core\Entity\EntityTypeInterface $entity_type) {
+function contribkanban_users_entity_base_field_info(\Drupal\Core\Entity\EntityTypeInterface $entity_type)
+{
   if ($entity_type->id() == 'user') {
     $fields = [];
     $fields['drupalorg_username'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Drupal.org username'))
-      ->setDescription(t('Your Drupal.org username, used to provide a board based on issues you follow.'))
+      ->setLabel(new TranslatableMarkup('Drupal.org username'))
+      ->setDescription(new TranslatableMarkup('Your Drupal.org username, used to provide a board based on issues you follow.'))
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
         'type'   => 'string_textfield',
         'weight' => -5,
       ]);
     $fields['drupalorg_uid'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Drupal.org UID'))
-      ->setDescription(t('Hidden field which stores the UID for the Drupal.org user.'))
+      ->setLabel(new TranslatableMarkup('Drupal.org UID'))
+      ->setDescription(new TranslatableMarkup('Hidden field which stores the UID for the Drupal.org user.'))
       ->setSetting('max_length', 255);
+
+    $fields['mail_hash'] = BaseFieldDefinition::create('string')
+      ->setLabel(new TranslatableMarkup('Email Hash'))
+      ->setDescription(new TranslatableMarkup('Email hash for Gravatar'))
+      ->setClass(GravatarFieldItemList::class)
+      ->setComputed(TRUE);
     return $fields;
   }
 }
@@ -65,7 +76,8 @@ function contribkanban_users_entity_base_field_info(\Drupal\Core\Entity\EntityTy
 /**
  * Implements hook_ENTITY_TYPE_presave().
  */
-function contribkanban_users_user_presave(Drupal\Core\Entity\EntityInterface $entity) {
+function contribkanban_users_user_presave(Drupal\Core\Entity\EntityInterface $entity)
+{
   if ($entity instanceof \Drupal\user\UserInterface) {
     // If the uid is not cached, see if a username is provided and cache it.
     if ($entity->get('drupalorg_uid')->isEmpty()) {
