@@ -8,15 +8,16 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\entity\UncacheableEntityAccessControlHandler;
 
-class NodeBoardAccessControlHandler extends UncacheableEntityAccessControlHandler {
+class NodeBoardAccessControlHandler extends UncacheableEntityAccessControlHandler
+{
 
   /**
    *
    */
-  protected function checkAccess(EntityInterface $entity, $operation, AccountInterface $account) {
+  protected function checkAccess(EntityInterface $entity, $operation, AccountInterface $account)
+  {
     $access = parent::checkAccess($entity, $operation, $account);
     if ($access->isAllowed()) {
-      \Drupal::logger('contribkanban')->info('access allowed immediately');
       return $access;
     }
 
@@ -43,5 +44,4 @@ class NodeBoardAccessControlHandler extends UncacheableEntityAccessControlHandle
 
     return $access;
   }
-
 }
