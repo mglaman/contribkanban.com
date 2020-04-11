@@ -1,0 +1,36 @@
+{
+    "manifest_version": 2,
+    "name": "ContribKanban",
+    "description": "Add ContribKanban support onto Drupal.org",
+    "version": "1.0",
+    "icons": {
+        "128": "icon.png"
+    },
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "popup.html",
+        "default_title": "ContribKanban"
+    },
+    "content_scripts": [
+        {
+            "all_frames": false,
+            "run_at": "document_idle",
+            "matches": [
+                "https://www.drupal.org/*"
+            ],
+            "js": [
+                "dist/contentScripts.js"
+            ]
+        }
+    ],
+    "externally_connectable": {
+        "matches": [
+            "https://fonts.googleapis.com/*",
+            "https://*.contribkanban.com/*"
+        ]
+    },
+    "permissions": [
+        "storage",
+        "https://www.drupal.org/*"
+    ]
+}
