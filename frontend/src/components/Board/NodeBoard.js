@@ -19,8 +19,8 @@ const styles = (theme) => ({
     overflow: "scroll",
   },
   item: {
-    flex: "0 0 300px",
-    maxWidth: "300px",
+    flex: "0 0 320px",
+    maxWidth: "320px",
     position: "relative",
     transform: "translate3d(0, 0, 0)",
     maxHeight: "100%",
@@ -54,17 +54,18 @@ function NodeBoard({ board, classes }) {
   }, [board]);
 
   function NodeBoardList({ issues, label, statuses }) {
+    const listIssues = issues.filter((item) => {
+      return statuses.includes(parseInt(item.field_issue_status));
+    });
     return (
       <Grid item className={classes.item}>
         <Paper elevation={0} className={classes.paper}>
-          <Typography variant="subtitle1">{label}</Typography>
-          {issues
-            .filter((item) => {
-              return statuses.includes(parseInt(item.field_issue_status));
-            })
-            .map((item) => (
-              <KanbanCard key={item.nid} data={item} />
-            ))}
+          <Typography variant="subtitle1">
+            {label} ({listIssues.length})
+          </Typography>
+          {listIssues.map((item) => (
+            <KanbanCard key={item.nid} data={item} />
+          ))}
         </Paper>
       </Grid>
     );

@@ -28,13 +28,15 @@ function BoardList({ board, list, classes }) {
   useEffect(() => {
     async function fetchListItems() {
       const filterData = {
-        ...list,
-        project_nid: list.project_nid.concat(board.attributes.project_nid),
-        tag: list.tag.concat(board.attributes.tag),
+        ...list.attributes,
+        project_nid: list.attributes.project_nid.concat(
+          board.attributes.project_nid
+        ),
+        tag: list.attributes.tag.concat(board.attributes.tag),
         parent_issue: board.attributes.parent_issue
           ? board.attributes.parent_issue
-          : list.parent_issue,
-        version: list.version.concat(board.attributes.version),
+          : list.attributes.parent_issue,
+        version: list.attributes.version.concat(board.attributes.version),
       };
       const queryString = {
         limit: 100,
@@ -91,6 +93,8 @@ function BoardList({ board, list, classes }) {
           });
       }
     }
+    setListItems([]);
+    setCurrentState("LOADING");
     fetchListItems();
   }, [board, list]);
 
@@ -98,7 +102,7 @@ function BoardList({ board, list, classes }) {
     <Grid item key={list.id} className={classes.gridItem}>
       <Paper elevation={0} className={classes.paper}>
         <Typography gutterBottom variant="subtitle1">
-          {list.title} ({listItems.length})
+          {list.attributes.title} ({listItems.length})
         </Typography>
         {currentState !== "OK"
           ? [<span key={list.id}>Loading...</span>]

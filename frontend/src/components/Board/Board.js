@@ -16,7 +16,7 @@ function Board({ board, lists, classes }) {
   return (
     <Grid container className={classes.root} spacing={1}>
       {lists.map((list) => (
-        <BoardList key={list.id} board={board} list={list.attributes} />
+        <BoardList key={list.id} board={board} list={list} />
       ))}
     </Grid>
   );
