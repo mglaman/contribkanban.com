@@ -91,7 +91,7 @@ class NodeBoard extends Component {
                 data={this.state.issues}
                 statuses={[14, 15]}
               />
-              <List label="Fixed" data={this.state.issues} statuses={[2]} />
+              <List label="Fixed" data={this.state.issues} statuses={[2, 7]} />
             </div>
           </div>
         </div>
