@@ -7,10 +7,14 @@ import {
   DialogContentText,
   DialogActions,
   DialogTitle,
+  IconButton,
   List,
   ListItem,
   ListItemText,
+  ListItemSecondaryAction,
+  ListItemIcon,
 } from "@material-ui/core";
+import { AddCircle as AddCircleIcon } from "@material-ui/icons";
 import { apiFetch, dispatchEvent } from "./shared";
 
 // let authData = null;
@@ -28,7 +32,7 @@ chrome.storage.onChanged.addListener((changes) => {
   }
 });
 
-// dispatchEvent("ENSURE_TOKEN");
+dispatchEvent("ENSURE_TOKEN");
 
 // chrome.storage.local.get("authData", (items) => {
 //   authData = items.authData;
@@ -58,7 +62,7 @@ const useStorageData = (dataKeys) => {
       ...data,
     };
     for (let key in changes) {
-      console.log(`${dataKey} changed`);
+      console.log(`${key} changed`);
       newValues[key] = changes[key].newValue;
     }
     setData(newValues);
@@ -141,28 +145,32 @@ const Modal = ({
   authData,
 }) => {
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth={true}>
+    <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Add issue to an issue collection</DialogTitle>
-      <DialogContent>
-        {currentState === "LOADING" ? (
+
+      {currentState === "LOADING" ? (
+        <DialogContent>
           <DialogContentText>Loading your boards...</DialogContentText>
-        ) : null}
-        {currentState === "ERROR" ? (
+        </DialogContent>
+      ) : null}
+      {currentState === "ERROR" ? (
+        <DialogContent>
           <DialogContentText>There was an error :(</DialogContentText>
-        ) : null}
-        {currentState === "NEEDS_AUTH" ? (
-          <DialogContentText>
-            Uh, oh! looks like we need to reconnect to ContribKanban
-          </DialogContentText>
-        ) : null}
-        {currentState === "OK" ? (
-          <ModalListItems
-            message={message}
-            boards={boards}
-            authData={authData}
-          />
-        ) : null}
-      </DialogContent>
+        </DialogContent>
+      ) : null}
+      {currentState === "NEEDS_AUTH" ? (
+        <DialogContentText>
+          Uh, oh! looks like we need to reconnect to ContribKanban
+        </DialogContentText>
+      ) : null}
+      {currentState === "OK" ? (
+        <ModalListItems
+          message={message}
+          boards={boards}
+          authData={authData}
+          handleClose={handleClose}
+        />
+      ) : null}
 
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
@@ -171,7 +179,7 @@ const Modal = ({
   );
 };
 
-const ModalListItems = ({ message, boards, authData }) => {
+const ModalListItems = ({ message, boards, authData, handleClose }) => {
   return (
     <List>
       {boards.map((board) => {
@@ -220,6 +228,11 @@ const ModalListItems = ({ message, boards, authData }) => {
             }}
           >
             <ListItemText primary={board.attributes.title} />
+            <ListItemSecondaryAction>
+              <IconButton edge="end" aria-label="add">
+                <AddCircleIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
           </ListItem>
         );
       })}

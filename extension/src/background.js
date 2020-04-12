@@ -38,8 +38,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       return true;
     case "ENSURE_TOKEN":
       chrome.storage.local.get("authData", (items) => {
-        console.log(items);
-        authData = items.authData;
+        const { authData } = items;
         if (!authData) {
           console.log("no access token to refresh");
           sendResponse();
