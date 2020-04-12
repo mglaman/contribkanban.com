@@ -11,10 +11,16 @@ export function apiFetch(input, init, authData) {
 }
 
 export function dispatchEvent(event, payload) {
-  chrome.runtime.sendMessage({
-    event,
-    payload,
-  });
+  chrome.runtime.sendMessage(
+    {
+      event,
+      payload,
+    },
+    (resp) => {
+      console.log(`debug response from: ${event}`);
+      console.log(resp);
+    }
+  );
 }
 
 export function storeData(data, callback) {
@@ -28,12 +34,12 @@ export function setAuthData(authData, callback) {
 }
 
 export function getMeData(callback) {
-  chrome.store.local.get("me", callback);
+  chrome.storage.local.get("me", callback);
 }
 export function setMeData(me, callback) {
-  chrome.store.local.set({ me }, callback);
+  chrome.storage.local.set({ me }, callback);
 }
 
 export function clearAuthData(callback) {
-  chrome.storage.local.remove("authData", callback);
+  chrome.storage.local.clear(callback);
 }

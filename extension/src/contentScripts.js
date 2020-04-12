@@ -3,26 +3,46 @@ import ReactDOM from "react-dom";
 import {
   Button,
   Dialog,
+  DialogContent,
+  DialogContentText,
   DialogActions,
   DialogTitle,
   List,
   ListItem,
   ListItemText,
 } from "@material-ui/core";
-import { clientId, apiFetch, clearAuthData } from "./shared";
+import { apiFetch, dispatchEvent } from "./shared";
 
 let authData = null;
-chrome.storage.local.get("authData", (items) => {
-  authData = items.authData;
+let meData = null;
+
+chrome.storage.onChanged.addListener((changes) => {
+  console.log(changes);
+  if (changes.hasOwnProperty("authData")) {
+    authData = changes.authData.newValue;
+    console.debug("Auth data was updated in the background.");
+  }
+  if (changes.hasOwnProperty("me")) {
+    meData = changes.me.newValue;
+    console.debug("Me data was updated in the background.");
+  }
 });
 
-const useWindowMessage = () => {
+chrome.storage.local.get("authData", (items) => {
+  authData = items.authData;
+  dispatchEvent("ENSURE_TOKEN", authData);
+});
+chrome.storage.local.get("me", (items) => {
+  meData = items.me;
+});
+
+const useWindowMessage = (subscribedEventName) => {
   const [message, setMessage] = useState();
   useEffect(() => {
     const onMessage = (event) => {
       if (event.source != window) return;
-      if (event?.data?.type !== "ADD_ISSUE") return;
-      setMessage(event);
+      if (event.data?.event !== subscribedEventName) return;
+      setMessage(event.data);
     };
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
@@ -30,8 +50,24 @@ const useWindowMessage = () => {
   return message;
 };
 
+const useStorageData = (dataKey) => {
+  const [data, setData] = useState();
+  useEffect(() => {
+    chrome.storage.local.get(dataKey, (items) => {
+      setData(items[dataKey]);
+    });
+    chrome.storage.onChanged.addListener((changes) => {
+      if (changes.hasOwnProperty(dataKey)) {
+        setData(changes[dataKey].newValue);
+      }
+    });
+  });
+  return data;
+};
+
 const ModalWrapper = () => {
-  const message = useWindowMessage();
+  const message = useWindowMessage("ADD_ISSUE");
+  const [currentState, setCurrentState] = useState("LOADING");
   const [boards, setBoards] = useState([]);
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
@@ -41,48 +77,23 @@ const ModalWrapper = () => {
       return;
     }
     setOpen(true);
-    // first refresh our token.
-    // @todo background script to keep it refreshed?
-    fetch(`https://api.contribkanban.com/oauth/token`, {
-      method: "POST",
-      body: `grant_type=refresh_token&client_id=${clientId}&refresh_token=${authData.refresh_token}`,
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("couldn't refresh token");
-        } else {
-          return res.json();
-        }
-      })
+    if (!meData) {
+      setCurrentState("NEEDS_AUTH");
+      return;
+    }
+    apiFetch(
+      `https://api.contribkanban.com/jsonapi/node_board/node_board?filter[uid.id]=${meData.data.id}`,
+      null,
+      authData
+    )
+      .then((res) => res.json())
       .then((json) => {
-        authData = json;
-        chrome.storage.local.set({ authData: json }, () => {
-          console.log(`updated authdata`);
-        });
-        // @todo background script to fetch and store.
-        apiFetch(`https://api.contribkanban.com/jsonapi/me`, null, authData)
-          .then((res) => res.json())
-          .then((json) => {
-            // @todo background script to keep this up to date? cached and allow refresh?
-            apiFetch(
-              `https://api.contribkanban.com/jsonapi/node_board/node_board?filter[uid.id]=${json.data.id}`,
-              null,
-              authData
-            )
-              .then((res) => res.json())
-              .then((json) => setBoards(json.data));
-          });
+        setBoards(json.data);
+        setCurrentState("OK");
       })
       .catch((err) => {
         console.log(err);
-        clearAuthData(() => {
-          alert(
-            "There was an error authenticating, re-connect with ContribKanban"
-          );
-        });
+        setCurrentState("ERROR");
       });
   }, [message]);
   return (
@@ -91,66 +102,33 @@ const ModalWrapper = () => {
       handleClose={handleClose}
       boards={boards}
       message={message}
+      currentState={currentState}
     />
   );
 };
 
-const Modal = ({ open, handleClose, boards, message }) => {
+const Modal = ({ open, handleClose, boards, message, currentState }) => {
+  console.log(message);
   return (
     <Dialog open={open} onClose={handleClose} fullWidth={true}>
       <DialogTitle>Add issue to an issue collection</DialogTitle>
-      <List>
-        {boards.map((board) => {
-          const includesNid = board.attributes.nids.includes(
-            message.data.issueNid
-          );
-          return (
-            <ListItem
-              button
-              disabled={includesNid}
-              onClick={() => {
-                const patchData = {
-                  id: board.id,
-                  type: board.type,
-                  attributes: {
-                    ...board.attributes,
-                  },
-                };
-                patchData.attributes.nids.push(message.data.issueNid);
+      <DialogContent>
+        {currentState === "LOADING" ? (
+          <DialogContentText>Loading your boards...</DialogContentText>
+        ) : null}
+        {currentState === "ERROR" ? (
+          <DialogContentText>There was an error :(</DialogContentText>
+        ) : null}
+        {currentState === "NEEDS_AUTH" ? (
+          <DialogContentText>
+            Uh, oh! looks like we need to reconnect to ContribKanban
+          </DialogContentText>
+        ) : null}
+        {currentState === "OK" ? (
+          <ModalListItems message={message} boards={boards} />
+        ) : null}
+      </DialogContent>
 
-                let patchSuccess = false;
-                apiFetch(
-                  `https://api.contribkanban.com/jsonapi/node_board/node_board/${board.id}`,
-                  {
-                    method: "PATCH",
-                    body: JSON.stringify({
-                      data: patchData,
-                    }),
-                  },
-                  authData
-                )
-                  .then((res) => {
-                    patchSuccess = res.ok;
-                    return res.json();
-                  })
-                  .then((json) => {
-                    if (patchSuccess) {
-                      window.open(
-                        `https://app.contribkanban.com/node-board/${board.id}`
-                      );
-                      handleClose();
-                    } else {
-                      alert("Something went wrong, sorry! Check the console");
-                      console.log(json);
-                    }
-                  });
-              }}
-            >
-              <ListItemText primary={board.attributes.title} />
-            </ListItem>
-          );
-        })}
-      </List>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
       </DialogActions>
@@ -158,43 +136,114 @@ const Modal = ({ open, handleClose, boards, message }) => {
   );
 };
 
-(() => {
-  if (!document.body.classList.contains("node-type-project-issue")) {
-    return;
-  }
+const ModalListItems = ({ message, boards }) => {
+  return (
+    <List>
+      {boards.map((board) => {
+        const nidToAdd = message.payload.issueNid;
+        const includesNid = board.attributes.nids.includes(nidToAdd);
+        return (
+          <ListItem
+            button
+            disabled={includesNid}
+            onClick={() => {
+              const patchData = {
+                id: board.id,
+                type: board.type,
+                attributes: {
+                  ...board.attributes,
+                },
+              };
+              patchData.attributes.nids.push(nidToAdd);
+
+              let patchSuccess = false;
+              apiFetch(
+                `https://api.contribkanban.com/jsonapi/node_board/node_board/${board.id}`,
+                {
+                  method: "PATCH",
+                  body: JSON.stringify({
+                    data: patchData,
+                  }),
+                },
+                authData
+              )
+                .then((res) => {
+                  patchSuccess = res.ok;
+                  return res.json();
+                })
+                .then((json) => {
+                  if (patchSuccess) {
+                    window.open(
+                      `https://app.contribkanban.com/node-board/${board.id}`
+                    );
+                    handleClose();
+                  } else {
+                    alert("Something went wrong, sorry! Check the console");
+                    console.log(json);
+                  }
+                });
+            }}
+          >
+            <ListItemText primary={board.attributes.title} />
+          </ListItem>
+        );
+      })}
+    </List>
+  );
+};
+
+const IssueCollectionButton = () => {
   // Fetch the current issue nid from the canonical link.
   // This catches anyone going to `/node/{nid}`.
   const issueNid = document
     .querySelector('link[rel="canonical"]')
     .href.split("/")
     .splice(-1, 1)[0];
+  return (
+    <div
+      style={{
+        paddingTop: "1em",
+      }}
+    >
+      <button
+        className="form-submit"
+        data-nid={issueNid}
+        style={{
+          width: "100%",
+          padding: "0.5rem",
+        }}
+        onClick={() => {
+          console.log("clicked button");
+          window.postMessage(
+            {
+              event: "ADD_ISSUE",
+              payload: {
+                issueNid,
+              },
+            },
+            "*"
+          );
+        }}
+      >
+        Add to issue collection
+      </button>
+      <ModalWrapper />
+    </div>
+  );
+};
+
+(() => {
+  if (!document.body.classList.contains("node-type-project-issue")) {
+    return;
+  }
   const issueMetadataBlock = document.getElementById(
     "block-project-issue-issue-metadata"
   );
-
-  const buttonWrapper = document.createElement("div");
-  buttonWrapper.style = "margin-top: 1em";
-  const button = document.createElement("button");
-  button.setAttribute("value", "Add to issue collection");
-  button.setAttribute("data-nid", issueNid);
-  button.appendChild(document.createTextNode("Add to issue collection"));
-  button.addEventListener(
-    "click",
-    () => {
-      window.postMessage({ type: "ADD_ISSUE", issueNid }, "*");
-    },
-    false
-  );
-  button.style = "width: 100%; margin: 0";
-  buttonWrapper.appendChild(button);
-  issueMetadataBlock.parentNode.appendChild(buttonWrapper);
-
-  const modalMount = document.createElement("div");
-  modalMount.id = "contribkanban_dialog";
-  issueMetadataBlock.parentNode.appendChild(modalMount);
-
+  const issueCollectionButton = document.createElement("div");
+  issueCollectionButton.id = "cb_issue_collection_button";
+  issueMetadataBlock.parentNode.appendChild(issueCollectionButton);
   ReactDOM.render(
-    <ModalWrapper />,
-    document.getElementById("contribkanban_dialog")
+    <IssueCollectionButton />,
+    document.getElementById("cb_issue_collection_button")
   );
 })();
