@@ -1,6 +1,7 @@
 "use strict";
 
 module.exports = {
+  devtool: "source-map",
   entry: {
     contentScripts: "./src/contentScripts.js",
     popup: "./src/popup.js",

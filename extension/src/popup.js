@@ -9,8 +9,7 @@ import {
   Divider,
   TextField,
 } from "@material-ui/core";
-
-const clientId = "d4f7c501-cff9-4a3f-bae7-aec1db19456c";
+import { clientId } from "./shared";
 
 const LoginForm = ({ setAuthData }) => {
   const [authUsername, setAuthUsername] = useState("");
