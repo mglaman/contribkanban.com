@@ -97,7 +97,7 @@ const ModalWrapper = ({ meData, authData }) => {
       return;
     }
     setOpen(true);
-    if (!meData) {
+    if (!meData || !authData) {
       setCurrentState("NEEDS_AUTH");
       return;
     }
@@ -159,9 +159,11 @@ const Modal = ({
         </DialogContent>
       ) : null}
       {currentState === "NEEDS_AUTH" ? (
-        <DialogContentText>
-          Uh, oh! looks like we need to reconnect to ContribKanban
-        </DialogContentText>
+        <DialogContent>
+          <DialogContentText>
+            Uh, oh! looks like we need to reconnect to ContribKanban
+          </DialogContentText>
+        </DialogContent>
       ) : null}
       {currentState === "OK" ? (
         <ModalListItems
