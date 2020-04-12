@@ -37,35 +37,39 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         });
       return true;
     case "ENSURE_TOKEN":
-      if (!payload) {
-        console.log("no access token to refresh");
-        sendResponse();
-        break;
-      }
-      let success;
-      fetch(`https://api.contribkanban.com/oauth/token`, {
-        method: "POST",
-        body: `grant_type=refresh_token&client_id=${clientId}&refresh_token=${payload.refresh_token}`,
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      })
-        .then((res) => {
-          success = res.ok;
-          return res.json();
+      chrome.storage.local.get("authData", (items) => {
+        console.log(items);
+        authData = items.authData;
+        if (!authData) {
+          console.log("no access token to refresh");
+          sendResponse();
+          return;
+        }
+        let success;
+        fetch(`https://api.contribkanban.com/oauth/token`, {
+          method: "POST",
+          body: `grant_type=refresh_token&client_id=${clientId}&refresh_token=${authData.refresh_token}`,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
         })
-        .then((json) => {
-          if (success) {
-            console.log("access token refreshed");
-            doTokenRefreshed(json);
-            sendResponse(json);
-          } else {
-            const { error, error_description } = json;
-            console.log(`${error}: ${error_description}`);
-            doLoggedOut();
-            sendResponse(null);
-          }
-        });
+          .then((res) => {
+            success = res.ok;
+            return res.json();
+          })
+          .then((json) => {
+            if (success) {
+              console.log("access token refreshed");
+              doTokenRefreshed(json);
+              sendResponse(json);
+            } else {
+              const { error, error_description } = json;
+              console.log(`${error}: ${error_description}`);
+              doLoggedOut();
+              sendResponse(null);
+            }
+          });
+      });
       return true;
     case "TOKEN_REFRESH":
       console.log("access token refreshed");

@@ -13,28 +13,29 @@ import {
 } from "@material-ui/core";
 import { apiFetch, dispatchEvent } from "./shared";
 
-let authData = null;
-let meData = null;
+// let authData = null;
+// let meData = null;
 
 chrome.storage.onChanged.addListener((changes) => {
   console.log(changes);
   if (changes.hasOwnProperty("authData")) {
-    authData = changes.authData.newValue;
+    // authData = changes.authData.newValue;
     console.debug("Auth data was updated in the background.");
   }
   if (changes.hasOwnProperty("me")) {
-    meData = changes.me.newValue;
+    // meData = changes.me.newValue;
     console.debug("Me data was updated in the background.");
   }
 });
 
-chrome.storage.local.get("authData", (items) => {
-  authData = items.authData;
-  dispatchEvent("ENSURE_TOKEN", authData);
-});
-chrome.storage.local.get("me", (items) => {
-  meData = items.me;
-});
+// dispatchEvent("ENSURE_TOKEN");
+
+// chrome.storage.local.get("authData", (items) => {
+//   authData = items.authData;
+// });
+// chrome.storage.local.get("me", (items) => {
+//   meData = items.me;
+// });
 
 const useWindowMessage = (subscribedEventName) => {
   const [message, setMessage] = useState();
@@ -50,22 +51,37 @@ const useWindowMessage = (subscribedEventName) => {
   return message;
 };
 
-const useStorageData = (dataKey) => {
-  const [data, setData] = useState();
-  useEffect(() => {
-    chrome.storage.local.get(dataKey, (items) => {
-      setData(items[dataKey]);
-    });
-    chrome.storage.onChanged.addListener((changes) => {
-      if (changes.hasOwnProperty(dataKey)) {
-        setData(changes[dataKey].newValue);
-      }
-    });
+const useStorageData = (dataKeys) => {
+  const [data, setData] = useState({});
+  chrome.storage.onChanged.addListener((changes) => {
+    const newValues = {
+      ...data,
+    };
+    for (let key in changes) {
+      console.log(`${dataKey} changed`);
+      newValues[key] = changes[key].newValue;
+    }
+    setData(newValues);
   });
+
+  useEffect(() => {
+    chrome.storage.local.get(dataKeys, (items) => {
+      console.log(`useStorageData hook retrieved data`);
+      setData(items);
+    });
+    return () => console.log("useStorageData cleanup");
+  }, []);
   return data;
 };
 
-const ModalWrapper = () => {
+const ModalContainer = () => {
+  const { me: meData, authData } = useStorageData(["me", "authData"]);
+  console.log(meData);
+  console.log(authData);
+  return <ModalWrapper meData={meData} authData={authData} />;
+};
+
+const ModalWrapper = ({ meData, authData }) => {
   const message = useWindowMessage("ADD_ISSUE");
   const [currentState, setCurrentState] = useState("LOADING");
   const [boards, setBoards] = useState([]);
@@ -86,16 +102,24 @@ const ModalWrapper = () => {
       null,
       authData
     )
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 401) {
+          setCurrentState("NEEDS_AUTH");
+          throw Error("access_token expired");
+        }
+        return res.json();
+      })
       .then((json) => {
         setBoards(json.data);
         setCurrentState("OK");
       })
       .catch((err) => {
         console.log(err);
-        setCurrentState("ERROR");
+        if (err.message !== "access_token expired") {
+          setCurrentState("ERROR");
+        }
       });
-  }, [message]);
+  }, [message, meData, authData]);
   return (
     <Modal
       open={open}
@@ -103,12 +127,19 @@ const ModalWrapper = () => {
       boards={boards}
       message={message}
       currentState={currentState}
+      authData={authData}
     />
   );
 };
 
-const Modal = ({ open, handleClose, boards, message, currentState }) => {
-  console.log(message);
+const Modal = ({
+  open,
+  handleClose,
+  boards,
+  message,
+  currentState,
+  authData,
+}) => {
   return (
     <Dialog open={open} onClose={handleClose} fullWidth={true}>
       <DialogTitle>Add issue to an issue collection</DialogTitle>
@@ -125,7 +156,11 @@ const Modal = ({ open, handleClose, boards, message, currentState }) => {
           </DialogContentText>
         ) : null}
         {currentState === "OK" ? (
-          <ModalListItems message={message} boards={boards} />
+          <ModalListItems
+            message={message}
+            boards={boards}
+            authData={authData}
+          />
         ) : null}
       </DialogContent>
 
@@ -136,7 +171,7 @@ const Modal = ({ open, handleClose, boards, message, currentState }) => {
   );
 };
 
-const ModalListItems = ({ message, boards }) => {
+const ModalListItems = ({ message, boards, authData }) => {
   return (
     <List>
       {boards.map((board) => {
@@ -213,7 +248,6 @@ const IssueCollectionButton = () => {
           padding: "0.5rem",
         }}
         onClick={() => {
-          console.log("clicked button");
           window.postMessage(
             {
               event: "ADD_ISSUE",
@@ -227,7 +261,7 @@ const IssueCollectionButton = () => {
       >
         Add to issue collection
       </button>
-      <ModalWrapper />
+      <ModalContainer />
     </div>
   );
 };
