@@ -5,6 +5,7 @@ module.exports = {
   entry: {
     contentScripts: "./src/contentScripts.js",
     popup: "./src/popup.js",
+    background: "./src/background.js",
   },
   module: {
     rules: [

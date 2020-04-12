@@ -9,7 +9,7 @@ import {
   ListItem,
   ListItemText,
 } from "@material-ui/core";
-import { clientId } from "./shared";
+import { clientId, apiFetch, clearAuthData } from "./shared";
 
 let authData = null;
 chrome.storage.local.get("authData", (items) => {
@@ -30,16 +30,6 @@ const useWindowMessage = () => {
   return message;
 };
 
-function apiFetch(input, init) {
-  const request = new Request(input, init);
-  request.headers.set("Accept", "application/vnd.api+json");
-  request.headers.set("Authorization", `Bearer ${authData.access_token}`);
-  if (opts && (opts.method === "POST" || opts.method === "PATCH")) {
-    request.headers.set("Content-Type", "application/vnd.api+json");
-  }
-  return fetch(request);
-}
-
 const ModalWrapper = () => {
   const message = useWindowMessage();
   const [boards, setBoards] = useState([]);
@@ -52,6 +42,7 @@ const ModalWrapper = () => {
     }
     setOpen(true);
     // first refresh our token.
+    // @todo background script to keep it refreshed?
     fetch(`https://api.contribkanban.com/oauth/token`, {
       method: "POST",
       body: `grant_type=refresh_token&client_id=${clientId}&refresh_token=${authData.refresh_token}`,
@@ -71,34 +62,23 @@ const ModalWrapper = () => {
         chrome.storage.local.set({ authData: json }, () => {
           console.log(`updated authdata`);
         });
-        fetch(`https://api.contribkanban.com/jsonapi/me`, {
-          headers: {
-            Accept: "application/vnd.api+json",
-            Authorization: `Bearer ${authData.access_token}`,
-          },
-        })
+        // @todo background script to fetch and store.
+        apiFetch(`https://api.contribkanban.com/jsonapi/me`, null, authData)
           .then((res) => res.json())
           .then((json) => {
-            const userId = json.data.id;
-            fetch(
-              `https://api.contribkanban.com/jsonapi/node_board/node_board?filter[uid.id]=${userId}`,
-              {
-                headers: {
-                  Accept: "application/vnd.api+json",
-                  Authorization: `Bearer ${authData.access_token}`,
-                },
-              }
+            // @todo background script to keep this up to date? cached and allow refresh?
+            apiFetch(
+              `https://api.contribkanban.com/jsonapi/node_board/node_board?filter[uid.id]=${json.data.id}`,
+              null,
+              authData
             )
               .then((res) => res.json())
-              .then((json) => {
-                const boards = json.data;
-                setBoards(boards);
-              });
+              .then((json) => setBoards(json.data));
           });
       })
       .catch((err) => {
         console.log(err);
-        chrome.storage.local.remove("authData", () => {
+        clearAuthData(() => {
           alert(
             "There was an error authenticating, re-connect with ContribKanban"
           );
@@ -116,7 +96,6 @@ const ModalWrapper = () => {
 };
 
 const Modal = ({ open, handleClose, boards, message }) => {
-  console.log(message);
   return (
     <Dialog open={open} onClose={handleClose} fullWidth={true}>
       <DialogTitle>Add issue to an issue collection</DialogTitle>
@@ -138,22 +117,17 @@ const Modal = ({ open, handleClose, boards, message }) => {
                   },
                 };
                 patchData.attributes.nids.push(message.data.issueNid);
-                console.log(patchData);
 
                 let patchSuccess = false;
-                fetch(
+                apiFetch(
                   `https://api.contribkanban.com/jsonapi/node_board/node_board/${board.id}`,
                   {
                     method: "PATCH",
                     body: JSON.stringify({
                       data: patchData,
                     }),
-                    headers: {
-                      Accept: "application/vnd.api+json",
-                      "Content-Type": "application/vnd.api+json",
-                      Authorization: `Bearer ${authData.access_token}`,
-                    },
-                  }
+                  },
+                  authData
                 )
                   .then((res) => {
                     patchSuccess = res.ok;

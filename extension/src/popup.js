@@ -9,7 +9,12 @@ import {
   Divider,
   TextField,
 } from "@material-ui/core";
-import { clientId } from "./shared";
+import {
+  clientId,
+  getAuthData,
+  setAuthData as setAuthDataStorage,
+  dispatchEvent,
+} from "./shared";
 
 const LoginForm = ({ setAuthData }) => {
   const [authUsername, setAuthUsername] = useState("");
@@ -31,15 +36,11 @@ const LoginForm = ({ setAuthData }) => {
         return res.json();
       })
       .then((json) => {
-        debugger;
         if (!success) {
           setErrorMessage(json.message);
         } else {
-          console.log(json);
-          chrome.storage.local.set({ authData: json }, () => {
-            console.log("Set authData global object");
-            setAuthData(json);
-          });
+          setAuthDataStorage(json, () => setAuthData(json));
+          dispatchEvent("LOGGED_IN", json);
         }
       });
   };
@@ -80,12 +81,22 @@ const LoginForm = ({ setAuthData }) => {
   );
 };
 
-const Connected = () => {
+const Connected = ({ setAuthData }) => {
   return (
-    <Typography gutterBottom display="block" variant="body2">
-      You're connected! When browsing Drupal.org, you can now interact with
-      ContribKanban.
-    </Typography>
+    <React.Fragment>
+      <Typography gutterBottom display="block" variant="body2">
+        You're connected! When browsing Drupal.org, you can now interact with
+        ContribKanban.
+      </Typography>
+      <Button
+        onClick={() => {
+          setAuthData(null);
+          dispatchEvent("LOGGED_OUT", null);
+        }}
+      >
+        Disconnect
+      </Button>
+    </React.Fragment>
   );
 };
 
@@ -101,7 +112,11 @@ const Popup = ({ authData, setAuthData }) => {
           integration with Drupal.org
         </Typography>
         <Divider />
-        {!authData ? <LoginForm setAuthData={setAuthData} /> : <Connected />}
+        {!authData ? (
+          <LoginForm setAuthData={setAuthData} />
+        ) : (
+          <Connected setAuthData={setAuthData} />
+        )}
       </CardContent>
     </Card>
   );
@@ -109,9 +124,7 @@ const Popup = ({ authData, setAuthData }) => {
 const PopupContainer = () => {
   const [authData, setAuthData] = useState(null);
   useEffect(() => {
-    chrome.storage.local.get("authData", (items) => {
-      setAuthData(items.authData);
-    });
+    getAuthData((items) => setAuthData(items.authData));
   });
   return <Popup authData={authData} setAuthData={setAuthData} />;
 };
