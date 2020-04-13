@@ -9,8 +9,7 @@ export function getApiBaseUrl() {
     return "http://nginx.contribkanban-app.docker.amazee.io";
   }
   if (process.env.REACT_APP_LAGOON_BRANCH === "master") {
-    // @todo api.contribkanban.com
-    return "https://contribkanban.com";
+    return "https://api.contribkanban.com";
   }
   return `https://nginx-${process.env.REACT_APP_LAGOON_PROJECT}-${process.env.REACT_APP_LAGOON_BRANCH}.us.amazee.io`;
 }
