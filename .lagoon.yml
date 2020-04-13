@@ -50,13 +50,13 @@ environments:
           - app.contribkanban.com:
               tls-acme: "true"
               insecure: Redirect
-      - nginx:
           - contribkanban.com:
               tls-acme: "true"
               insecure: Redirect
           - www.contribkanban.com:
               tls-acme: "true"
               insecure: Redirect
+      - nginx:
           - api.contribkanban.com:
               tls-acme: "true"
               insecure: Redirect
