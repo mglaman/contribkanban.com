@@ -36,6 +36,7 @@ function AppBar({ classes }) {
   const handleDrawerClose = () => setDrawerOpen(false);
   useEffect(() => {
     setDrawerOpen(false);
+    window.fathom("trackPageview");
   }, [location]);
 
   return (
