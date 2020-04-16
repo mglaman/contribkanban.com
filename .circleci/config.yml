@@ -42,6 +42,7 @@ jobs:
       - image: circleci/node:13
     working_directory: ~/repo
     steps:
+      - checkout
       - install-yarn
       - run: yarn run frontend-build
   build_extension:
@@ -49,6 +50,7 @@ jobs:
       - image: circleci/node:13
     working_directory: ~/repo
     steps:
+      - checkout
       - install-yarn
       - run: yarn run extension-build
   e2e_test:
