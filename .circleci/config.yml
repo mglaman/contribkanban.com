@@ -1,67 +1,72 @@
-version: 2
-
-defaults: &defaults
-  docker:
-    - image: mglaman/ci-images:circleci-php7.2-browsers
-  working_directory: ~/repo
-install_prestissimo: &install_prestissimo
-  name: Hirak
-  command: composer global require "hirak/prestissimo:^0.3"
-disable_xdebug: &disable_xdebug
-  name: Disable xdebug
-  command: sudo sed -i 's/^zend_extension/;zend_extension/g' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-restore_cache: &restore_cache
-  keys:
-    - composer-{{ checksum "composer.json" }}
-    - composer-
-save_cache: &save_cache
-  paths:
-    - ./vendor
-    - ~/.composer/cache
-  key: composer-{{ checksum "composer.json" }}
+version: 2.1
+commands:
+  setup-build:
+    steps:
+    - run: sudo apt-get update && sudo apt-get install -y libpng-dev libjpeg62-turbo-dev
+    - run:
+        name: Install PHP Extensions
+        command: sudo docker-php-ext-install gd
+    - checkout
+    - restore_cache:
+        keys:
+          - composer-{{ checksum "composer.lock" }}
+          - composer-
+          - yarn-{{ checksum "yarn.lock" }}
+          - yarn-
+  install-composer:
+    steps:
+      - run: composer global require "hirak/prestissimo:^0.3"
+      - run:  composer install -n --prefer-dist
+      - save_cache:
+          paths:
+            - ~/.composer/cache
+          key: composer-{{ checksum "composer.lock" }}
+  install-yarn:
+    steps:
+      - run: yarn install
+      - save_cache:
+          paths:
+            - ~/.cache/yarn
+          key: yarn-{{ checksum "yarn.lock" }}
 
 jobs:
-  behat:
-    <<: *defaults
+  build_backend:
+    docker:
+      - image: circleci:php7.2-cli
+    working_directory: ~/repo
     steps:
-      - checkout
-      - run: sudo apt update && sudo apt-get install -y sqlite3
-      - restore_cache: *restore_cache
-      - run: *install_prestissimo
-      - run: composer install -n --prefer-dist
-      - save_cache: *save_cache
-      - run: *disable_xdebug
-
-      - run:
-          name: Start ChromeDriver
-          command: chromedriver
-          background: true
-      - run:
-          name: Start builtin
-          command: php -S 127.0.0.1:8080 -t web
-          background: true
-      - run:
-          name: Wait for DB
-          command: dockerize -wait http://127.0.0.1:8080 -timeout 120s
-      - run:
-          name: Setup
-          command: |
-            ./bin/robo setup
-            curl -I http://127.0.0.1:8080/
-
-      - run:
-          name: Test the code
-          command: |
-            ./bin/behat --debug
-            ./bin/behat --format pretty --out std --format junit --out tests/results
-
-      - store_test_results:
-          path: tests/results
-      - store_artifacts:
-          path: tests/failures
-
+      - setup-build
+      - install-composer
+  build_frontend:
+    docker:
+      - image: circleci:node:13
+    working_directory: ~/repo
+    steps:
+      - install-yarn
+      - run: yarn run frontend-build
+  build_extension:
+    docker:
+      - image: circleci:node:13
+    working_directory: ~/repo
+    steps:
+      - install-yarn
+      - run: yarn run extension-build
+  e2e_test:
+    docker:
+      - image: circleci/php:7.2-cli-node-browsers"
+    working_directory: ~/repo
+    steps:
+      - setup-build
+      - install-composer
+      - install-yarn
+      - run: yarn run frontend-test
 workflows:
   version: 2
+  build:
+    jobs:
+      - build_backend
+      - build_frontend
+      - build_extension
   test:
     jobs:
-      - behat
+      - e2e_test

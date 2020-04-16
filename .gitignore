@@ -34,3 +34,4 @@
 
 node_modules
 yarn-error.log
+.circleci/config_local.yml
