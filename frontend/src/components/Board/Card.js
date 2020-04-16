@@ -51,6 +51,11 @@ const styles = (theme) => ({
   root: {
     marginBottom: theme.spacing(1),
     cursor: "pointer",
+    transition: "transform 0.1s ease",
+    transform: "translateZ(0)",
+    "&:hover": {
+      transform: "translate(0, -2px)",
+    },
   },
   actions: {
     flexWrap: "wrap",
