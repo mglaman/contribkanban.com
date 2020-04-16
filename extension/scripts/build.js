@@ -19,7 +19,7 @@ const main = async (build) => {
   await remove(zipArchivePath);
   await copy(join(root, "manifest.json"), join(buildDir, "manifest.json"));
 
-  const staticFiles = ["popup.html"];
+  const staticFiles = ["popup.html", "icon.png"];
   await Promise.all(
     staticFiles.map((file) => copy(join(root, file), join(buildDir, file)))
   );

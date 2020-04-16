@@ -29,12 +29,6 @@
             ]
         }
     ],
-    "externally_connectable": {
-        "matches": [
-            "https://fonts.googleapis.com/*",
-            "https://*.contribkanban.com/*"
-        ]
-    },
     "permissions": [
         "storage",
         "https://www.drupal.org/*"
