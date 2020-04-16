@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "ContribKanban",
     "description": "Add ContribKanban support onto Drupal.org",
-    "version": "1.0",
+    "version": "1.0.0",
     "icons": {
         "128": "icon.png"
     },

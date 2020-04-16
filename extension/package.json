@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.config.js --mode production",
+    "package:chrome": "node ./scripts/chrome",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
@@ -13,7 +14,9 @@
     "@babel/preset-react": "^7.9.4",
     "@material-ui/core": "^4.9.10",
     "@material-ui/icons": "^4.9.1",
+    "archiver": "^4.0.1",
     "babel-loader": "^8.1.0",
+    "fs-extra": "^9.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "webpack": "^4.42.1",
