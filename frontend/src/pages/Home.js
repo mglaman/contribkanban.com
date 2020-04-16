@@ -1,6 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
-import { Grid, Container, Paper, Typography } from "@material-ui/core";
+import { Grid, Container, Paper, Typography, Link } from "@material-ui/core";
 import amazeeHosting from "./amazeeio-hosted-badge.png";
 import BoardListing from "../components/BoardListing";
 import usePageTitle from "../hooks/pageTitle";
@@ -43,18 +43,18 @@ function Home({ match, classes }) {
               </Typography>
               <Typography gutterBottom variant="body1">
                 This is a tool built by{" "}
-                <a href="http://glamanate.com">Matt Glaman</a>
+                <Link href="http://glamanate.com">Matt Glaman</Link>
               </Typography>
               <Typography variant="body1">
                 The goal is to provide the{" "}
-                <a href="http://www.drupal.org">Drupal.org</a> community with a
+                <Link href="http://www.drupal.org">Drupal.org</Link> community with a
                 simpler way to contribute to Drupal projects.
               </Typography>
             </Paper>
             <Paper className={classes.paper}>
-              <a href={`https://www.amazee.io/`}>
+              <Link href={`https://www.amazee.io/`}>
                 <img src={amazeeHosting} alt="hosting provided by amazee.io" />
-              </a>
+              </Link>
             </Paper>
           </Grid>
         </Grid>

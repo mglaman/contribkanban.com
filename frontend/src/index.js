@@ -6,7 +6,16 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
 import { createMuiTheme } from "@material-ui/core/styles";
-const muiTheme = createMuiTheme({});
+const muiTheme = createMuiTheme({
+  palette: {
+    primary: {
+      light: "rgba(145, 202, 237, 1)",
+      main: "rgba(6, 120, 190, 1)",
+      dark: "rgba(3, 88, 140, 1)",
+      contrastText: "#fff",
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
