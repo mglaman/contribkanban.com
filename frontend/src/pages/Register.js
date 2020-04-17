@@ -27,6 +27,7 @@ function RegisterForm({ classes }) {
   usePageTitle("Register");
   const history = useHistory();
   const [, setAuthTokens] = useOAuthTokens();
+  const [processing, setProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState("");
@@ -39,6 +40,7 @@ function RegisterForm({ classes }) {
   }, [password, confirmPassword]);
 
   async function doRegister() {
+    setProcessing(true);
     const body = {
       type: "user--user",
       attributes: {
@@ -59,6 +61,7 @@ function RegisterForm({ classes }) {
       if (!res.ok) {
         console.log(json.errors);
         setErrorMessage(json.errors[0].detail);
+        setProcessing(false);
       } else {
         const { success, result } = await authWithPasswordGrant(
           email,
@@ -67,6 +70,7 @@ function RegisterForm({ classes }) {
         if (!success) {
           console.log(result);
           setErrorMessage(result.message);
+          setProcessing(false);
         } else {
           setAuthTokens(result);
           history.push(`/me`);
@@ -75,6 +79,7 @@ function RegisterForm({ classes }) {
     } catch (error) {
       console.log(error);
       setErrorMessage("error, see console");
+      setProcessing(false);
     }
   }
 
@@ -152,6 +157,7 @@ function RegisterForm({ classes }) {
           variant="contained"
           color="primary"
           className={classes.submit}
+          disabled={processing}
         >
           Create your account
         </Button>

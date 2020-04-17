@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 import { AuthContext, fetchAsAuthenticated } from "./context/auth";
 import AuthRoute from "./routing/AuthRoute";
@@ -54,41 +49,39 @@ function App() {
         currentUser,
       }}
     >
-      <Router>
-        <AppBar />
-        <Switch>
-          <Route exact path={`/board/:machineName`} component={Board} />
-          <Route
-            exact
-            path={`/node-board/:uuid`}
-            render={(props) => <NodeBoard {...props} />}
-          />
-          <Route path={`/create`} component={Create} />
+      <AppBar />
+      <Switch>
+        <Route exact path={`/board/:machineName`} component={Board} />
+        <Route
+          exact
+          path={`/node-board/:uuid`}
+          render={(props) => <NodeBoard {...props} />}
+        />
+        <Route path={`/create`} component={Create} />
 
-          <GuestRoute path={`/login`} component={Login} />
-          <GuestRoute path={`/register`} component={Register} />
-          <GuestRoute path={`/forgot-password`} component={ForgotPassword} />
-          <Route path="/about">
-            <p>About</p>
-          </Route>
-          <AuthRoute path={`/me`} component={Me} />
-          <AuthRoute
-            exact
-            path={`/node-board/:uuid/edit`}
-            component={NodeBoardEditForm}
-          />
-          <Route
-            path={`/logout`}
-            render={() => {
-              storeOauthTokens(null);
-              return <Redirect to="/login" />;
-            }}
-          />
-          <Route exact path={`/boards/:boardType`} component={Home} />
-          <Route exact path={`/boards`} component={Home} />
-          <Route exact path="/" component={Home} />
-        </Switch>
-      </Router>
+        <GuestRoute path={`/login`} component={Login} />
+        <GuestRoute path={`/register`} component={Register} />
+        <GuestRoute path={`/forgot-password`} component={ForgotPassword} />
+        <Route path="/about">
+          <p>About</p>
+        </Route>
+        <AuthRoute path={`/me`} component={Me} />
+        <AuthRoute
+          exact
+          path={`/node-board/:uuid/edit`}
+          component={NodeBoardEditForm}
+        />
+        <Route
+          path={`/logout`}
+          render={() => {
+            storeOauthTokens(null);
+            return <Redirect to="/login" />;
+          }}
+        />
+        <Route exact path={`/boards/:boardType`} component={Home} />
+        <Route exact path={`/boards`} component={Home} />
+        <Route exact path="/" component={Home} />
+      </Switch>
     </AuthContext.Provider>
   );
 }
