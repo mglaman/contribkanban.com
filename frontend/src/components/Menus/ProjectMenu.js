@@ -15,7 +15,10 @@ function ProjectMenu() {
           href: "https://github.com/mglaman/contribkanban.com",
           icon: <GitHubIcon />,
         },
-        { text: "Report a bug", href: "/", icon: <BugReportIcon /> },
+        { text: "Report a bug", 
+          href: "https://github.com/mglaman/contribkanban.com/issues", 
+          icon: <BugReportIcon /> 
+        },
         {
           text: "Open Collective",
           href: "https://opencollective.com/contribkanban",
