@@ -4,5 +4,5 @@ type: module
 core: 8.x
 dependencies:
   - drupal:jsonapi
-  - drupal:consumers
-  - drupal:simple_oauth
+  - consumers:consumers
+  - simple_oauth:simple_oauth

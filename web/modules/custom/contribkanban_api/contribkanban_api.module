@@ -36,15 +36,12 @@ function contribkanban_api_ensure_default_consumer()
 }
 
 /**
- * Implements hook_modules_installed().
+ * Implements hook_install().
  */
-function contribkanban_api_modules_installed($modules)
-{
-    if (in_array('consumers', $modules)) {
-        $initial_consumer = Consumer::load(1);
-        if ($initial_consumer) {
-            $initial_consumer->delete();
-        }
-        contribkanban_api_ensure_default_consumer();
-    }
+function contribkanban_api_install() {
+  $initial_consumer = Consumer::load(1);
+  if ($initial_consumer) {
+      $initial_consumer->delete();
+  }
+  contribkanban_api_ensure_default_consumer();
 }
