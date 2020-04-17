@@ -10,7 +10,7 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import usePageTitle from "../hooks/pageTitle";
-import { useAuth } from "../context/auth";
+import { useAuth, authWithPasswordGrant } from "../context/auth";
 import { apiFetch } from "../api";
 
 const styles = (theme) => ({
@@ -60,7 +60,7 @@ function RegisterForm({ classes }) {
         console.log(json.errors);
         setErrorMessage(json.errors[0].detail);
       } else {
-        const { success, result } = await auth.usePasswordGrant(
+        const { success, result } = await authWithPasswordGrant(
           email,
           password
         );

@@ -10,7 +10,8 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import usePageTitle from "../hooks/pageTitle";
-import { useAuth } from "../context/auth";
+import { authWithPasswordGrant } from "../context/auth";
+import { useOAuthTokens } from "../context/auth";
 
 const styles = (theme) => ({
   form: {
@@ -25,14 +26,14 @@ const styles = (theme) => ({
 function LoginForm({ classes }) {
   usePageTitle("Login");
   const history = useHistory();
-  const { auth } = useAuth();
+  const [, setAuthTokens] = useOAuthTokens();
   const [authUsername, setAuthUsername] = useState("");
   const [authPassword, setAuthPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState();
 
   async function doLogin() {
     setErrorMessage(null);
-    const { success, result } = await auth.usePasswordGrant(
+    const { success, result } = await authWithPasswordGrant(
       authUsername,
       authPassword
     );
@@ -44,7 +45,7 @@ function LoginForm({ classes }) {
         setErrorMessage(result.message);
       }
     } else {
-      auth.setAuthTokens(result);
+      setAuthTokens(result);
       history.push(`/me`);
     }
   }

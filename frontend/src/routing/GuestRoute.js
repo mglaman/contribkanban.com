@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { useAuth } from "../context/auth";
+import { useOAuthTokens } from "../context/auth";
 
 function GuestRoute({ component: Component, ...rest }) {
-  const { authTokens } = useAuth();
+  const [authTokens] = useOAuthTokens();
   return (
     <Route
       {...rest}

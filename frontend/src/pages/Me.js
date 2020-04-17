@@ -18,7 +18,7 @@ import {
 } from "@material-ui/core";
 import { Dashboard as FolderIcon, Edit as EditIcon } from "@material-ui/icons";
 import { withStyles } from "@material-ui/core/styles";
-import { useAuth } from "../context/auth";
+import { useAuth, useOAuthTokens, fetchAsAuthenticated } from "../context/auth";
 import CreateIssueCollectionDialog from "../components/Dialogs/CreateIssueCollectionDialog";
 import Gravatar from "../components/Gravatar";
 
@@ -42,9 +42,10 @@ const styles = (theme) => ({
   },
 });
 
-function Me({ classes, auth }) {
+function Me({ classes }) {
   const history = useHistory();
   const { currentUser } = useAuth();
+  const [authTokens] = useOAuthTokens();
   const [nodeBoards, setNodeBoards] = useState({
     data: [],
   });
@@ -53,8 +54,10 @@ function Me({ classes, auth }) {
 
   useEffect(() => {
     async function fetchBoards() {
-      const res = await auth.fetchAsAuthenticated(
-        `/node_board/node_board?filter[uid.id]=${currentUser.data.id}`
+      const res = await fetchAsAuthenticated(
+        `/node_board/node_board?filter[uid.id]=${currentUser.data.id}`,
+        null,
+        authTokens
       );
       const json = await res.json();
       setNodeBoards(json);
@@ -62,7 +65,7 @@ function Me({ classes, auth }) {
     if (currentUser !== null) {
       fetchBoards();
     }
-  }, [currentUser, auth]);
+  }, [currentUser, authTokens]);
 
   if (currentUser === null) {
     return null;

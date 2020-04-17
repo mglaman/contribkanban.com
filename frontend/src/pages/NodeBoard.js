@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { useParams } from "react-router-dom";
+import { useOAuthTokens, fetchAsAuthenticated } from "../context/auth";
 import useWindowHeight from "../hooks/windowHeight";
 import usePageTitle from "../hooks/pageTitle";
 import KanbanBoard from "../components/Board/NodeBoard";
@@ -12,8 +13,9 @@ const styles = (theme) => ({
   },
 });
 
-function NodeBoard({ classes, auth }) {
+function NodeBoard({ classes }) {
   const { uuid } = useParams();
+  const [authTokens] = useOAuthTokens();
   const [currentState, setCurrentState] = useState("LOADING");
   const [board, setBoard] = useState(null);
   const [canEdit, setCanEdit] = useState(false);
@@ -22,8 +24,10 @@ function NodeBoard({ classes, auth }) {
 
   useEffect(() => {
     async function getBoard() {
-      const res = await auth.fetchAsAuthenticated(
-        `/node_board/node_board/${uuid}`
+      const res = await fetchAsAuthenticated(
+        `/node_board/node_board/${uuid}`,
+        null,
+        authTokens
       );
 
       const json = await res.json();
@@ -38,7 +42,7 @@ function NodeBoard({ classes, auth }) {
       }
     }
     getBoard();
-  }, [uuid, auth]);
+  }, [uuid, authTokens]);
   useEffect(() => {
     // toolbar height, offset.
     // @todo keep dynamic based off of styles.

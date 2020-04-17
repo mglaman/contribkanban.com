@@ -1,4 +1,3 @@
-// @todo use const { authTokens } = useAuth(); to determine if logged in.
 import React from "react";
 import {
   AccountCircle as AccountCircleIcon,
@@ -6,10 +5,10 @@ import {
   ExitToApp as ExitToAppIcon,
 } from "@material-ui/icons";
 import AppBoardMenu from "./AppBarMenu";
-import { useAuth } from "../../context/auth";
+import { useOAuthTokens } from "../../context/auth";
 
 function UserMenu() {
-  const { authTokens } = useAuth();
+  const [authTokens] = useOAuthTokens();
 
   if (authTokens) {
     return (
