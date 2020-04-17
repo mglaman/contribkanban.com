@@ -10,7 +10,7 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import usePageTitle from "../hooks/pageTitle";
-import { useAuth, authWithPasswordGrant } from "../context/auth";
+import { useOAuthTokens, authWithPasswordGrant } from "../context/auth";
 import { apiFetch } from "../api";
 
 const styles = (theme) => ({
@@ -26,7 +26,7 @@ const styles = (theme) => ({
 function RegisterForm({ classes }) {
   usePageTitle("Register");
   const history = useHistory();
-  const { auth } = useAuth();
+  const [, setAuthTokens] = useOAuthTokens();
   const [errorMessage, setErrorMessage] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState("");
@@ -68,7 +68,7 @@ function RegisterForm({ classes }) {
           console.log(result);
           setErrorMessage(result.message);
         } else {
-          auth.setAuthTokens(result);
+          setAuthTokens(result);
           history.push(`/me`);
         }
       }
