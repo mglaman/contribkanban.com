@@ -49,7 +49,11 @@ function App() {
         <AppBar />
         <Switch>
           <Route exact path={`/board/:machineName`} component={Board} />
-          <Route exact path={`/node-board/:uuid`} component={NodeBoard} />
+          <Route
+            exact
+            path={`/node-board/:uuid`}
+            render={(props) => <NodeBoard auth={auth} {...props} />}
+          />
           <Route path={`/create`} component={Create} />
 
           <GuestRoute path={`/login`} component={Login} />
@@ -58,11 +62,20 @@ function App() {
           <Route path="/about">
             <p>About</p>
           </Route>
-          <AuthRoute path={`/me`} component={Me} />
+          <AuthRoute
+            path={`/me`}
+            component={Me}
+            auth={auth}
+            authTokens={authTokens}
+            setCurrentUser={setCurrentUser}
+          />
           <AuthRoute
             exact
             path={`/node-board/:uuid/edit`}
             component={NodeBoardEditForm}
+            auth={auth}
+            authTokens={authTokens}
+            setCurrentUser={setCurrentUser}
           />
           <Route
             path={`/logout`}

@@ -1,11 +1,14 @@
 import React, { useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
-import { useAuth } from "../context/auth";
 
-function AuthRoute({ component: Component, ...rest }) {
-  const { auth, authTokens, setCurrentUser } = useAuth();
+function AuthRoute({
+  component: Component,
+  auth,
+  authTokens,
+  setCurrentUser,
+  ...rest
+}) {
   useEffect(() => {
-    console.log("AuthRoute useEffect called");
     const fetchCurrentUser = async () => {
       try {
         const res = await auth.fetchAsAuthenticated(`/me`);
@@ -23,12 +26,16 @@ function AuthRoute({ component: Component, ...rest }) {
     if (authTokens && authTokens.access_token) {
       fetchCurrentUser();
     }
-  }, [authTokens]);
+  }, [authTokens, setCurrentUser, auth]);
   return (
     <Route
       {...rest}
       render={(props) =>
-        authTokens ? <Component {...props} /> : <Redirect to="/login" />
+        authTokens ? (
+          <Component auth={auth} {...props} />
+        ) : (
+          <Redirect to="/login" />
+        )
       }
     />
   );

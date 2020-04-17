@@ -42,9 +42,9 @@ const styles = (theme) => ({
   },
 });
 
-function Me({ classes }) {
+function Me({ classes, auth }) {
   const history = useHistory();
-  const { auth, currentUser } = useAuth();
+  const { currentUser } = useAuth();
   const [nodeBoards, setNodeBoards] = useState({
     data: [],
   });
@@ -62,7 +62,7 @@ function Me({ classes }) {
     if (currentUser !== null) {
       fetchBoards();
     }
-  }, [currentUser]);
+  }, [currentUser, auth]);
 
   if (currentUser === null) {
     return null;
