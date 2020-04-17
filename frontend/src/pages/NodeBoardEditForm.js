@@ -22,7 +22,6 @@ import {
 } from "@material-ui/core";
 import { DeleteOutline as DeleteOutlineIcon } from "@material-ui/icons";
 import { useParams, useHistory } from "react-router-dom";
-import { useAuth } from "../context/auth";
 import useFetchIssue from "../hooks/fetchIssue";
 
 const styles = (theme) => ({
@@ -33,11 +32,10 @@ const styles = (theme) => ({
     marginTop: theme.spacing(2),
   },
 });
-function NodeBoardEditForm({ classes }) {
+function NodeBoardEditForm({ classes, auth }) {
   const nidRefs = [];
   const history = useHistory();
   const { uuid } = useParams();
-  const { auth } = useAuth();
   const [boardTitle, setBoardTitle] = useState("");
   const [collaboration, setCollaboration] = useState("private");
   const [nids, setNids] = useState([]);
@@ -68,7 +66,7 @@ function NodeBoardEditForm({ classes }) {
       }
     }
     getBoard();
-  }, [uuid]);
+  }, [auth, uuid]);
 
   const setRef = (nid, ref) => {
     const index = nids.indexOf(nid);
