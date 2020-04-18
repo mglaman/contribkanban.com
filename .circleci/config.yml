@@ -66,6 +66,9 @@ jobs:
           name: Install backend
           command: ./bin/drush -y site-install --account-pass=admin
       - run:
+          name: Check if keys
+          command: ls ~/repo/private
+      - run:
           name: Start builtin
           command: php -S 127.0.0.1:8080 -t web
           background: true
