@@ -38,7 +38,7 @@ describe("register form", () => {
   it("registers a new user", async () => {
     const history = createHistory();
     history.push("/register");
-    const { getByLabelText, getByText, queryByText } = render(
+    const { debug, getByLabelText, getByText, queryByText } = render(
       <Router history={history}>
         <App />
       </Router>
@@ -67,6 +67,7 @@ describe("register form", () => {
     try {
       await waitForElementToBeRemoved(() => getByText("Create your account"));
     } catch (err) {
+      debug();
       throw err;
     }
 
