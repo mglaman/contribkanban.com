@@ -72,7 +72,6 @@ function RegisterForm({ classes }) {
           setProcessing(false);
         } else {
           setAuthTokens(result);
-          console.log(history);
           history.push(`/me`);
         }
       }

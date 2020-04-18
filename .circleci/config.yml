@@ -63,6 +63,9 @@ jobs:
       - setup-build
       - install-composer
       - run:
+          name: Install backend
+          command: ./bin/drush -y site-install --account-pass=admin
+      - run:
           name: Start builtin
           command: php -S 127.0.0.1:8080 -t web
           background: true
@@ -70,10 +73,8 @@ jobs:
           name: Wait for web server
           command: dockerize -wait http://127.0.0.1:8080 -timeout 120s
       - run:
-          name: Install backend
-          command: |
-            ./bin/drush -y site-install --account-pass=admin
-            curl -I http://127.0.0.1:8080/jsonapi
+          name: Fetch entrypoint
+          command: curl http://127.0.0.1:8080/jsonapi
       - install-yarn
       - run: yarn run frontend-test
 workflows:

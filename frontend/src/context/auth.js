@@ -26,7 +26,6 @@ export function useAuth() {
 const oauthStorageKey = "oauth";
 
 export const storeOauthTokens = (tokenData) => {
-  console.log(tokenData);
   localStorage.setItem(oauthStorageKey, JSON.stringify(tokenData));
 };
 
@@ -35,7 +34,6 @@ export const useOAuthTokens = () => {
     JSON.parse(localStorage.getItem(oauthStorageKey))
   );
   const setAuthTokens = (newTokens) => {
-    // setTokensToState(newTokens);
     storeOauthTokens(newTokens);
   };
 
@@ -78,6 +76,7 @@ export const authWithPasswordGrant = async (username, password) => {
     result = await res.json();
     success = res.ok;
   } catch (err) {
+    console.log(err);
     success = false;
   }
   return { success, result };

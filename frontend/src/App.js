@@ -22,7 +22,6 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    console.log(`App authTokens useEffect: entered.`);
     const fetchCurrentUser = async () => {
       try {
         const res = await fetchAsAuthenticated(`/me`, null, authTokens);
