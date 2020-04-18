@@ -3,7 +3,6 @@ import { createMemoryHistory as createHistory } from "history";
 import { MemoryRouter, Router } from "react-router-dom";
 import {
   render,
-  fireEvent,
   waitForElementToBeRemoved,
   wait,
 } from "@testing-library/react";
@@ -15,7 +14,6 @@ const createRandomEmail = () => {
   return `${randomString}@example.com`;
 };
 
-// @todo use `import userEvent from "@testing-library/user-event";`
 describe("register form", () => {
   beforeEach(() => {
     localStorage.removeItem("oauth");
@@ -27,20 +25,18 @@ describe("register form", () => {
       </MemoryRouter>
     );
     const inputEmail = getByLabelText("Email Address *");
-    inputEmail.value = "test@example.com";
+    await userEvent.type(inputEmail, "test@example.com");
     const inputPassword = getByLabelText("Password *");
-    fireEvent.change(inputPassword, { target: { value: "foo" } });
-    expect(inputPassword.value).toBe("foo");
+    await userEvent.type(inputPassword, "foo");
+    expect(inputPassword).toHaveAttribute("value", "foo");
     const inputConfirmPassword = getByLabelText("Confirm password *");
-    fireEvent.change(inputConfirmPassword, { target: { value: "bar" } });
-    expect(inputConfirmPassword.value).toBe("bar");
+    await userEvent.type(inputConfirmPassword, "bar");
+    expect(inputConfirmPassword).toHaveAttribute("value", "bar");
 
     await findByText("The passwords do not match");
 
-    inputConfirmPassword.focus();
-    fireEvent.change(inputConfirmPassword, { target: { value: "foo" } });
-    expect(inputConfirmPassword.value).toBe("foo");
-    inputConfirmPassword.blur();
+    await userEvent.type(inputConfirmPassword, "foo");
+    expect(inputConfirmPassword).toHaveAttribute("value", "foo");
 
     expect(queryByText("The passwords do not match")).not.toBeInTheDocument();
   });
@@ -56,19 +52,13 @@ describe("register form", () => {
     );
 
     const testEmail = createRandomEmail();
-    fireEvent.change(getByLabelText("Email Address *"), {
-      target: { value: testEmail },
-    });
-    fireEvent.change(getByLabelText("Password *"), {
-      target: { value: "foo" },
-    });
-    fireEvent.change(getByLabelText("Confirm password *"), {
-      target: { value: "foo" },
-    });
+    userEvent.type(getByLabelText("Email Address *"), testEmail);
+    userEvent.type(getByLabelText("Password *"), "foo");
+    userEvent.type(getByLabelText("Confirm password *"), "foo");
 
     let submitButton = getByText("Create your account").parentElement;
     expect(submitButton.disabled).toBe(false);
-    fireEvent.submit(submitButton.closest("form"));
+    userEvent.click(submitButton);
     submitButton = getByText("Create your account").parentElement;
     expect(submitButton.disabled).toBe(true);
 
@@ -95,17 +85,11 @@ describe("register form", () => {
       </Router>
     );
     const testEmail1 = createRandomEmail();
-    fireEvent.change(getByLabelText("Email Address *"), {
-      target: { value: testEmail1 },
-    });
-    fireEvent.change(getByLabelText("Password *"), {
-      target: { value: "foo" },
-    });
-    fireEvent.change(getByLabelText("Confirm password *"), {
-      target: { value: "foo" },
-    });
+    userEvent.type(getByLabelText("Email Address *"), testEmail1);
+    userEvent.type(getByLabelText("Password *"), "foo");
+    userEvent.type(getByLabelText("Confirm password *"), "foo");
     let submitButton = getByText("Create your account").parentElement;
-    fireEvent.submit(submitButton.closest("form"));
+    userEvent.click(submitButton);
     try {
       await waitForElementToBeRemoved(() => getByText("Create your account"));
     } catch (err) {
@@ -114,22 +98,15 @@ describe("register form", () => {
     }
     await wait(() => getByText(testEmail1));
 
-    const menuButton = getByLabelText("menu");
     history.push("/logout");
     history.push("/register");
 
     const testEmail2 = createRandomEmail();
-    fireEvent.change(getByLabelText("Email Address *"), {
-      target: { value: testEmail2 },
-    });
-    fireEvent.change(getByLabelText("Password *"), {
-      target: { value: "foo" },
-    });
-    fireEvent.change(getByLabelText("Confirm password *"), {
-      target: { value: "foo" },
-    });
+    userEvent.type(getByLabelText("Email Address *"), testEmail2);
+    userEvent.type(getByLabelText("Password *"), "bar");
+    userEvent.type(getByLabelText("Confirm password *"), "bar");
     submitButton = getByText("Create your account").parentElement;
-    fireEvent.submit(submitButton.closest("form"));
+    userEvent.click(submitButton);
     try {
       await waitForElementToBeRemoved(() => getByText("Create your account"));
     } catch (err) {

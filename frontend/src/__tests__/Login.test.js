@@ -2,10 +2,10 @@ import React from "react";
 import { MemoryRouter } from "react-router-dom";
 import {
   render,
-  fireEvent,
   waitForElementToBeRemoved,
   wait,
 } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import App from "../App";
 
 describe("login form", () => {
@@ -15,16 +15,11 @@ describe("login form", () => {
         <App />
       </MemoryRouter>
     );
-    const inputEmail = getByLabelText("Email Address *");
-    fireEvent.change(inputEmail, {
-      target: { value: "logintest@example.com" },
-    });
-    const inputPassword = getByLabelText("Password *");
-    fireEvent.change(inputPassword, { target: { value: "letmein" } });
-    expect(inputPassword.value).toBe("letmein");
+    userEvent.type(getByLabelText("Email Address *"), "logintest@example.com");
+    userEvent.type(getByLabelText("Password *"), "letmein");
 
     let submitButton = getByText("Sign In").parentElement;
-    fireEvent.submit(submitButton.closest("form"));
+    userEvent.click(submitButton);
 
     try {
       await waitForElementToBeRemoved(() => getByText("Sign In"));
