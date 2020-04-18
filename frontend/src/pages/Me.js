@@ -52,6 +52,7 @@ function Me({ classes }) {
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
+    let isMounted = true;
     async function fetchBoards() {
       const res = await fetchAsAuthenticated(
         `/node_board/node_board?filter[uid.id]=${currentUser.data.id}`,
@@ -59,11 +60,14 @@ function Me({ classes }) {
         authTokens
       );
       const json = await res.json();
-      setNodeBoards(json);
+      if (isMounted) {
+        setNodeBoards(json);
+      }
     }
     if (currentUser !== null) {
       fetchBoards();
     }
+    return () => (isMounted = false);
   }, [currentUser, authTokens]);
 
   if (currentUser === null) {

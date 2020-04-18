@@ -33,6 +33,11 @@ export const AuthProvider = ({ children }) => {
     setTokensToState(newTokens);
   };
 
+  const logout = () => {
+    setAuthTokens(null);
+    setCurrentUser(null);
+  };
+
   const storageEventHandler = useCallback(
     (event) => {
       console.log(`storage handler executed`);
@@ -77,6 +82,7 @@ export const AuthProvider = ({ children }) => {
         setAuthTokens,
         currentUser,
         setCurrentUser,
+        logout,
       }}
     >
       {children}

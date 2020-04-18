@@ -11,11 +11,11 @@ import Board from "./pages/Board";
 import NodeBoard from "./pages/NodeBoard";
 import Create from "./pages/Create";
 import Login from "./pages/Login";
+import Logout from "./pages/Logout";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import Me from "./pages/Me";
 import NodeBoardEditForm from "./pages/NodeBoardEditForm";
-import { storeOauthTokens } from "./context/auth";
 
 function App() {
   return (
@@ -42,13 +42,7 @@ function App() {
           path={`/node-board/:uuid/edit`}
           component={NodeBoardEditForm}
         />
-        <Route
-          path={`/logout`}
-          render={() => {
-            storeOauthTokens(null);
-            return <Redirect to="/login" />;
-          }}
-        />
+        <Route path={`/logout`} component={Logout} />
         <Route exact path={`/boards/:boardType`} component={Home} />
         <Route exact path={`/boards`} component={Home} />
         <Route exact path="/" component={Home} />
