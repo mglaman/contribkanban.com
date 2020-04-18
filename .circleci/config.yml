@@ -67,7 +67,7 @@ jobs:
           command: ./bin/drush -y site-install --account-pass=admin
       - run:
           name: Check if keys
-          command: ls ~/repo/private
+          command: ls ~/repo/web/sites/default/files/private/keys
       - run:
           name: Start builtin
           command: php -S 127.0.0.1:8080 -t web
