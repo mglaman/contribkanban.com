@@ -67,7 +67,7 @@ jobs:
           command: ./bin/drush -y site-install --account-pass=admin
       - run:
           name: Create test login user
-          command: ./bin/drush logintest@example.com --mail="logintest@example.com" --password="letmein"
+          command: ./bin/drush user:create logintest@example.com --mail="logintest@example.com" --password="letmein"
       - run:
           name: Start builtin
           command: php -S 127.0.0.1:8080 -t web

@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 import { AuthProvider } from "./context/auth";
 import AuthRoute from "./routing/AuthRoute";
