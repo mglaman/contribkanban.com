@@ -5,10 +5,10 @@ import {
   ExitToApp as ExitToAppIcon,
 } from "@material-ui/icons";
 import AppBoardMenu from "./AppBarMenu";
-import { useOAuthTokens } from "../../context/auth";
+import { useAuth } from "../../context/auth";
 
 function UserMenu() {
-  const [authTokens] = useOAuthTokens();
+  const { authTokens } = useAuth();
 
   if (authTokens) {
     return (

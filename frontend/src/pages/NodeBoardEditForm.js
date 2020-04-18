@@ -22,7 +22,7 @@ import {
 } from "@material-ui/core";
 import { DeleteOutline as DeleteOutlineIcon } from "@material-ui/icons";
 import { useParams, useHistory } from "react-router-dom";
-import { useOAuthTokens, fetchAsAuthenticated } from "../context/auth";
+import { useAuth, fetchAsAuthenticated } from "../context/auth";
 import useFetchIssue from "../hooks/fetchIssue";
 
 const styles = (theme) => ({
@@ -37,7 +37,7 @@ function NodeBoardEditForm({ classes }) {
   const nidRefs = [];
   const history = useHistory();
   const { uuid } = useParams();
-  const [authTokens] = useOAuthTokens();
+  const { authTokens } = useAuth();
   const [boardTitle, setBoardTitle] = useState("");
   const [collaboration, setCollaboration] = useState("private");
   const [nids, setNids] = useState([]);

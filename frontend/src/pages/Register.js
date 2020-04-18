@@ -8,9 +8,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import { Link as RouterLink, useHistory } from "react-router-dom";
+import { Link as RouterLink, Redirect } from "react-router-dom";
 import usePageTitle from "../hooks/pageTitle";
-import { useOAuthTokens, authWithPasswordGrant } from "../context/auth";
+import { useAuth, authWithPasswordGrant } from "../context/auth";
 import { apiFetch } from "../api";
 
 const styles = (theme) => ({
@@ -25,11 +25,10 @@ const styles = (theme) => ({
 
 function RegisterForm({ classes }) {
   usePageTitle("Register");
-  const history = useHistory();
-  const [, setAuthTokens] = useOAuthTokens();
+  const { authTokens, setAuthTokens } = useAuth();
   const [processing, setProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordsMatch, setPasswordsMatch] = useState(true);
@@ -72,7 +71,6 @@ function RegisterForm({ classes }) {
           setProcessing(false);
         } else {
           setAuthTokens(result);
-          history.push(`/me`);
         }
       }
     } catch (error) {
@@ -80,6 +78,10 @@ function RegisterForm({ classes }) {
       setErrorMessage("error, see console");
       setProcessing(false);
     }
+  }
+
+  if (authTokens) {
+    return <Redirect to={`/me`} />;
   }
 
   return (

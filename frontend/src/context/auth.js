@@ -1,4 +1,4 @@
-import {
+import React, {
   useState,
   useEffect,
   useCallback,
@@ -23,18 +23,14 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
-const oauthStorageKey = "oauth";
-
-export const storeOauthTokens = (tokenData) => {
-  localStorage.setItem(oauthStorageKey, JSON.stringify(tokenData));
-};
-
-export const useOAuthTokens = () => {
+export const AuthProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(null);
   const [authTokens, setTokensToState] = useState(() =>
     JSON.parse(localStorage.getItem(oauthStorageKey))
   );
   const setAuthTokens = (newTokens) => {
     storeOauthTokens(newTokens);
+    setTokensToState(newTokens);
   };
 
   const storageEventHandler = useCallback(
@@ -54,7 +50,44 @@ export const useOAuthTokens = () => {
     return () => window.removeEventListener("storage", storageEventHandler);
   }, [storageEventHandler]);
 
-  return [authTokens, setAuthTokens];
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const res = await fetchAsAuthenticated(`/me`, null, authTokens);
+        const json = await res.json();
+        if (res.ok) {
+          setCurrentUser(json);
+        } else {
+          setCurrentUser(null);
+        }
+      } catch (err) {
+        setCurrentUser(null);
+        console.log(err);
+      }
+    };
+    if (authTokens && authTokens.access_token) {
+      fetchCurrentUser();
+    }
+  }, [authTokens, setCurrentUser]);
+
+  return (
+    <AuthContext.Provider
+      value={{
+        authTokens,
+        setAuthTokens,
+        currentUser,
+        setCurrentUser,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+const oauthStorageKey = "oauth";
+
+export const storeOauthTokens = (tokenData) => {
+  localStorage.setItem(oauthStorageKey, JSON.stringify(tokenData));
 };
 
 export const authWithPasswordGrant = async (username, password) => {

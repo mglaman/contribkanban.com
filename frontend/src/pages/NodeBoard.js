@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { useParams } from "react-router-dom";
-import { useOAuthTokens, fetchAsAuthenticated } from "../context/auth";
+import { useAuth, fetchAsAuthenticated } from "../context/auth";
 import useWindowHeight from "../hooks/windowHeight";
 import usePageTitle from "../hooks/pageTitle";
 import KanbanBoard from "../components/Board/NodeBoard";
@@ -15,7 +15,7 @@ const styles = (theme) => ({
 
 function NodeBoard({ classes }) {
   const { uuid } = useParams();
-  const [authTokens] = useOAuthTokens();
+  const { authTokens } = useAuth();
   const [currentState, setCurrentState] = useState("LOADING");
   const [board, setBoard] = useState(null);
   const [canEdit, setCanEdit] = useState(false);

@@ -8,10 +8,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import { Link as RouterLink, useHistory } from "react-router-dom";
+import { Link as RouterLink, Redirect } from "react-router-dom";
 import usePageTitle from "../hooks/pageTitle";
 import { authWithPasswordGrant } from "../context/auth";
-import { useOAuthTokens } from "../context/auth";
+import { useAuth } from "../context/auth";
 
 const styles = (theme) => ({
   form: {
@@ -25,8 +25,7 @@ const styles = (theme) => ({
 
 function LoginForm({ classes }) {
   usePageTitle("Login");
-  const history = useHistory();
-  const [, setAuthTokens] = useOAuthTokens();
+  const { authTokens, setAuthTokens } = useAuth();
   const [authUsername, setAuthUsername] = useState("");
   const [authPassword, setAuthPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState();
@@ -46,8 +45,11 @@ function LoginForm({ classes }) {
       }
     } else {
       setAuthTokens(result);
-      history.push(`/me`);
     }
+  }
+
+  if (authTokens) {
+    return <Redirect to={`/me`} />;
   }
 
   return (

@@ -13,7 +13,7 @@ import usePageTitle from "../hooks/pageTitle";
 import CreateProjectDialog from "../components/Dialogs/CreateProjectDialog";
 import CreateSprintDialog from "../components/Dialogs/CreateSprintDialog";
 import CreateIssueCollectionDialog from "../components/Dialogs/CreateIssueCollectionDialog";
-import { useOAuthTokens } from "../context/auth";
+import { useAuth } from "../context/auth";
 
 const styles = (theme) => ({
   root: {
@@ -42,7 +42,7 @@ function DialogFactory({ type, ...rest }) {
 
 function Create({ classes }) {
   usePageTitle(`Create a new board`);
-  const [authTokens] = useOAuthTokens();
+  const { authTokens } = useAuth();
   const [open, setOpen] = useState(false);
   const [createType, setCreateType] = useState(null);
   const handleClose = () => setOpen(false);

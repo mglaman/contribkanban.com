@@ -5,8 +5,14 @@ import {
   render,
   fireEvent,
   waitForElementToBeRemoved,
+  wait,
 } from "@testing-library/react";
 import App from "../App";
+
+const createRandomEmail = () => {
+  const randomString = Math.random().toString(36).substr(2);
+  return `${randomString}@example.com`;
+};
 
 // @todo use `import userEvent from "@testing-library/user-event";`
 describe("register form", () => {
@@ -36,25 +42,31 @@ describe("register form", () => {
   });
 
   it("registers a new user", async () => {
-    const history = createHistory();
-    history.push("/register");
-    const { debug, getByLabelText, getByText, queryByText } = render(
+    const history = createHistory({
+      initialEntries: ["/register"],
+    });
+    const {
+      debug,
+      getByLabelText,
+      getByText,
+      queryByText,
+      findByText,
+    } = render(
       <Router history={history}>
         <App />
       </Router>
     );
 
-    const randomString = Math.random().toString(36).substr(2);
-    const testEmail = `${randomString}@example.com`;
-
-    const inputEmail = getByLabelText("Email Address *");
-    fireEvent.change(inputEmail, { target: { value: testEmail } });
-    const inputPassword = getByLabelText("Password *");
-    fireEvent.change(inputPassword, { target: { value: "foo" } });
-    expect(inputPassword.value).toBe("foo");
-    const inputConfirmPassword = getByLabelText("Confirm password *");
-    fireEvent.change(inputConfirmPassword, { target: { value: "foo" } });
-    expect(inputConfirmPassword.value).toBe("foo");
+    const testEmail = createRandomEmail();
+    fireEvent.change(getByLabelText("Email Address *"), {
+      target: { value: testEmail },
+    });
+    fireEvent.change(getByLabelText("Password *"), {
+      target: { value: "foo" },
+    });
+    fireEvent.change(getByLabelText("Confirm password *"), {
+      target: { value: "foo" },
+    });
 
     let submitButton = getByText("Create your account").parentElement;
     expect(submitButton.disabled).toBe(false);
@@ -71,7 +83,8 @@ describe("register form", () => {
       throw err;
     }
 
-    // @todo figure out how to get routing to work, doesn't seem to render `/me`.
     expect(history.location.pathname).toBe("/me");
+    await wait(() => getByText(testEmail));
+    debug();
   });
 });

@@ -18,7 +18,7 @@ import {
 } from "@material-ui/core";
 import { Dashboard as FolderIcon, Edit as EditIcon } from "@material-ui/icons";
 import { withStyles } from "@material-ui/core/styles";
-import { useAuth, useOAuthTokens, fetchAsAuthenticated } from "../context/auth";
+import { useAuth, fetchAsAuthenticated } from "../context/auth";
 import CreateIssueCollectionDialog from "../components/Dialogs/CreateIssueCollectionDialog";
 import Gravatar from "../components/Gravatar";
 
@@ -44,8 +44,7 @@ const styles = (theme) => ({
 
 function Me({ classes }) {
   const history = useHistory();
-  const { currentUser } = useAuth();
-  const [authTokens] = useOAuthTokens();
+  const { authTokens, currentUser } = useAuth();
   const [nodeBoards, setNodeBoards] = useState({
     data: [],
   });

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
-import { AuthContext, fetchAsAuthenticated } from "./context/auth";
+import { AuthProvider } from "./context/auth";
 import AuthRoute from "./routing/AuthRoute";
 import GuestRoute from "./routing/GuestRoute";
 
@@ -15,39 +15,11 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import Me from "./pages/Me";
 import NodeBoardEditForm from "./pages/NodeBoardEditForm";
-import { useOAuthTokens, storeOauthTokens } from "./context/auth";
+import { storeOauthTokens } from "./context/auth";
 
 function App() {
-  const [authTokens] = useOAuthTokens();
-  const [currentUser, setCurrentUser] = useState(null);
-
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      try {
-        const res = await fetchAsAuthenticated(`/me`, null, authTokens);
-        const json = await res.json();
-        if (res.ok) {
-          setCurrentUser(json);
-        } else {
-          setCurrentUser(null);
-        }
-      } catch (err) {
-        setCurrentUser(null);
-        console.log(err);
-      }
-    };
-    if (authTokens && authTokens.access_token) {
-      console.log(`App authTokens useEffect: fetch user.`);
-      fetchCurrentUser();
-    }
-  }, [authTokens, setCurrentUser]);
-
   return (
-    <AuthContext.Provider
-      value={{
-        currentUser,
-      }}
-    >
+    <AuthProvider>
       <AppBar />
       <Switch>
         <Route exact path={`/board/:machineName`} component={Board} />
@@ -81,7 +53,7 @@ function App() {
         <Route exact path={`/boards`} component={Home} />
         <Route exact path="/" component={Home} />
       </Switch>
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
 
