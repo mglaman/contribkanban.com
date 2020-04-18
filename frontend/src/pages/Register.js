@@ -68,11 +68,11 @@ function RegisterForm({ classes }) {
           password
         );
         if (!success) {
-          console.log(result);
           setErrorMessage(result.message);
           setProcessing(false);
         } else {
           setAuthTokens(result);
+          console.log(history);
           history.push(`/me`);
         }
       }

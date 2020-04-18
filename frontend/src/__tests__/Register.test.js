@@ -3,6 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import {
   render,
   fireEvent,
+  waitFor,
   waitForElementToBeRemoved,
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
@@ -24,6 +25,7 @@ function mockReactRouterDom() {
 
 jest.mock("react-router-dom", () => mockReactRouterDom());
 
+// @todo use `import userEvent from "@testing-library/user-event";`
 describe("register form", () => {
   it("displays passwords much match notice", async () => {
     const { getByLabelText, findByText, queryByText } = render(
@@ -52,12 +54,16 @@ describe("register form", () => {
 
   it("registers a new user", async () => {
     const { debug, getByLabelText, getByText, queryByText } = render(
-      <MemoryRouter initialEntries={["/register"]}>
+      <MemoryRouter initialEntries={["/register", "/me"]}>
         <App />
       </MemoryRouter>
     );
+
+    const randomString = Math.random().toString(36).substr(2);
+    const testEmail = `${randomString}@example.com`;
+
     const inputEmail = getByLabelText("Email Address *");
-    inputEmail.value = "test@example.com";
+    fireEvent.change(inputEmail, { target: { value: testEmail } });
     const inputPassword = getByLabelText("Password *");
     fireEvent.change(inputPassword, { target: { value: "foo" } });
     expect(inputPassword.value).toBe("foo");
@@ -72,6 +78,14 @@ describe("register form", () => {
     expect(submitButton.disabled).toBe(true);
 
     expect(queryByText("Passwords do not match")).not.toBeInTheDocument();
-    await waitForElementToBeRemoved(() => getByText("Create your account"));
+
+    try {
+      await waitForElementToBeRemoved(() => getByText("Create your account"));
+    } catch (err) {
+      throw err;
+    }
+
+    await waitFor(() => getByText(testEmail));
+    debug();
   });
 });
