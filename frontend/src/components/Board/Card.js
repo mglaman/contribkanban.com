@@ -88,11 +88,13 @@ function BoardCard({ data, classes }) {
       </CardContent>
       <CardActions className={classes.actions}>
         {categoryToIcon[parseInt(data.field_issue_category)]}
-        <Chip
-          label={data.field_issue_version}
-          size="small"
-          className={classes.chip}
-        />
+        {data.field_issue_version ? (
+          <Chip
+            label={data.field_issue_version}
+            size="small"
+            className={classes.chip}
+          />
+        ) : null}
         <Chip
           label={priorityToLabel[parseInt(data.field_issue_priority)]}
           size="small"
