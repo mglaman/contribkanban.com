@@ -8,9 +8,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import { Link as RouterLink, useHistory } from "react-router-dom";
+import { Link as RouterLink, Redirect } from "react-router-dom";
 import usePageTitle from "../hooks/pageTitle";
-import { useAuth } from "../context/auth";
+import { useAuth, authWithPasswordGrant } from "../context/auth";
 import { apiFetch } from "../api";
 
 const styles = (theme) => ({
@@ -25,10 +25,10 @@ const styles = (theme) => ({
 
 function RegisterForm({ classes }) {
   usePageTitle("Register");
-  const history = useHistory();
-  const { auth } = useAuth();
+  const { authTokens, setAuthTokens } = useAuth();
+  const [processing, setProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordsMatch, setPasswordsMatch] = useState(true);
@@ -39,6 +39,7 @@ function RegisterForm({ classes }) {
   }, [password, confirmPassword]);
 
   async function doRegister() {
+    setProcessing(true);
     const body = {
       type: "user--user",
       attributes: {
@@ -59,23 +60,28 @@ function RegisterForm({ classes }) {
       if (!res.ok) {
         console.log(json.errors);
         setErrorMessage(json.errors[0].detail);
+        setProcessing(false);
       } else {
-        const { success, result } = await auth.usePasswordGrant(
+        const { success, result } = await authWithPasswordGrant(
           email,
           password
         );
         if (!success) {
-          console.log(result);
           setErrorMessage(result.message);
+          setProcessing(false);
         } else {
-          auth.setAuthTokens(result);
-          history.push(`/me`);
+          setAuthTokens(result);
         }
       }
     } catch (error) {
       console.log(error);
       setErrorMessage("error, see console");
+      setProcessing(false);
     }
+  }
+
+  if (authTokens) {
+    return <Redirect to={`/me`} />;
   }
 
   return (
@@ -152,6 +158,7 @@ function RegisterForm({ classes }) {
           variant="contained"
           color="primary"
           className={classes.submit}
+          disabled={processing}
         >
           Create your account
         </Button>

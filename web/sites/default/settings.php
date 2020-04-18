@@ -106,11 +106,7 @@ if (getenv('LAGOON')) {
 }
 
 // Private directory.
-if (getenv('LAGOON')) {
-  $settings['file_private_path'] = 'sites/default/files/private';
-} else {
-  $settings['file_private_path'] = '../private';
-}
+$settings['file_private_path'] = 'sites/default/files/private';
 
 if (getenv('LAGOON_ENVIRONMENT_TYPE')) {
   // Environment specific settings files.

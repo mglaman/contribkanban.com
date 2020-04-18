@@ -56,10 +56,28 @@ jobs:
   e2e_test:
     docker:
       - image: circleci/php:7.2-cli-node-browsers
+        environment:
+          REACT_APP_API_BASE_URL: 'http://127.0.0.1:8080'
     working_directory: ~/repo
     steps:
       - setup-build
       - install-composer
+      - run:
+          name: Install backend
+          command: ./bin/drush -y site-install --account-pass=admin
+      - run:
+          name: Create test login user
+          command: ./bin/drush user:create logintest@example.com --mail="logintest@example.com" --password="letmein"
+      - run:
+          name: Start builtin
+          command: php -S 127.0.0.1:8080 -t web
+          background: true
+      - run:
+          name: Wait for web server
+          command: dockerize -wait http://127.0.0.1:8080 -timeout 120s
+      - run:
+          name: Fetch entrypoint
+          command: curl http://127.0.0.1:8080/jsonapi
       - install-yarn
       - run: yarn run frontend-test
 workflows:

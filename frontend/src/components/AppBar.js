@@ -39,7 +39,6 @@ function AppBar({ classes }) {
     if (typeof window.fathom === "function") {
       window.fathom("trackPageview");
     }
-
   }, [location]);
 
   return (

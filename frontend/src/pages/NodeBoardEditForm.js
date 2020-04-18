@@ -22,6 +22,7 @@ import {
 } from "@material-ui/core";
 import { DeleteOutline as DeleteOutlineIcon } from "@material-ui/icons";
 import { useParams, useHistory } from "react-router-dom";
+import { useAuth, fetchAsAuthenticated } from "../context/auth";
 import useFetchIssue from "../hooks/fetchIssue";
 
 const styles = (theme) => ({
@@ -32,10 +33,11 @@ const styles = (theme) => ({
     marginTop: theme.spacing(2),
   },
 });
-function NodeBoardEditForm({ classes, auth }) {
+function NodeBoardEditForm({ classes }) {
   const nidRefs = [];
   const history = useHistory();
   const { uuid } = useParams();
+  const { authTokens } = useAuth();
   const [boardTitle, setBoardTitle] = useState("");
   const [collaboration, setCollaboration] = useState("private");
   const [nids, setNids] = useState([]);
@@ -44,8 +46,10 @@ function NodeBoardEditForm({ classes, auth }) {
 
   useEffect(() => {
     async function getBoard() {
-      const res = await auth.fetchAsAuthenticated(
-        `/node_board/node_board/${uuid}`
+      const res = await fetchAsAuthenticated(
+        `/node_board/node_board/${uuid}`,
+        null,
+        authTokens
       );
       if (!res.ok) {
         setCurrentState("ERROR");
@@ -66,7 +70,7 @@ function NodeBoardEditForm({ classes, auth }) {
       }
     }
     getBoard();
-  }, [auth, uuid]);
+  }, [authTokens, uuid]);
 
   const setRef = (nid, ref) => {
     const index = nids.indexOf(nid);
@@ -112,12 +116,13 @@ function NodeBoardEditForm({ classes, auth }) {
       },
     };
     try {
-      const res = await auth.fetchAsAuthenticated(
+      const res = await fetchAsAuthenticated(
         `/node_board/node_board/${uuid}`,
         {
           method: "PATCH",
           body: JSON.stringify(body),
-        }
+        },
+        authTokens
       );
       const json = await res.json();
       console.log(json);

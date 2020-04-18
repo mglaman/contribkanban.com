@@ -1,4 +1,3 @@
-// @todo use const { authTokens } = useAuth(); to determine if logged in.
 import React from "react";
 import {
   AccountCircle as AccountCircleIcon,

@@ -51,13 +51,7 @@ function contribkanban_installer_generate_keys()
     $file_system->chmod($public_key_filename, 0600);
     $file_system->chmod($private_key_filename, 0600);
   } else {
-    // 2. Generate the pair in the selected directory.
-    try {
-      $key_gen->generateKeys($real_dir);
-    } catch (\Exception $e) {
-      // Unable to generate files after all.
-      return;
-    }
+    $key_gen->generateKeys($real_dir);
   }
 }
 

@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
@@ -21,7 +22,9 @@ ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={muiTheme}>
       <CssBaseline />
-      <App />
+      <Router>
+        <App />
+      </Router>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
