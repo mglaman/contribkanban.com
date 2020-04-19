@@ -1,6 +1,4 @@
-# ConribKanban
-
-[![CircleCI](https://circleci.com/gh/mglaman/contribkanban.com.svg?style=svg)](https://circleci.com/gh/mglaman/contribkanban.com)
+# [ConribKanban](https://contribkanban.com) &middot; [![CircleCI](https://circleci.com/gh/mglaman/contribkanban.com.svg?style=svg)](https://circleci.com/gh/mglaman/contribkanban.com)
 
 ContribKanban is an application which mirrors Drupal.org issues into kanban boards.
 
