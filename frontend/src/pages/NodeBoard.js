@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { IconButton } from "@material-ui/core";
+import { IconButton, Grid, Typography } from "@material-ui/core";
 import { Edit as EditIcon } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
@@ -14,6 +14,9 @@ const styles = (theme) => ({
   root: {
     position: "relative",
     height: "100%",
+  },
+  boardBar: {
+    padding: theme.spacing(1, 2),
   },
 });
 
@@ -62,8 +65,7 @@ function NodeBoard({ classes }) {
   useEffect(() => {
     // toolbar height, offset.
     // @todo keep dynamic based off of styles.
-    let adjustment = 70;
-    setHeightFix(windowHeight - adjustment);
+    setHeightFix(windowHeight - 70 - 36 - 40);
   }, [windowHeight, canEdit]);
 
   const boardTitle = board?.data?.attributes.title;
@@ -88,6 +90,18 @@ function NodeBoard({ classes }) {
         height: heightFix,
       }}
     >
+      <Grid
+        container
+        justify="space-between"
+        alignItems="center"
+        className={classes.boardBar}
+      >
+        <Grid item>
+          <Typography component="h2" variant="h6">
+            {boardTitle}
+          </Typography>
+        </Grid>
+      </Grid>
       <KanbanBoard board={board} canEdit={canEdit} />
     </div>
   );
