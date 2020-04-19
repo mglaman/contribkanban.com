@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
-import { useAuth } from "../../context/auth";
+import { useAuth, fetchAsAuthenticated } from "../../context/auth";
 
 const styles = (theme) => ({
   collaboration: {
@@ -25,7 +25,7 @@ const styles = (theme) => ({
 
 function CreateIssueCollectionDialog({ classes, open, handleClose }) {
   const history = useHistory();
-  const { auth } = useAuth();
+  const { authTokens } = useAuth();
   const [boardTitle, setBoardTitle] = useState();
   const [collaboration, setCollaboration] = useState("private");
   const [currentState, setCurrentState] = useState("OK");
@@ -51,10 +51,14 @@ function CreateIssueCollectionDialog({ classes, open, handleClose }) {
       },
     };
     try {
-      const res = await auth.fetchAsAuthenticated(`/node_board/node_board`, {
-        method: "POST",
-        body: JSON.stringify(body),
-      });
+      const res = await fetchAsAuthenticated(
+        `/node_board/node_board`,
+        {
+          method: "POST",
+          body: JSON.stringify(body),
+        },
+        authTokens
+      );
       const json = await res.json();
       if (!res.ok) {
         setCurrentState("ERROR");

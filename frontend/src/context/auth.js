@@ -9,16 +9,8 @@ import qs from "qs";
 import { getApiBaseUrl } from "../api";
 const clientId = "d4f7c501-cff9-4a3f-bae7-aec1db19456c";
 
-/**
- * @typedef {Object} AuthContextValue
- * @property {OAuth} auth
- */
-
 export const AuthContext = createContext();
 
-/**
- * @return {AuthContextValue}
- */
 export function useAuth() {
   return useContext(AuthContext);
 }
