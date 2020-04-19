@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { IconButton } from "@material-ui/core";
+import { Edit as EditIcon } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import { useParams } from "react-router-dom";
 import { useAuth, fetchAsAuthenticated } from "../context/auth";
 import useWindowHeight from "../hooks/windowHeight";
 import usePageTitle from "../hooks/pageTitle";
 import KanbanBoard from "../components/Board/NodeBoard";
+import { useAppBar } from "../context/appBar";
 
 const styles = (theme) => ({
   root: {
@@ -16,6 +20,7 @@ const styles = (theme) => ({
 function NodeBoard({ classes }) {
   const { uuid } = useParams();
   const { authTokens } = useAuth();
+  const { setActions } = useAppBar();
   const [currentState, setCurrentState] = useState("LOADING");
   const [board, setBoard] = useState(null);
   const [canEdit, setCanEdit] = useState(false);
@@ -35,14 +40,25 @@ function NodeBoard({ classes }) {
       if (!res.ok) {
         setCurrentState("ERROR");
       } else {
-        setCanEdit(
-          json.data.links.self?.meta?.linkParams?.rel.includes("update")
-        );
+        if (json.data.links.self?.meta?.linkParams?.rel.includes("update")) {
+          setCanEdit(true);
+          setActions([
+            <IconButton
+              component={Link}
+              to={`/node-board/${uuid}/edit`}
+              color="inherit"
+              size="small"
+              aria-label="edit"
+            >
+              <EditIcon />
+            </IconButton>,
+          ]);
+        }
         setCurrentState("OK");
       }
     }
     getBoard();
-  }, [uuid, authTokens]);
+  }, [uuid, authTokens, setActions]);
   useEffect(() => {
     // toolbar height, offset.
     // @todo keep dynamic based off of styles.

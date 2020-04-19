@@ -12,7 +12,7 @@ const muiTheme = createMuiTheme({
     primary: {
       light: "rgba(145, 202, 237, 1)",
       main: "rgba(6, 120, 190, 1)",
-      dark: "rgba(3, 88, 140, 1)",
+      dark: "rgba(1, 69, 118, 1)",
       contrastText: "#fff",
     },
   },

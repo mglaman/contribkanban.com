@@ -15,6 +15,8 @@ import UserMenu from "./Menus/UserMenu";
 const styles = (theme) => ({
   title: {
     fontSize: 24,
+  },
+  grow: {
     flexGrow: 1,
   },
   placeholder: toolbarStyles(theme).root,
@@ -29,18 +31,14 @@ const styles = (theme) => ({
   },
 });
 
-function AppBar({ classes }) {
+function AppBar({ classes, actions }) {
   const location = useLocation();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const handleDrawerOpen = () => setDrawerOpen(true);
   const handleDrawerClose = () => setDrawerOpen(false);
   useEffect(() => {
     setDrawerOpen(false);
-    if (typeof window.fathom === "function") {
-      window.fathom("trackPageview");
-    }
   }, [location]);
-
   return (
     <Fragment>
       <MuiAppBar elevation={0} position="fixed">
@@ -64,6 +62,8 @@ function AppBar({ classes }) {
           >
             {"ContribKanban"}
           </Link>
+          <div className={classes.grow} />
+          {Array.isArray(actions) ? actions.map((action) => action) : null}
         </Toolbar>
       </MuiAppBar>
       <Drawer onClose={handleDrawerClose} open={drawerOpen}>
