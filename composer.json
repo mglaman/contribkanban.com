@@ -84,9 +84,6 @@
             "drupal/core": "-p2"
         },
         "patches": {
-            "drupal/jsonapi_search_api": {
-                "Cache tag invalidation on newly indexed items": "https://www.drupal.org/files/issues/2020-04-07/3125571-2.patch"
-            }
         },
         "installer-paths": {
             "web/core": [
