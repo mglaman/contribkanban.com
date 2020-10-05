@@ -32,7 +32,7 @@ commands:
 jobs:
   build_backend:
     docker:
-      - image: circleci/php:7.2-cli
+      - image: circleci/php:7.3-cli
     working_directory: ~/repo
     steps:
       - setup-build
@@ -55,7 +55,7 @@ jobs:
       - run: yarn run extension-build
   e2e_test:
     docker:
-      - image: circleci/php:7.2-cli-node-browsers
+      - image: circleci/php:7.3-cli-node-browsers
         environment:
           REACT_APP_API_BASE_URL: 'http://127.0.0.1:8080'
     working_directory: ~/repo
