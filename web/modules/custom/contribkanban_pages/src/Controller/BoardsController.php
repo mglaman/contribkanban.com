@@ -70,7 +70,6 @@ class BoardsController extends ControllerBase {
     catch (\Exception $e) {
       $nids = [];
     }
-    $build['#attached']['library'][] = 'contribkanban_boards/app';
     $build['#attached']['drupalSettings']['board'] = [
       'nids' => Json::encode($nids),
       'uuid' => '',
@@ -89,7 +88,6 @@ class BoardsController extends ControllerBase {
     $data = $this->serializer->normalize($node_board, 'json');
 
     $build = [];
-    $build['#attached']['library'][] = 'contribkanban_boards/app';
     $build['#attached']['drupalSettings']['form'] = [
       'board' => $data,
       'uid' => $user->id(),
@@ -100,7 +98,6 @@ class BoardsController extends ControllerBase {
   public function editNodeBoard(NodeBoard $node_board) {
     $data = $this->serializer->normalize($node_board, 'json');
     $build = [];
-    $build['#attached']['library'][] = 'contribkanban_boards/app';
     $build['#attached']['drupalSettings']['form'] = [
       'board' => $data,
       'uid' => \Drupal::currentUser()->id(),
@@ -122,7 +119,6 @@ class BoardsController extends ControllerBase {
       '#add' => Markup::create($add_form_class),
       '#content' => NULL,
     ];
-    $build['#attached']['library'][] = 'contribkanban_boards/app';
     return $build;
   }
 

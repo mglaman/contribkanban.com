@@ -3,18 +3,3 @@ form:
   css:
     theme:
       css/board.form.css: {}
-
-app:
-  js:
-    /libraries/contribkanban-app/js/main.js:
-      preprocess: false
-      minified: true
-  dependencies:
-    - core/drupalSettings
-    - contribkanban_boards/react
-react:
-  js:
-    https://unpkg.com/react@16/umd/react.production.min.js:
-      external: true
-    https://unpkg.com/react-dom@16/umd/react-dom.production.min.js:
-      external: true

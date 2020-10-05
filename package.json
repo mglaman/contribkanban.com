@@ -2,14 +2,12 @@
     "private": true,
     "workspaces": [
         "extension",
-        "frontend",
-        "web/libraries/contribkanban-app"
+        "frontend"
     ],
     "scripts": {
         "extension-build": "yarn workspace @contribkanban/chrome-extension build",
         "frontend-start": "yarn workspace @contribkanban/frontend start",
         "frontend-build": "yarn workspace @contribkanban/frontend build",
-        "frontend-test": "yarn workspace @contribkanban/frontend test",
-        "legacy-build": "yarn workspace @contribkanban/legacy build"
+        "frontend-test": "yarn workspace @contribkanban/frontend test"
     }
   }
