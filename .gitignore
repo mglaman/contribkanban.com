@@ -9,7 +9,6 @@
 /web/themes/contrib/
 /web/profiles/contrib/
 /web/libraries/*
-!/web/libraries/contribkanban-app/
 /private/
 
 # Ignore sensitive information
