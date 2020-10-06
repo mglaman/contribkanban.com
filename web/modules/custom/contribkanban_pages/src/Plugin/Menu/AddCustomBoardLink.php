@@ -7,7 +7,7 @@ use Drupal\Core\Menu\StaticMenuLinkOverridesInterface;
 use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class AddCustomBoardLink extends MenuLinkDefault {
+final class AddCustomBoardLink extends MenuLinkDefault {
 
   /**
    * The current user.

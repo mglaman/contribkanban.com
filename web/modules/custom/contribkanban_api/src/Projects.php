@@ -3,7 +3,7 @@
 namespace Drupal\contribkanban_api;
 
 use Drupal\Component\Serialization\Json;
-use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Client;
 
 class Projects {
 
@@ -15,7 +15,7 @@ class Projects {
   /**
    *
    */
-  public function __construct(ClientInterface $client) {
+  public function __construct(Client $client) {
     $this->client = $client;
   }
 
@@ -45,7 +45,7 @@ class Projects {
       'projectCategory' => !empty($project_data['taxonomy_vocabulary_3']) ? $project_data['taxonomy_vocabulary_3'] : '',
       'projectActivity' => $project_data['taxonomy_vocabulary_44'],
       'projectMaintainership' => $project_data['taxonomy_vocabulary_46'],
-      'projectComponents' => $project_data['field_project_components'] || [],
+      'projectComponents' => $project_data['field_project_components'] ?? [],
     ];
     return $project;
   }

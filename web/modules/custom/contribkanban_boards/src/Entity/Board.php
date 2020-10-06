@@ -6,6 +6,7 @@ use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Field\Plugin\Field\FieldType\StringItem;
 
 /**
  * Defines the 'board' entity class.
@@ -93,7 +94,9 @@ class Board extends ContentEntityBase implements BoardInterface {
     $uri_route_parameters = parent::urlRouteParameters($rel);
     if (isset($uri_route_parameters[$this->getEntityTypeId()])) {
       if (!$this->get('machine_name')->isEmpty()) {
-        $uri_route_parameters[$this->getEntityTypeId()] = $this->get('machine_name')->value;
+        $machine_name_field = $this->get('machine_name')->first();
+        assert($machine_name_field instanceof StringItem);
+        $uri_route_parameters[$this->getEntityTypeId()] = $machine_name_field->get('value')->getValue();
       }
     }
     return $uri_route_parameters;
@@ -208,6 +211,8 @@ class Board extends ContentEntityBase implements BoardInterface {
    * {@inheritdoc}
    */
   public static function bundleFieldDefinitions(EntityTypeInterface $entity_type, $bundle, array $base_field_definitions) {
+    /** @var \Drupal\Core\Field\BaseFieldDefinition[] $base_field_definitions */
+
     $board_provider_manager = \Drupal::getContainer()->get('plugin.manager.board_provider');
     /** @var \Drupal\contribkanban_boards\Plugin\BoardProvider\BoardProviderInterface $bundle_plugin */
     $bundle_plugin = $board_provider_manager->createInstance($bundle);

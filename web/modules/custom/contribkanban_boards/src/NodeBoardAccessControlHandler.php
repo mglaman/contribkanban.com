@@ -7,6 +7,7 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\entity\UncacheableEntityAccessControlHandler;
+use Drupal\options\Plugin\Field\FieldType\ListStringItem;
 
 class NodeBoardAccessControlHandler extends UncacheableEntityAccessControlHandler
 {
@@ -28,7 +29,9 @@ class NodeBoardAccessControlHandler extends UncacheableEntityAccessControlHandle
       return $access;
     }
 
-    $collaboration = $entity->get('collaboration')->value;
+    $collaboration_field = $entity->get('collaboration')->first();
+    assert($collaboration_field instanceof ListStringItem);
+    $collaboration = $collaboration_field->get('value')->getValue();
     // If the board is private, we only allow permission for the owner.
     if ($collaboration === NodeBoard::IS_PRIVATE) {
       $access = AccessResult::forbidden();

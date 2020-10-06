@@ -1,7 +1,7 @@
 name: ContribKanban.com Installer
 type: profile
 core: 8.x
-
+core_version_requirement: ^8 || ^9
 config_install: true
 config_install_path: '../config'
 

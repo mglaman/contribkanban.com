@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 /**
  * Class BoardsController.
  */
-class BoardsController extends ControllerBase {
+final class BoardsController extends ControllerBase {
 
   /**
    * Drupal\Core\Entity\EntityTypeManager definition.
@@ -55,7 +55,7 @@ class BoardsController extends ControllerBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(
+    return new self(
       $container->get('entity_type.manager'),
       $container->get('form_builder'),
       $container->get('serializer'),

@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Derives plugins that add HATEOAS controls for mutable resources.
  */
-class MutableResourceTypeLinkProviderDeriver extends DeriverBase implements ContainerDeriverInterface {
+final class MutableResourceTypeLinkProviderDeriver extends DeriverBase implements ContainerDeriverInterface {
 
   /**
    * The JSON:API resource type repository.

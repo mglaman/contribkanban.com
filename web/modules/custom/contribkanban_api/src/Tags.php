@@ -3,7 +3,7 @@
 namespace Drupal\contribkanban_api;
 
 use Drupal\Component\Serialization\Json;
-use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Client;
 
 class Tags {
 
@@ -15,7 +15,7 @@ class Tags {
   /**
    *
    */
-  public function __construct(ClientInterface $client) {
+  public function __construct(Client $client) {
     $this->client = $client;
   }
 
