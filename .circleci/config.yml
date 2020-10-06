@@ -73,7 +73,7 @@ jobs:
           command: ./bin/drush -y site-install --account-pass=admin
       - run:
           name: phpstan
-          command: ./bin/drush upgrade_status:analyze
+          command: ./bin/drush upgrade_status:analyze --all --ignore-uninstalled
   e2e_test:
     docker:
       - image: circleci/php:7.3-cli-node-browsers
@@ -110,6 +110,6 @@ workflows:
       - build_extension
   test:
     jobs:
-      - phpstan
+      # - phpstan
       - upgrade_status
       - e2e_test
