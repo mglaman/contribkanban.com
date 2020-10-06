@@ -34,7 +34,7 @@ final class MutableResourceTypeLinkProviderDeriver extends DeriverBase implement
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, $base_plugin_id) {
-    return new self(
+    return new static(
       $container->get('jsonapi.resource_type.repository')
     );
   }

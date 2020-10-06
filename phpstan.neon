@@ -7,6 +7,9 @@ parameters:
 		- */tests/fixtures/*.php
 		- */settings*.php
 		- */node_modules/*
+	ignoreErrors:
+		# @todo remove and fix in a follow up, most of the errors are in dead code.
+		- '#\Drupal calls should be avoided in classes, use dependency injection instead#'
 # Using phpstan/extension-installer conflicts with upgrade_status
 # @see https://www.drupal.org/project/upgrade_status/issues/3175304
 includes:

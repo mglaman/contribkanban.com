@@ -49,6 +49,7 @@ class ProjectScraperCommand extends Command {
     $io = new DrupalStyle($input, $output);
     $this->contribkanbanProjectsScraper->scrape();
     $io->info($this->trans('commands.projects.scrape.messages.success'));
+    return 0;
   }
 
 

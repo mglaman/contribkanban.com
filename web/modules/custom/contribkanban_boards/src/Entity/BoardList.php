@@ -6,6 +6,7 @@ use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem;
 
 /**
  * Defines the 'board' entity class.
@@ -40,7 +41,9 @@ class BoardList extends ContentEntityBase implements BoardListInterface {
    * {@inheritdoc}
    */
   public function getBoard() {
-    return $this->get('board_id')->entity;
+    $board_id_field = $this->get('board_id')->first();
+    assert($board_id_field instanceof EntityReferenceItem);
+    return $board_id_field->get('entity')->getValue();
   }
 
   /**
@@ -116,7 +119,6 @@ class BoardList extends ContentEntityBase implements BoardListInterface {
    */
   public function preSave(EntityStorageInterface $storage) {
     if (!$this->get('tag')->isEmpty()) {
-      /** @var \Drupal\Core\Field\FieldItemListInterface $item */
       foreach ($this->get('tag') as $delta => $item) {
         if (!is_numeric($item->value)) {
           // Look up the tag ID.

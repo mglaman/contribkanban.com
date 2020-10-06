@@ -53,6 +53,15 @@ jobs:
       - checkout
       - install-yarn
       - run: yarn run extension-build
+  phpcs:
+    docker:
+      - image: circleci/php:7.3-cli
+    steps:
+      - setup-build
+      - install-composer
+      - run:
+          name: phpstan
+          command: ./bin/phpcs web/modules/custom
   phpstan:
     docker:
       - image: circleci/php:7.3-cli

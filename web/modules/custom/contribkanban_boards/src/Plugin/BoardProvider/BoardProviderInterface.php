@@ -20,10 +20,10 @@ interface BoardProviderInterface extends BundlePluginInterface {
    *   multiple, possibly dynamic entity types.
    * @param string $bundle
    *   The bundle.
-   * @param \Drupal\Core\Field\FieldDefinitionInterface[] $base_field_definitions
+   * @param \Drupal\Core\Field\BaseFieldDefinition[] $base_field_definitions
    *   The list of base field definitions.
    *
-   * @return \Drupal\Core\Field\FieldDefinitionInterface[]
+   * @return \Drupal\Core\Field\BaseFieldDefinition[]
    *   An array of bundle field definitions, keyed by field name.
    */
   public function bundleFieldDefinitionsAlter(EntityTypeInterface $entity_type, $bundle, array $base_field_definitions);

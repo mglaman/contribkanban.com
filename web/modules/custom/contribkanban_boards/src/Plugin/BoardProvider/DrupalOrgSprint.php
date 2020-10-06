@@ -28,6 +28,7 @@ class DrupalOrgSprint extends PluginBase implements BoardProviderInterface {
    * {@inheritdoc}
    */
   public function bundleFieldDefinitionsAlter(EntityTypeInterface $entity_type, $bundle, array $base_field_definitions) {
+    /** @var \Drupal\Core\Field\BaseFieldDefinition[] $base_field_definitions */
     $fields = [];
     if (isset($base_field_definitions['tag'])) {
       $fields['tag'] = clone $base_field_definitions['tag'];

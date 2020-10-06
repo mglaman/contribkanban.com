@@ -28,7 +28,7 @@ class DrupalOrgProject extends PluginBase implements BoardProviderInterface {
    */
   public function bundleFieldDefinitionsAlter(EntityTypeInterface $entity_type, $bundle, array $base_field_definitions) {
     $fields = [];
-
+    /** @var \Drupal\Core\Field\BaseFieldDefinition[] $base_field_definitions */
     if (isset($base_field_definitions['project_nid'])) {
       $fields['project_nid'] = clone $base_field_definitions['project_nid'];
       $fields['project_nid']->setDisplayOptions('form', []);

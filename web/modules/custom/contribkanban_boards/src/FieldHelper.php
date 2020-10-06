@@ -13,7 +13,7 @@ final class FieldHelper {
    * @param \Drupal\Core\Field\FieldItemListInterface $item_list
    *   The field item list.
    *
-   * @return string
+   * @return null|int|string
    *   The values as JSON.
    */
   public static function stringAsJson(FieldItemListInterface $item_list) {

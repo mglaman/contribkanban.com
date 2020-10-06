@@ -38,7 +38,7 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
 
   /**
    * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
-   * @param $route_name
+   * @param string $route_name
    * @param array $params
    */
   protected function handleBoard(GetResponseForExceptionEvent $event, $route_name, array $params) {
@@ -126,7 +126,7 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
 
   /**
    * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
-   * @param $route_name
+   * @param string $route_name
    * @param array $params
    */
   protected function handleSprint(GetResponseForExceptionEvent $event, $route_name, array $params) {

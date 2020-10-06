@@ -12,6 +12,7 @@ function contribkanban_boards_post_update_node_boards_collaboration() {
   // \Drupal::entityDefinitionUpdateManager()->applyUpdates();
   $node_board_storage = \Drupal::entityTypeManager()->getStorage('node_board');
   foreach ($node_board_storage->loadMultiple() as $node_board) {
+    assert($node_board instanceof NodeBoard);
     $node_board->get('collaboration')->setValue(NodeBoard::IS_SHARED);
     $node_board->save();
   }

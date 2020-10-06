@@ -2,6 +2,7 @@
 
 namespace Drupal\contribkanban_users;
 
+use Drupal\Core\Field\Plugin\Field\FieldType\StringItem;
 use Drupal\user\UserInterface;
 use Zend\Feed\Reader\Reader;
 
@@ -10,7 +11,9 @@ class UserIssuesFeed {
     if ($user->get('drupalorg_uid')->isEmpty()) {
       throw new \InvalidArgumentException('Empty D.o user ID');
     }
-    $url = "https://www.drupal.org/project/issues/user/{$user->get('drupalorg_uid')->value}/feed";
+    $field = $user->get('drupalorg_uid')->first();
+    assert($field instanceof StringItem);
+    $url = "https://www.drupal.org/project/issues/user/{$field->get('value')->getValue()}/feed";
     $response = \Drupal::httpClient()->get($url);
     $source_string = (string) $response->getBody();
     // Set our bridge extension manager to Zend Feed.

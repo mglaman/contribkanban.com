@@ -5,7 +5,9 @@
  * Module file for contribkanban_boards.
  */
 
+use Drupal\contribkanban_boards\Entity\BoardListInterface;
 use Drupal\contribkanban_boards\FieldHelper;
+use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Site\Settings;
 
 /**
@@ -61,8 +63,10 @@ function contribkanban_boards_board_view(array &$build, \Drupal\Core\Entity\Enti
     $version_parameter .= '-dev';
   }
 
-  /** @var \Drupal\contribkanban_boards\Entity\BoardListInterface $board_list */
-  foreach ($board->get('lists')->referencedEntities() as $board_list) {
+  $lists = $board->get('lists');
+  assert($lists instanceof EntityReferenceFieldItemListInterface);
+  foreach ($lists->referencedEntities() as $board_list) {
+    assert($board_list instanceof BoardListInterface);
     $attributes['title'] = $board_list->label();
     $attributes['projects'] = FieldHelper::stringAsJson($board_list->getProjects());
     $attributes['category'] = FieldHelper::stringAsJson($board_list->getCategory());

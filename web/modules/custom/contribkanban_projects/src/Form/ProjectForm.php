@@ -45,6 +45,7 @@ class ProjectForm extends ContentEntityForm {
         ]));
     }
     $form_state->setRedirect('entity.project.canonical', ['project' => $entity->id()]);
+    return $status;
   }
 
 }

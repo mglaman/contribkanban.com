@@ -3,6 +3,7 @@
 use Drupal\Component\Serialization\Json;
 use Drupal\contribkanban_users\GravatarFieldItemList;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Field\Plugin\Field\FieldType\StringItem;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
@@ -84,7 +85,9 @@ function contribkanban_users_user_presave(Drupal\Core\Entity\EntityInterface $en
       // Can only work if there is a username...
       if (!$entity->get('drupalorg_username')->isEmpty()) {
         $api_client = \Drupal::getContainer()->get('drupalorg_client');
-        $response = $api_client->get('user.json?name=' . $entity->get('drupalorg_username')->value);
+        $field_username = $entity->get('drupalorg_username')->first();
+        assert($field_username instanceof StringItem);
+        $response = $api_client->get('user.json?name=' . $field_username->get('value')->getValue());
         $data = Json::decode($response->getBody()->getContents());
         if (!empty($data['list'])) {
           $entity->get('drupalorg_uid')->setValue($data['list'][0]['uid']);

@@ -12,22 +12,24 @@ class MachineNameConverter extends EntityConverter {
    */
   public function convert($value, $definition, $name, array $defaults) {
     $entity_type_id = $this->getEntityTypeFromDefaults($definition, $name, $defaults);
-    if ($storage = $this->entityTypeManager->getStorage($entity_type_id)) {
-      $params = ['machine_name' => $value];
-      if ($defaults['_route'] == 'entity.board.canonical_alternative') {
-        $params['type'] = 'drupalorg_sprint';
-      }
-      if (!$entities = $storage->loadByProperties($params)) {
-        return $storage->load($value);
-      }
-      $entity = reset($entities);
-      return $entity;
+    if (!$this->entityTypeManager->hasDefinition($entity_type_id)) {
+      return NULL;
     }
-    return NULL;
+    $storage = $this->entityTypeManager->getStorage($entity_type_id);
+    $params = ['machine_name' => $value];
+    if ($defaults['_route'] == 'entity.board.canonical_alternative') {
+      $params['type'] = 'drupalorg_sprint';
+    }
+    $entities = $storage->loadByProperties($params);
+    if (!$entities) {
+      return $storage->load($value);
+    }
+    $entity = reset($entities);
+    return $entity;
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function applies($definition, $name, Route $route) {
     if (!empty($definition['type']) && strpos($definition['type'], 'entity:') === 0) {

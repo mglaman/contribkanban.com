@@ -22,7 +22,6 @@ final class BoardMenuLink extends DeriverBase implements ContainerDeriverInterfa
   /**
    * Creates a ProductMenuLink instance.
    *
-   * @param $base_plugin_id
    * @param \Drupal\Component\Plugin\PluginManagerInterface $board_provider
    */
   public function __construct(PluginManagerInterface $board_provider) {
@@ -33,7 +32,7 @@ final class BoardMenuLink extends DeriverBase implements ContainerDeriverInterfa
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, $base_plugin_id) {
-    return new self(
+    return new static(
       $container->get('plugin.manager.board_provider')
     );
   }
