@@ -53,6 +53,24 @@ jobs:
       - checkout
       - install-yarn
       - run: yarn run extension-build
+  phpstan:
+    docker:
+      - image: circleci/php:7.3-cli
+    steps:
+      - setup-build
+      - install-composer
+      - run:
+          name: phpstan
+          command: ./bin/phpstan analyse web/modules/custom
+  upgrade_status:
+    docker:
+      - image: circleci/php:7.3-cli
+    steps:
+      - setup-build
+      - install-composer
+      - run:
+          name: phpstan
+          command: ./bin/drush upgrade_status:analyze
   e2e_test:
     docker:
       - image: circleci/php:7.3-cli-node-browsers
@@ -89,4 +107,6 @@ workflows:
       - build_extension
   test:
     jobs:
+      - phpstan
+      - upgrade_status
       - e2e_test

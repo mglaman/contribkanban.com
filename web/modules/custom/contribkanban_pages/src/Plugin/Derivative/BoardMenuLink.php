@@ -9,8 +9,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Derivative class that provides the menu links for the Products.
+ *
+ * @deprecated No longer in use
  */
-class BoardMenuLink extends DeriverBase implements ContainerDeriverInterface {
+final class BoardMenuLink extends DeriverBase implements ContainerDeriverInterface {
 
   /**
    * @var \Drupal\Component\Plugin\PluginManagerInterface
@@ -23,7 +25,7 @@ class BoardMenuLink extends DeriverBase implements ContainerDeriverInterface {
    * @param $base_plugin_id
    * @param \Drupal\Component\Plugin\PluginManagerInterface $board_provider
    */
-  public function __construct($base_plugin_id, PluginManagerInterface $board_provider) {
+  public function __construct(PluginManagerInterface $board_provider) {
     $this->boardProvider = $board_provider;
   }
 
@@ -31,8 +33,7 @@ class BoardMenuLink extends DeriverBase implements ContainerDeriverInterface {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, $base_plugin_id) {
-    return new static(
-      $base_plugin_id,
+    return new self(
       $container->get('plugin.manager.board_provider')
     );
   }

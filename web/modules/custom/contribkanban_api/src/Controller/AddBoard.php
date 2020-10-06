@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class AddBoard implements ContainerInjectionInterface {
+final class AddBoard implements ContainerInjectionInterface {
 
   protected $projectsHelper;
 
@@ -33,7 +33,7 @@ class AddBoard implements ContainerInjectionInterface {
    *
    */
   public static function create(ContainerInterface $container) {
-    return new static(
+    return new self(
       $container->get('drupalorg_projects'),
       $container->get('plugin.manager.board_provider'),
       $container->get('entity_type.manager')

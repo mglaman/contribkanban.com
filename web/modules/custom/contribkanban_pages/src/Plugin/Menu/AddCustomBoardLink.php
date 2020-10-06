@@ -7,7 +7,7 @@ use Drupal\Core\Menu\StaticMenuLinkOverridesInterface;
 use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class AddCustomBoardLink extends MenuLinkDefault {
+final class AddCustomBoardLink extends MenuLinkDefault {
 
   /**
    * The current user.
@@ -40,7 +40,7 @@ class AddCustomBoardLink extends MenuLinkDefault {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
+    return new self(
       $configuration,
       $plugin_id,
       $plugin_definition,

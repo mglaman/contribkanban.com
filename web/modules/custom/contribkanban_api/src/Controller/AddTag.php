@@ -11,7 +11,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class AddTag implements ContainerInjectionInterface {
+final class AddTag implements ContainerInjectionInterface {
 
   protected $tagsHelper;
 
@@ -32,7 +32,7 @@ class AddTag implements ContainerInjectionInterface {
    *
    */
   public static function create(ContainerInterface $container) {
-    return new static(
+    return new self(
       $container->get('drupalorg_tags'),
       $container->get('plugin.manager.board_provider'),
       $container->get('entity_type.manager')

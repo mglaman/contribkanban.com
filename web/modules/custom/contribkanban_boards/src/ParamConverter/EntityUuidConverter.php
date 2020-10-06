@@ -23,7 +23,7 @@ class EntityUuidConverter extends EntityConverter {
    */
   public function convert($value, $definition, $name, array $defaults) {
     $entity_type_id = $this->getEntityTypeFromDefaults($definition, $name, $defaults);
-    if ($storage = $this->entityManager->getStorage($entity_type_id)) {
+    if ($storage = $this->entityTypeManager->getStorage($entity_type_id)) {
       if (!$entities = $storage->loadByProperties(['uuid' => $value])) {
         return NULL;
       }
@@ -31,7 +31,7 @@ class EntityUuidConverter extends EntityConverter {
       // If the entity type is translatable, ensure we return the proper
       // translation object for the current context.
       if ($entity instanceof EntityInterface && $entity instanceof TranslatableInterface) {
-        $entity = $this->entityManager->getTranslationFromContext($entity, NULL, ['operation' => 'entity_upcast']);
+        $entity = $this->entityRepository->getTranslationFromContext($entity, NULL, ['operation' => 'entity_upcast']);
       }
       return $entity;
     }
