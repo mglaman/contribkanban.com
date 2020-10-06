@@ -59,7 +59,7 @@ jobs:
     steps:
       - setup-build
       - install-composer
-      - run: echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
+      - run: echo 'memory_limit = -1' | sudo tee -a /usr/local/etc/php/conf.d/docker-php-memlimit.ini
       - run:
           name: phpstan
           command: ./bin/phpstan analyse web/modules/custom --debug
@@ -69,7 +69,7 @@ jobs:
     steps:
       - setup-build
       - install-composer
-      - run: echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini
+      - run: echo 'memory_limit = -1' | sudo tee -a /usr/local/etc/php/conf.d/docker-php-memlimit.ini
       - run:
           name: Install backend
           command: ./bin/drush -y site-install --account-pass=admin
