@@ -3,6 +3,7 @@ type: theme
 description: Theme for ContribKanban
 package: Other
 core: 8.x
+core_version_requirement: ^8 || ^9
 libraries:
   - contribkanban/global-styling
 

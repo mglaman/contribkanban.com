@@ -9,5 +9,3 @@ global-styling:
   js:
     js/sidebar.js: { }
     js/embed.js: { }
-  dependencies:
-    - core/domready

@@ -1,6 +1,7 @@
 name: contribkanban_projects
 description: Stores project information
 core: 8.x
+core_version_requirement: ^8 || ^9
 type: module
 dependencies:
   - contribkanban_api
