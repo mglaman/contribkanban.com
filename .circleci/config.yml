@@ -61,13 +61,16 @@ jobs:
       - install-composer
       - run:
           name: phpstan
-          command: ./bin/phpstan analyse web/modules/custom
+          command: ./bin/phpstan analyse web/modules/custom --debug
   upgrade_status:
     docker:
       - image: circleci/php:7.3-cli
     steps:
       - setup-build
       - install-composer
+      - run:
+          name: Install backend
+          command: ./bin/drush -y site-install --account-pass=admin
       - run:
           name: phpstan
           command: ./bin/drush upgrade_status:analyze
