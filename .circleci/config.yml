@@ -15,7 +15,6 @@ commands:
           - yarn-
   install-composer:
     steps:
-      - run: composer global require "hirak/prestissimo:^0.3"
       - run:  composer install -n --prefer-dist
       - save_cache:
           paths:
