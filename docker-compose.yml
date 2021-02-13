@@ -44,6 +44,7 @@ services:
       lagoon.type: cli-persistent
       lagoon.persistent.name: nginx # mount the persistent storage of nginx into this container
       lagoon.persistent: /app/web/sites/default/files/ # location where the persistent storage should be mounted
+      lando.type: php-cli-drupal
     <<: *default-volumes # loads the defined volumes from the top
     volumes_from: # mount the ssh-agent from the pygmy or cachalot ssh-agent
       - container:amazeeio-ssh-agent
@@ -59,6 +60,7 @@ services:
     labels:
       lagoon.type: nginx-php-persistent
       lagoon.persistent: /app/web/sites/default/files/ # define where the persistent storage should be mounted too
+      lando.type: nginx-drupal
     <<: *default-volumes # loads the defined volumes from the top
     depends_on:
       - cli # basically just tells docker-compose to build the cli first
@@ -79,6 +81,7 @@ services:
       lagoon.type: nginx-php-persistent
       lagoon.name: nginx # we want this service be part of the nginx pod in Lagoon
       lagoon.persistent: /app/web/sites/default/files/ # define where the persistent storage should be mounted too
+      lando.type: php-fpm
     <<: *default-volumes # loads the defined volumes from the top
     depends_on:
       - cli # basically just tells docker-compose to build the cli first
@@ -89,6 +92,7 @@ services:
     image: amazeeio/mariadb-drupal
     labels:
       lagoon.type: mariadb
+      lando.type: mariadb-drupal
     ports:
       - "3306" # exposes the port 3306 with a random local port, find it with `docker-compose port mariadb 3306`
     environment:
@@ -98,6 +102,7 @@ services:
     image: amazeeio/redis
     labels:
       lagoon.type: redis
+      lando.type: redis
     environment:
       <<: *default-environment
 
@@ -105,6 +110,7 @@ services:
     image: amazeeio/varnish-drupal
     labels:
       lagoon.type: varnish
+      lando.type: varnish
     links:
       - nginx # links varnish to the nginx in this docker-compose project, or it would try to connect to any nginx running in docker
     environment:

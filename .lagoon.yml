@@ -1,4 +1,5 @@
 docker-compose-yaml: docker-compose.yml
+project: contribkanban
 environment_variables:
   git_sha: "true"
 tasks:
