@@ -6,7 +6,7 @@ export function getApiBaseUrl() {
     !process.env.REACT_APP_LAGOON_BRANCH ||
     process.env.REACT_APP_LAGOON_BRANCH === ""
   ) {
-    return "http://nginx.contribkanban-app.docker.amazee.io";
+    return "https://contribkanban.lndo.site";
   }
   if (process.env.REACT_APP_LAGOON_BRANCH === "master") {
     return "https://api.contribkanban.com";

@@ -4,6 +4,14 @@ ContribKanban is an application which mirrors Drupal.org issues into kanban boar
 
 🚀 Hosting for ContribKanban.com provided by [Amazee.io](https://amazee.io)
 
+## Local development
+
+Want to contrib to ContribKanban? Local development is powered by [Lando](https://lando.dev/).
+
+```shell
+lando start
+```
+
 ## Browser extensions
 
 Browser extensions are available to integrate ContribKanban directly into Drupal.org.

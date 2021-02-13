@@ -1,0 +1,5 @@
+name: contribkanban
+recipe: lagoon
+config:
+  build:
+    - composer install
