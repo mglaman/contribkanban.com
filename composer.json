@@ -17,6 +17,7 @@
     ],
     "require": {
         "php": ">=7.3",
+        "amazeeio/drupal_integrations": "^0.3.4",
         "composer/installers": "^1.2",
         "consolidation/robo": "^1.1",
         "cweagans/composer-patches": "^1.6.5",
@@ -79,7 +80,10 @@
             ],
             "locations": {
                 "web-root": "web/"
-            }
+            },
+            "allowed-packages": [
+                "amazeeio/drupal_integrations"
+            ]
         },
         "installer-paths": {
             "web/core": ["type:drupal-core"],

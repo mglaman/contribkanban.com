@@ -4,8 +4,62 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1fe8c1a00edab4d39afdf9bf48af36db",
+    "content-hash": "54e8a7c0e6b697a8f11a00ca024965b3",
     "packages": [
+        {
+            "name": "amazeeio/drupal_integrations",
+            "version": "0.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/amazeeio/drupal-integrations.git",
+                "reference": "6291d5c61671f3629bbb3cc858e04565066e1ce4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/amazeeio/drupal-integrations/zipball/6291d5c61671f3629bbb3cc858e04565066e1ce4",
+                "reference": "6291d5c61671f3629bbb3cc858e04565066e1ce4",
+                "shasum": ""
+            },
+            "require": {
+                "drupal/core-composer-scaffold": "*"
+            },
+            "conflict": {
+                "drupal/core": "<8.5"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2",
+                "drupal/coder": "^8.3"
+            },
+            "suggest": {
+                "drupal/lagoon_logs": "Zero configuration logging system for Drupal 7 and 8 sites running on amazee.io Lagoon"
+            },
+            "type": "drupal-drush",
+            "extra": {
+                "drupal-scaffold": {
+                    "file-mapping": {
+                        "[project-root]/.drush-lock-update": "assets/drush-lock-update",
+                        "[project-root]/drush/sites/lagoon.site.yml": "assets/lagoon.site.yml",
+                        "[web-root]/sites/default/default.development.services.yml": "assets/default.development.services.yml",
+                        "[web-root]/sites/default/settings.lagoon.php": "assets/settings.lagoon.php",
+                        "[web-root]/sites/default/settings.php": {
+                            "mode": "replace",
+                            "path": "assets/initial.settings.php",
+                            "overwrite": false
+                        }
+                    }
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Add this project to any Drupal distribution based on drupal/core-composer-scaffold to enable it for use on Lagoon.",
+            "support": {
+                "issues": "https://github.com/amazeeio/drupal-integrations/issues",
+                "source": "https://github.com/amazeeio/drupal-integrations/tree/0.3.4"
+            },
+            "time": "2021-02-01T20:46:36+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "1.3.0",

@@ -1,0 +1,15 @@
+#
+# Rename this file to 'services.lagoon.development.yml' and
+# modify to suit.  It will then be loaded by settings.lagoon.php
+# on any non production environments.
+#
+# If you would like to define any services or service parameters
+# that apply only to production environments,
+# you may do so in a 'services.lagoon.production.yml' file.
+#
+# See 'default.services.yml' for information on useful settings to
+# put here.
+#
+parameters:
+  twig.config:
+    debug: true
