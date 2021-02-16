@@ -7,6 +7,9 @@ commands:
         name: Install PHP Extensions
         command: sudo docker-php-ext-install gd
     - checkout
+    - run:
+        name: Copy cettings file
+        command: cp .circleci/ci.settings.php web/sites/default/settings.local.php
     - restore_cache:
         keys:
           - composer-{{ checksum "composer.lock" }}
