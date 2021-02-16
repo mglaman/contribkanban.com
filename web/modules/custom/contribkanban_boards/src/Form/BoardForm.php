@@ -8,7 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 class BoardForm extends ContentEntityForm {
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
@@ -60,11 +60,12 @@ class BoardForm extends ContentEntityForm {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
-    $form_state->setRedirectUrl($this->entity->toUrl());
-    return parent::save($form, $form_state);
+    $result = parent::save($form, $form_state);
+    $form_state->setRedirectUrl($this->entity->toUrl('edit-form'));
+    return $result;
   }
 
 }
