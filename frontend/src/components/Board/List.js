@@ -36,7 +36,11 @@ function BoardList({ board, list, classes }) {
         parent_issue: board.attributes.parent_issue
           ? board.attributes.parent_issue
           : list.attributes.parent_issue,
-        version: list.attributes.version.concat(board.attributes.version),
+        version: list.attributes.version
+          .concat(board.attributes.version)
+          .map((version) =>
+            version.substr(-2) === ".x" ? `${version}-dev` : version
+          ),
       };
       const queryString = {
         limit: 100,
@@ -58,7 +62,7 @@ function BoardList({ board, list, classes }) {
       }
       if (filterData.version.length > 0) {
         queryString["field_issue_version"] = {
-          value: filterData.tag,
+          value: filterData.version,
         };
       }
       if (filterData.category !== null) {
