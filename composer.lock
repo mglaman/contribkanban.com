@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "amazeeio/drupal_integrations",
-            "version": "0.3.4",
+            "version": "0.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amazeeio/drupal-integrations.git",
-                "reference": "6291d5c61671f3629bbb3cc858e04565066e1ce4"
+                "reference": "5431be8592f670ad1026934743dcf2bba7d2ea8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amazeeio/drupal-integrations/zipball/6291d5c61671f3629bbb3cc858e04565066e1ce4",
-                "reference": "6291d5c61671f3629bbb3cc858e04565066e1ce4",
+                "url": "https://api.github.com/repos/amazeeio/drupal-integrations/zipball/5431be8592f670ad1026934743dcf2bba7d2ea8b",
+                "reference": "5431be8592f670ad1026934743dcf2bba7d2ea8b",
                 "shasum": ""
             },
             "require": {
@@ -27,7 +27,7 @@
                 "drupal/core": "<8.5"
             },
             "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.6.2",
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
                 "drupal/coder": "^8.3"
             },
             "suggest": {
@@ -56,9 +56,9 @@
             "description": "Add this project to any Drupal distribution based on drupal/core-composer-scaffold to enable it for use on Lagoon.",
             "support": {
                 "issues": "https://github.com/amazeeio/drupal-integrations/issues",
-                "source": "https://github.com/amazeeio/drupal-integrations/tree/0.3.4"
+                "source": "https://github.com/amazeeio/drupal-integrations/tree/0.3.5"
             },
-            "time": "2021-02-01T20:46:36+00:00"
+            "time": "2021-04-12T22:18:17+00:00"
         },
         {
             "name": "asm89/stack-cors",
