@@ -2201,7 +2201,7 @@
         },
         {
             "name": "drupal/core-composer-scaffold",
-            "version": "8.9.13",
+            "version": "8.9.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-composer-scaffold.git",
@@ -2245,7 +2245,7 @@
                 "drupal"
             ],
             "support": {
-                "source": "https://github.com/drupal/core-composer-scaffold/tree/8.9.4"
+                "source": "https://github.com/drupal/core-composer-scaffold/tree/8.9.5"
             },
             "time": "2020-08-07T22:30:30+00:00"
         },
