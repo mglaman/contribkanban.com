@@ -3160,17 +3160,17 @@
         },
         {
             "name": "drupal/upgrade_status",
-            "version": "3.6.0",
+            "version": "3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/upgrade_status.git",
-                "reference": "8.x-3.6"
+                "reference": "8.x-3.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/upgrade_status-8.x-3.6.zip",
-                "reference": "8.x-3.6",
-                "shasum": "269830c5095b7fd5dafad295c551cee4d6324b4b"
+                "url": "https://ftp.drupal.org/files/projects/upgrade_status-8.x-3.7.zip",
+                "reference": "8.x-3.7",
+                "shasum": "f060f72dcf539084c5beb997b2920f04c9a517fc"
             },
             "require": {
                 "drupal/core": "^8 || ^9",
@@ -3183,8 +3183,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-3.6",
-                    "datestamp": "1623856046",
+                    "version": "8.x-3.7",
+                    "datestamp": "1624540305",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
