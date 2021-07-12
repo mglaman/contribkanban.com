@@ -105,7 +105,8 @@ function BoardCard({ data, classes }) {
           size="small"
           className={classes.chip}
         /> */}
-        {/* <Chip label={data.field_project.id} size="small" /> */}
+        {/* performance problem until dupe requests can be queued. */}
+        {/* <ProjectChip id={data.field_project.id} /> */}
       </CardActions>
     </Card>
   );
