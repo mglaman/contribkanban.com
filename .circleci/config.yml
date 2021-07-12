@@ -86,8 +86,7 @@ jobs:
           command: ./bin/drush -y site-install --account-pass=admin
       - run:
           name: upgrade_status
-          # @todo when doing D9 compat, remove `--ignore-contrib`
-          command: ./bin/drush upgrade_status:analyze --all --ignore-contrib --ignore-uninstalled
+          command: ./bin/drush upgrade_status:analyze --all --ignore-uninstalled
   e2e_test:
     docker:
       - image: circleci/php:7.3-cli-node-browsers
