@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "amazeeio/drupal_integrations",
-            "version": "0.3.5",
+            "version": "0.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amazeeio/drupal-integrations.git",
-                "reference": "5431be8592f670ad1026934743dcf2bba7d2ea8b"
+                "reference": "4aa5ebc3f2706a6a1891b77a3e63719af7586e8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amazeeio/drupal-integrations/zipball/5431be8592f670ad1026934743dcf2bba7d2ea8b",
-                "reference": "5431be8592f670ad1026934743dcf2bba7d2ea8b",
+                "url": "https://api.github.com/repos/amazeeio/drupal-integrations/zipball/4aa5ebc3f2706a6a1891b77a3e63719af7586e8b",
+                "reference": "4aa5ebc3f2706a6a1891b77a3e63719af7586e8b",
                 "shasum": ""
             },
             "require": {
@@ -56,9 +56,9 @@
             "description": "Add this project to any Drupal distribution based on drupal/core-composer-scaffold to enable it for use on Lagoon.",
             "support": {
                 "issues": "https://github.com/amazeeio/drupal-integrations/issues",
-                "source": "https://github.com/amazeeio/drupal-integrations/tree/0.3.5"
+                "source": "https://github.com/amazeeio/drupal-integrations/tree/0.3.6"
             },
-            "time": "2021-04-12T22:18:17+00:00"
+            "time": "2021-05-11T01:09:22+00:00"
         },
         {
             "name": "asm89/stack-cors",
