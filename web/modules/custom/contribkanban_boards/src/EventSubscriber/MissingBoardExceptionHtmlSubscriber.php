@@ -2,20 +2,20 @@
 
 namespace Drupal\contribkanban_boards\EventSubscriber;
 
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Drupal\contribkanban_boards\Entity\Board;
 use Drupal\contribkanban_boards\Entity\BoardList;
 use Drupal\Core\EventSubscriber\CustomPageExceptionHtmlSubscriber;
 use Drupal\Core\ParamConverter\ParamNotConvertedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
 class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscriber {
 
   /**
-   * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
+   * @param \Symfony\Component\HttpKernel\Event\ExceptionEvent $event
    */
-  public function on404(GetResponseForExceptionEvent $event) {
-    $exception = $event->getException();
+  public function on404(ExceptionEvent $event) {
+    $exception = $event->getThrowable();
     $previous = $exception->getPrevious();
     if ($previous instanceof ParamNotConvertedException) {
       $route_name = $previous->getRouteName();
@@ -37,11 +37,11 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
   }
 
   /**
-   * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
+   * @param \Symfony\Component\HttpKernel\Event\ExceptionEvent $event
    * @param string $route_name
    * @param array $params
    */
-  protected function handleBoard(GetResponseForExceptionEvent $event, $route_name, array $params) {
+  protected function handleBoard(ExceptionEvent $event, $route_name, array $params) {
     if ($route_name !== 'entity.board.canonical' || !empty($params['board'])) {
       parent::on404($event);
     }
@@ -125,11 +125,11 @@ class MissingBoardExceptionHtmlSubscriber extends CustomPageExceptionHtmlSubscri
   }
 
   /**
-   * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
+   * @param \Symfony\Component\HttpKernel\Event\ExceptionEvent $event
    * @param string $route_name
    * @param array $params
    */
-  protected function handleSprint(GetResponseForExceptionEvent $event, $route_name, array $params) {
+  protected function handleSprint(ExceptionEvent $event, $route_name, array $params) {
     if ($route_name !== 'entity.board.canonical_alternative' || !empty($params['board'])) {
       parent::on404($event);
     }
