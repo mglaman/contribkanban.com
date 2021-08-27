@@ -9,7 +9,8 @@ ENV REACT_APP_LAGOON_BRANCH=$LAGOON_GIT_BRANCH
 
 WORKDIR /app
 COPY . ./
-COPY ../yarn.lock ./
+# @todo copy in .lock file
+# COPY ../yarn.lock ./
 RUN yarn
 RUN yarn build
 
