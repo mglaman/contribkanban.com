@@ -33,7 +33,7 @@
         "drupal/lagoon_logs": "^1.0",
         "drupal/redis": "^1.1",
         "drupal/search_api": "^1.15",
-        "drupal/simple_oauth": "^4.4",
+        "drupal/simple_oauth": "^5.0",
         "drupal/swiftmailer": "^2.0",
         "drupal/upgrade_status": "^3.0",
         "drush/drush": "^10.0",
