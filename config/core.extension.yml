@@ -47,8 +47,6 @@ module:
   views: 10
   contribkanban_installer: 1000
 theme:
-  stable: 0
-  classy: 0
   seven: 0
   contribkanban: 0
 profile: contribkanban_installer
