@@ -5,6 +5,8 @@ RUN /usr/local/bin/composer global remove drush/drush
 RUN curl -L -o /usr/local/bin/drush "https://github.com/drush-ops/drush-launcher/releases/latest/download/drush.phar" \
     && chmod +x /usr/local/bin/drush
 
+RUN composer self-update --2
+
 COPY composer.json composer.lock /app/
 COPY scripts /app/scripts
 # Uncomment if you have a patches directory in your Drupal Installation
