@@ -2,7 +2,7 @@ parameters:
 	level: 4
 	reportUnmatchedIgnoredErrors: false
 	tipsOfTheDay: false
-	excludes_analyse:
+	excludePaths:
 		- */tests/Drupal/Tests/Listeners/Legacy/*
 		- */tests/fixtures/*.php
 		- */settings*.php
