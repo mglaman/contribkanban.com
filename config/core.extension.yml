@@ -1,5 +1,6 @@
 module:
   admin_toolbar: 0
+  admin_toolbar_search: 0
   admin_toolbar_tools: 0
   automated_cron: 0
   block: 0
@@ -11,7 +12,6 @@ module:
   contribkanban_projects: 0
   contribkanban_users: 0
   dynamic_page_cache: 0
-  email_registration: 0
   entity: 0
   field: 0
   file: 0

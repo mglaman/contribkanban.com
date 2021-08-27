@@ -8,3 +8,4 @@ _core:
   default_config_hash: lhknqI_UWOrAbQH9SLBSF7MVG-hc49r4GShA8pFG4gY
 public_key: sites/default/files/private/keys/public.key
 private_key: sites/default/files/private/keys/private.key
+disable_openid_connect: false
