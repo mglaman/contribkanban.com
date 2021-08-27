@@ -65,16 +65,6 @@ class Board extends ContentEntityBase implements BoardInterface {
   }
 
   /**
-   * {@inheritdoc}
-   */
-  public function url($rel = 'canonical', $options = []) {
-    if ($rel == 'canonical' && $this->bundle() == 'drupalorg_sprint') {
-      $rel = 'canonical_alternative';
-    }
-    return parent::url($rel, $options);
-  }
-
-  /**
    *
    */
   public function toUrl($rel = 'canonical', array $options = []) {

@@ -22,8 +22,8 @@
         "consolidation/robo": "^1.1",
         "cweagans/composer-patches": "^1.6.5",
         "drupal/admin_toolbar": "^2.0",
-        "drupal/core-composer-scaffold": "^8.9",
-        "drupal/core-recommended": "^8.9",
+        "drupal/core-composer-scaffold": "^9.2.4",
+        "drupal/core-recommended": "^9.2.4",
         "drupal/email_registration": "^1.0@RC",
         "drupal/entity": "~1.0",
         "drupal/inline_entity_form": "^1.0@beta",
@@ -42,13 +42,15 @@
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
-        "drupal/core-dev-pinned": "^8.9",
-        "drupal/drupal-extension": "^3.4",
+        "drupal/core-dev": "^9.2.4",
+        "drupal/drupal-extension": "^4.1",
         "mglaman/phpstan-drupal": "^0.12.5",
+        "palantirnet/drupal-rector": "^0.11.2",
+        "phpspec/prophecy-phpunit": "^2",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^0.12.48",
         "phpstan/phpstan-deprecation-rules": "^0.12.5",
-        "zaporylie/composer-drupal-optimizations": "^1.1"
+        "rector/rector": "^0.11.52"
     },
     "conflict": {
         "drupal/drupal": "*"

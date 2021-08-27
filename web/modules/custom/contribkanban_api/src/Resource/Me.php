@@ -7,6 +7,7 @@ namespace Drupal\contribkanban_api\Resource;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\jsonapi\CacheableResourceResponse;
 use Drupal\jsonapi_resources\Resource\EntityResourceBase;
 use Drupal\user\UserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -55,7 +56,9 @@ class Me extends EntityResourceBase implements ContainerInjectionInterface {
     assert($current_user instanceof UserInterface);
     $top_level_data = $this->createIndividualDataFromEntity($current_user);
     $response = $this->createJsonapiResponse($top_level_data, $request);
-    $response->addCacheableDependency((new CacheableMetadata())->addCacheContexts(['user']));
+    if ($response instanceof CacheableResourceResponse) {
+      $response->addCacheableDependency((new CacheableMetadata())->addCacheContexts(['user']));
+    }
     return $response;
   }
 
