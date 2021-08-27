@@ -1,5 +1,8 @@
 <?php
 
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Render\Markup;
 /**
  * @file
  * Module file for contribkanban_boards.
@@ -36,7 +39,7 @@ function contribkanban_boards_theme($existing, $type, $theme, $path) {
 /**
  * Implements hook_ENTITY_TYPE_view().
  */
-function contribkanban_boards_node_board_view(array &$build, \Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display, $view_mode) {
+function contribkanban_boards_node_board_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
   /** @var \Drupal\contribkanban_boards\Entity\NodeBoard $board */
   $board = $entity;
   $build['#attached']['drupalSettings']['board'] = [
@@ -44,14 +47,14 @@ function contribkanban_boards_node_board_view(array &$build, \Drupal\Core\Entity
     'uuid' => $board->uuid(),
   ];
   $build['output'] = [
-    '#markup' => \Drupal\Core\Render\Markup::create('<div id="NodeBoard" style="position: relative;height: 100%;"></div>'),
+    '#markup' => Markup::create('<div id="NodeBoard" style="position: relative;height: 100%;"></div>'),
   ];
 }
 
 /**
  * Implements hook_ENTITY_TYPE_view().
  */
-function contribkanban_boards_board_view(array &$build, \Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display, $view_mode) {
+function contribkanban_boards_board_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
   $build['#attached']['drupalSettings']['board'] = [];
 
   /** @var \Drupal\contribkanban_boards\Entity\BoardInterface $board */

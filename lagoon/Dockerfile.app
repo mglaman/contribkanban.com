@@ -1,4 +1,4 @@
-FROM node:13 as builder
+FROM node:14 as builder
 
 ARG LAGOON_PROJECT
 ARG LAGOON_GIT_BRANCH
@@ -9,6 +9,8 @@ ENV REACT_APP_LAGOON_BRANCH=$LAGOON_GIT_BRANCH
 
 WORKDIR /app
 COPY . ./
+# @todo copy in .lock file
+# COPY ../yarn.lock ./
 RUN yarn
 RUN yarn build
 

@@ -3,7 +3,7 @@ docker-compose-yaml: docker-compose.yml
 environment_variables:
   git_sha: "true"
 environments:
-  master:
+  main:
     cronjobs:
     - command: drush cron
       name: drush cron

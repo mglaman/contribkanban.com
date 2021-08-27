@@ -29,7 +29,7 @@ services:
     environment:
       <<: *default-environment
       LAGOON_LOCALDEV_URL: contribkanban-app.docker.amazee.io
-      REACT_APP_API_HOSTNAME: http://drupal-varnish.contribkanban-app.docker.amazee.io/
+      REACT_APP_API_BASE_URL: http://drupal-varnish.contribkanban-app.docker.amazee.io/
     networks:
       - amazeeio-network
       - default

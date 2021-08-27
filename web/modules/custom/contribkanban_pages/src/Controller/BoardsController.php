@@ -75,7 +75,7 @@ final class BoardsController extends ControllerBase {
       'uuid' => '',
     ];
     $build['output'] = [
-      '#markup' => \Drupal\Core\Render\Markup::create('<div id="NodeBoard" style="position: relative;height: 100%;"></div>'),
+      '#markup' => Markup::create('<div id="NodeBoard" style="position: relative;height: 100%;"></div>'),
     ];
     return $build;
   }

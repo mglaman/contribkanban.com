@@ -10,8 +10,3 @@ parameters:
 	ignoreErrors:
 		# @todo remove and fix in a follow up, most of the errors are in dead code.
 		- '#\Drupal calls should be avoided in classes, use dependency injection instead#'
-# Using phpstan/extension-installer conflicts with upgrade_status
-# @see https://www.drupal.org/project/upgrade_status/issues/3175304
-includes:
-  - vendor/phpstan/phpstan-deprecation-rules/rules.neon
-  - vendor/mglaman/phpstan-drupal/extension.neon

@@ -201,7 +201,7 @@ class LagoonCommands extends DrushCommands implements SiteAliasManagerAwareInter
 
     list ($ssh_host, $ssh_port) = explode(":", $this->endpoint);
 
-    $args = "-o ConnectTimeout=5 -o LogLevel=ERROR -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no";
+    $args = "-o ConnectTimeout=5 -o LogLevel=FATAL -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no";
     if ($this->sshKey) {
       $args .= " -i $this->sshKey";
     }
