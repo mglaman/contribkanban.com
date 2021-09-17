@@ -10360,16 +10360,16 @@
         },
         {
             "name": "palantirnet/drupal-rector",
-            "version": "0.11.2",
+            "version": "0.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/palantirnet/drupal-rector.git",
-                "reference": "92d56b1a0edb40a063742c0331aaadd19b6b4cc8"
+                "reference": "e80f0834f725672693879fb56261cd0d3847cdc0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/palantirnet/drupal-rector/zipball/92d56b1a0edb40a063742c0331aaadd19b6b4cc8",
-                "reference": "92d56b1a0edb40a063742c0331aaadd19b6b4cc8",
+                "url": "https://api.github.com/repos/palantirnet/drupal-rector/zipball/e80f0834f725672693879fb56261cd0d3847cdc0",
+                "reference": "e80f0834f725672693879fb56261cd0d3847cdc0",
                 "shasum": ""
             },
             "require": {
@@ -10393,10 +10393,7 @@
             "autoload": {
                 "psr-4": {
                     "DrupalRector\\": "src"
-                },
-                "classmap": [
-                    "stubs"
-                ]
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -10429,9 +10426,9 @@
                 "rector"
             ],
             "support": {
-                "source": "https://github.com/palantirnet/drupal-rector/tree/0.11.2"
+                "source": "https://github.com/palantirnet/drupal-rector/tree/0.11.3"
             },
-            "time": "2021-07-29T14:03:25+00:00"
+            "time": "2021-09-03T18:46:07+00:00"
         },
         {
             "name": "phar-io/manifest",
