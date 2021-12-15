@@ -9254,16 +9254,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.1.12",
+            "version": "2.1.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "6e3c2b122e0ec41a7e885fcaf19fa15e2e0819a0"
+                "reference": "cd28fc05b0c9d3beaf58b57018725c4dc15a6446"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/6e3c2b122e0ec41a7e885fcaf19fa15e2e0819a0",
-                "reference": "6e3c2b122e0ec41a7e885fcaf19fa15e2e0819a0",
+                "url": "https://api.github.com/repos/composer/composer/zipball/cd28fc05b0c9d3beaf58b57018725c4dc15a6446",
+                "reference": "cd28fc05b0c9d3beaf58b57018725c4dc15a6446",
                 "shasum": ""
             },
             "require": {
@@ -9278,7 +9278,7 @@
                 "react/promise": "^1.2 || ^2.7",
                 "seld/jsonlint": "^1.4",
                 "seld/phar-utils": "^1.0",
-                "symfony/console": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0",
+                "symfony/console": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0",
                 "symfony/filesystem": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0",
                 "symfony/finder": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0",
                 "symfony/process": "^2.8.52 || ^3.4.35 || ^4.4 || ^5.0 || ^6.0"
@@ -9332,7 +9332,7 @@
             "support": {
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/composer/issues",
-                "source": "https://github.com/composer/composer/tree/2.1.12"
+                "source": "https://github.com/composer/composer/tree/2.1.14"
             },
             "funding": [
                 {
@@ -9348,7 +9348,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-09T15:02:04+00:00"
+            "time": "2021-11-30T09:51:43+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -9418,6 +9418,77 @@
                 }
             ],
             "time": "2021-04-07T13:37:33+00:00"
+        },
+        {
+            "name": "composer/pcre",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/composer/pcre.git",
+                "reference": "3d322d715c43a1ac36c7fe215fa59336265500f2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/composer/pcre/zipball/3d322d715c43a1ac36c7fe215fa59336265500f2",
+                "reference": "3d322d715c43a1ac36c7fe215fa59336265500f2",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.2 || ^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1",
+                "phpstan/phpstan-strict-rules": "^1.1",
+                "symfony/phpunit-bridge": "^4.2 || ^5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Composer\\Pcre\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
+                }
+            ],
+            "description": "PCRE wrapping library that offers type-safe preg_* replacements.",
+            "keywords": [
+                "PCRE",
+                "preg",
+                "regex",
+                "regular expression"
+            ],
+            "support": {
+                "issues": "https://github.com/composer/pcre/issues",
+                "source": "https://github.com/composer/pcre/tree/1.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/composer",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-12-06T15:17:27+00:00"
         },
         {
             "name": "composer/spdx-licenses",
@@ -9501,25 +9572,27 @@
         },
         {
             "name": "composer/xdebug-handler",
-            "version": "2.0.2",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/xdebug-handler.git",
-                "reference": "84674dd3a7575ba617f5a76d7e9e29a7d3891339"
+                "reference": "6555461e76962fd0379c444c46fd558a0fcfb65e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/84674dd3a7575ba617f5a76d7e9e29a7d3891339",
-                "reference": "84674dd3a7575ba617f5a76d7e9e29a7d3891339",
+                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/6555461e76962fd0379c444c46fd558a0fcfb65e",
+                "reference": "6555461e76962fd0379c444c46fd558a0fcfb65e",
                 "shasum": ""
             },
             "require": {
+                "composer/pcre": "^1",
                 "php": "^5.3.2 || ^7.0 || ^8.0",
                 "psr/log": "^1 || ^2 || ^3"
             },
             "require-dev": {
-                "phpstan/phpstan": "^0.12.55",
-                "symfony/phpunit-bridge": "^4.2 || ^5"
+                "phpstan/phpstan": "^1.0",
+                "phpstan/phpstan-strict-rules": "^1.1",
+                "symfony/phpunit-bridge": "^4.2 || ^5.0 || ^6.0"
             },
             "type": "library",
             "autoload": {
@@ -9545,7 +9618,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/xdebug-handler/issues",
-                "source": "https://github.com/composer/xdebug-handler/tree/2.0.2"
+                "source": "https://github.com/composer/xdebug-handler/tree/2.0.3"
             },
             "funding": [
                 {
@@ -9561,7 +9634,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-31T17:03:58+00:00"
+            "time": "2021-12-08T13:07:32+00:00"
         },
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
@@ -12888,27 +12961,27 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v5.3.11",
+            "version": "v5.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "7b3637f0ce55c510a0fbe6e4d49b223103b7bf7b"
+                "reference": "59bbd98ee7aa15b9f75c0fc088c7a5cbf7aa9b5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/7b3637f0ce55c510a0fbe6e4d49b223103b7bf7b",
-                "reference": "7b3637f0ce55c510a0fbe6e4d49b223103b7bf7b",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/59bbd98ee7aa15b9f75c0fc088c7a5cbf7aa9b5c",
+                "reference": "59bbd98ee7aa15b9f75c0fc088c7a5cbf7aa9b5c",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1.3",
-                "symfony/deprecation-contracts": "^2.1"
+                "symfony/deprecation-contracts": "^2.1|^3"
             },
             "conflict": {
                 "phpunit/phpunit": "<7.5|9.1.2"
             },
             "require-dev": {
-                "symfony/error-handler": "^4.4|^5.0"
+                "symfony/error-handler": "^4.4|^5.0|^6.0"
             },
             "suggest": {
                 "symfony/error-handler": "For tracking deprecated interfaces usages at runtime with DebugClassLoader"
@@ -12951,7 +13024,7 @@
             "description": "Provides utilities for PHPUnit, especially user deprecation notices management",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/phpunit-bridge/tree/v5.3.11"
+                "source": "https://github.com/symfony/phpunit-bridge/tree/v5.4.0"
             },
             "funding": [
                 {
@@ -12967,7 +13040,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-12T11:38:27+00:00"
+            "time": "2021-11-29T15:30:56+00:00"
         },
         {
             "name": "symfony/polyfill-php81",
