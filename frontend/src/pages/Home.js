@@ -43,7 +43,7 @@ function Home({ match, classes }) {
               </Typography>
               <Typography gutterBottom variant="body1">
                 This is a tool built by{" "}
-                <Link href="http://glamanate.com">Matt Glaman</Link>
+                <Link href="https://mglaman.dev">Matt Glaman</Link>
               </Typography>
               <Typography variant="body1">
                 The goal is to provide the{" "}
