@@ -105,7 +105,17 @@
             "web/themes/custom/{$name}": ["type:drupal-custom-theme"]
         },
         "violinist": {
-            "one_pull_request_per_package": 1
+            "one_pull_request_per_package": 1,
+            "bundled_packages": {
+                "drupal/core-recommended": [
+                    "drupal/core-composer-scaffold",
+                    "drupal/core-project-message"
+                ]
+            },
+            "blacklist": [
+                "drupal/core-composer-scaffold",
+                "drupal/core-project-message"
+            ]
         }
     }
 }
