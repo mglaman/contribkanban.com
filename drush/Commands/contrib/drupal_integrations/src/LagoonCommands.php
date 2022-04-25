@@ -25,13 +25,6 @@ class LagoonCommands extends DrushCommands implements SiteAliasManagerAwareInter
   private $api;
 
   /**
-   * Cache timeout for API requests.
-   *
-   * @var int
-   */
-  private $cacheTimeout;
-
-  /**
    * Lagoon SSH endpoint.
    *
    * @var string
@@ -72,12 +65,11 @@ class LagoonCommands extends DrushCommands implements SiteAliasManagerAwareInter
   public function __construct() {
     // Get default config.
     $lagoonyml = $this->getLagoonYml();
-    $this->api = isset($lagoonyml['api']) ? $lagoonyml['api'] : 'https://api.lagoon.amazeeio.cloud/graphql';
-    $this->cacheTimeout = 600;
-    $this->endpoint = isset($lagoonyml['ssh']) ? $lagoonyml['ssh'] : 'ssh.lagoon.amazeeio.cloud:32222';
+    $this->api = $lagoonyml['api'] ?? 'https://api.lagoon.amazeeio.cloud/graphql';
+    $this->endpoint = $lagoonyml['ssh'] ?? 'ssh.lagoon.amazeeio.cloud:32222';
     $this->jwt_token = getenv('LAGOON_OVERRIDE_JWT_TOKEN');
-    $this->projectName = isset($lagoonyml['project']) ? $lagoonyml['project'] : '';
-    $this->ssh_port_timeout = isset($lagoonyml['ssh_port_timeout']) ? $lagoonyml['ssh_port_timeout'] : 30;
+    $this->projectName = $lagoonyml['project'] ?? '';
+    $this->ssh_port_timeout = $lagoonyml['ssh_port_timeout'] ?? 30;
 
     // Allow environment variable overrides.
     $this->api = getenv('LAGOON_OVERRIDE_API') ?: $this->api;
@@ -190,16 +182,7 @@ class LagoonCommands extends DrushCommands implements SiteAliasManagerAwareInter
    * Retrives a JWT token from the Lagoon SSH endpoint.
    */
   public function getJwtToken() {
-    // Try to pull the token from the cache.
-    $cid = "lagoon_jwt_token";
-    $cache = drush_cache_get($cid);
-
-    if (isset($cache->data) && time() < $cache->expire && getenv('LAGOON_IGNORE_DRUSHCACHE') === FALSE) {
-      $this->logger()->debug("Found cached JWT token.");
-      return $cache->data;
-    }
-
-    list ($ssh_host, $ssh_port) = explode(":", $this->endpoint);
+    [$ssh_host, $ssh_port] = explode(":", $this->endpoint);
 
     $args = "-o ConnectTimeout=5 -o LogLevel=FATAL -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no";
     if ($this->sshKey) {
@@ -214,7 +197,6 @@ class LagoonCommands extends DrushCommands implements SiteAliasManagerAwareInter
 
     $token = trim($ssh->getOutput());
     $this->logger->debug("JWT Token loaded via ssh: " . $token);
-    drush_cache_set($cid, $token, 'default', $this->cacheTimeout);
     return $token;
   }
 
@@ -222,15 +204,6 @@ class LagoonCommands extends DrushCommands implements SiteAliasManagerAwareInter
    * Retrieves all information about environments from the Lagoon API.
    */
   public function getLagoonEnvs() {
-    // Try to pull the token from the cache.
-    $cid = "lagoon_envs_" . $this->projectName;
-    $cache = drush_cache_get($cid);
-
-    if (isset($cache->data) && time() < $cache->expire && getenv('LAGOON_IGNORE_DRUSHCACHE') === FALSE) {
-      $this->logger()->debug("Found cached environments.");
-      return json_decode($cache->data);
-    }
-
     $this->logger()->debug("Loading environments for '$this->projectName' from the API '$this->api'");
     $query = sprintf('{
                 project:projectByName(name: "%s") {
@@ -264,7 +237,6 @@ class LagoonCommands extends DrushCommands implements SiteAliasManagerAwareInter
     }
 
     $this->logger->debug("Response from api: " . var_export(json_decode($response), TRUE));
-    drush_cache_set($cid, $response, 'default', $this->cacheTimeout);
     return json_decode($response);
   }
 

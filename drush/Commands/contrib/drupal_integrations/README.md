@@ -56,6 +56,18 @@ composer install
 composer test
 ```
 
+## Site-Wide Drush Commands
+
+Installing this module requires that the installer-paths in the Drupal site's composer.json file contains "drush/Commands/contrib/{$name}": ["type:drupal-drush"].
+
+```
+    "extra": {
+        "installer-paths": {
+            "drush/Commands/contrib/{$name}": ["type:drupal-drush"]
+        }
+    }
+```
+
 ## Credits
 
 Big thanks goes out to [Greg Anderson](https://github.com/greg-1-anderson) from [Pantheon](https://pantheon.io/) all his hard work that went into improving drupal's composer integration allows us to manage platform settings via a composer project.
