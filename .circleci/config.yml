@@ -9,7 +9,7 @@ commands:
         command: sudo docker-php-ext-install gd
     - checkout
     - run:
-        name: Copy cettings file
+        name: Copy settings file
         command: cp .circleci/ci.settings.php web/sites/default/settings.local.php
     - restore_cache:
         keys:
@@ -119,6 +119,7 @@ jobs:
       - run:
           name: Switch back to branch
           command: git checkout $CIRCLE_BRANCH
+      - install-composer
       - run:
           name: Import config on new branch
           command: ./bin/drush cim -y
