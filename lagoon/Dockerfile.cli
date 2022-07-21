@@ -1,4 +1,4 @@
-FROM amazeeio/php:7.3-cli-drupal
+FROM amazeeio/php:7.4-cli-drupal
 
 # Fix for Drush 9.
 RUN /usr/local/bin/composer global remove drush/drush

@@ -2,16 +2,18 @@ export function getApiBaseUrl() {
   if (process.env.REACT_APP_API_BASE_URL) {
     return process.env.REACT_APP_API_BASE_URL;
   }
+  if (process.env.REACT_APP_LAGOON_BRANCH === "master") {
+    return "https://api.contribkanban.com";
+  }
+  if (process.env.REACT_APP_LAGOON_ENVIRONMENT) {
+    return `https://nginx.${process.env.REACT_APP_LAGOON_ENVIRONMENT}.${process.env.REACT_APP_LAGOON_PROJECT}.us2.amazee.io`;
+  }
   if (
     !process.env.REACT_APP_LAGOON_BRANCH ||
     process.env.REACT_APP_LAGOON_BRANCH === ""
   ) {
     return "https://contribkanban.lndo.site";
   }
-  if (process.env.REACT_APP_LAGOON_BRANCH === "master") {
-    return "https://api.contribkanban.com";
-  }
-  return `https://nginx-${process.env.REACT_APP_LAGOON_PROJECT}-${process.env.REACT_APP_LAGOON_BRANCH}.us.amazee.io`;
 }
 
 /**

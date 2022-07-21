@@ -2,7 +2,8 @@ version: 2.1
 commands:
   setup-build:
     steps:
-    - run: sudo apt-get update && sudo apt-get install -y libpng-dev libjpeg62-turbo-dev
+    - run: sudo apt-get update && sudo apt-get install -y libfreetype6-dev libpng-dev libjpeg-dev
+    - run: sudo docker-php-ext-configure gd --with-freetype --with-jpeg=/usr
     - run:
         name: Install PHP Extensions
         command: sudo docker-php-ext-install gd
@@ -34,14 +35,14 @@ commands:
 jobs:
   build_backend:
     docker:
-      - image: circleci/php:7.3-cli
+      - image: cimg/php:7.4
     working_directory: ~/repo
     steps:
       - setup-build
       - install-composer
   build_frontend:
     docker:
-      - image: circleci/node:13
+      - image: cimg/node:16.16
     working_directory: ~/repo
     steps:
       - checkout
@@ -49,7 +50,7 @@ jobs:
       - run: yarn run frontend-build
   build_extension:
     docker:
-      - image: circleci/node:13
+      - image: cimg/node:16.16
     working_directory: ~/repo
     steps:
       - checkout
@@ -57,7 +58,7 @@ jobs:
       - run: yarn run extension-build
   phpcs:
     docker:
-      - image: circleci/php:7.3-cli
+      - image: cimg/php:7.4
     steps:
       - setup-build
       - install-composer
@@ -66,7 +67,7 @@ jobs:
           command: ./bin/phpcs web/modules/custom
   phpstan:
     docker:
-      - image: circleci/php:7.3-cli
+      - image: cimg/php:7.4
     steps:
       - setup-build
       - install-composer
@@ -76,7 +77,7 @@ jobs:
           command: ./bin/phpstan analyse web/modules/custom --debug
   rector:
     docker:
-      - image: circleci/php:7.3-cli
+      - image: cimg/php:7.4
     steps:
       - setup-build
       - install-composer
@@ -86,7 +87,7 @@ jobs:
           command:  php bin/rector process web/modules/custom
   upgrade_status:
     docker:
-      - image: circleci/php:7.3-cli
+      - image: cimg/php:7.4
     steps:
       - setup-build
       - install-composer
@@ -99,7 +100,7 @@ jobs:
           command: ./bin/drush upgrade_status:analyze --all --ignore-uninstalled
   e2e_test:
     docker:
-      - image: circleci/php:7.3-cli-node-browsers
+      - image: cimg/php:7.4-browsers
         environment:
           REACT_APP_API_BASE_URL: 'http://127.0.0.1:8080'
     working_directory: ~/repo
