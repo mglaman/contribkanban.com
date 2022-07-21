@@ -42,7 +42,6 @@
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
         "drupal/core-dev": "^9.2.4",
-        "drupal/drupal-extension": "^4.1",
         "mglaman/phpstan-drupal": "^0.12.5",
         "palantirnet/drupal-rector": "^0.11.2",
         "phpspec/prophecy-phpunit": "^2",
