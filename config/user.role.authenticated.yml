@@ -1,7 +1,10 @@
 uuid: a9b7014a-1ada-4f93-a070-7758b2196dc3
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - contribkanban_boards
+    - system
 _core:
   default_config_hash: dJ0L2DNSj5q6XVZAGsuVDpJTh5UeYkIPwKrUOOpr8YI
 id: authenticated
@@ -18,6 +21,5 @@ permissions:
   - 'update own node_board'
   - 'view board'
   - 'view board_list'
-  - 'view node_board'
   - 'view own node_board'
   - 'view the administration theme'

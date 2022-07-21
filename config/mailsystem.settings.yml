@@ -1,11 +1,11 @@
+_core:
+  default_config_hash: IhwTepsVwtbtbcT5GzQKhCXDCRvbk3MNkWqPiuiZ10s
 theme: contribkanban
 defaults:
   sender: swiftmailer
   formatter: swiftmailer
-_core:
-  default_config_hash: IhwTepsVwtbtbcT5GzQKhCXDCRvbk3MNkWqPiuiZ10s
 modules:
   swiftmailer:
     none:
-      formatter: swiftmailer
       sender: swiftmailer
+      formatter: swiftmailer

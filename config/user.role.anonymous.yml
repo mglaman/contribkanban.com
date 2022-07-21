@@ -1,7 +1,10 @@
 uuid: a3157d21-3f73-4ad2-b7b4-6c28442b0f36
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - contribkanban_boards
+    - system
 _core:
   default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
 id: anonymous
@@ -12,4 +15,3 @@ permissions:
   - 'access content'
   - 'view board'
   - 'view board_list'
-  - 'view node_board'

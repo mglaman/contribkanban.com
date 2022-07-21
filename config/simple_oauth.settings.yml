@@ -1,11 +1,11 @@
+_core:
+  default_config_hash: lhknqI_UWOrAbQH9SLBSF7MVG-hc49r4GShA8pFG4gY
 access_token_expiration: 300
 authorization_code_expiration: 300
 refresh_token_expiration: 1209600
-remember_clients: true
 token_cron_batch_size: 0
-use_implicit: false
-_core:
-  default_config_hash: lhknqI_UWOrAbQH9SLBSF7MVG-hc49r4GShA8pFG4gY
 public_key: sites/default/files/private/keys/public.key
 private_key: sites/default/files/private/keys/private.key
+remember_clients: true
+use_implicit: false
 disable_openid_connect: false
