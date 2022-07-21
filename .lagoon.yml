@@ -57,7 +57,7 @@ tasks:
       command: env
       name: env variables
       service: cli
-  - run:
-      command: ./scripts/github-build-status.sh pending
-      name: Push a pending status
-      service: cli
+  # - run:
+  #     command: ./scripts/github-build-status.sh pending
+  #     name: Push a pending status
+  #     service: cli
