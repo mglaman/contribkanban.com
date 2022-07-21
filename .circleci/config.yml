@@ -2,7 +2,7 @@ version: 2.1
 commands:
   setup-build:
     steps:
-    - run: sudo apt-get update && sudo apt-get install -y libpng-dev libjpeg-dev
+    - run: sudo apt-get update && sudo apt-get install -y libfreetype6-dev libpng-dev libjpeg-dev
     - run:
         name: Install PHP Extensions
         command: sudo docker-php-ext-install gd
