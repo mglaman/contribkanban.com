@@ -121,11 +121,11 @@ jobs:
           command: git checkout $CIRCLE_BRANCH
       - install-composer
       - run:
-          name: Import config on new branch
-          command: ./bin/drush cim -y
-      - run:
           name: Run updates on new branch
           command: ./bin/drush updb -y
+      - run:
+          name: Import config on new branch
+          command: ./bin/drush cim -y
       - run:
           name: Check for config changes on new branch
           command: ./bin/drush config:status 2>&1 | grep "No differences"
