@@ -1,5 +1,4 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, createContext, useContext } from "react";
 import AppBar from "../components/AppBar";
 
 export const AppBarContext = createContext();
@@ -9,15 +8,8 @@ export function useAppBar() {
 }
 
 export const AppBarProvider = ({ children }) => {
-  const location = useLocation();
   const [actions, setActions] = useState([]);
 
-  useEffect(() => {
-    if (typeof window.fathom === "function") {
-      window.fathom("trackPageview");
-    }
-    setActions([]);
-  }, [location]);
   return (
     <AppBarContext.Provider
       value={{
