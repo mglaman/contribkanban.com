@@ -100,6 +100,9 @@ function BoardCard({ data, classes }) {
           size="small"
           className={classes.chip}
         />
+        {data.field_issue_assigned ? (
+          <Chip label="Assigned" size="small" className={classes.chip} />
+        ) : null}
         {/* <Chip
           label={data.field_issue_component}
           size="small"
