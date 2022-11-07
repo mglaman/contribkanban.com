@@ -3,10 +3,9 @@ parameters:
 	reportUnmatchedIgnoredErrors: false
 	tipsOfTheDay: false
 	excludePaths:
-		- */tests/Drupal/Tests/Listeners/Legacy/*
 		- */tests/fixtures/*.php
-		- */settings*.php
-		- */node_modules/*
+	paths:
+		- web/modules/custom
 	ignoreErrors:
 		# @todo remove and fix in a follow up, most of the errors are in dead code.
 		- '#\Drupal calls should be avoided in classes, use dependency injection instead#'

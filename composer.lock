@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "998f2154dc6c2b34a5391a86746a2583",
+    "content-hash": "9ed896cfcefecc78f5ec35988a20cefb",
     "packages": [
         {
             "name": "amazeeio/drupal_integrations",
@@ -2711,32 +2711,32 @@
         },
         {
             "name": "drupal/upgrade_status",
-            "version": "3.11.0",
+            "version": "3.17.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/upgrade_status.git",
-                "reference": "8.x-3.11"
+                "reference": "8.x-3.17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/upgrade_status-8.x-3.11.zip",
-                "reference": "8.x-3.11",
-                "shasum": "e3e9a22db979581246e34f9fafdaba75e4124962"
+                "url": "https://ftp.drupal.org/files/projects/upgrade_status-8.x-3.17.zip",
+                "reference": "8.x-3.17",
+                "shasum": "b7961c580b48f5ad4e6b711fdf4283cc0063a5b9"
             },
             "require": {
                 "drupal/core": "^8 || ^9",
                 "mathieuviossat/arraytotexttable": "~1.0.0",
-                "mglaman/phpstan-drupal": "^0.12.12",
+                "mglaman/phpstan-drupal": "^1.0.0",
                 "nikic/php-parser": "^4.0.0",
-                "phpstan/phpstan-deprecation-rules": "^0.12.0",
-                "symfony/process": "^3.4|^4.0|^5.0",
+                "phpstan/phpstan-deprecation-rules": "^1.0.0",
+                "symfony/process": "^3.4|^4.0|^5.0|^6.0",
                 "webflo/drupal-finder": "^1.2"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-3.11",
-                    "datestamp": "1632233579",
+                    "version": "8.x-3.17",
+                    "datestamp": "1662479791",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -3904,30 +3904,28 @@
         },
         {
             "name": "laminas/laminas-text",
-            "version": "2.8.1",
+            "version": "2.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-text.git",
-                "reference": "d696fa1fb3880b9b8f02c08be58685013b421608"
+                "reference": "8879e75d03e09b0d6787e6680cfa255afd4645a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-text/zipball/d696fa1fb3880b9b8f02c08be58685013b421608",
-                "reference": "d696fa1fb3880b9b8f02c08be58685013b421608",
+                "url": "https://api.github.com/repos/laminas/laminas-text/zipball/8879e75d03e09b0d6787e6680cfa255afd4645a7",
+                "reference": "8879e75d03e09b0d6787e6680cfa255afd4645a7",
                 "shasum": ""
             },
             "require": {
                 "laminas/laminas-servicemanager": "^3.4",
-                "laminas/laminas-stdlib": "^3.1",
-                "laminas/laminas-zendframework-bridge": "^1.0",
-                "php": "^7.3 || ~8.0.0"
+                "laminas/laminas-stdlib": "^3.6",
+                "php": "^7.3 || ~8.0.0 || ~8.1.0"
             },
-            "replace": {
-                "zendframework/zend-text": "^2.7.1"
+            "conflict": {
+                "zendframework/zend-text": "*"
             },
             "require-dev": {
                 "laminas/laminas-coding-standard": "~1.0.0",
-                "laminas/laminas-config": "^3.4",
                 "phpunit/phpunit": "^9.3"
             },
             "type": "library",
@@ -3960,7 +3958,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-02-17T21:24:58+00:00"
+            "time": "2021-09-02T16:50:53+00:00"
         },
         {
             "name": "laminas/laminas-zendframework-bridge",
@@ -4386,20 +4384,20 @@
         },
         {
             "name": "mathieuviossat/arraytotexttable",
-            "version": "v1.0.8",
+            "version": "v1.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/viossat/arraytotexttable.git",
-                "reference": "6b1af924478cb9c3a903269e304fff006fe0dbf4"
+                "reference": "518ec338fe62e92c064a9d3d3bc8c64fb6e77d1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/viossat/arraytotexttable/zipball/6b1af924478cb9c3a903269e304fff006fe0dbf4",
-                "reference": "6b1af924478cb9c3a903269e304fff006fe0dbf4",
+                "url": "https://api.github.com/repos/viossat/arraytotexttable/zipball/518ec338fe62e92c064a9d3d3bc8c64fb6e77d1c",
+                "reference": "518ec338fe62e92c064a9d3d3bc8c64fb6e77d1c",
                 "shasum": ""
             },
             "require": {
-                "laminas/laminas-text": "^2.7",
+                "laminas/laminas-text": "^2.9",
                 "php": ">=5.3.0"
             },
             "type": "library",
@@ -4431,28 +4429,28 @@
             ],
             "support": {
                 "issues": "https://github.com/viossat/arraytotexttable/issues",
-                "source": "https://github.com/viossat/arraytotexttable/tree/v1.0.8"
+                "source": "https://github.com/viossat/arraytotexttable/tree/v1.0.9"
             },
-            "time": "2020-06-23T17:14:22+00:00"
+            "time": "2022-08-30T15:33:10+00:00"
         },
         {
             "name": "mglaman/phpstan-drupal",
-            "version": "0.12.15",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mglaman/phpstan-drupal.git",
-                "reference": "1d65da838f3f5136e30e7a7023c235775f30c53e"
+                "reference": "f51ff1ad597480944a7d2f255484a4255daa6e13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mglaman/phpstan-drupal/zipball/1d65da838f3f5136e30e7a7023c235775f30c53e",
-                "reference": "1d65da838f3f5136e30e7a7023c235775f30c53e",
+                "url": "https://api.github.com/repos/mglaman/phpstan-drupal/zipball/f51ff1ad597480944a7d2f255484a4255daa6e13",
+                "reference": "f51ff1ad597480944a7d2f255484a4255daa6e13",
                 "shasum": ""
             },
             "require": {
                 "nette/finder": "^2.5",
                 "php": "^7.1 || ^8.0",
-                "phpstan/phpstan": "^0.12.65",
+                "phpstan/phpstan": "^1.0",
                 "symfony/yaml": "~3.4.5|^4.2",
                 "webflo/drupal-finder": "^1.2"
             },
@@ -4461,18 +4459,21 @@
                 "drupal/core-dev": "^8.8@alpha || ^9.0",
                 "drupal/core-recommended": "^8.8@alpha || ^9.0",
                 "drush/drush": "^9.6 | ^10.0",
-                "phpstan/phpstan-deprecation-rules": "~0.12.0",
-                "phpstan/phpstan-strict-rules": "^0.12.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-strict-rules": "^1.0",
                 "phpunit/phpunit": "^6.5 || ^7.5 || ^8.0 || ^9",
                 "squizlabs/php_codesniffer": "^3.3"
             },
             "suggest": {
-                "phpstan/phpstan-deprecation-rules": "For catching deprecations, especially in Drupal core."
+                "jangregor/phpstan-prophecy": "Provides a prophecy/prophecy extension for phpstan/phpstan.",
+                "phpstan/phpstan-deprecation-rules": "For catching deprecations, especially in Drupal core.",
+                "phpstan/phpstan-phpunit": "PHPUnit extensions and rules for PHPStan."
             },
             "type": "phpstan-extension",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.12-dev"
+                    "dev-main": "1.0-dev"
                 },
                 "installer-paths": {
                     "tests/fixtures/drupal/core": [
@@ -4502,7 +4503,7 @@
                     "drupal-phpunit-hack.php"
                 ],
                 "psr-4": {
-                    "PHPStan\\": "src/"
+                    "mglaman\\PHPStanDrupal\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -4518,7 +4519,7 @@
             "description": "Drupal extension and rules for PHPStan",
             "support": {
                 "issues": "https://github.com/mglaman/phpstan-drupal/issues",
-                "source": "https://github.com/mglaman/phpstan-drupal/tree/0.12.15"
+                "source": "https://github.com/mglaman/phpstan-drupal/tree/1.1.4"
             },
             "funding": [
                 {
@@ -4534,7 +4535,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-06T20:17:36+00:00"
+            "time": "2021-12-29T22:28:39+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -4637,16 +4638,16 @@
         },
         {
             "name": "nette/finder",
-            "version": "v2.5.2",
+            "version": "v2.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/finder.git",
-                "reference": "4ad2c298eb8c687dd0e74ae84206a4186eeaed50"
+                "reference": "4a1236db9067d86a75c3dcc0d9c2aced17f9bde8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/finder/zipball/4ad2c298eb8c687dd0e74ae84206a4186eeaed50",
-                "reference": "4ad2c298eb8c687dd0e74ae84206a4186eeaed50",
+                "url": "https://api.github.com/repos/nette/finder/zipball/4a1236db9067d86a75c3dcc0d9c2aced17f9bde8",
+                "reference": "4a1236db9067d86a75c3dcc0d9c2aced17f9bde8",
                 "shasum": ""
             },
             "require": {
@@ -4675,8 +4676,8 @@
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause",
-                "GPL-2.0",
-                "GPL-3.0"
+                "GPL-2.0-only",
+                "GPL-3.0-only"
             ],
             "authors": [
                 {
@@ -4698,33 +4699,33 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/finder/issues",
-                "source": "https://github.com/nette/finder/tree/v2.5.2"
+                "source": "https://github.com/nette/finder/tree/v2.5.4"
             },
-            "time": "2020-01-03T20:35:40+00:00"
+            "time": "2022-10-13T01:30:47+00:00"
         },
         {
             "name": "nette/utils",
-            "version": "v3.2.5",
+            "version": "v3.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "9cd80396ca58d7969ab44fc7afcf03624dfa526e"
+                "reference": "02a54c4c872b99e4ec05c4aec54b5a06eb0f6368"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/9cd80396ca58d7969ab44fc7afcf03624dfa526e",
-                "reference": "9cd80396ca58d7969ab44fc7afcf03624dfa526e",
+                "url": "https://api.github.com/repos/nette/utils/zipball/02a54c4c872b99e4ec05c4aec54b5a06eb0f6368",
+                "reference": "02a54c4c872b99e4ec05c4aec54b5a06eb0f6368",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.2 <8.2"
+                "php": ">=7.2 <8.3"
             },
             "conflict": {
                 "nette/di": "<3.0.6"
             },
             "require-dev": {
                 "nette/tester": "~2.0",
-                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan": "^1.0",
                 "tracy/tracy": "^2.3"
             },
             "suggest": {
@@ -4783,9 +4784,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/utils/issues",
-                "source": "https://github.com/nette/utils/tree/v3.2.5"
+                "source": "https://github.com/nette/utils/tree/v3.2.8"
             },
-            "time": "2021-09-20T10:50:11+00:00"
+            "time": "2022-09-12T23:36:20+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -5133,20 +5134,20 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.96",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "a98bdc51318f20fcae8c953d266f81a70254917f"
+                "reference": "a59c8b5bfd4a236f27efc8b5ce72c313c2b54b5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/a98bdc51318f20fcae8c953d266f81a70254917f",
-                "reference": "a98bdc51318f20fcae8c953d266f81a70254917f",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/a59c8b5bfd4a236f27efc8b5ce72c313c2b54b5f",
+                "reference": "a59c8b5bfd4a236f27efc8b5ce72c313c2b54b5f",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1|^8.0"
+                "php": "^7.2|^8.0"
             },
             "conflict": {
                 "phpstan/phpstan-shim": "*"
@@ -5156,11 +5157,6 @@
                 "phpstan.phar"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.12-dev"
-                }
-            },
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -5171,9 +5167,13 @@
                 "MIT"
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
+            "keywords": [
+                "dev",
+                "static analysis"
+            ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.96"
+                "source": "https://github.com/phpstan/phpstan/tree/1.9.1"
             },
             "funding": [
                 {
@@ -5185,44 +5185,39 @@
                     "type": "github"
                 },
                 {
-                    "url": "https://www.patreon.com/phpstan",
-                    "type": "patreon"
-                },
-                {
                     "url": "https://tidelift.com/funding/github/packagist/phpstan/phpstan",
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-21T11:55:13+00:00"
+            "time": "2022-11-04T13:35:59+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
-            "version": "0.12.6",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-deprecation-rules.git",
-                "reference": "46dbd43c2db973d2876d6653e53f5c2cc3a01fbb"
+                "reference": "e5ccafb0dd8d835dd65d8d7a1a0d2b1b75414682"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-deprecation-rules/zipball/46dbd43c2db973d2876d6653e53f5c2cc3a01fbb",
-                "reference": "46dbd43c2db973d2876d6653e53f5c2cc3a01fbb",
+                "url": "https://api.github.com/repos/phpstan/phpstan-deprecation-rules/zipball/e5ccafb0dd8d835dd65d8d7a1a0d2b1b75414682",
+                "reference": "e5ccafb0dd8d835dd65d8d7a1a0d2b1b75414682",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1 || ^8.0",
-                "phpstan/phpstan": "^0.12.60"
+                "phpstan/phpstan": "^1.0"
             },
             "require-dev": {
-                "phing/phing": "^2.16.3",
                 "php-parallel-lint/php-parallel-lint": "^1.2",
-                "phpstan/phpstan-phpunit": "^0.12",
-                "phpunit/phpunit": "^7.5.20"
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^9.5"
             },
             "type": "phpstan-extension",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.12-dev"
+                    "dev-master": "1.0-dev"
                 },
                 "phpstan": {
                     "includes": [
@@ -5242,9 +5237,9 @@
             "description": "PHPStan rules for detecting usage of deprecated classes, methods, properties, constants and traits.",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-deprecation-rules/issues",
-                "source": "https://github.com/phpstan/phpstan-deprecation-rules/tree/0.12.6"
+                "source": "https://github.com/phpstan/phpstan-deprecation-rules/tree/1.0.0"
             },
-            "time": "2020-12-13T10:20:54+00:00"
+            "time": "2021-09-23T11:02:21+00:00"
         },
         {
             "name": "psr/cache",
@@ -9944,20 +9939,20 @@
         },
         {
             "name": "palantirnet/drupal-rector",
-            "version": "0.11.3",
+            "version": "0.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/palantirnet/drupal-rector.git",
-                "reference": "e80f0834f725672693879fb56261cd0d3847cdc0"
+                "reference": "4814ad9fa7d19be068f75558220383967c258d10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/palantirnet/drupal-rector/zipball/e80f0834f725672693879fb56261cd0d3847cdc0",
-                "reference": "e80f0834f725672693879fb56261cd0d3847cdc0",
+                "url": "https://api.github.com/repos/palantirnet/drupal-rector/zipball/4814ad9fa7d19be068f75558220383967c258d10",
+                "reference": "4814ad9fa7d19be068f75558220383967c258d10",
                 "shasum": ""
             },
             "require": {
-                "rector/rector": "~0.11.39",
+                "rector/rector": "~0.13.8",
                 "webflo/drupal-finder": "^1.2"
             },
             "replace": {
@@ -9965,15 +9960,20 @@
                 "palantirnet/drupal8-rector": "*"
             },
             "require-dev": {
+                "cweagans/composer-patches": "^1.7.2",
                 "php": "^8.0",
                 "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^0.12.82",
-                "phpstan/phpstan-deprecation-rules": "^0.12.6",
+                "phpstan/phpstan": "^1.0",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
                 "phpunit/phpunit": "^9.5",
-                "rector/rector-src": "~0.11.39",
-                "symfony/yaml": "^5"
+                "rector/rector-src": "dev-main",
+                "symfony/yaml": "^5 || ^6",
+                "symplify/vendor-patches": "^11.0"
             },
             "type": "library",
+            "extra": {
+                "enable-patching": true
+            },
             "autoload": {
                 "psr-4": {
                     "DrupalRector\\": "src"
@@ -10010,9 +10010,9 @@
                 "rector"
             ],
             "support": {
-                "source": "https://github.com/palantirnet/drupal-rector/tree/0.11.3"
+                "source": "https://github.com/palantirnet/drupal-rector/tree/0.13.1"
             },
-            "time": "2021-09-03T18:46:07+00:00"
+            "time": "2022-08-05T19:55:37+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -10992,28 +10992,29 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.11.52",
+            "version": "0.13.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "0a4e8e9f91100c55ae01a6ef706cd8a8f67f17ae"
+                "reference": "d1e069db8ad3b4aea2b968248370c21415e4c180"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/0a4e8e9f91100c55ae01a6ef706cd8a8f67f17ae",
-                "reference": "0a4e8e9f91100c55ae01a6ef706cd8a8f67f17ae",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/d1e069db8ad3b4aea2b968248370c21415e4c180",
+                "reference": "d1e069db8ad3b4aea2b968248370c21415e4c180",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1|^8.0",
-                "phpstan/phpstan": "0.12.96"
+                "php": "^7.2|^8.0",
+                "phpstan/phpstan": "^1.8.2"
             },
             "conflict": {
-                "phpstan/phpdoc-parser": "<=0.5.3",
-                "phpstan/phpstan": "<=0.12.82",
+                "phpstan/phpdoc-parser": "<1.6.2",
                 "rector/rector-cakephp": "*",
                 "rector/rector-doctrine": "*",
+                "rector/rector-laravel": "*",
                 "rector/rector-nette": "*",
+                "rector/rector-phpoffice": "*",
                 "rector/rector-phpunit": "*",
                 "rector/rector-prefixed": "*",
                 "rector/rector-symfony": "*"
@@ -11024,7 +11025,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "0.11-dev"
+                    "dev-main": "0.13-dev"
                 }
             },
             "autoload": {
@@ -11036,10 +11037,10 @@
             "license": [
                 "MIT"
             ],
-            "description": "Prefixed and PHP 7.1 downgraded version of rector/rector",
+            "description": "Instant Upgrade and Automated Refactoring of any PHP code",
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.11.52"
+                "source": "https://github.com/rectorphp/rector/tree/0.13.10"
             },
             "funding": [
                 {
@@ -11047,7 +11048,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-27T13:02:41+00:00"
+            "time": "2022-08-03T12:48:10+00:00"
         },
         {
             "name": "sebastian/cli-parser",
