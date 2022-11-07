@@ -121,6 +121,10 @@ jobs:
           command: git checkout $CIRCLE_BRANCH
       - install-composer
       - run:
+          # micks change in `deployment_identifier`.
+          name: clear container cache
+          command: ./bin/drush sql:query "TRUNCATE cache_container;"
+      - run:
           name: Run updates on new branch
           command: ./bin/drush updb -y
       - run:
