@@ -9,7 +9,7 @@ commands:
         command: sudo docker-php-ext-install gd
     - checkout
     - run:
-        name: Copy cettings file
+        name: Copy settings file
         command: cp .circleci/ci.settings.php web/sites/default/settings.local.php
     - restore_cache:
         keys:
@@ -106,6 +106,9 @@ jobs:
     working_directory: ~/repo
     steps:
       - setup-build
+      - run:
+          name: Switch to `master` for original install
+          command: git checkout master
       - install-composer
       - run:
           name: Install backend
@@ -113,6 +116,19 @@ jobs:
       - run:
           name: Create test login user
           command: ./bin/drush user:create logintest@example.com --mail="logintest@example.com" --password="letmein"
+      - run:
+          name: Switch back to branch
+          command: git checkout $CIRCLE_BRANCH
+      - install-composer
+      - run:
+          name: Import config on new branch
+          command: ./bin/drush cim -y
+      - run:
+          name: Run updates on new branch
+          command: ./bin/drush updb -y
+      - run:
+          name: Check for config changes on new branch
+          command: ./bin/drush config:status 2>&1 | grep "No differences"
       - run:
           name: Start builtin
           command: php -S 127.0.0.1:8080 -t web
