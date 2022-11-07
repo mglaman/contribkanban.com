@@ -2,11 +2,11 @@
     "name": "mglaman/contribkanban.com",
     "description": "Contribkanban.com",
     "type": "project",
-    "license": "GPL-2.0+",
+    "license": "GPL-2.0-or-later",
     "authors": [
         {
-            "name": "",
-            "role": ""
+            "name": "Matt Glaman <nmd.matt@gmail.com>",
+            "role": "Author"
         }
     ],
     "repositories": [
