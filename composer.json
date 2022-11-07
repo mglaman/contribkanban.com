@@ -108,12 +108,14 @@
             "bundled_packages": {
                 "drupal/core-recommended": [
                     "drupal/core-composer-scaffold",
-                    "drupal/core-project-message"
+                    "drupal/core-project-message",
+                    "drupal/core-dev"
                 ]
             },
             "blacklist": [
                 "drupal/core-composer-scaffold",
-                "drupal/core-project-message"
+                "drupal/core-project-message",
+                "drupal/core-dev"
             ]
         }
     }
