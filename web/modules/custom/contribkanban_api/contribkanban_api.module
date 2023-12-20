@@ -27,7 +27,7 @@ function contribkanban_api_ensure_default_consumer()
             'owner_id' => '',
             'label' => 'Frontend',
             'is_default' => TRUE,
-            'secret' => \Drupal::getContainer()->get('password_generator')->generate(),
+            'secret' => NULL,
             'confidential' => FALSE,
             'third_party' => FALSE,
             'roles' => [['target_id' => 'frontend_user']],
