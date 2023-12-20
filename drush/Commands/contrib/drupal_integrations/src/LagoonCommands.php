@@ -7,6 +7,7 @@ use Drush\Commands\DrushCommands;
 use Drush\Drush;
 use Drush\SiteAlias\SiteAliasManagerAwareInterface;
 use GuzzleHttp\Client;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Yaml\Yaml;
 
@@ -63,20 +64,22 @@ class LagoonCommands extends DrushCommands implements SiteAliasManagerAwareInter
    * {@inheritdoc}
    */
   public function __construct() {
-    // Get default config.
-    $lagoonyml = $this->getLagoonYml();
-    $this->api = $lagoonyml['api'] ?? 'https://api.lagoon.amazeeio.cloud/graphql';
-    $this->endpoint = $lagoonyml['ssh'] ?? 'ssh.lagoon.amazeeio.cloud:32222';
-    $this->jwt_token = getenv('LAGOON_OVERRIDE_JWT_TOKEN');
-    $this->projectName = $lagoonyml['project'] ?? '';
-    $this->ssh_port_timeout = $lagoonyml['ssh_port_timeout'] ?? 30;
+    if (getenv('LAGOON')) {
+      // Get default config.
+      $lagoonyml = $this->getLagoonYml();
+      $this->api = $lagoonyml['api'] ?? 'https://api.lagoon.amazeeio.cloud/graphql';
+      $this->endpoint = $lagoonyml['ssh'] ?? 'ssh.lagoon.amazeeio.cloud:32222';
+      $this->jwt_token = getenv('LAGOON_OVERRIDE_JWT_TOKEN');
+      $this->projectName = $lagoonyml['project'] ?? '';
+      $this->ssh_port_timeout = $lagoonyml['ssh_port_timeout'] ?? 30;
 
-    // Allow environment variable overrides.
-    $this->api = getenv('LAGOON_OVERRIDE_API') ?: $this->api;
-    $this->endpoint = getenv('LAGOON_OVERRIDE_SSH') ?: $this->endpoint;
-    $this->projectName = getenv('LAGOON_PROJECT') ?: $this->projectName;
-    $this->sshTimeout = getenv('LAGOON_OVERRIDE_SSH_TIMEOUT') ?: $this->sshTimeout;
-    $this->sshKey = getenv('LAGOON_SSH_KEY');
+      // Allow environment variable overrides.
+      $this->api = getenv('LAGOON_OVERRIDE_API') ?: $this->api;
+      $this->endpoint = getenv('LAGOON_OVERRIDE_SSH') ?: $this->endpoint;
+      $this->projectName = getenv('LAGOON_PROJECT') ?: $this->projectName;
+      $this->sshTimeout = getenv('LAGOON_OVERRIDE_SSH_TIMEOUT') ?: $this->sshTimeout;
+      $this->sshKey = getenv('LAGOON_SSH_KEY');
+    }
   }
 
   /**
@@ -184,16 +187,37 @@ class LagoonCommands extends DrushCommands implements SiteAliasManagerAwareInter
   public function getJwtToken() {
     [$ssh_host, $ssh_port] = explode(":", $this->endpoint);
 
-    $args = "-o ConnectTimeout=5 -o LogLevel=FATAL -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no";
-    if ($this->sshKey) {
-      $args .= " -i $this->sshKey";
-    }
-    $cmd = "ssh -p $ssh_port $args lagoon@$ssh_host token 2>&1";
-    $this->logger()->debug("Retrieving token via SSH - $cmd");
+    $args = [
+      "-p", $ssh_port,
+      "-o", "ConnectTimeout=5",
+      "-o", "LogLevel=FATAL",
+      "-o", "UserKnownHostsFile=/dev/null",
+      "-o", "StrictHostKeyChecking=no",
+    ];
 
-    $ssh = new Process($cmd);
+    if ($this->sshKey) {
+      $args += ["-i", $this->sshKey];
+    }
+
+    $cmd = ["ssh", ...$args, "lagoon@$ssh_host", "token"];
+
+    $this->logger()->debug("Retrieving token via SSH -" . implode(" ", $cmd));
+    if (version_compare(Kernel::VERSION, "4.2", "<")) {
+      // Symfony >= 4.2 only allows the array form of the command parameter.
+      $ssh = new Process(implode(" ", $cmd));
+    }
+    else {
+      $ssh = new Process($cmd);
+    }
+
     $ssh->setTimeout($this->sshTimeout);
-    $ssh->mustRun();
+
+    try {
+      $ssh->mustRun();
+    }
+    catch (ProcessFailedException $exception) {
+      $this->logger->debug($ssh->getMessage());
+    }
 
     $token = trim($ssh->getOutput());
     $this->logger->debug("JWT Token loaded via ssh: " . $token);
