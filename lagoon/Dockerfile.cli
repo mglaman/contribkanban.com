@@ -1,9 +1,4 @@
-FROM amazeeio/php:7.4-cli-drupal
-
-# Fix for Drush 9.
-RUN /usr/local/bin/composer global remove drush/drush
-RUN curl -L -o /usr/local/bin/drush "https://github.com/drush-ops/drush-launcher/releases/latest/download/drush.phar" \
-    && chmod +x /usr/local/bin/drush
+FROM amazeeio/php:8.1-cli-drupal
 
 RUN composer self-update --2
 
