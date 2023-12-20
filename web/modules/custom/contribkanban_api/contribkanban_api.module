@@ -17,7 +17,7 @@ function contribkanban_api_ensure_default_consumer()
         if (!$consumer_role) {
             Role::create([
                 'id' => 'frontend_user',
-                'name' => 'Frontend user'
+                'label' => 'Frontend user'
             ])->save();
         }
 
