@@ -145,6 +145,9 @@ jobs:
           command: curl http://127.0.0.1:8080/jsonapi
       - install-yarn
       - run: yarn run frontend-test
+      - run:
+          command: ./bin/drush wd-show
+          when: always
 workflows:
   version: 2
   build:
