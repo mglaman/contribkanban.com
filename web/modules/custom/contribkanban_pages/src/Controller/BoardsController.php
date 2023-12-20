@@ -4,9 +4,7 @@ namespace Drupal\contribkanban_pages\Controller;
 
 use Drupal\Component\Serialization\Json;
 use Drupal\contribkanban_boards\Entity\NodeBoard;
-use Drupal\contribkanban_pages\Form\AddSprintForm;
 use Drupal\contribkanban_pages\Form\SearchBoardsForm;
-use Drupal\Core\Access\CsrfRequestHeaderAccessCheck;
 use Drupal\Core\Access\CsrfTokenGenerator;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Form\FormBuilderInterface;
@@ -130,7 +128,7 @@ final class BoardsController extends ControllerBase {
     if ($type !== '') {
       $query->condition('type', 'drupalorg_' . $type);
     }
-    $entity_ids = $query->execute();
+    $entity_ids = $query->accessCheck()->execute();
     $boards = $storage->loadMultiple($entity_ids);
 
     $build = [
