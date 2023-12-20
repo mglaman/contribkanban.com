@@ -144,6 +144,7 @@ jobs:
           name: Fetch entrypoint
           command: curl http://127.0.0.1:8080/jsonapi
       - install-yarn
+      - run: ./bin/drush en dblog
       - run: yarn run frontend-test
       - run:
           command: ./bin/drush wd-show
