@@ -11,11 +11,11 @@ additional_fqdns: []
 database:
   type: mariadb
   version: "10.4"
-nfs_mount_enabled: false
-mutagen_enabled: false
 use_dns_when_possible: true
 composer_version: "2"
-web_environment: []
+web_environment:
+  - LAGOON_PROJECT=contribkanban
+  - LAGOON_ENVIRONMENT=master
 nodejs_version: "16"
 
 # Key features of ddev's config.yaml:
