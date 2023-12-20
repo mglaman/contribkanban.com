@@ -23,6 +23,7 @@ function contribkanban_api_ensure_default_consumer()
 
         $consumer = Consumer::create([
             'uuid' => 'd4f7c501-cff9-4a3f-bae7-aec1db19456c',
+            'client_id' => 'd4f7c501-cff9-4a3f-bae7-aec1db19456c',
             'owner_id' => '',
             'label' => 'Frontend',
             'is_default' => TRUE,
