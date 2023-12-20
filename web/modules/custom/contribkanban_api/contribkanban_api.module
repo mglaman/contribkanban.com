@@ -6,7 +6,7 @@ use Drupal\consumers\Entity\Consumer;
 use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\user\Entity\Role;
 
-function contribkanban_api_ensure_default_consumer()
+function contribkanban_api_ensure_default_consumer(bool $is_syncing)
 {
     $entity_repository = \Drupal::service('entity.repository');
     assert($entity_repository instanceof EntityRepositoryInterface);
@@ -14,7 +14,7 @@ function contribkanban_api_ensure_default_consumer()
     $exists = $entity_repository->loadEntityByUuid('consumer', 'd4f7c501-cff9-4a3f-bae7-aec1db19456c');
     if ($exists === null) {
         $consumer_role = Role::load('frontend_user');
-        if (!$consumer_role) {
+        if (!$consumer_role && !$is_syncing) {
             Role::create([
                 'id' => 'frontend_user',
                 'label' => 'Frontend user'
@@ -38,10 +38,10 @@ function contribkanban_api_ensure_default_consumer()
 /**
  * Implements hook_install().
  */
-function contribkanban_api_install() {
+function contribkanban_api_install(bool $is_syncing) {
   $initial_consumer = Consumer::load(1);
   if ($initial_consumer) {
       $initial_consumer->delete();
   }
-  contribkanban_api_ensure_default_consumer();
+  contribkanban_api_ensure_default_consumer($is_syncing);
 }
