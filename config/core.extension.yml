@@ -51,6 +51,6 @@ module:
   views: 10
   contribkanban_installer: 1000
 theme:
-  seven: 0
   contribkanban: 0
+  claro: 0
 profile: contribkanban_installer
