@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": ">=7.3",
+        "php": "^8.1",
         "amazeeio/drupal_integrations": "^0.4",
         "composer/installers": "^1.2 | ^2.0",
         "cweagans/composer-patches": "^1.6.5",
@@ -35,9 +35,7 @@
         "drupal/simple_oauth": "^5.2.0",
         "drupal/swiftmailer": "^2.0",
         "drupal/upgrade_status": "^3.0",
-        "drush/drush": "^10.0",
-        "webflo/drupal-finder": "^1.0.0",
-        "webmozart/path-util": "^2.3"
+        "drush/drush": "^10.0"
     },
     "require-dev": {
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
@@ -60,9 +58,6 @@
         "optimize-autoloader": true,
         "apcu-autoloader": true,
         "sort-packages": true,
-        "platform": {
-            "php": "8.1"
-        },
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "composer/installers": true,
@@ -70,9 +65,6 @@
             "drupal/core-composer-scaffold": true,
             "phpstan/extension-installer": true
         }
-    },
-    "scripts": {
-        "setup": "composer install && ./bin/robo setup"
     },
     "extra": {
         "enable-patching": true,
@@ -105,21 +97,6 @@
             "drush/Commands/contrib/{$name}": ["type:drupal-drush"],
             "web/modules/custom/{$name}": ["type:drupal-custom-module"],
             "web/themes/custom/{$name}": ["type:drupal-custom-theme"]
-        },
-        "violinist": {
-            "one_pull_request_per_package": 1,
-            "bundled_packages": {
-                "drupal/core-recommended": [
-                    "drupal/core-composer-scaffold",
-                    "drupal/core-project-message",
-                    "drupal/core-dev"
-                ]
-            },
-            "blacklist": [
-                "drupal/core-composer-scaffold",
-                "drupal/core-project-message",
-                "drupal/core-dev"
-            ]
         }
     }
 }
