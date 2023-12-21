@@ -21,8 +21,8 @@
         "composer/installers": "^1.2 | ^2.0",
         "cweagans/composer-patches": "^1.6.5",
         "drupal/admin_toolbar": "^3.0",
-        "drupal/core-composer-scaffold": "^9.5",
-        "drupal/core-recommended": "^9.5",
+        "drupal/core-composer-scaffold": "^10.1",
+        "drupal/core-recommended": "^10.1",
         "drupal/email_registration": "^1.0@RC",
         "drupal/entity": "~1.0",
         "drupal/inline_entity_form": "^1.0@beta",
@@ -34,18 +34,12 @@
         "drupal/search_api": "^1.15",
         "drupal/simple_oauth": "^5.2.0",
         "drupal/swiftmailer": "^2.0",
-        "drupal/upgrade_status": "^3.0",
-        "drush/drush": "^10.0"
+        "drupal/upgrade_status": "^4.0",
+        "drush/drush": "^12.0"
     },
     "require-dev": {
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
-        "drupal/core-dev": "^9.5",
-        "mglaman/phpstan-drupal": "^1.0",
-        "palantirnet/drupal-rector": "^0.13.0",
-        "phpspec/prophecy-phpunit": "^2",
-        "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan": "^1.9",
-        "phpstan/phpstan-deprecation-rules": "^1.0"
+        "drupal/core-dev": "^10.1",
+        "palantirnet/drupal-rector": "^0.13.0"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -59,10 +53,10 @@
         "apcu-autoloader": true,
         "sort-packages": true,
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true,
             "composer/installers": true,
             "cweagans/composer-patches": true,
             "drupal/core-composer-scaffold": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
             "phpstan/extension-installer": true
         }
     },
