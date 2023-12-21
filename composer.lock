@@ -4,34 +4,34 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "974e4ff6350eab17381b58cfce05137b",
+    "content-hash": "43ef73ca0589ce7cd7bb9a4fe7ee51e2",
     "packages": [
         {
             "name": "amazeeio/drupal_integrations",
-            "version": "0.3.7",
+            "version": "0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amazeeio/drupal-integrations.git",
-                "reference": "f5d4ddd9fbdb0e1ec4b7ab4c110189b6ddd6538d"
+                "reference": "4166cbcce9429e7e1cfaa9ffba4d44c1c267f083"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amazeeio/drupal-integrations/zipball/f5d4ddd9fbdb0e1ec4b7ab4c110189b6ddd6538d",
-                "reference": "f5d4ddd9fbdb0e1ec4b7ab4c110189b6ddd6538d",
+                "url": "https://api.github.com/repos/amazeeio/drupal-integrations/zipball/4166cbcce9429e7e1cfaa9ffba4d44c1c267f083",
+                "reference": "4166cbcce9429e7e1cfaa9ffba4d44c1c267f083",
                 "shasum": ""
             },
             "require": {
                 "drupal/core-composer-scaffold": "*"
             },
             "conflict": {
-                "drupal/core": "<8.5"
+                "drupal/core": "<9.0"
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
                 "drupal/coder": "^8.3"
             },
             "suggest": {
-                "drupal/lagoon_logs": "Zero configuration logging system for Drupal 7 and 8 sites running on amazee.io Lagoon"
+                "drupal/lagoon_logs": "Zero configuration logging system for Drupal sites running on Lagoon"
             },
             "type": "drupal-drush",
             "extra": {
@@ -53,12 +53,12 @@
             "license": [
                 "MIT"
             ],
-            "description": "Add this project to any Drupal distribution based on drupal/core-composer-scaffold to enable it for use on Lagoon.",
+            "description": "Add this project to any Drupal 9+ distribution based on drupal/core-composer-scaffold to enable it for use on Lagoon.",
             "support": {
                 "issues": "https://github.com/amazeeio/drupal-integrations/issues",
-                "source": "https://github.com/amazeeio/drupal-integrations/tree/0.3.7"
+                "source": "https://github.com/amazeeio/drupal-integrations/tree/0.4.0"
             },
-            "time": "2022-03-03T01:57:35+00:00"
+            "time": "2023-11-13T00:29:04+00:00"
         },
         {
             "name": "asm89/stack-cors",
@@ -2284,27 +2284,27 @@
         },
         {
             "name": "drupal/lagoon_logs",
-            "version": "1.3.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/lagoon_logs.git",
-                "reference": "8.x-1.3"
+                "reference": "2.1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/lagoon_logs-8.x-1.3.zip",
-                "reference": "8.x-1.3",
-                "shasum": "283b14b6e9c1e68878900d25823ab094c91d1d63"
+                "url": "https://ftp.drupal.org/files/projects/lagoon_logs-2.1.1.zip",
+                "reference": "2.1.1",
+                "shasum": "272d5db455de168c4db2a77735796499cccc8127"
             },
             "require": {
-                "drupal/core": "^8 || ^9",
-                "monolog/monolog": "^1.24.0 || ^2.0"
+                "drupal/core": "^8 || ^9 || ^10",
+                "monolog/monolog": "^2.3"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.3",
-                    "datestamp": "1643805457",
+                    "version": "2.1.1",
+                    "datestamp": "1666752514",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -2334,7 +2334,7 @@
                     "homepage": "https://www.drupal.org/user/3529537"
                 }
             ],
-            "description": "Lagoon_logs D8 is a convenience wrapper for monolog.",
+            "description": "Simple monolog wrapper for Lagoon",
             "homepage": "https://www.drupal.org/project/lagoon_logs",
             "support": {
                 "source": "https://git.drupalcode.org/project/lagoon_logs"
@@ -4669,16 +4669,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "2.3.5",
+            "version": "2.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "fd4380d6fc37626e2f799f29d91195040137eba9"
+                "reference": "437cb3628f4cf6042cc10ae97fc2b8472e48ca1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fd4380d6fc37626e2f799f29d91195040137eba9",
-                "reference": "fd4380d6fc37626e2f799f29d91195040137eba9",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/437cb3628f4cf6042cc10ae97fc2b8472e48ca1f",
+                "reference": "437cb3628f4cf6042cc10ae97fc2b8472e48ca1f",
                 "shasum": ""
             },
             "require": {
@@ -4691,18 +4691,22 @@
             "require-dev": {
                 "aws/aws-sdk-php": "^2.4.9 || ^3.0",
                 "doctrine/couchdb": "~1.0@dev",
-                "elasticsearch/elasticsearch": "^7",
-                "graylog2/gelf-php": "^1.4.2",
+                "elasticsearch/elasticsearch": "^7 || ^8",
+                "ext-json": "*",
+                "graylog2/gelf-php": "^1.4.2 || ^2@dev",
+                "guzzlehttp/guzzle": "^7.4",
+                "guzzlehttp/psr7": "^2.2",
                 "mongodb/mongodb": "^1.8",
                 "php-amqplib/php-amqplib": "~2.4 || ^3",
-                "php-console/php-console": "^3.1.3",
-                "phpspec/prophecy": "^1.6.1",
+                "phpspec/prophecy": "^1.15",
                 "phpstan/phpstan": "^0.12.91",
-                "phpunit/phpunit": "^8.5",
-                "predis/predis": "^1.1",
-                "rollbar/rollbar": "^1.3",
-                "ruflin/elastica": ">=0.90@dev",
-                "swiftmailer/swiftmailer": "^5.3|^6.0"
+                "phpunit/phpunit": "^8.5.14",
+                "predis/predis": "^1.1 || ^2.0",
+                "rollbar/rollbar": "^1.3 || ^2 || ^3",
+                "ruflin/elastica": "^7",
+                "swiftmailer/swiftmailer": "^5.3|^6.0",
+                "symfony/mailer": "^5.4 || ^6",
+                "symfony/mime": "^5.4 || ^6"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
@@ -4717,7 +4721,6 @@
                 "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
                 "mongodb/mongodb": "Allow sending log messages to a MongoDB server (via library)",
                 "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
-                "php-console/php-console": "Allow sending log messages to Google Chrome",
                 "rollbar/rollbar": "Allow sending log messages to Rollbar",
                 "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
             },
@@ -4752,7 +4755,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/2.3.5"
+                "source": "https://github.com/Seldaek/monolog/tree/2.9.2"
             },
             "funding": [
                 {
@@ -4764,7 +4767,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-01T21:08:31+00:00"
+            "time": "2023-10-27T15:25:26+00:00"
         },
         {
             "name": "nikic/php-parser",

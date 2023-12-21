@@ -1,10 +1,10 @@
 {
     "name": "amazeeio/drupal_integrations",
-    "description": "Add this project to any Drupal distribution based on drupal/core-composer-scaffold to enable it for use on Lagoon.",
+    "description": "Add this project to any Drupal 9+ distribution based on drupal/core-composer-scaffold to enable it for use on Lagoon.",
     "type": "drupal-drush",
     "license": "MIT",
     "conflict": {
-        "drupal/core": "<8.5"
+        "drupal/core": "<9.0"
     },
     "scripts": {
         "test": "phpcs"
@@ -29,7 +29,7 @@
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0"
     },
     "suggest": {
-        "drupal/lagoon_logs": "Zero configuration logging system for Drupal 7 and 8 sites running on amazee.io Lagoon"
+        "drupal/lagoon_logs": "Zero configuration logging system for Drupal sites running on Lagoon"
     },
     "require": {
         "drupal/core-composer-scaffold": "*"
