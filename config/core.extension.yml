@@ -34,6 +34,7 @@ module:
   options: 0
   page_cache: 0
   path_alias: 0
+  phpass: 0
   rest: 0
   search_api: 0
   search_api_db: 0

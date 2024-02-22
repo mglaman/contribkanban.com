@@ -4,6 +4,7 @@ status: true
 dependencies:
   module:
     - contribkanban_boards
+    - file
     - system
 _core:
   default_config_hash: dJ0L2DNSj5q6XVZAGsuVDpJTh5UeYkIPwKrUOOpr8YI
@@ -18,6 +19,7 @@ permissions:
   - 'create drupalorg_custom board'
   - 'create drupalorg_custom board_list'
   - 'create node_board'
+  - 'delete own files'
   - 'update own node_board'
   - 'view board'
   - 'view board_list'
