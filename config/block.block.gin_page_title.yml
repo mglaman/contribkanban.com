@@ -1,15 +1,15 @@
-uuid: 596e5a3e-b8ad-497c-a6ea-a09d1f7eed7a
+uuid: 71d3e552-8d48-4d92-b3f7-5e33a175d7cb
 langcode: en
 status: true
 dependencies:
   theme:
-    - contribkanban
+    - gin
 _core:
-  default_config_hash: 8yptDf6WrXxeyevUz4nP5vfr7BtxQqCBMninhV2IJ1g
-id: contribkanban_page_title
-theme: contribkanban
+  default_config_hash: HLQY2xgby8K3vN_98hiOSasOhm9pdCsH234-s0duJ8Q
+id: gin_page_title
+theme: gin
 region: header
-weight: -3
+weight: -30
 provider: null
 plugin: page_title_block
 settings:

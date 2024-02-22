@@ -1,15 +1,15 @@
-uuid: 438130d1-06de-4481-aedb-0c28ca3d7d7a
+uuid: 479357f7-0d71-45a8-89d3-fa54918f919b
 langcode: en
 status: true
 dependencies:
   theme:
-    - contribkanban
+    - gin
 _core:
-  default_config_hash: PffmQ-ABSz5tFjWmVsR7NesunDnEivvopnJnBjl8KNE
-id: contribkanban_local_actions
-theme: contribkanban
+  default_config_hash: OQ9aJ-4qVwK1x00o9EOYK4eFDjQr_HLpbPiJaPSVZiQ
+id: gin_local_actions
+theme: gin
 region: content
-weight: -2
+weight: -10
 provider: null
 plugin: local_actions_block
 settings:
