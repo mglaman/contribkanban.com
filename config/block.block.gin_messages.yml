@@ -1,17 +1,17 @@
-uuid: 1064905a-7cf3-45f3-977d-3e89c5595f66
+uuid: 5ef2ba1e-7ca2-4155-81ef-f7ace930cf7a
 langcode: en
 status: true
 dependencies:
   module:
     - system
   theme:
-    - contribkanban
+    - gin
 _core:
-  default_config_hash: 5MNdk3fpMKx_xxBTcz2T11DL4XEU1H5SgHl8BsYdFsA
-id: contribkanban_messages
-theme: contribkanban
-region: content
-weight: -1
+  default_config_hash: WvPhI8OwllG0gE69-F8qL3ai3nd5SbYD6JpmEuZcyok
+id: gin_messages
+theme: gin
+region: highlighted
+weight: 0
 provider: null
 plugin: system_messages_block
 settings:
