@@ -8,9 +8,18 @@ ContribKanban is an application which mirrors Drupal.org issues into kanban boar
 
 Want to contrib to ContribKanban? Local development is powered by [Lando](https://lando.dev/).
 
+### lando
+
 ```shell
 lando start
 ```
+
+### ddev
+```shell
+ddev start
+```
+- Drupal Backend - https://contribkanban.com.ddev.site/
+- React Frontend - https://contribkanban.com.ddev.site:8444/
 
 ## Browser extensions
 

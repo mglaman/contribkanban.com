@@ -17,6 +17,19 @@ web_environment:
   - LAGOON_PROJECT=contribkanban
   - LAGOON_ENVIRONMENT=master
 nodejs_version: "16"
+hooks:
+  post-start:
+    - exec: yarn install
+web_extra_daemons:
+  - name: http
+    command: "PORT=3001 yarn frontend-start"
+    directory: /var/www/html
+web_extra_exposed_ports:
+  - name: react-app
+    container_port: 3001
+    http_port: 8081
+    https_port: 8444
+
 
 # Key features of ddev's config.yaml:
 
