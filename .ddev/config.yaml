@@ -22,13 +22,13 @@ hooks:
     - exec: yarn install
 web_extra_daemons:
   - name: http
-    command: "PORT=3001 yarn frontend-start"
+    command: "yarn frontend-start"
     directory: /var/www/html
 web_extra_exposed_ports:
   - name: react-app
-    container_port: 3001
-    http_port: 8081
-    https_port: 8444
+    container_port: 4000
+    http_port: 9090
+    https_port: 9443
 
 
 # Key features of ddev's config.yaml:

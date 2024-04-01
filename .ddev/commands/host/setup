@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#ddev-generated
+## Description: Setup the site inside the web container with exiting configurations.
+## Example: "composer install" and "drush site install"
+## ProjectTypes: drupal7,drupal8,drupal9,backdrop
+
+if ! command -v composer >/dev/null; then
+  echo "composer is not available. You may need to install 'composer'"
+  exit 1
+fi
+
+echo "Executing composer install"
+ddev composer install
+
+echo "Executing Site install"
+ddev drush site-install --existing-config --yes
+
+echo "Executing ddev status"
+ddev status
