@@ -4,6 +4,9 @@
         "extension",
         "frontend"
     ],
+    "resolutions": {
+        "ansi-regex": "^6.0.1"
+    },
     "scripts": {
         "extension-build": "yarn workspace @contribkanban/chrome-extension build",
         "frontend-start": "yarn workspace @contribkanban/frontend start",

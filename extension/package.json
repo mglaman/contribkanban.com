@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-env": "^7.24.4",
     "@babel/preset-react": "^7.9.4",
     "@material-ui/core": "^4.9.10",
     "@material-ui/icons": "^4.9.1",
