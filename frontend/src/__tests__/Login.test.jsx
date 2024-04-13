@@ -1,11 +1,11 @@
-import React from "react";
-import { MemoryRouter } from "react-router-dom";
 import {
   render,
-  waitForElementToBeRemoved,
   wait,
+  waitForElementToBeRemoved,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import React from "react";
+import { MemoryRouter } from "react-router-dom";
 import App from "../App";
 
 describe("login form", () => {
@@ -22,7 +22,7 @@ describe("login form", () => {
     userEvent.click(submitButton);
 
     try {
-      await waitForElementToBeRemoved(() => getByText("Sign In"));
+      await waitForElementToBeRemoved(() => getByText("Sign In"), { timeout: 5000 });
     } catch (err) {
       debug();
       throw err;

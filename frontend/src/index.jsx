@@ -1,12 +1,11 @@
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import React from "react";
 import ReactDOM from "react-dom";
-import { ThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
-import * as serviceWorker from "./serviceWorker";
 import "./index.css";
-import { createMuiTheme } from "@material-ui/core/styles";
+import * as serviceWorker from "./serviceWorker";
 const muiTheme = createMuiTheme({
   palette: {
     primary: {

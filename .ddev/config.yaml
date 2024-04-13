@@ -16,7 +16,7 @@ composer_version: "2"
 web_environment:
   - LAGOON_PROJECT=contribkanban
   - LAGOON_ENVIRONMENT=master
-nodejs_version: "16"
+nodejs_version: "18"
 hooks:
   post-start:
     - exec: yarn install
@@ -26,8 +26,8 @@ web_extra_daemons:
     directory: /var/www/html
 web_extra_exposed_ports:
   - name: react-app
-    container_port: 4000
-    http_port: 9090
+    container_port: 9443
+    http_port: 9442
     https_port: 9443
 
 

@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { withStyles } from "@material-ui/core/styles";
 import {
-  Grid,
   FormControl,
+  Grid,
   InputLabel,
-  Select,
   MenuItem,
+  Select,
   Typography,
 } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   apiFetch,
   getMappedIncludes,
   getRelationshipFromMappedIncludes,
 } from "../api";
-import useWindowHeight from "../hooks/windowHeight";
-import usePageTitle from "../hooks/pageTitle";
 import KanbanBoard from "../components/Board/Board";
+import usePageTitle from "../hooks/pageTitle";
+import useWindowHeight from "../hooks/windowHeight";
 
 const styles = (theme) => ({
   root: {
@@ -88,7 +88,7 @@ function Board({ classes }) {
     }
   }, [board, filterCategory, filterPriority]);
 
-  const boardTitle = board?.data?.[0].attributes.title;
+  const boardTitle = board?.data?.[0]?.attributes.title;
   usePageTitle(boardTitle ? boardTitle : "Board");
   if (currentState === "LOADING") {
     return <span>Loading...</span>;

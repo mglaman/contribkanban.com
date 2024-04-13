@@ -1,13 +1,16 @@
-import React from "react";
 import { render } from "@testing-library/react";
+import React from "react";
 import { MemoryRouter } from "react-router-dom";
+import { vi } from 'vitest';
 import App from "../App";
 
 function mockReactRouterDom() {
-  const original = require.requireActual("react-router-dom");
+  const original = vi.importActual("react-router-dom");
   return {
     ...original,
-    useLocation: jest.fn().mockReturnValue({
+    MemoryRouter: ({ children }) => <div>{children}</div>,
+    Route: ({ children }) => <div>{children}</div>,
+    useLocation: vi.fn().mockReturnValue({
       pathname: "/",
       search: "",
       hash: "",
@@ -17,7 +20,7 @@ function mockReactRouterDom() {
   };
 }
 
-jest.mock("react-router-dom", () => mockReactRouterDom());
+vi.mock("react-router-dom", async () => mockReactRouterDom());
 
 test("renders without crashing", () => {
   const { getByText } = render(

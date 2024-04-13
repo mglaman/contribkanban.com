@@ -1,7 +1,7 @@
-import React from "react";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-
+import React from "react";
+import { vi } from 'vitest';
 import Card from "../Card";
 
 const mockedIssue = {
@@ -15,7 +15,7 @@ const mockedIssue = {
 
 describe("test the card component", () => {
   it("click the card opens the issue", async () => {
-    const mockOpen = jest.fn();
+    const mockOpen = vi.fn();
     global.open = mockOpen;
     const { container } = render(<Card data={mockedIssue} />);
     userEvent.click(container.firstChild);
