@@ -21,8 +21,8 @@ x-environment: &default-environment
 services:
   frontend:
     build:
-      context: frontend
-      dockerfile: ../lagoon/Dockerfile.app
+      context: .
+      dockerfile: lagoon/Dockerfile.app
     labels:
       # Lagoon Labels
       lagoon.type: nginx
