@@ -32,20 +32,20 @@ tasks:
   - run:
       command: |
         if [[ -n ${LAGOON_PR_BASE_BRANCH} ]] && tables=$(drush sqlq 'show tables;') && [ -z "$tables" ]; then
-            ./bin/drush -y site-install --account-pass=admin
+            php bin/drush -y site-install --account-pass=admin
         fi
       name: If this is a pull request, install the database.
       service: cli
   - run:
-      command: ./bin/drush updb --yes
+      command: php bin/drush updb --yes
       name: drush updb
       service: cli
   - run:
-      command: ./bin/drush cim --yes
+      command: php bin/drush cim --yes
       name: drush cim
       service: cli
   - run:
-      command: ./bin/drush sapi-i --yes
+      command: php bin/drush sapi-i --yes
       name: drush sapi-i
       service: cli
   - run:
