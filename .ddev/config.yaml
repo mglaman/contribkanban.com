@@ -17,6 +17,13 @@ web_environment:
   - LAGOON_PROJECT=contribkanban
   - LAGOON_ENVIRONMENT=master
 nodejs_version: "16"
+hooks:
+  post-start:
+    - exec: yarn install
+web_extra_daemons:
+  - name: http
+    command: "yarn frontend-start"
+    directory: /var/www/html
 web_extra_exposed_ports:
   - name: react-app
     container_port: 3000

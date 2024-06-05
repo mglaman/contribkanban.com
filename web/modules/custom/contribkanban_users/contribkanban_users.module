@@ -44,8 +44,7 @@ function contribkanban_users_form_user_login_form_alter(&$form, FormStateInterfa
 /**
  * Implements hook_js_settings_alter().
  */
-function contribkanban_users_js_settings_alter(array &$settings, AttachedAssetsInterface $assets)
-{
+function contribkanban_users_js_settings_alter(array &$settings, AttachedAssetsInterface $assets) {
   $user = \Drupal::currentUser();
   $settings['user']['email'] = $user->getEmail();
   $settings['user']['gravatar'] = md5(strtolower(trim($user->getEmail() ?? '')));
