@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b878f6f9032e8a31734917acb52f49fa",
+    "content-hash": "df2fcc7c10136ca77da1e1f3aa5450ba",
     "packages": [
         {
             "name": "amazeeio/drupal_integrations",
@@ -10202,20 +10202,20 @@
         },
         {
             "name": "palantirnet/drupal-rector",
-            "version": "0.13.1",
+            "version": "0.20.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/palantirnet/drupal-rector.git",
-                "reference": "4814ad9fa7d19be068f75558220383967c258d10"
+                "reference": "61ba1405da47d306dd594ebec024fd400616b816"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/palantirnet/drupal-rector/zipball/4814ad9fa7d19be068f75558220383967c258d10",
-                "reference": "4814ad9fa7d19be068f75558220383967c258d10",
+                "url": "https://api.github.com/repos/palantirnet/drupal-rector/zipball/61ba1405da47d306dd594ebec024fd400616b816",
+                "reference": "61ba1405da47d306dd594ebec024fd400616b816",
                 "shasum": ""
             },
             "require": {
-                "rector/rector": "~0.13.8",
+                "rector/rector": "^1.0",
                 "webflo/drupal-finder": "^1.2"
             },
             "replace": {
@@ -10224,13 +10224,14 @@
             },
             "require-dev": {
                 "cweagans/composer-patches": "^1.7.2",
-                "php": "^8.0",
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "php": "^8.2",
                 "phpstan/extension-installer": "^1.1",
                 "phpstan/phpstan": "^1.0",
                 "phpstan/phpstan-deprecation-rules": "^1.0",
-                "phpunit/phpunit": "^9.5",
-                "rector/rector-src": "dev-main",
+                "phpunit/phpunit": "^10.0",
                 "symfony/yaml": "^5 || ^6",
+                "symplify/rule-doc-generator": "dev-main",
                 "symplify/vendor-patches": "^11.0"
             },
             "type": "library",
@@ -10262,6 +10263,14 @@
                 {
                     "name": "Matt Glaman",
                     "email": "nmd.matt@gmail.com"
+                },
+                {
+                    "name": "Björn Brala",
+                    "email": "drupal@bjorn.dev"
+                },
+                {
+                    "name": "Ken Rickard",
+                    "email": "agentrickard@gmail.com"
                 }
             ],
             "description": "Instant fixes for your Drupal code by using Rector.",
@@ -10273,9 +10282,9 @@
                 "rector"
             ],
             "support": {
-                "source": "https://github.com/palantirnet/drupal-rector/tree/0.13.1"
+                "source": "https://github.com/palantirnet/drupal-rector/tree/0.20.2"
             },
-            "time": "2022-08-05T19:55:37+00:00"
+            "time": "2024-04-26T14:28:14+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -11324,42 +11333,35 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.13.10",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "d1e069db8ad3b4aea2b968248370c21415e4c180"
+                "reference": "556509e2dcf527369892b7d411379c4a02f31859"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/d1e069db8ad3b4aea2b968248370c21415e4c180",
-                "reference": "d1e069db8ad3b4aea2b968248370c21415e4c180",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/556509e2dcf527369892b7d411379c4a02f31859",
+                "reference": "556509e2dcf527369892b7d411379c4a02f31859",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.8.2"
+                "phpstan/phpstan": "^1.11"
             },
             "conflict": {
-                "phpstan/phpdoc-parser": "<1.6.2",
-                "rector/rector-cakephp": "*",
                 "rector/rector-doctrine": "*",
-                "rector/rector-laravel": "*",
-                "rector/rector-nette": "*",
-                "rector/rector-phpoffice": "*",
+                "rector/rector-downgrade-php": "*",
                 "rector/rector-phpunit": "*",
-                "rector/rector-prefixed": "*",
                 "rector/rector-symfony": "*"
+            },
+            "suggest": {
+                "ext-dom": "To manipulate phpunit.xml via the custom-rule command"
             },
             "bin": [
                 "bin/rector"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "0.13-dev"
-                }
-            },
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -11370,9 +11372,15 @@
                 "MIT"
             ],
             "description": "Instant Upgrade and Automated Refactoring of any PHP code",
+            "keywords": [
+                "automation",
+                "dev",
+                "migration",
+                "refactoring"
+            ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.13.10"
+                "source": "https://github.com/rectorphp/rector/tree/1.1.0"
             },
             "funding": [
                 {
@@ -11380,7 +11388,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-08-03T12:48:10+00:00"
+            "time": "2024-05-18T09:40:27+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -13140,6 +13148,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "drupal/email_registration": 5,
+        "drupal/gin": 5,
         "drupal/inline_entity_form": 10,
         "drupal/jsonapi_search_api": 10,
         "drupal/jsonapi_user_resources": 15
