@@ -1730,17 +1730,17 @@
         },
         {
             "name": "drupal/email_registration",
-            "version": "1.2.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/email_registration.git",
-                "reference": "8.x-1.2"
+                "reference": "8.x-1.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/email_registration-8.x-1.2.zip",
-                "reference": "8.x-1.2",
-                "shasum": "6bf87dfd95dd5635fd71fa0bf193e9e12141bfb4"
+                "url": "https://ftp.drupal.org/files/projects/email_registration-8.x-1.4.zip",
+                "reference": "8.x-1.4",
+                "shasum": "fe7a91b858a98533fc1d7550b0917fc80523f186"
             },
             "require": {
                 "drupal/core": "^9.1 || ^10"
@@ -1749,13 +1749,14 @@
                 "drupal/commerce": "<2.12"
             },
             "require-dev": {
-                "drupal/commerce": "^2.0"
+                "drupal/commerce": "^2.0",
+                "drupal/token": "*"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.2",
-                    "datestamp": "1661694698",
+                    "version": "8.x-1.4",
+                    "datestamp": "1700548925",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -13138,7 +13139,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal/email_registration": 5,
         "drupal/gin": 5,
         "drupal/inline_entity_form": 10,
         "drupal/jsonapi_search_api": 10,
