@@ -48,7 +48,7 @@ function contribkanban_users_js_settings_alter(array &$settings, AttachedAssetsI
 {
   $user = \Drupal::currentUser();
   $settings['user']['email'] = $user->getEmail();
-  $settings['user']['gravatar'] = md5(strtolower(trim($user->getEmail())));
+  $settings['user']['gravatar'] = md5(strtolower(trim($user->getEmail() ?? '')));
 }
 
 /**
