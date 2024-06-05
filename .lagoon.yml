@@ -31,7 +31,7 @@ tasks:
   post-rollout:
   - run:
       command: |
-        if [[ -n ${LAGOON_PR_BASE_BRANCH} ]] && tables=$(drush sqlq 'show tables;') && [ -z "$tables" ]; then
+        if [[ -n ${LAGOON_PR_BASE_BRANCH} ]] && tables=$(php bin/drush sqlq 'show tables;') && [ -z "$tables" ]; then
             php bin/drush -y site-install --account-pass=admin
         fi
       name: If this is a pull request, install the database.
