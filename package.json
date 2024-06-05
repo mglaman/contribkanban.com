@@ -9,8 +9,5 @@
         "frontend-start": "yarn workspace @contribkanban/frontend start",
         "frontend-build": "yarn workspace @contribkanban/frontend build",
         "frontend-test": "yarn workspace @contribkanban/frontend test"
-    },
-    "engines": {
-      "node": ">=16.0.0 <17.0.0"
     }
   }
