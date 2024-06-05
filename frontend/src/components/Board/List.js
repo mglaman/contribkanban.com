@@ -72,7 +72,9 @@ function BoardList({ board, list, classes }) {
         queryString["field_issue_component"] = filterData.component;
       }
       if (filterData.parent_issue && filterData.parent_issue.trim()) {
-        queryString["field_issue_parent"] = filterData.parent_issue.trim();
+        queryString["field_issue_parent"] = {
+          target_id: filterData.parent_issue.trim().split(","),
+        };
       }
       if (filterData.priority !== null) {
         queryString["field_issue_priority"] = filterData.priority;
