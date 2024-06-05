@@ -1875,17 +1875,17 @@
         },
         {
             "name": "drupal/gin",
-            "version": "3.0.0-rc9",
+            "version": "3.0.0-rc10",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/gin.git",
-                "reference": "8.x-3.0-rc9"
+                "reference": "8.x-3.0-rc10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/gin-8.x-3.0-rc9.zip",
-                "reference": "8.x-3.0-rc9",
-                "shasum": "130dec0ea8152bc796d8bbca1bc97b2ae0c381f4"
+                "url": "https://ftp.drupal.org/files/projects/gin-8.x-3.0-rc10.zip",
+                "reference": "8.x-3.0-rc10",
+                "shasum": "f79fd895dd1f16c3af457bfaed5527f5b5bc752c"
             },
             "require": {
                 "drupal/core": "^9 || ^10",
@@ -1894,8 +1894,8 @@
             "type": "drupal-theme",
             "extra": {
                 "drupal": {
-                    "version": "8.x-3.0-rc9",
-                    "datestamp": "1706705034",
+                    "version": "8.x-3.0-rc10",
+                    "datestamp": "1712686345",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "RC releases are not covered by Drupal security advisories."
@@ -13139,7 +13139,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal/gin": 5,
+        "drupal/email_registration": 5,
         "drupal/inline_entity_form": 10,
         "drupal/jsonapi_search_api": 10,
         "drupal/jsonapi_user_resources": 15
