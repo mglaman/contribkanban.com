@@ -1,11 +1,7 @@
 import React from "react";
 import { createMemoryHistory as createHistory } from "history";
 import { MemoryRouter, Router } from "react-router-dom";
-import {
-  render,
-  waitForElementToBeRemoved,
-  wait,
-} from "@testing-library/react";
+import { render, waitForElementToBeRemoved } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "../App";
 
@@ -72,7 +68,7 @@ describe("register form", () => {
     }
 
     expect(history.location.pathname).toBe("/me");
-    await wait(() => getByText(testEmail));
+    getByText(testEmail);
   });
 
   it("allows multiple registrations", async () => {
@@ -96,7 +92,7 @@ describe("register form", () => {
       debug();
       throw err;
     }
-    await wait(() => getByText(testEmail1));
+    getByText(testEmail1);
 
     history.push("/logout");
     history.push("/register");
@@ -113,6 +109,6 @@ describe("register form", () => {
       debug();
       throw err;
     }
-    await wait(() => getByText(testEmail2));
+    getByText(testEmail2);
   });
 });

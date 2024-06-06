@@ -1,10 +1,6 @@
 import React from "react";
 import { MemoryRouter } from "react-router-dom";
-import {
-  render,
-  waitForElementToBeRemoved,
-  wait,
-} from "@testing-library/react";
+import { render, waitForElementToBeRemoved } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "../App";
 
@@ -28,6 +24,6 @@ describe("login form", () => {
       throw err;
     }
 
-    await wait(() => getByText("logintest@example.com"));
+    getByText("logintest@example.com");
   });
 });
