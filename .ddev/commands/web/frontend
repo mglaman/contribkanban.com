@@ -1,0 +1,16 @@
+#!/bin/bash
+
+## Description: Run frontend tasks
+## Usage: frontend
+## Example: "ddev frontend build"
+## Example: "ddev frontend start"
+## Example: "ddev frontend test"
+
+if [ -z "$1" ]
+  then
+  echo "Options are build, start, or test"
+  exit
+fi
+
+yarn install
+yarn frontend-"$1"

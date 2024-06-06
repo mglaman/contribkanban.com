@@ -6,11 +6,17 @@ ContribKanban is an application which mirrors Drupal.org issues into kanban boar
 
 ## Local development
 
-Want to contrib to ContribKanban? Local development is powered by [Lando](https://lando.dev/).
+Want to contrib to ContribKanban? Local development is powered by [DDEV](https://ddev.com/).
 
 ```shell
-lando start
+ddev start
+
+ddev composer install
+
+ddev frontend start
 ```
+
+Drupal backend accessible at `https://contribkanban.com.ddev.site` and frontend at `https://contribkanban.com.ddev.site:9443/`
 
 ## Browser extensions
 
