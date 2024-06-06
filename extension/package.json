@@ -11,10 +11,10 @@
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
-    "@babel/preset-react": "^7.9.4",
+    "@babel/preset-react": "^7.24.7",
     "@material-ui/core": "^4.9.10",
     "@material-ui/icons": "^4.9.1",
-    "archiver": "^4.0.1",
+    "archiver": "^7.0.1",
     "babel-loader": "^8.1.0",
     "fs-extra": "^9.0.0",
     "react": "^16.13.1",
