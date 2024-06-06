@@ -1,0 +1,15 @@
+#!/bin/bash
+
+## Description: Run extenion tasks
+## Usage: extension
+## Example: "ddev extension build"
+## Example: "ddev extension test"
+
+if [ -z "$1" ]
+  then
+  echo "Options are build, or test"
+  exit
+fi
+
+yarn install
+yarn extension-"$1"
