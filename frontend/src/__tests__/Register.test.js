@@ -4,7 +4,7 @@ import { MemoryRouter, Router } from "react-router-dom";
 import {
   render,
   waitForElementToBeRemoved,
-  wait,
+  waitFor,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "../App";
@@ -72,7 +72,7 @@ describe("register form", () => {
     }
 
     expect(history.location.pathname).toBe("/me");
-    await wait(() => getByText(testEmail));
+    await waitFor(() => getByText(testEmail));
   });
 
   it("allows multiple registrations", async () => {
@@ -96,7 +96,7 @@ describe("register form", () => {
       debug();
       throw err;
     }
-    await wait(() => getByText(testEmail1));
+    await waitFor(() => getByText(testEmail1));
 
     history.push("/logout");
     history.push("/register");
@@ -113,6 +113,6 @@ describe("register form", () => {
       debug();
       throw err;
     }
-    await wait(() => getByText(testEmail2));
+    await waitFor(() => getByText(testEmail2));
   });
 });
