@@ -124,7 +124,7 @@ function Me({ classes }) {
                           history.push(`/node-board/${board.id}/edit`)
                         }
                       >
-                        <IconButton edge="end" aria-label="edit">
+                        <IconButton edge="end" aria-label="edit" size="large">
                           <EditIcon />
                         </IconButton>
                       </ListItemSecondaryAction>

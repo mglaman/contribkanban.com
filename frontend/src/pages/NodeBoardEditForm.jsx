@@ -220,7 +220,7 @@ function NodeBoardEditForm({ classes }) {
                         onBlur={updateNids}
                       />
                       <ListItemSecondaryAction>
-                        <IconButton onClick={() => removeNid(k)}>
+                        <IconButton onClick={() => removeNid(k)} size="large">
                           <DeleteOutlineIcon />
                         </IconButton>
                       </ListItemSecondaryAction>

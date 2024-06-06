@@ -49,7 +49,7 @@ function AppBar({ classes, actions }) {
             color="inherit"
             aria-label="menu"
             onClick={handleDrawerOpen}
-          >
+            size="large">
             <MenuIcon />
           </IconButton>
           <Link

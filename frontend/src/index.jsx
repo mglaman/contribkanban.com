@@ -1,12 +1,13 @@
 import { createRoot } from 'react-dom/client';
+import { createTheme } from '@mui/material/styles';
 import React from "react";
-import { ThemeProvider, createMuiTheme } from "@mui/styles";
+import { ThemeProvider,  } from "@mui/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
-const muiTheme = createMuiTheme({
+const muiTheme = createTheme({
   palette: {
     primary: {
       light: "rgba(145, 202, 237, 1)",
@@ -22,12 +23,12 @@ const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={muiTheme}>
-      <CssBaseline />
-      <Router>
-        <App />
-      </Router>
-    </ThemeProvider>
+      <ThemeProvider theme={muiTheme}>
+        <CssBaseline />
+        <Router>
+          <App />
+        </Router>
+      </ThemeProvider>
   </React.StrictMode>
 );
 

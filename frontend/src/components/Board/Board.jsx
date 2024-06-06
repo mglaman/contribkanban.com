@@ -8,13 +8,12 @@ const styles = () => ({
     overflowX: "auto",
     overflowY: "hidden",
     height: "100%",
-    flexWrap: "nowrap",
   },
 });
 
 function Board({ board, lists, classes }) {
   return (
-    <Grid container className={classes.root} spacing={1}>
+    <Grid container wrap={false} className={classes.root} spacing={1}>
       {lists.map((list) => (
         <BoardList key={list.id} board={board} list={list} />
       ))}

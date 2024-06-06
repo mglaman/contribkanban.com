@@ -49,7 +49,7 @@ function Create({ classes }) {
 
   return (
     <Container className={classes.root}>
-      <Grid container justify="space-between" spacing={2}>
+      <Grid container justifyContent="space-between" spacing={2}>
         <Grid item xs={12} md={4}>
           <Card>
             <CardContent>

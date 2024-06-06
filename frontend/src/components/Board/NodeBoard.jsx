@@ -10,7 +10,6 @@ const styles = (theme) => ({
     overflowX: "auto",
     overflowY: "hidden",
     height: "100%",
-    flexWrap: "nowrap",
   },
   paper: {
     padding: theme.spacing(1),
@@ -76,7 +75,7 @@ function NodeBoard({ board, classes }) {
   }
 
   return (
-    <Grid container className={classes.root}>
+    <Grid container wrap={false} className={classes.root}>
       <NodeBoardList issues={issues} label={`Postponed`} statuses={[4, 16]} />
       <NodeBoardList issues={issues} label={`Active`} statuses={[1]} />
       <NodeBoardList issues={issues} label={`Needs work`} statuses={[13]} />

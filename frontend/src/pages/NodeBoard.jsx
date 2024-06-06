@@ -92,7 +92,7 @@ function NodeBoard({ classes }) {
     >
       <Grid
         container
-        justify="space-between"
+        justifyContent="space-between"
         alignItems="center"
         className={classes.boardBar}
       >

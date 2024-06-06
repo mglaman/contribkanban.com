@@ -105,7 +105,7 @@ function Board({ classes }) {
     >
       <Grid
         container
-        justify="space-between"
+        justifyContent="space-between"
         alignItems="center"
         className={classes.boardBar}
       >
@@ -116,6 +116,7 @@ function Board({ classes }) {
         </Grid>
         <Grid item>
           <FormControl
+          sx={{ m: 1, minWidth: 120 }}
             variant="outlined"
             className={classes.formControl}
             size="small"
@@ -137,6 +138,7 @@ function Board({ classes }) {
             </Select>
           </FormControl>
           <FormControl
+          sx={{ m: 1, minWidth: 120 }}
             variant="outlined"
             className={classes.formControl}
             size="small"

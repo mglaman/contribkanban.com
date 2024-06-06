@@ -1,5 +1,4 @@
 export function getApiBaseUrl() {
-  console.log(process.env)
   if (process.env.REACT_APP_API_BASE_URL) {
     return process.env.REACT_APP_API_BASE_URL;
   }
