@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js --mode production",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider webpack --config webpack.config.js --mode production",
     "package:chrome": "node ./scripts/chrome",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

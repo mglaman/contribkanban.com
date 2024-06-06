@@ -38,7 +38,7 @@ jobs:
       - install-composer
   build_frontend:
     docker:
-      - image: cimg/node:16.16
+      - image: cimg/node:18.20
     working_directory: ~/repo
     steps:
       - checkout
@@ -46,7 +46,7 @@ jobs:
       - run: yarn run frontend-build
   build_extension:
     docker:
-      - image: cimg/node:16.16
+      - image: cimg/node:18.20
     working_directory: ~/repo
     steps:
       - checkout

@@ -16,7 +16,7 @@ composer_version: "2"
 web_environment:
   - LAGOON_PROJECT=contribkanban
   - LAGOON_ENVIRONMENT=master
-nodejs_version: "16"
+nodejs_version: "18"
 web_extra_exposed_ports:
   - name: react-app
     container_port: 3000
