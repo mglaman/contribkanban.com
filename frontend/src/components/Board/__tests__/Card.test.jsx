@@ -17,10 +17,12 @@ const mockedIssue = {
 
 describe("test the card component", () => {
   it("click the card opens the issue", async () => {
-    const spy = vi.spyOn(window, 'open');
+
+    const mockOpen = vi.fn();
+    vi.stubGlobal('open', mockOpen)
     const { container } = render(<Card data={mockedIssue} />);
     userEvent.click(container.firstChild);
-    expect(spy).toBeCalledWith(
+    expect(mockOpen).toBeCalledWith(
       `https://www.drupal.org/node/123456789`
     );
   });
