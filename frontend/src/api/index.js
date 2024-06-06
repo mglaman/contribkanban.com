@@ -12,7 +12,7 @@ export function getApiBaseUrl() {
     !process.env.REACT_APP_LAGOON_BRANCH ||
     process.env.REACT_APP_LAGOON_BRANCH === ""
   ) {
-    return "https://contribkanban.com.ddev.sit1111e";
+    return "https://contribkanban.com.ddev.site";
   }
 }
 

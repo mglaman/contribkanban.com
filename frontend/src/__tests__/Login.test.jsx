@@ -6,13 +6,17 @@ import {
   waitFor,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { ThemeProvider,  } from "@mui/styles";
+import { createTheme } from '@mui/material/styles';
 import App from "../App";
 
 describe("login form", () => {
   it("logs in and shows me Me page", async () => {
     const { debug, getByLabelText, getByText } = render(
       <MemoryRouter initialEntries={["/login"]}>
-        <App />
+        <ThemeProvider theme={createTheme()}>
+          <App />
+        </ThemeProvider>
       </MemoryRouter>
     );
     userEvent.type(getByLabelText("Email Address *"), "logintest@example.com");
@@ -24,7 +28,7 @@ describe("login form", () => {
     try {
       await waitForElementToBeRemoved(() => getByText("Sign In"));
     } catch (err) {
-      debug();
+      // debug();
       throw err;
     }
 

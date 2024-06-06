@@ -49,7 +49,6 @@ const categoryToIcon = {
 
 const styles = (theme) => ({
   root: {
-    marginBottom: theme.spacing(1),
     cursor: "pointer",
     transition: "transform 0.1s ease",
     transform: "translateZ(0)",
@@ -57,19 +56,13 @@ const styles = (theme) => ({
       transform: "translate(0, -2px)",
     },
   },
-  actions: {
-    flexWrap: "wrap",
-  },
-  chip: {
-    fontSize: theme.typography.pxToRem(12),
-    margin: theme.spacing(0.5),
-  },
 });
 
 function BoardCard({ data, classes }) {
   return (
     <Card
       variant="outlined"
+      sx={{ mb: 1}}
       className={classes.root}
       onClick={() => {
         window.open(data.url);
@@ -86,19 +79,17 @@ function BoardCard({ data, classes }) {
           </Link>
         </Typography>
       </CardContent>
-      <CardActions className={classes.actions}>
+      <CardActions sx={{ flexWrap: "wrap" }}>
         {categoryToIcon[parseInt(data.field_issue_category)]}
         {data.field_issue_version ? (
           <Chip
             label={data.field_issue_version}
             size="small"
-            className={classes.chip}
           />
         ) : null}
         <Chip
           label={priorityToLabel[parseInt(data.field_issue_priority)]}
           size="small"
-          className={classes.chip}
         />
         {data.field_issue_assigned ? (
           <Chip label="Assigned" size="small" className={classes.chip} />
@@ -106,7 +97,6 @@ function BoardCard({ data, classes }) {
         {/* <Chip
           label={data.field_issue_component}
           size="small"
-          className={classes.chip}
         /> */}
         {/* <Chip label={data.field_project.id} size="small" /> */}
       </CardActions>

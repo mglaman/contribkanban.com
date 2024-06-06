@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { vi } from 'vitest';
 
 import React from "react";
 import { render } from "@testing-library/react";
@@ -17,10 +17,10 @@ const mockedIssue = {
 
 describe("test the card component", () => {
   it("click the card opens the issue", async () => {
+    const spy = vi.spyOn(window, 'open');
     const { container } = render(<Card data={mockedIssue} />);
     userEvent.click(container.firstChild);
-    expect(mockOpen.mock.calls.length).toBe(1);
-    expect(mockOpen.mock.calls[0][0]).toBe(
+    expect(spy).toBeCalledWith(
       `https://www.drupal.org/node/123456789`
     );
   });
