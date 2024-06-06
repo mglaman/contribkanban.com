@@ -88,7 +88,7 @@ describe("register form", () => {
   //   userEvent.type(getByLabelText("Email Address *"), testEmail1);
   //   userEvent.type(getByLabelText("Password *"), "foo");
   //   userEvent.type(getByLabelText("Confirm password *"), "foo");
-  //   let submitButton = getByText("Create your account").parentElement;
+  //   let submitButton = getByText("Create your account");
   //   userEvent.click(submitButton);
   //   try {
   //     await waitForElementToBeRemoved(() => getByText("Create your account"));
@@ -105,7 +105,7 @@ describe("register form", () => {
   //   userEvent.type(getByLabelText("Email Address *"), testEmail2);
   //   userEvent.type(getByLabelText("Password *"), "bar");
   //   userEvent.type(getByLabelText("Confirm password *"), "bar");
-  //   submitButton = getByText("Create your account").parentElement;
+  //   submitButton = getByText("Create your account");
   //   userEvent.click(submitButton);
   //   try {
   //     await waitForElementToBeRemoved(() => getByText("Create your account"));

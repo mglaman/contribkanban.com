@@ -22,8 +22,7 @@ describe("login form", () => {
     userEvent.type(getByLabelText("Email Address *"), "logintest@example.com");
     userEvent.type(getByLabelText("Password *"), "letmein");
 
-    let submitButton = getByText("Sign In").parentElement;
-    userEvent.click(submitButton);
+    userEvent.click(getByText("Sign In"));
 
     try {
       await waitForElementToBeRemoved(() => getByText("Sign In"));
