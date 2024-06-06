@@ -28,7 +28,7 @@ function App() {
             path={`/node-board/:uuid`}
             element={<NodeBoard/>}
           />
-          <Route path={`/create`} component={Create} />
+          <Route path={`/create`} element={<Create />} />
           <Route
            path={`/login`}
            element={<GuestRoute><Login/></GuestRoute>}

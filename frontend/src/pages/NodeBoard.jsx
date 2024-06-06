@@ -52,6 +52,7 @@ function NodeBoard({ classes }) {
               color="inherit"
               size="small"
               aria-label="edit"
+              key="edit-node-board"
             >
               <EditIcon />
             </IconButton>,

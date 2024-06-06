@@ -13,7 +13,7 @@ const styles = () => ({
 
 function Board({ board, lists, classes }) {
   return (
-    <Grid container wrap={false} className={classes.root} spacing={1}>
+    <Grid container wrap="nowrap" className={classes.root} spacing={1}>
       {lists.map((list) => (
         <BoardList key={list.id} board={board} list={list} />
       ))}

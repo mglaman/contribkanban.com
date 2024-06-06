@@ -75,7 +75,7 @@ function NodeBoard({ board, classes }) {
   }
 
   return (
-    <Grid container wrap={false} className={classes.root}>
+    <Grid container wrap="nowrap" className={classes.root}>
       <NodeBoardList issues={issues} label={`Postponed`} statuses={[4, 16]} />
       <NodeBoardList issues={issues} label={`Active`} statuses={[1]} />
       <NodeBoardList issues={issues} label={`Needs work`} statuses={[13]} />

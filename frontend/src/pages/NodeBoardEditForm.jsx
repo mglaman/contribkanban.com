@@ -125,13 +125,12 @@ function NodeBoardEditForm({ classes }) {
         authTokens
       );
       const json = await res.json();
-      console.log(json);
       if (!res.ok) {
         setCurrentState("ERROR");
         setMessage(json.errors[0].detail);
       } else {
         setCurrentState("OK");
-        useNavigate(`/node-board/${json.data.id}`);
+        navigate(`/node-board/${json.data.id}`);
       }
     } catch (error) {
       setCurrentState("ERROR");
@@ -192,7 +191,7 @@ function NodeBoardEditForm({ classes }) {
                 </FormControl>
               </CardContent>
               <CardActions>
-                <Button color="secondary" onClick={() => history.push(`/me`)}>
+                <Button color="secondary" onClick={() => navigate(`/me`)}>
                   Cancel
                 </Button>
                 <Button
