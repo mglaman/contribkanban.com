@@ -3,7 +3,7 @@ import AppBoardMenu from "./AppBarMenu";
 import {
   Dashboard as DashboardIcon,
   NoteAddRounded as NoteAddRoundedIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 function BoardMenu() {
   return (
     <AppBoardMenu

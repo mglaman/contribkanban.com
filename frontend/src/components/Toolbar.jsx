@@ -1,5 +1,5 @@
-import { withStyles } from "@material-ui/core/styles";
-import Toolbar from "@material-ui/core/Toolbar";
+import { withStyles } from "@mui/styles";
+import Toolbar from "@mui/material/Toolbar";
 
 export const styles = (theme) => ({
   root: {

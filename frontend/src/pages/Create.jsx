@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@mui/styles";
 import {
   Container,
   Card,
@@ -8,7 +8,7 @@ import {
   Grid,
   Typography,
   Button,
-} from "@material-ui/core";
+} from "@mui/material";
 import usePageTitle from "../hooks/pageTitle";
 import CreateProjectDialog from "../components/Dialogs/CreateProjectDialog";
 import CreateSprintDialog from "../components/Dialogs/CreateSprintDialog";

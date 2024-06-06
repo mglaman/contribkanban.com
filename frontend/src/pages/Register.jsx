@@ -6,9 +6,9 @@ import {
   Grid,
   Link,
   Typography,
-} from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
-import { Link as RouterLink, Redirect } from "react-router-dom";
+} from "@mui/material";
+import { withStyles } from "@mui/styles";
+import { Link as RouterLink, Navigate } from "react-router-dom";
 import usePageTitle from "../hooks/pageTitle";
 import { useAuth, authWithPasswordGrant } from "../context/auth";
 import { apiFetch } from "../api";
@@ -81,7 +81,7 @@ function RegisterForm({ classes }) {
   }
 
   if (authTokens) {
-    return <Redirect to={`/me`} />;
+    return <Navigate to={`/me`} />;
   }
 
   return (

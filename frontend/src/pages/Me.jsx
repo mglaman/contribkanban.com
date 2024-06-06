@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Grid,
@@ -15,9 +15,9 @@ import {
   ListItemSecondaryAction,
   IconButton,
   Avatar,
-} from "@material-ui/core";
-import { Dashboard as FolderIcon, Edit as EditIcon } from "@material-ui/icons";
-import { withStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import { Dashboard as FolderIcon, Edit as EditIcon } from "@mui/icons-material";
+import { withStyles } from "@mui/styles";
 import { useAuth, fetchAsAuthenticated } from "../context/auth";
 import CreateIssueCollectionDialog from "../components/Dialogs/CreateIssueCollectionDialog";
 import Gravatar from "../components/Gravatar";
@@ -43,7 +43,7 @@ const styles = (theme) => ({
 });
 
 function Me({ classes }) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { authTokens, currentUser } = useAuth();
   const [nodeBoards, setNodeBoards] = useState({
     data: [],
@@ -111,7 +111,7 @@ function Me({ classes }) {
                     <ListItem
                       button
                       key={board.id}
-                      onClick={() => history.push(`/node-board/${board.id}`)}
+                      onClick={() => navigate(`/node-board/${board.id}`)}
                     >
                       <ListItemAvatar>
                         <Avatar>

@@ -1,3 +1,5 @@
+import { describe, it, expect } from 'vitest';
+
 import React from "react";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -15,8 +17,6 @@ const mockedIssue = {
 
 describe("test the card component", () => {
   it("click the card opens the issue", async () => {
-    const mockOpen = jest.fn();
-    global.open = mockOpen;
     const { container } = render(<Card data={mockedIssue} />);
     userEvent.click(container.firstChild);
     expect(mockOpen.mock.calls.length).toBe(1);

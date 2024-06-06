@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@mui/styles";
 import {
   Grid,
   FormControl,
@@ -7,7 +7,7 @@ import {
   Select,
   MenuItem,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useParams } from "react-router-dom";
 import {
   apiFetch,

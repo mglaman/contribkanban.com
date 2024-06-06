@@ -1,7 +1,7 @@
 import React from "react";
 import qs from "qs";
-import { Avatar } from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
+import { Avatar } from "@mui/material";
+import { withStyles } from "@mui/styles";
 
 const styles = (theme) => ({
   root: {

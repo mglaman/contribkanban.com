@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@mui/styles";
 import {
   Container,
   Grid,
@@ -19,9 +19,9 @@ import {
   ListItem,
   ListItemSecondaryAction,
   IconButton,
-} from "@material-ui/core";
-import { DeleteOutline as DeleteOutlineIcon } from "@material-ui/icons";
-import { useParams, useHistory } from "react-router-dom";
+} from "@mui/material";
+import { DeleteOutline as DeleteOutlineIcon } from "@mui/icons-material";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuth, fetchAsAuthenticated } from "../context/auth";
 import useFetchIssue from "../hooks/fetchIssue";
 
@@ -35,7 +35,7 @@ const styles = (theme) => ({
 });
 function NodeBoardEditForm({ classes }) {
   const nidRefs = [];
-  const history = useHistory();
+  const navigate = useNavigate();
   const { uuid } = useParams();
   const { authTokens } = useAuth();
   const [boardTitle, setBoardTitle] = useState("");
@@ -131,7 +131,7 @@ function NodeBoardEditForm({ classes }) {
         setMessage(json.errors[0].detail);
       } else {
         setCurrentState("OK");
-        history.push(`/node-board/${json.data.id}`);
+        useNavigate(`/node-board/${json.data.id}`);
       }
     } catch (error) {
       setCurrentState("ERROR");

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { IconButton, Grid, Typography } from "@material-ui/core";
-import { Edit as EditIcon } from "@material-ui/icons";
+import { IconButton, Grid, Typography } from "@mui/material";
+import { Edit as EditIcon } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@mui/styles";
 import { useParams } from "react-router-dom";
 import { useAuth, fetchAsAuthenticated } from "../context/auth";
 import useWindowHeight from "../hooks/windowHeight";

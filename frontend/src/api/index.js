@@ -1,4 +1,5 @@
 export function getApiBaseUrl() {
+  console.log(process.env)
   if (process.env.REACT_APP_API_BASE_URL) {
     return process.env.REACT_APP_API_BASE_URL;
   }
@@ -12,7 +13,7 @@ export function getApiBaseUrl() {
     !process.env.REACT_APP_LAGOON_BRANCH ||
     process.env.REACT_APP_LAGOON_BRANCH === ""
   ) {
-    return "https://contribkanban.com.ddev.site";
+    return "https://contribkanban.com.ddev.sit1111e";
   }
 }
 

@@ -1,12 +1,11 @@
+import { createRoot } from 'react-dom/client';
 import React from "react";
-import ReactDOM from "react-dom";
-import { ThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import { ThemeProvider, createMuiTheme } from "@mui/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
-import { createMuiTheme } from "@material-ui/core/styles";
 const muiTheme = createMuiTheme({
   palette: {
     primary: {
@@ -18,7 +17,10 @@ const muiTheme = createMuiTheme({
   },
 });
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+root.render(
   <React.StrictMode>
     <ThemeProvider theme={muiTheme}>
       <CssBaseline />
@@ -26,8 +28,7 @@ ReactDOM.render(
         <App />
       </Router>
     </ThemeProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -12,9 +12,9 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
-} from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
-import { useHistory } from "react-router-dom";
+} from "@mui/material";
+import { withStyles } from "@mui/styles";
+import { useNavigate } from "react-router-dom";
 import { useAuth, fetchAsAuthenticated } from "../../context/auth";
 
 const styles = (theme) => ({
@@ -24,7 +24,7 @@ const styles = (theme) => ({
 });
 
 function CreateIssueCollectionDialog({ classes, open, handleClose }) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { authTokens } = useAuth();
   const [boardTitle, setBoardTitle] = useState();
   const [collaboration, setCollaboration] = useState("private");
@@ -65,7 +65,7 @@ function CreateIssueCollectionDialog({ classes, open, handleClose }) {
         setMessage(json.errors[0].detail);
       } else {
         setCurrentState("OK");
-        history.push(`/node-board/${json.data.id}/edit`);
+        navigate(`/node-board/${json.data.id}/edit`);
       }
     } catch (error) {
       setCurrentState("ERROR");

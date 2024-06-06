@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { withStyles } from "@material-ui/core/styles";
-import { Grid, Paper, Typography } from "@material-ui/core";
+import { withStyles } from "@mui/styles";
+import { Grid, Paper, Typography } from "@mui/material";
 import qs from "qs";
 import { drupalApiFetch } from "../../api";
 import KanbanCard from "./Card";

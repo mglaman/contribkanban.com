@@ -7,12 +7,12 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { legacyApiFetch, drupalApiFetch } from "../../api";
 
 function CreateProjectDialog({ open, handleClose }) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [machineName, setMachineName] = useState("");
   const [currentState, setCurrentState] = useState("OK");
   const [message, setMessage] = useState(null);
@@ -42,7 +42,7 @@ function CreateProjectDialog({ open, handleClose }) {
       });
       const json = await res.json();
       if (res.ok) {
-        history.push(`/board/${machineName}`);
+        navigate(`/board/${machineName}`);
       } else {
         setCurrentState("ERROR");
         setMessage("Error adding board, see console.");

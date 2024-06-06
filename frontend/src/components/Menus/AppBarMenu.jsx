@@ -5,8 +5,8 @@ import {
   ListItem,
   List,
   Link,
-} from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import { withStyles } from "@mui/styles";
 import { Link as RouterLink } from "react-router-dom";
 
 const styles = (theme) => ({

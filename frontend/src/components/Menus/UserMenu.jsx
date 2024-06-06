@@ -3,7 +3,7 @@ import {
   AccountCircle as AccountCircleIcon,
   PersonAdd as PersonAddIcon,
   ExitToApp as ExitToAppIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import AppBoardMenu from "./AppBarMenu";
 import { useAuth } from "../../context/auth";
 

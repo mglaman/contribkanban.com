@@ -7,12 +7,12 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { legacyApiFetch, drupalApiFetch } from "../../api";
 
 function CreateSprintDialog({ open, handleClose }) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [tagName, setTagName] = useState("");
   const [currentState, setCurrentState] = useState("OK");
   const [message, setMessage] = useState(null);
@@ -40,7 +40,7 @@ function CreateSprintDialog({ open, handleClose }) {
       method: "POST",
     })
       .then((res) => res.json())
-      .then(() => history.push(`/board/${tagName}`))
+      .then(() => useNavigate(`/board/${tagName}`))
       .catch((err) => {
         setCurrentState("ERROR");
         setMessage("Error adding board, see console.");

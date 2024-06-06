@@ -5,7 +5,7 @@ import {
   BugReport as BugReportIcon,
   Launch as LaunchIcon,
   FavoriteBorder as FavoriteBorderIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 function ProjectMenu() {
   return (
     <AppBoardMenu
@@ -15,9 +15,9 @@ function ProjectMenu() {
           href: "https://github.com/mglaman/contribkanban.com",
           icon: <GitHubIcon />,
         },
-        { text: "Report a bug", 
-          href: "https://github.com/mglaman/contribkanban.com/issues", 
-          icon: <BugReportIcon /> 
+        { text: "Report a bug",
+          href: "https://github.com/mglaman/contribkanban.com/issues",
+          icon: <BugReportIcon />
         },
         {
           text: "Open Collective",

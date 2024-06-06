@@ -1,5 +1,5 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@mui/styles";
 import {
   Typography,
   Card,
@@ -7,14 +7,14 @@ import {
   CardContent,
   Chip,
   Link,
-} from "@material-ui/core";
+} from "@mui/material";
 import {
   BugReport as BugIcon,
   AssignmentTurnedIn as TaskIcon,
   Stars as FeatureRequestIcon,
   Help as SupportIcon,
   Note as PlanIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 const statusToColor = {
   1: "#fcfcfc",

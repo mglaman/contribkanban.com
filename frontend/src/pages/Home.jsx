@@ -1,6 +1,8 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import { Grid, Container, Paper, Typography, Link } from "@material-ui/core";
+import { useParams } from 'react-router-dom';
+
+import { withStyles } from "@mui/styles";
+import { Grid, Container, Paper, Typography, Link } from "@mui/material";
 import amazeeHosting from "./amazeeio-hosted-badge.png";
 import BoardListing from "../components/BoardListing";
 import usePageTitle from "../hooks/pageTitle";
@@ -24,8 +26,8 @@ const styles = (theme) => ({
   },
 });
 
-function Home({ match, classes }) {
-  const { boardType } = match.params;
+function Home({ classes }) {
+  const { boardType } = useParams();
   usePageTitle(`All boards`);
   return (
     <section className={classes.root}>
