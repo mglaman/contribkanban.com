@@ -19,7 +19,7 @@ web_environment:
 nodejs_version: "18"
 web_extra_exposed_ports:
   - name: react-app
-    container_port: 3000
+    container_port: 5173
     http_port: 9090
     https_port: 9443
 # Key features of ddev's config.yaml:
