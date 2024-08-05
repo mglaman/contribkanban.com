@@ -21,7 +21,7 @@
         "composer/installers": "^1.2 | ^2.0",
         "cweagans/composer-patches": "^1.6.5",
         "drupal/admin_toolbar": "^3.0",
-        "drupal/core-composer-scaffold": "^10.1",
+        "drupal/core-composer-scaffold": "^11.0",
         "drupal/core-recommended": "^10.1",
         "drupal/email_registration": "^1.0@RC",
         "drupal/entity": "~1.0",
