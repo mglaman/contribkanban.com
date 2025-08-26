@@ -1,4 +1,4 @@
-FROM amazeeio/php:8.1-cli-drupal
+FROM amazeeio/php:8.3-cli-drupal:latest
 
 RUN composer self-update --2
 

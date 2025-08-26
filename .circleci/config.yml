@@ -31,7 +31,7 @@ commands:
 jobs:
   build_backend:
     docker:
-      - image: cimg/php:8.1
+      - image: cimg/php:8.3
     working_directory: ~/repo
     steps:
       - setup-build
@@ -54,7 +54,7 @@ jobs:
       - run: yarn run extension-build
   phpcs:
     docker:
-      - image: cimg/php:8.1
+      - image: cimg/php:8.3
     steps:
       - setup-build
       - install-composer
@@ -63,7 +63,7 @@ jobs:
           command: ./bin/phpcs web/modules/custom
   phpstan:
     docker:
-      - image: cimg/php:8.1
+      - image: cimg/php:8.3
     steps:
       - setup-build
       - install-composer
@@ -73,7 +73,7 @@ jobs:
           command: ./bin/phpstan analyse web/modules/custom --debug
   rector:
     docker:
-      - image: cimg/php:8.1
+      - image: cimg/php:8.3
     steps:
       - setup-build
       - install-composer
@@ -83,7 +83,7 @@ jobs:
           command:  php bin/rector process web/modules/custom
   upgrade_status:
     docker:
-      - image: cimg/php:8.1
+      - image: cimg/php:8.3
     steps:
       - setup-build
       - install-composer
@@ -96,7 +96,7 @@ jobs:
           command: ./bin/drush upgrade_status:analyze --all --ignore-uninstalled
   e2e_test:
     docker:
-      - image: cimg/php:8.1-browsers
+      - image: cimg/php:8.3-browsers
         environment:
           REACT_APP_API_BASE_URL: 'http://127.0.0.1:8080'
     working_directory: ~/repo
