@@ -25,7 +25,7 @@
         "drupal/core-recommended": "^10.1",
         "drupal/email_registration": "^1.0@RC",
         "drupal/entity": "~1.0",
-        "drupal/gin": "^3.0@RC",
+        "drupal/gin": "^4.0@RC",
         "drupal/inline_entity_form": "^1.0@beta",
         "drupal/jsonapi_hypermedia": "^1.6",
         "drupal/jsonapi_search_api": "^1.0@beta",
