@@ -7,6 +7,12 @@
 $settings['config_sync_directory'] = '../config';
 $settings['class_loader_auto_detect'] = FALSE;
 
+$settings['http_client_config'] = [
+  'headers' => [
+    'User-Agent' => 'ContribKanban/1.0 (+https://contribkanban.com/)',
+  ],
+];
+
 // Private directory.
 $settings['file_private_path'] = 'sites/default/files/private';
 

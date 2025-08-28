@@ -26,7 +26,7 @@
         "drupal/email_registration": "^1.0@RC",
         "drupal/entity": "~1.0",
         "drupal/gin": "^3.0@RC",
-        "drupal/inline_entity_form": "^1.0@beta",
+        "drupal/inline_entity_form": "^3.0@beta",
         "drupal/jsonapi_hypermedia": "^1.6",
         "drupal/jsonapi_search_api": "^1.0@beta",
         "drupal/jsonapi_user_resources": "^1.0@alpha",
@@ -42,7 +42,7 @@
     },
     "require-dev": {
         "drupal/core-dev": "^10.1",
-        "palantirnet/drupal-rector": "^0.20.2"
+        "palantirnet/drupal-rector": "^0.21.0"
     },
     "conflict": {
         "drupal/drupal": "*"
