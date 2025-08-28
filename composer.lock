@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e967edd3e5837c754a9d48d307bcd6ff",
+    "content-hash": "25b25b8d3cd84e6de56f220c390bc538",
     "packages": [
         {
             "name": "amazeeio/drupal_integrations",
@@ -13240,6 +13240,7 @@
     "stability-flags": {
         "drupal/email_registration": 5,
         "drupal/gin": 5,
+        "drupal/inline_entity_form": 10,
         "drupal/jsonapi_search_api": 10,
         "drupal/jsonapi_user_resources": 15
     },
