@@ -34,7 +34,6 @@
         "drupal/redis": "^1.1",
         "drupal/search_api": "^1.15",
         "drupal/simple_oauth": "^5.2.0",
-        "drupal/swiftmailer": "^2.0",
         "drupal/symfony_mailer_lite": "^2.0",
         "drupal/upgrade_status": "^4.0",
         "drush/drush": "^12.5.2",
@@ -58,9 +57,11 @@
         "allow-plugins": {
             "composer/installers": true,
             "cweagans/composer-patches": true,
-            "drupal/core-composer-scaffold": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "phpstan/extension-installer": true
+            "drupal/core-composer-scaffold": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true,
+            "tbachert/spi": true
         }
     },
     "extra": {
