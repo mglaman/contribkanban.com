@@ -41,7 +41,7 @@ module:
   serialization: 0
   simple_oauth: 0
   sqlite: 0
-  swiftmailer: 0
+  symfony_mailer_lite: 0
   system: 0
   text: 0
   toolbar: 0

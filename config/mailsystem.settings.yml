@@ -1,11 +1,15 @@
 _core:
   default_config_hash: IhwTepsVwtbtbcT5GzQKhCXDCRvbk3MNkWqPiuiZ10s
-theme: contribkanban
+theme: current
 defaults:
-  sender: swiftmailer
-  formatter: swiftmailer
+  sender: symfony_mailer_lite
+  formatter: symfony_mailer_lite
 modules:
   swiftmailer:
     none:
       sender: swiftmailer
       formatter: swiftmailer
+  symfony_mailer_lite:
+    none:
+      sender: symfony_mailer_lite
+      formatter: symfony_mailer_lite
