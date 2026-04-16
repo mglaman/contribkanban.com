@@ -7,6 +7,9 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: 'build',
     },
+    server: {
+      allowedHosts: ['contribkanban.com.ddev.site'],
+    },
     plugins: [react()],
     test: {
       globals: true,
