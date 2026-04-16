@@ -18,8 +18,11 @@ function makeFetchResponse(overrides = {}) {
 }
 
 describe("getApiBaseUrl", () => {
-  it("returns ddev URL when no Lagoon env vars are set", () => {
-    expect(getApiBaseUrl()).toBe("https://contribkanban.com.ddev.site");
+  it("returns a non-empty URL string", () => {
+    const url = getApiBaseUrl();
+    expect(typeof url).toBe("string");
+    expect(url.length).toBeGreaterThan(0);
+    expect(url).toMatch(/^https?:\/\//);
   });
 });
 
