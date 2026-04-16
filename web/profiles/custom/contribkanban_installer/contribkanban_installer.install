@@ -13,6 +13,9 @@ function contribkanban_installer_install_tasks($install_state)
     'contribkanban_installer_generate_keys' => [
       'display_name' => new TranslatableMarkup('Generate OAuth2 keys'),
     ],
+    'contribkanban_installer_setup_consumer' => [
+      'display_name' => new TranslatableMarkup('Configure OAuth2 consumer'),
+    ],
   ];
 }
 
@@ -72,6 +75,39 @@ function contribkanban_installer_update_8002()
 {
   \Drupal::state()->delete('system.profile.files');
 }
+
+function contribkanban_installer_setup_consumer()
+{
+  $initial_consumer = \Drupal\consumers\Entity\Consumer::load(1);
+  if ($initial_consumer) {
+    $initial_consumer->delete();
+  }
+
+  $entity_repository = \Drupal::service('entity.repository');
+  $exists = $entity_repository->loadEntityByUuid('consumer', 'd4f7c501-cff9-4a3f-bae7-aec1db19456c');
+  if ($exists === null) {
+    $consumer_role = \Drupal\user\Entity\Role::load('frontend_user');
+    if (!$consumer_role) {
+      \Drupal\user\Entity\Role::create([
+        'id' => 'frontend_user',
+        'label' => 'Frontend user',
+      ])->save();
+    }
+
+    \Drupal\consumers\Entity\Consumer::create([
+      'uuid' => 'd4f7c501-cff9-4a3f-bae7-aec1db19456c',
+      'client_id' => 'd4f7c501-cff9-4a3f-bae7-aec1db19456c',
+      'owner_id' => '',
+      'label' => 'Frontend',
+      'is_default' => TRUE,
+      'secret' => NULL,
+      'confidential' => FALSE,
+      'third_party' => FALSE,
+      'roles' => [['target_id' => 'frontend_user']],
+    ])->save();
+  }
+}
+
 
 function contribkanban_installer_update_8003()
 {
