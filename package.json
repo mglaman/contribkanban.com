@@ -10,4 +10,4 @@
         "frontend-build": "yarn workspace @contribkanban/frontend build",
         "frontend-test": "yarn workspace @contribkanban/frontend test"
     }
-  }
+}
