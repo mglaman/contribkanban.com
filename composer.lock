@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25b25b8d3cd84e6de56f220c390bc538",
+    "content-hash": "4315a33cfb5b319283297a8d3d70bc98",
     "packages": [
         {
             "name": "amazeeio/drupal_integrations",
-            "version": "0.4.0",
+            "version": "0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amazeeio/drupal-integrations.git",
-                "reference": "4166cbcce9429e7e1cfaa9ffba4d44c1c267f083"
+                "reference": "5ff908d941551ae985f8eff5c2cbd7d5f4643bc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amazeeio/drupal-integrations/zipball/4166cbcce9429e7e1cfaa9ffba4d44c1c267f083",
-                "reference": "4166cbcce9429e7e1cfaa9ffba4d44c1c267f083",
+                "url": "https://api.github.com/repos/amazeeio/drupal-integrations/zipball/5ff908d941551ae985f8eff5c2cbd7d5f4643bc9",
+                "reference": "5ff908d941551ae985f8eff5c2cbd7d5f4643bc9",
                 "shasum": ""
             },
             "require": {
@@ -38,14 +38,14 @@
                 "drupal-scaffold": {
                     "file-mapping": {
                         "[project-root]/.drush-lock-update": "assets/drush-lock-update",
-                        "[project-root]/drush/sites/lagoon.site.yml": "assets/lagoon.site.yml",
-                        "[web-root]/sites/default/default.development.services.yml": "assets/default.development.services.yml",
-                        "[web-root]/sites/default/settings.lagoon.php": "assets/settings.lagoon.php",
                         "[web-root]/sites/default/settings.php": {
                             "mode": "replace",
                             "path": "assets/initial.settings.php",
                             "overwrite": false
-                        }
+                        },
+                        "[project-root]/drush/sites/lagoon.site.yml": "assets/lagoon.site.yml",
+                        "[web-root]/sites/default/settings.lagoon.php": "assets/settings.lagoon.php",
+                        "[web-root]/sites/default/default.development.services.yml": "assets/default.development.services.yml"
                     }
                 }
             },
@@ -56,9 +56,9 @@
             "description": "Add this project to any Drupal 9+ distribution based on drupal/core-composer-scaffold to enable it for use on Lagoon.",
             "support": {
                 "issues": "https://github.com/amazeeio/drupal-integrations/issues",
-                "source": "https://github.com/amazeeio/drupal-integrations/tree/0.4.0"
+                "source": "https://github.com/amazeeio/drupal-integrations/tree/0.5.0"
             },
-            "time": "2023-11-13T00:29:04+00:00"
+            "time": "2024-09-04T03:50:30+00:00"
         },
         {
             "name": "asm89/stack-cors",
@@ -1646,16 +1646,16 @@
         },
         {
             "name": "drupal/core-composer-scaffold",
-            "version": "10.2.6",
+            "version": "10.6.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-composer-scaffold.git",
-                "reference": "adc702b6ef38a0446abe90267acb96aa806995cf"
+                "reference": "db17b59620ce1c142a34dc017d9e696ce4771e55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core-composer-scaffold/zipball/adc702b6ef38a0446abe90267acb96aa806995cf",
-                "reference": "adc702b6ef38a0446abe90267acb96aa806995cf",
+                "url": "https://api.github.com/repos/drupal/core-composer-scaffold/zipball/db17b59620ce1c142a34dc017d9e696ce4771e55",
+                "reference": "db17b59620ce1c142a34dc017d9e696ce4771e55",
                 "shasum": ""
             },
             "require": {
@@ -1690,9 +1690,9 @@
                 "drupal"
             ],
             "support": {
-                "source": "https://github.com/drupal/core-composer-scaffold/tree/10.2.6"
+                "source": "https://github.com/drupal/core-composer-scaffold/tree/10.6.7"
             },
-            "time": "2024-04-09T07:27:23+00:00"
+            "time": "2024-08-22T14:31:30+00:00"
         },
         {
             "name": "drupal/core-recommended",
@@ -13250,5 +13250,5 @@
         "php": "^8.2"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
