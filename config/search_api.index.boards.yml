@@ -6,7 +6,6 @@ dependencies:
     - search_api.server.database_server
   module:
     - contribkanban_boards
-    - search_api
 id: boards
 name: Boards
 description: ''

@@ -128,7 +128,9 @@ jobs:
           command: ./bin/drush cim -y
       - run:
           name: Check for config changes on new branch
-          command: ./bin/drush config:status 2>&1 | grep "No differences"
+          command: |
+            ./bin/drush config:status 2>&1
+            ./bin/drush config:status 2>&1 | grep "No differences"
       - run:
           name: Start builtin
           command: php -S 127.0.0.1:8080 -t web
