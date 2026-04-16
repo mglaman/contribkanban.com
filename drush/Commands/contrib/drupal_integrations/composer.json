@@ -33,5 +33,11 @@
     },
     "require": {
         "drupal/core-composer-scaffold": "*"
+    },
+    "config": {
+        "allow-plugins": {
+            "drupal/core-composer-scaffold": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }

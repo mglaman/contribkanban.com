@@ -30,6 +30,8 @@ if (!defined("LAGOON_VERSION")) {
 }
 
 // Lagoon database connection.
+// If you require a specific charset or collation for your site,
+// copy, update and add this paragraph to your all.settings.php file.
 if (getenv('LAGOON')) {
   $databases['default']['default'] = [
     'driver' => 'mysql',
@@ -38,6 +40,8 @@ if (getenv('LAGOON')) {
     'password' => getenv('MARIADB_PASSWORD') ?: 'drupal',
     'host' => getenv('MARIADB_HOST') ?: 'mariadb',
     'port' => getenv('MARIADB_PORT') ?: 3306,
+    'charset' => getenv('MARIADB_CHARSET') ?: 'utf8mb4',
+    'collation' => getenv('MARIADB_COLLATION') ?: 'utf8mb4_general_ci',
     'prefix' => '',
   ];
 }
