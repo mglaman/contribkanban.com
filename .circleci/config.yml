@@ -169,6 +169,12 @@ jobs:
           name: Install Playwright Browsers
           command: yarn workspace @contribkanban/frontend exec playwright install --with-deps chromium
       - run: yarn run frontend-e2e
+      - store_artifacts:
+          path: frontend/playwright-report
+          destination: playwright-report
+      - store_artifacts:
+          path: frontend/test-results
+          destination: test-results
       - run:
           command: ./bin/drush wd-show
           when: always
