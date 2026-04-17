@@ -52,6 +52,22 @@ class UserBaseFieldsTest extends EntityKernelTestBase {
     $this->assertTrue($field->isComputed());
   }
 
+  public function testMailHashFieldUsesGravatarFieldItemList(): void {
+    $mock_client = $this->createMock(Client::class);
+    $mock_client->expects($this->never())->method('get');
+    $this->container->set('drupalorg_client', $mock_client);
+
+    $user = User::create([
+      'name' => 'hashtest',
+      'mail' => 'Test@Example.com',
+    ]);
+    $user->save();
+
+    $field_list = $user->get('mail_hash');
+    $this->assertInstanceOf(\Drupal\contribkanban_users\GravatarFieldItemList::class, $field_list);
+    $this->assertEquals(md5('test@example.com'), $field_list->first()->value);
+  }
+
   public function testPresaveFetchesDrupalorgUidWhenUsernameSet(): void {
     $stream = $this->createMock(StreamInterface::class);
     $stream->method('getContents')
