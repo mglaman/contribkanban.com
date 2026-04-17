@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3479f1d6bfd68c11d7512760535fa0a4",
+    "content-hash": "2683db01ae9d1da1ad16efdbfbe602d5",
     "packages": [
         {
             "name": "amazeeio/drupal_integrations",
@@ -1867,27 +1867,27 @@
         },
         {
             "name": "drupal/gin",
-            "version": "3.1.0",
+            "version": "4.1.3",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/gin.git",
-                "reference": "8.x-3.1"
+                "reference": "4.1.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/gin-8.x-3.1.zip",
-                "reference": "8.x-3.1",
-                "shasum": "e652cf8a55888fc2d72118291ec22f62e0807f7c"
+                "url": "https://ftp.drupal.org/files/projects/gin-4.1.3.zip",
+                "reference": "4.1.3",
+                "shasum": "20fa50955fd6ea65cc8d23dbd98a3bf87b853431"
             },
             "require": {
-                "drupal/core": "^9 || ^10 || ^11 <11.2",
-                "drupal/gin_toolbar": "^1.0"
+                "drupal/core": "^10.3 || ^11 <11.2",
+                "drupal/gin_toolbar": "^2.0"
             },
             "type": "drupal-theme",
             "extra": {
                 "drupal": {
-                    "version": "8.x-3.1",
-                    "datestamp": "1750246434",
+                    "version": "4.1.3",
+                    "datestamp": "1768553545",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -1933,26 +1933,26 @@
         },
         {
             "name": "drupal/gin_toolbar",
-            "version": "1.1.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/gin_toolbar.git",
-                "reference": "8.x-1.1"
+                "reference": "2.1.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/gin_toolbar-8.x-1.1.zip",
-                "reference": "8.x-1.1",
-                "shasum": "c6079e28460a9d36e2d83a710143eb56985092c6"
+                "url": "https://ftp.drupal.org/files/projects/gin_toolbar-2.1.0.zip",
+                "reference": "2.1.0",
+                "shasum": "b312a2dea5379ea5883d92c2a2e5f0499972a083"
             },
             "require": {
-                "drupal/core": "^9 || ^10 || ^11 <11.2"
+                "drupal/core": "^10 || ^11 <11.2"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.1",
-                    "datestamp": "1750245793",
+                    "version": "2.1.0",
+                    "datestamp": "1750245881",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -14423,7 +14423,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "drupal/email_registration": 5,
-        "drupal/gin": 5,
         "drupal/inline_entity_form": 10,
         "drupal/jsonapi_search_api": 10,
         "drupal/jsonapi_user_resources": 15
