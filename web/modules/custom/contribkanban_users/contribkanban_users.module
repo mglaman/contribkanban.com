@@ -1,8 +1,5 @@
 <?php
 
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Url;
-use Drupal\Core\Asset\AttachedAssetsInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\user\UserInterface;
@@ -11,45 +8,6 @@ use Drupal\contribkanban_users\GravatarFieldItemList;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Field\Plugin\Field\FieldType\StringItem;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function contribkanban_users_form_user_login_form_alter(&$form, FormStateInterface $form_state, $form_id)
-{
-  $form['actions']['forgot'] = [
-    '#type' => 'link',
-    '#title' => t('Forgot password?'),
-    '#url' => Url::fromRoute('user.pass'),
-    '#attributes' => [
-      'class' => [
-        'button',
-        'is-link'
-      ],
-    ],
-  ];
-  $form['actions']['signup'] = [
-    '#type' => 'link',
-    '#title' => t('Create an Account'),
-    '#url' => Url::fromRoute('user.register'),
-    '#attributes' => [
-      'class' => [
-        'button',
-        'is-white',
-      ],
-    ],
-  ];
-}
-
-/**
- * Implements hook_js_settings_alter().
- */
-function contribkanban_users_js_settings_alter(array &$settings, AttachedAssetsInterface $assets)
-{
-  $user = \Drupal::currentUser();
-  $settings['user']['email'] = $user->getEmail();
-  $settings['user']['gravatar'] = md5(strtolower(trim($user->getEmail() ?? '')));
-}
 
 /**
  * Implements hook_entity_base_field_info().
