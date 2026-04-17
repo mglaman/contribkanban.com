@@ -10,6 +10,8 @@ use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Drupal\Component\Serialization\Json;
 
 final class AddTag implements ContainerInjectionInterface {
 
@@ -42,9 +44,20 @@ final class AddTag implements ContainerInjectionInterface {
   /**
    *
    */
-  public function handle($tag) {
+  public function handle(Request $request, $tag) {
     $tag_name = urldecode($tag);
-    $tag_data = $this->tagsHelper->getTag($tag_name);
+    $payload = Json::decode($request->getContent());
+
+    if (!empty($payload['tid'])) {
+      $tag_data = [
+        'name' => $tag_name,
+        'tid' => $payload['tid'],
+      ];
+    }
+    else {
+      $tag_data = $this->tagsHelper->getTag($tag_name);
+    }
+
     $bundle = 'drupalorg_sprint';
     $existing_board = $this->boardStorage->loadByProperties(['tag' => $tag_data['tid'], 'type' => $bundle]);
     if (!empty($existing_board)) {
