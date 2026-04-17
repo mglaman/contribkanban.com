@@ -39,8 +39,10 @@ export const handlers = [
         id: '123',
         type: 'user--user',
         attributes: {
-          display_name: 'logintest@example.com',
-          drupal_internal__uid: 1
+          mail: 'logintest@example.com',
+          drupal_internal__uid: 1,
+          mail_hash: '123',
+          drupalorg_username: 'logintest'
         }
       }
     });
@@ -51,8 +53,10 @@ export const handlers = [
         id: '123',
         type: 'user--user',
         attributes: {
-          display_name: 'logintest@example.com',
-          drupal_internal__uid: 1
+          mail: 'logintest@example.com',
+          drupal_internal__uid: 1,
+          mail_hash: '123',
+          drupalorg_username: 'logintest'
         }
       }
     });
