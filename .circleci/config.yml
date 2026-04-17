@@ -52,6 +52,14 @@ jobs:
       - checkout
       - install-yarn
       - run: yarn run extension-build
+  frontend_test:
+    docker:
+      - image: cimg/node:18.20
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - install-yarn
+      - run: yarn run frontend-test
   phpcs:
     docker:
       - image: cimg/php:8.2
@@ -157,7 +165,10 @@ jobs:
           command: curl http://127.0.0.1:8080/jsonapi
       - install-yarn
       - run: ./bin/drush en dblog
-      - run: yarn run frontend-test
+      - run:
+          name: Install Playwright Browsers
+          command: yarn workspace @contribkanban/frontend exec playwright install --with-deps chromium
+      - run: yarn run frontend-e2e
       - run:
           command: ./bin/drush wd-show
           when: always
@@ -173,4 +184,5 @@ workflows:
       - phpstan
       - phpunit
       - upgrade_status
+      - frontend_test
       - e2e_test

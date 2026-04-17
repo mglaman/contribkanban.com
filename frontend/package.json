@@ -18,7 +18,8 @@
     "start": "vite --host",
     "build": "vite build",
     "serve": "vite preview --host",
-    "test": "vitest"
+    "test": "vitest",
+    "test:e2e": "playwright test"
   },
   "eslintConfig": {
     "extends": "react-app",
@@ -50,6 +51,7 @@
     "eslint": "^9.4.0",
     "eslint-plugin-prettier": "^3.1.2",
     "jsdom": "^24.1.0",
+    "msw": "^2.3.1",
     "prettier": "3.8.3",
     "vite": "^6.4.2",
     "vitest": "^1.6.1"
