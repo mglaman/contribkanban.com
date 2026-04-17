@@ -40,7 +40,7 @@ function CreateSprintDialog({ open, handleClose }) {
       method: "POST",
     })
       .then((res) => res.json())
-      .then(() => navigate(`/board/${tagName}`))
+      .then((json) => navigate(`/board/${json.machine_name || tagName}`))
       .catch((err) => {
         setCurrentState("ERROR");
         setMessage("Error adding board, see console.");

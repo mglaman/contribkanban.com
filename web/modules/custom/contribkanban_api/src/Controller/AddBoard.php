@@ -64,7 +64,7 @@ final class AddBoard implements ContainerInjectionInterface {
     if (!empty($existing_board)) {
       $existing_board = reset($existing_board);
       return new JsonResponse([
-        'url' => $existing_board->toUrl()->toString(),
+        'machine_name' => $existing_board->get('machine_name')->value,
       ], 200);
     }
 
@@ -116,7 +116,7 @@ final class AddBoard implements ContainerInjectionInterface {
     $board->save();
 
     return new JsonResponse([
-      'url' => $board->toUrl()->toString(),
+      'machine_name' => $board->get('machine_name')->value,
     ], 201);
   }
 
