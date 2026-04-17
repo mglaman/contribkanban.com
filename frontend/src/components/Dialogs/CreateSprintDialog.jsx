@@ -36,8 +36,14 @@ function CreateSprintDialog({ open, handleClose }) {
       return;
     }
 
+    const tid = projectListJson.list[0].tid;
+
     legacyApiFetch(`/api/boards/add/tag/${tagName}`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ tid }),
     })
       .then((res) => res.json())
       .then((json) => navigate(`/board/${json.machine_name || tagName}`))

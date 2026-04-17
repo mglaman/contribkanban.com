@@ -3,6 +3,7 @@ parameters:
     base_uri: 'https://www.drupal.org/api-d7/'
     headers:
       Accept: 'application/json'
+      User-Agent: 'ContribKanban/1.0 (https://contribkanban.com)'
 
 services:
   drupalorg_client:
