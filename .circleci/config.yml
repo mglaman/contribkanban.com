@@ -71,6 +71,20 @@ jobs:
       - run:
           name: phpstan
           command: ./bin/phpstan analyse web/modules/custom --debug
+  phpunit:
+    docker:
+      - image: cimg/php:8.2
+    steps:
+      - setup-build
+      - install-composer
+      - run:
+          name: Create files directory
+          command: mkdir -p web/sites/default/files && chmod 777 web/sites/default/files
+      - run:
+          name: phpunit
+          command: vendor/bin/phpunit web/modules/custom --no-coverage
+          environment:
+            SIMPLETEST_DB: sqlite://localhost//tmp/drupal-test.sqlite
   rector:
     docker:
       - image: cimg/php:8.2
@@ -157,5 +171,6 @@ workflows:
   test:
     jobs:
       - phpstan
+      - phpunit
       - upgrade_status
       - e2e_test
