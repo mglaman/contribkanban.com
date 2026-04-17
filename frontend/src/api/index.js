@@ -27,7 +27,7 @@ export async function apiFetch(resource, opts) {
   if (resource.substr(0, 1) === "/") {
     resource = `${getApiBaseUrl()}/jsonapi${resource}`;
   }
-  const request = new Request(resource, opts);
+  const request = new Request(resource, opts || {});
   request.headers.set("Accept", "application/vnd.api+json");
   if (opts && (opts.method === "POST" || opts.method === "PATCH")) {
     request.headers.set("Content-Type", "application/vnd.api+json");
