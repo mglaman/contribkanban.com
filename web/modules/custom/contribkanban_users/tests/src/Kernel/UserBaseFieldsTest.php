@@ -65,7 +65,9 @@ class UserBaseFieldsTest extends EntityKernelTestBase {
 
     $field_list = $user->get('mail_hash');
     $this->assertInstanceOf(\Drupal\contribkanban_users\GravatarFieldItemList::class, $field_list);
-    $this->assertEquals(md5('test@example.com'), $field_list->first()->value);
+    $first = $field_list->first();
+    $this->assertNotNull($first);
+    $this->assertEquals(md5('test@example.com'), $first->getValue()['value']);
   }
 
   public function testPresaveFetchesDrupalorgUidWhenUsernameSet(): void {

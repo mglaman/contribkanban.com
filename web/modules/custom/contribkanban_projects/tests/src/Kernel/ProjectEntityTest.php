@@ -48,11 +48,11 @@ class ProjectEntityTest extends EntityKernelTestBase {
 
     $this->assertEquals(
       BaseFieldDefinition::CARDINALITY_UNLIMITED,
-      $field_definitions['components']->getCardinality()
+      $field_definitions['components']->getFieldStorageDefinition()->getCardinality()
     );
     $this->assertEquals(
       BaseFieldDefinition::CARDINALITY_UNLIMITED,
-      $field_definitions['versions']->getCardinality()
+      $field_definitions['versions']->getFieldStorageDefinition()->getCardinality()
     );
   }
 
@@ -67,6 +67,7 @@ class ProjectEntityTest extends EntityKernelTestBase {
 
     $storage = \Drupal::entityTypeManager()->getStorage('project');
     $loaded = $storage->load($project->id());
+    $this->assertInstanceOf(Project::class, $loaded);
 
     $this->assertEquals('Drupal', $loaded->get('name')->value);
     $this->assertEquals('drupal', $loaded->get('machine_name')->value);
@@ -86,6 +87,7 @@ class ProjectEntityTest extends EntityKernelTestBase {
 
     $storage = \Drupal::entityTypeManager()->getStorage('project');
     $loaded = $storage->load($project->id());
+    $this->assertInstanceOf(Project::class, $loaded);
 
     $components = array_column($loaded->get('components')->getValue(), 'value');
     $this->assertContains('Views UI', $components);
