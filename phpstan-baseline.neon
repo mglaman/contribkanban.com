@@ -20,7 +20,3 @@ parameters:
 			count: 2
 			path: web/modules/custom/contribkanban_pages/src/Controller/BoardsController.php
 
-		-
-			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
-			count: 1
-			path: web/modules/custom/contribkanban_users/src/UserIssuesFeed.php
