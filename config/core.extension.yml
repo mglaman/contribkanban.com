@@ -10,7 +10,6 @@ module:
   consumers: 0
   contribkanban_api: 0
   contribkanban_boards: 0
-  contribkanban_pages: 0
   contribkanban_projects: 0
   contribkanban_users: 0
   dynamic_page_cache: 0
