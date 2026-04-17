@@ -43,14 +43,14 @@ final class AddTag implements ContainerInjectionInterface {
    *
    */
   public function handle($tag) {
-    $tag = urldecode($tag);
-    $tag = $this->tagsHelper->getTag($tag);
+    $tag_name = urldecode($tag);
+    $tag_data = $this->tagsHelper->getTag($tag_name);
     $bundle = 'drupalorg_sprint';
-    $existing_board = $this->boardStorage->loadByProperties(['tag' => $tag['tid'], 'type' => $bundle]);
+    $existing_board = $this->boardStorage->loadByProperties(['tag' => $tag_data['tid'], 'type' => $bundle]);
     if (!empty($existing_board)) {
       $existing_board = reset($existing_board);
       return new JsonResponse([
-        'url' => $existing_board->toUrl()->toString(),
+        'machine_name' => $existing_board->get('machine_name')->value,
       ], 200);
     }
 
@@ -82,8 +82,8 @@ final class AddTag implements ContainerInjectionInterface {
 
     $board = Board::create([
       'type' => $bundle,
-      'title' => $tag['name'],
-      'tag' => [$tag['tid']],
+      'title' => $tag_data['name'],
+      'tag' => [$tag_data['tid']],
       'lists' => [
         $needs_review,
         $needs_work,
@@ -95,7 +95,7 @@ final class AddTag implements ContainerInjectionInterface {
     $board->save();
 
     return new JsonResponse([
-      'url' => $board->toUrl()->toString(),
+      'machine_name' => $board->get('machine_name')->value,
     ], 201);
   }
 

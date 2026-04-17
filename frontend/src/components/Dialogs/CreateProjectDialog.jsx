@@ -42,7 +42,7 @@ function CreateProjectDialog({ open, handleClose }) {
       });
       const json = await res.json();
       if (res.ok) {
-        navigate(`/board/${machineName}`);
+        navigate(`/board/${json.machine_name || machineName}`);
       } else {
         setCurrentState("ERROR");
         setMessage("Error adding board, see console.");
