@@ -82,7 +82,7 @@ jobs:
           command: mkdir -p web/sites/default/files && chmod 777 web/sites/default/files
       - run:
           name: phpunit
-          command: vendor/bin/phpunit web/modules/custom --no-coverage
+          command: bin/phpunit web/modules/custom --no-coverage
           environment:
             SIMPLETEST_DB: sqlite://localhost//tmp/drupal-test.sqlite
   rector:
