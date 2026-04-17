@@ -21,7 +21,7 @@ describe("test the card component", () => {
     const mockOpen = vi.fn();
     vi.stubGlobal('open', mockOpen)
     const { container } = render(<Card data={mockedIssue} />);
-    userEvent.click(container.firstChild);
+    await userEvent.click(container.firstChild);
     expect(mockOpen).toBeCalledWith(
       `https://www.drupal.org/node/123456789`
     );
