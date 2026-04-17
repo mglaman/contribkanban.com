@@ -19,10 +19,10 @@ describe("login form", () => {
         </ThemeProvider>
       </MemoryRouter>
     );
-    userEvent.type(getByLabelText("Email Address *"), "logintest@example.com");
-    userEvent.type(getByLabelText("Password *"), "letmein");
+    await userEvent.type(getByLabelText("Email Address *"), "logintest@example.com");
+    await userEvent.type(getByLabelText("Password *"), "letmein");
 
-    userEvent.click(getByText("Sign In"));
+    await userEvent.click(getByText("Sign In"));
 
     try {
       await waitForElementToBeRemoved(() => getByText("Sign In"));

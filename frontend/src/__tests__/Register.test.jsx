@@ -38,6 +38,7 @@ describe("register form", () => {
 
     await findByText("The passwords do not match");
 
+    await userEvent.clear(inputConfirmPassword);
     await userEvent.type(inputConfirmPassword, "foo");
     expect(inputConfirmPassword).toHaveAttribute("value", "foo");
 
@@ -54,13 +55,13 @@ describe("register form", () => {
     );
 
     const testEmail = createRandomEmail();
-    userEvent.type(getByLabelText("Email Address *"), testEmail);
-    userEvent.type(getByLabelText("Password *"), "foo");
-    userEvent.type(getByLabelText("Confirm password *"), "foo");
+    await userEvent.type(getByLabelText("Email Address *"), testEmail);
+    await userEvent.type(getByLabelText("Password *"), "foo");
+    await userEvent.type(getByLabelText("Confirm password *"), "foo");
 
     let submitButton = getByText("Create your account");
     expect(submitButton).not.toBeDisabled();
-    userEvent.click(submitButton);
+    await userEvent.click(submitButton);
     submitButton = getByText("Create your account");
     expect(submitButton).toBeDisabled();
 
