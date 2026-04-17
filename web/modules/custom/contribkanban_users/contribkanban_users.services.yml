@@ -1,3 +1,1 @@
 services:
-  contribkanban_users.issues_feed:
-    class: Drupal\contribkanban_users\UserIssuesFeed
