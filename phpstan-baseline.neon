@@ -15,8 +15,3 @@ parameters:
 			count: 5
 			path: web/modules/custom/contribkanban_boards/src/EventSubscriber/MissingBoardExceptionHtmlSubscriber.php
 
-		-
-			message: "#^\\\\Drupal calls should be avoided in classes, use dependency injection instead$#"
-			count: 2
-			path: web/modules/custom/contribkanban_pages/src/Controller/BoardsController.php
-
