@@ -151,7 +151,7 @@ jobs:
           background: true
       - run:
           name: Wait for web server
-          command: dockerize -wait http://127.0.0.1:8080 -timeout 120s
+          command: dockerize -wait http://127.0.0.1:8080/jsonapi -timeout 120s
       - run:
           name: Fetch entrypoint
           command: curl http://127.0.0.1:8080/jsonapi
