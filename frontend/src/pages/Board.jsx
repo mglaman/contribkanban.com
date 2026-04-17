@@ -8,7 +8,7 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import {
   apiFetch,
   getMappedIncludes,
@@ -53,8 +53,12 @@ function Board({ classes }) {
         res
           .json()
           .then((data) => {
-            setBoard(data);
-            setCurrentState("OK");
+            if (data.data && data.data.length === 0) {
+              setCurrentState("NOT_FOUND");
+            } else {
+              setBoard(data);
+              setCurrentState("OK");
+            }
           })
           .catch((err) => setCurrentState("ERROR"));
       }
@@ -95,6 +99,25 @@ function Board({ classes }) {
   }
   if (currentState === "ERROR") {
     return <span>Error!</span>;
+  }
+  if (currentState === "NOT_FOUND") {
+    return (
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        style={{ height: "100%", padding: "40px" }}
+      >
+        <Grid item style={{ textAlign: "center" }}>
+          <Typography variant="h5" gutterBottom>
+            Board "{machineName}" not found
+          </Typography>
+          <Typography variant="body1">
+            <Link to="/create">Click here to create it.</Link>
+          </Typography>
+        </Grid>
+      </Grid>
+    );
   }
   return (
     <div
