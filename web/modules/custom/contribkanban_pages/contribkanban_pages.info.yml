@@ -1,4 +1,0 @@
-name: 'ContribKanban: Pages'
-description: Provides controllers.
-core_version_requirement: '*'
-type: module
