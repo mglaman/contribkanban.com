@@ -4,6 +4,12 @@ import * as matchers from "@testing-library/jest-dom/matchers";
 
 expect.extend(matchers);
 
+import { server } from './mocks/server';
+
+beforeAll(() => server.listen({ onUnhandledRequest: 'bypass' }));
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
 // Node.js 22+ ships a native localStorage that requires --localstorage-file to
 // function. Vitest's populateGlobal skips overriding it with the jsdom version
 // because it already exists in the global scope. Replace it here with a simple

@@ -118,7 +118,7 @@ export const fetchAsAuthenticated = async (resource, opts, authTokens) => {
     resource = `${getApiBaseUrl()}/jsonapi${resource}`;
   }
   let res;
-  const request = new Request(resource, opts);
+  const request = new Request(resource, opts || {});
   request.headers.set("Accept", "application/vnd.api+json");
   if (opts && (opts.method === "POST" || opts.method === "PATCH")) {
     request.headers.set("Content-Type", "application/vnd.api+json");
