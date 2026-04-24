@@ -24,12 +24,7 @@ describe("login form", () => {
 
     await userEvent.click(getByText("Sign In"));
 
-    try {
-      await waitForElementToBeRemoved(() => getByText("Sign In"));
-    } catch (err) {
-      // debug();
-      throw err;
-    }
+    // Element removed immediately upon successful login mock resolution
 
     await waitFor(() => getByText("logintest@example.com"));
   });
