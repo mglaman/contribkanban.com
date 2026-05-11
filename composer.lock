@@ -10685,16 +10685,16 @@
         },
         {
             "name": "palantirnet/drupal-rector",
-            "version": "0.21.1",
+            "version": "0.21.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/palantirnet/drupal-rector.git",
-                "reference": "060403e1d24eb374cbe3b5626f03c27648cdae09"
+                "reference": "421665d1777df769292b47c51e297c73ed417d00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/palantirnet/drupal-rector/zipball/060403e1d24eb374cbe3b5626f03c27648cdae09",
-                "reference": "060403e1d24eb374cbe3b5626f03c27648cdae09",
+                "url": "https://api.github.com/repos/palantirnet/drupal-rector/zipball/421665d1777df769292b47c51e297c73ed417d00",
+                "reference": "421665d1777df769292b47c51e297c73ed417d00",
                 "shasum": ""
             },
             "require": {
@@ -10763,9 +10763,9 @@
                 "rector"
             ],
             "support": {
-                "source": "https://github.com/palantirnet/drupal-rector/tree/0.21.1"
+                "source": "https://github.com/palantirnet/drupal-rector/tree/0.21.2"
             },
-            "time": "2025-11-07T19:09:25+00:00"
+            "time": "2026-05-08T14:23:45+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -14423,6 +14423,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "drupal/email_registration": 5,
+        "drupal/gin": 5,
         "drupal/inline_entity_form": 10,
         "drupal/jsonapi_search_api": 10,
         "drupal/jsonapi_user_resources": 15
