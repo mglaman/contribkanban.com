@@ -19,7 +19,7 @@
         "php": "^8.2",
         "amazeeio/drupal_integrations": "^0.5",
         "composer/installers": "^1.2 | ^2.0",
-        "cweagans/composer-patches": "^1.6.5",
+        "cweagans/composer-patches": "^2.0.0",
         "drupal/admin_toolbar": "^3.0",
         "drupal/core-composer-scaffold": "^10.6",
         "drupal/core-recommended": "^10.6",
