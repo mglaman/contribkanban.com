@@ -8,6 +8,7 @@
         "extension-build": "yarn workspace @contribkanban/chrome-extension build",
         "frontend-start": "yarn workspace @contribkanban/frontend start",
         "frontend-build": "yarn workspace @contribkanban/frontend build",
-        "frontend-test": "yarn workspace @contribkanban/frontend test"
+        "frontend-test": "yarn workspace @contribkanban/frontend test",
+        "frontend-e2e": "yarn workspace @contribkanban/frontend test:e2e"
     }
 }

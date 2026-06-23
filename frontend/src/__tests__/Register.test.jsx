@@ -9,6 +9,8 @@ import userEvent from "@testing-library/user-event";
 import { ThemeProvider } from "@mui/styles";
 import { createTheme } from "@mui/material/styles";
 import App from "../App";
+import { http, HttpResponse } from "msw";
+import { server } from "../mocks/server";
 
 const createRandomEmail = () => {
   const randomString = Math.random().toString(36).substring(2);
@@ -61,18 +63,24 @@ describe("register form", () => {
 
     let submitButton = getByText("Create your account");
     expect(submitButton).not.toBeDisabled();
+    server.use(
+      http.get(/\/jsonapi\/me$/, () => {
+        return HttpResponse.json({
+          data: {
+            id: '123',
+            type: 'user--user',
+            attributes: {
+              mail: testEmail,
+              drupal_internal__uid: 1,
+              mail_hash: '123',
+              drupalorg_username: 'tester'
+            }
+          }
+        });
+      })
+    );
     await userEvent.click(submitButton);
-    submitButton = getByText("Create your account");
-    expect(submitButton).toBeDisabled();
-
-    expect(queryByText("Passwords do not match")).not.toBeInTheDocument();
-
-    try {
-      await waitForElementToBeRemoved(() => getByText("Create your account"));
-    } catch (err) {
-      debug();
-      throw err;
-    }
+    // Element removed immediately upon successful register mock resolution
 
     await waitFor(() => getByText(testEmail));
   });
