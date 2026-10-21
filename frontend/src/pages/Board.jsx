@@ -16,6 +16,7 @@ import {
 } from "../api";
 import useWindowHeight from "../hooks/windowHeight";
 import usePageTitle from "../hooks/pageTitle";
+import useProjectWorkItems from "../hooks/projectWorkItems";
 import KanbanBoard from "../components/Board/Board";
 
 const styles = (theme) => ({
@@ -92,6 +93,7 @@ function Board({ classes }) {
     }
   }, [board, filterCategory, filterPriority]);
 
+  const workItems = useProjectWorkItems(board?.data?.[0]);
   const boardTitle = board?.data?.[0].attributes.title;
   usePageTitle(boardTitle ? boardTitle : "Board");
   if (currentState === "LOADING") {
@@ -136,6 +138,11 @@ function Board({ classes }) {
           <Typography component="h2" variant="h6">
             {boardTitle}
           </Typography>
+          {workItems && workItems.state !== "RESOLVING" ? (
+            <Typography variant="caption" color="text.secondary">
+              Work items from git.drupalcode.org
+            </Typography>
+          ) : null}
         </Grid>
         <Grid item>
           <FormControl
@@ -183,7 +190,11 @@ function Board({ classes }) {
           </FormControl>
         </Grid>
       </Grid>
-      <KanbanBoard board={board.data[0]} lists={lists} />
+      <KanbanBoard
+        board={board.data[0]}
+        lists={lists}
+        workItems={workItems}
+      />
     </div>
   );
 }

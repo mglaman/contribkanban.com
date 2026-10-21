@@ -1,0 +1,144 @@
+// The GraphQL endpoint does not send CORS headers, so browsers must use REST.
+const GITLAB_API_URL = "https://git.drupalcode.org/api/v4";
+
+// Each page is one request against the anonymous rate limit of 180 requests
+// per minute, so very large projects only show their first 2,000 items.
+const MAX_PAGES = 20;
+
+// GitLab `state::` values to Drupal.org issue status IDs. GitLab added triage
+// states with no Drupal.org equivalent, and those count as Active.
+const STATE_TO_STATUS = {
+  active: "1",
+  accepted: "1",
+  new: "1",
+  tobetriaged: "1",
+  planned: "1",
+  readyforwork: "1",
+  inprogress: "1",
+  fixed: "2",
+  postponed: "4",
+  blocked: "4",
+  closed: "7",
+  needsreview: "8",
+  needswork: "13",
+  rtbc: "14",
+  tobeported: "15",
+};
+
+const CATEGORY_TO_ID = {
+  bug: "1",
+  task: "2",
+  feature: "3",
+  support: "4",
+  plan: "5",
+};
+
+const PRIORITY_TO_ID = {
+  critical: "400",
+  major: "300",
+  normal: "200",
+  minor: "100",
+};
+
+/**
+ * Returns the value of a scoped label, like `needsreview` for `state::needsReview`.
+ *
+ * Labels are per project and their spelling drifts, such as
+ * `state::needsReview` and `state::needs review`, so values are lowercased
+ * with everything but letters and digits removed.
+ *
+ * @param {string[]} labels
+ * @param {string} scope
+ * @returns {string|null}
+ */
+export function scopedLabelValue(labels, scope) {
+  const prefix = `${scope}::`;
+  const label = labels.find((title) => title.toLowerCase().startsWith(prefix));
+  if (!label) {
+    return null;
+  }
+  return label
+    .slice(prefix.length)
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "");
+}
+
+/**
+ * Converts a GitLab work item into the Drupal.org issue shape cards and lists use.
+ *
+ * @param {object} workItem A work item from the REST issues API.
+ * @returns {object}
+ */
+export function toDrupalOrgIssue(workItem) {
+  const labels = workItem.labels;
+  const version = labels.find((title) => /^v\d/.test(title));
+  return {
+    nid: String(workItem.iid),
+    title: workItem.title,
+    url: workItem.web_url,
+    field_issue_status: STATE_TO_STATUS[scopedLabelValue(labels, "state")] ?? "1",
+    field_issue_category: CATEGORY_TO_ID[scopedLabelValue(labels, "category")] ?? null,
+    field_issue_priority: PRIORITY_TO_ID[scopedLabelValue(labels, "priority")] ?? "200",
+    field_issue_version: version ? version.slice(1) : null,
+    field_issue_assigned: workItem.assignees.length > 0 ? workItem.assignees[0].username : null,
+  };
+}
+
+/**
+ * Applies a board list's filters to issues, matching the Drupal.org API query.
+ *
+ * @param {object[]} issues Issues from toDrupalOrgIssue().
+ * @param {object} filter The list's statuses, category, priority, and version.
+ * @returns {object[]}
+ */
+export function filterIssues(issues, filter) {
+  return issues
+    .filter(
+      (issue) =>
+        filter.statuses.includes(issue.field_issue_status) &&
+        (filter.category === null || String(filter.category) === issue.field_issue_category) &&
+        (filter.priority === null || String(filter.priority) === issue.field_issue_priority) &&
+        (filter.version.length === 0 || filter.version.includes(issue.field_issue_version))
+    )
+    .sort((a, b) => Number(b.field_issue_priority) - Number(a.field_issue_priority));
+}
+
+async function fetchPage(fullPath, page, signal) {
+  const res = await fetch(
+    `${GITLAB_API_URL}/projects/${encodeURIComponent(fullPath)}/issues?state=opened&per_page=100&page=${page}`,
+    { signal }
+  );
+  if (!res.ok) {
+    throw new Error(`GitLab responded ${res.status} for ${fullPath}`);
+  }
+  return res;
+}
+
+/**
+ * Fetches every open work item in a project.
+ *
+ * The first page reports the page count, then the remaining pages load in
+ * parallel.
+ *
+ * @param {string} fullPath The GitLab project path, like `project/tool`.
+ * @param {(issues: object[]) => void} onPage Called with the issues loaded so far.
+ * @param {AbortSignal} [signal]
+ * @returns {Promise<void>}
+ */
+export async function fetchOpenWorkItems(fullPath, onPage, signal) {
+  const first = await fetchPage(fullPath, 1, signal);
+  const firstItems = (await first.json()).map(toDrupalOrgIssue);
+  onPage(firstItems);
+
+  // GitLab omits the header past 10,000 results, far beyond MAX_PAGES.
+  const totalPages = Math.min(Number(first.headers.get("X-Total-Pages")) || 1, MAX_PAGES);
+  if (totalPages === 1) {
+    return;
+  }
+  const pages = [];
+  for (let page = 2; page <= totalPages; page++) {
+    pages.push(fetchPage(fullPath, page, signal).then((res) => res.json()));
+  }
+  const rest = (await Promise.all(pages)).flat().map(toDrupalOrgIssue);
+  onPage(firstItems.concat(rest));
+}
