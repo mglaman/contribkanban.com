@@ -1,0 +1,28 @@
+name: Set up Drupal
+description: Install PHP, the CI settings file, and Composer dependencies.
+
+runs:
+  using: composite
+  steps:
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: "8.2"
+        extensions: gd, pdo_sqlite, sqlite3
+        ini-values: memory_limit=-1
+        tools: composer:v2
+        coverage: none
+    - name: Copy settings file
+      shell: bash
+      run: cp .github/ci.settings.php web/sites/default/settings.local.php
+    - name: Get Composer cache directory
+      id: composer-cache
+      shell: bash
+      run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+    - uses: actions/cache@v4
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: composer-${{ hashFiles('composer.lock') }}
+        restore-keys: composer-
+    - name: Install Composer dependencies
+      shell: bash
+      run: composer install -n --prefer-dist
