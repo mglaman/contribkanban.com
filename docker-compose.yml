@@ -89,7 +89,7 @@ services:
       <<: *default-environment # loads the defined environment variables from the top
 
   mariadb:
-    image: amazeeio/mariadb-drupal
+    image: uselagoon/mariadb-10.11-drupal
     labels:
       lagoon.type: mariadb
       lando.type: mariadb-drupal
@@ -99,7 +99,7 @@ services:
       <<: *default-environment
 
   redis:
-    image: amazeeio/redis
+    image: uselagoon/redis-7
     labels:
       lagoon.type: redis
       lando.type: redis
@@ -107,7 +107,7 @@ services:
       <<: *default-environment
 
   varnish:
-    image: amazeeio/varnish-drupal
+    image: uselagoon/varnish-6-drupal
     labels:
       lagoon.type: varnish
       lando.type: varnish

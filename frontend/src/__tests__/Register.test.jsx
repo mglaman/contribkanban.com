@@ -10,6 +10,10 @@ import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "@mui/material/styles";
 import App from "../App";
 
+// These tests call the real backend. Password hashing and token signing on
+// CI's single-threaded PHP server can take more than the 1s default.
+const BACKEND_WAIT = { timeout: 10000 };
+
 const createRandomEmail = () => {
   const randomString = Math.random().toString(36).substring(2);
   return `${randomString}@example.com`;
@@ -68,13 +72,13 @@ describe("register form", () => {
     expect(queryByText("Passwords do not match")).not.toBeInTheDocument();
 
     try {
-      await waitForElementToBeRemoved(() => getByText("Create your account"));
+      await waitForElementToBeRemoved(() => getByText("Create your account"), BACKEND_WAIT);
     } catch (err) {
       debug();
       throw err;
     }
 
-    await waitFor(() => getByText(testEmail));
+    await waitFor(() => getByText(testEmail), BACKEND_WAIT);
   });
 
   // it("allows multiple registrations", async () => {
