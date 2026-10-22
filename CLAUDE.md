@@ -15,7 +15,7 @@ Everything runs through DDEV. Do not use native PHP or a standalone Node server.
 ```bash
 ddev start              # start the full stack
 ddev composer install   # install PHP deps
-ddev frontend start     # start Vite dev server (port 3000 via DDEV proxy)
+ddev frontend start     # start Vite dev server (port 5173, proxied to :9443)
 ```
 
 URLs:
@@ -25,9 +25,12 @@ URLs:
 ## Frontend
 
 ```bash
-yarn workspace @contribkanban/frontend start    # dev server
-yarn workspace @contribkanban/frontend build    # production build
-yarn workspace @contribkanban/frontend test     # run Vitest
+ddev frontend start    # dev server
+ddev frontend build    # production build
+ddev frontend test     # run Vitest
+
+# or, inside frontend/ in the web container
+npm run start | build | test
 ```
 
 State management is React Context API only (no Redux/Zustand). Do not introduce external state libraries.
@@ -59,7 +62,7 @@ PHPStan is enforced in CI (GitHub Actions, `.github/workflows/ci.yml`). PHPCS is
 
 Frontend tests use Vitest + Testing Library:
 ```bash
-yarn workspace @contribkanban/frontend test
+ddev exec "cd frontend && npx vitest --run"
 ```
 
 Tests live in `frontend/src/__tests__/` and `frontend/src/components/**/__tests__/`. Page-level tests in `frontend/src/__tests__/pages/` render the whole app with `renderApp()` and `mockFetch()` from `frontend/src/test-utils.jsx`; add one when changing a page.

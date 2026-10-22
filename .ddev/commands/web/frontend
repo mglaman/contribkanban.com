@@ -12,5 +12,6 @@ if [ -z "$1" ]
   exit
 fi
 
-yarn install
-yarn frontend-"$1"
+cd /var/www/html/frontend
+npm install
+npm run "$1"

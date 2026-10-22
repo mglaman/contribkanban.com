@@ -15,14 +15,18 @@ concurrency:
 jobs:
   build_frontend:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
-          cache: yarn
-      - run: yarn install --frozen-lockfile
-      - run: yarn run frontend-build
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm run build
 
   phpstan:
     runs-on: ubuntu-latest
@@ -97,10 +101,13 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
-          cache: yarn
-      - run: yarn install --frozen-lockfile
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+        working-directory: frontend
       - run: ./bin/drush en dblog
-      - run: yarn run frontend-test
+      - run: npm test
+        working-directory: frontend
       - name: Show watchdog log
         if: always()
         run: ./bin/drush wd-show

@@ -1,6 +1,6 @@
 .git
 .idea
 vendor
-node_modules
+**/node_modules
 private
 web/sites/default/files
