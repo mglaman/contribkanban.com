@@ -1,12 +1,11 @@
 # ContribKanban
 
-Kanban board app for Drupal.org contribution issue tracking. Monorepo with a Drupal 10 backend, React 19 frontend, and a Chrome extension.
+Kanban board app for Drupal.org contribution issue tracking. Monorepo with a Drupal 10 backend and a React 19 frontend.
 
 ## Project structure
 
 - `/web` — Drupal 10 application root; custom modules in `web/modules/custom/`
 - `/frontend` — React 19 SPA (Vite, JSX, MUI v9, React Router, Vitest)
-- `/extension` — Chrome extension in **maintenance mode** (React 16, MUI v4, Webpack 4)
 - `/config` — Drupal configuration exports (version-controlled, must stay in sync)
 
 ## Local development
@@ -39,20 +38,12 @@ API utilities are in `frontend/src/api/index.js`. The base URL is environment-aw
 - Local: `https://contribkanban.com.ddev.site`
 - Production: `https://api.contribkanban.com`
 
-## Chrome extension
-
-The extension is in **maintenance mode**. It uses React 16 and MUI v4 — do not apply React 19 or MUI v9 patterns here. Build with:
-
-```bash
-yarn workspace @contribkanban/chrome-extension build
-```
-
 ## Drupal backend
 
 ### Rules
 - All data is exposed via **JSON:API only** — no custom REST controllers.
 - All Drupal config must be exported to `/config` and committed. After config changes: `ddev drush cim` to import, `ddev drush cex` to export.
-- **Simple OAuth** handles authentication. Do not modify OAuth config without care; client IDs are hardcoded in the frontend and extension.
+- **Simple OAuth** handles authentication. Do not modify OAuth config without care; the client ID is hardcoded in the frontend.
 - **Search API** powers board search. Schema/field changes may require an index rebuild: `ddev drush sapi-r all && ddev drush sapi-i all`.
 
 ### Code quality (run before marking Drupal work done)
@@ -84,6 +75,5 @@ Do not force-push master.
 ## Key cautions
 
 - **No unnecessary dependencies.** Do not add npm packages or Composer packages without a clear need.
-- **Extension uses older React/MUI.** React 16 + MUI v4 only in `/extension` — don't mix with v5 patterns.
 - **OAuth flow is fragile.** Token refresh logic in `auth.jsx` handles 401s transparently; changes here need careful testing.
 - **Config must stay in sync.** Any Drupal config change not exported and committed will be lost on next deploy.

@@ -18,9 +18,3 @@ ddev frontend start
 
 Drupal backend accessible at `https://contribkanban.com.ddev.site` and frontend at `https://contribkanban.com.ddev.site:9443/`
 
-## Browser extensions
-
-Browser extensions are available to integrate ContribKanban directly into Drupal.org.
-
-* [Chromium (Chrome/Brave)](https://chrome.google.com/webstore/detail/immmfachnlmchioeaillpamhbfpjmeni/)
-* FireFox (TBD)
