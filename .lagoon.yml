@@ -5,7 +5,7 @@ environment_variables:
 environments:
   master:
     cronjobs:
-    - command: drush cron
+    - command: php bin/drush cron
       name: drush cron
       schedule: H * * * *
       service: cli
