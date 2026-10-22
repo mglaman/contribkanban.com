@@ -16,7 +16,7 @@ jobs:
   build_frontend:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
           node-version: "18"
@@ -27,7 +27,7 @@ jobs:
   build_extension:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
           node-version: "18"
@@ -38,7 +38,7 @@ jobs:
   phpstan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup-drupal
       - run: ./bin/phpstan analyse web/modules/custom --debug
 
@@ -47,7 +47,7 @@ jobs:
     env:
       SIMPLETEST_DB: sqlite://localhost//tmp/drupal-test.sqlite
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup-drupal
       - name: Create files directory
         run: mkdir -p web/sites/default/files && chmod 777 web/sites/default/files
@@ -59,7 +59,7 @@ jobs:
     # those projects are updated. Informational until then.
     continue-on-error: true
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup-drupal
       - name: Install backend
         run: ./bin/drush -y site-install --account-pass=admin
@@ -70,7 +70,7 @@ jobs:
     env:
       REACT_APP_API_BASE_URL: http://127.0.0.1:8080
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       # Set up from the tested commit, since master may not have this action.
