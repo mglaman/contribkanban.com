@@ -10,10 +10,10 @@ ENV REACT_APP_LAGOON_BRANCH=$LAGOON_GIT_BRANCH
 ENV REACT_APP_LAGOON_ENVIRONMENT=$LAGOON_ENVIRONMENT
 
 WORKDIR /app
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
 COPY frontend ./
-COPY yarn.lock ./
-RUN yarn
-RUN yarn build
+RUN npm run build
 
 FROM amazeeio/nginx
 COPY --from=builder /app/build /app
