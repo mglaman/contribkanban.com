@@ -11,11 +11,16 @@ const styles = () => ({
   },
 });
 
-function Board({ board, lists, classes }) {
+function Board({ board, lists, workItems, classes }) {
   return (
     <Grid container wrap="nowrap" className={classes.root} spacing={1}>
       {lists.map((list) => (
-        <BoardList key={list.id} board={board} list={list} />
+        <BoardList
+          key={list.id}
+          board={board}
+          list={list}
+          workItems={workItems}
+        />
       ))}
     </Grid>
   );

@@ -194,7 +194,25 @@ class Board extends ContentEntityBase implements BoardInterface {
       ->setLabel(t('The machine name used for routing'))
       ->setReadOnly(TRUE);
 
+    $fields['gitlab_work_items'] = self::gitlabWorkItemsFieldDefinition();
+
     return $fields;
+  }
+
+  /**
+   * Defines the field that switches a project board to GitLab work items.
+   *
+   * Shared with the update hook that installs the field.
+   */
+  public static function gitlabWorkItemsFieldDefinition(): BaseFieldDefinition {
+    return BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Use GitLab work items'))
+      ->setDescription(t('Load issues from the project on git.drupalcode.org instead of Drupal.org.'))
+      ->setDefaultValue(FALSE)
+      ->setDisplayOptions('form', [
+        'type' => 'boolean_checkbox',
+        'weight' => -5,
+      ]);
   }
 
   /**

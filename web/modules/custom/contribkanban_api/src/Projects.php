@@ -51,6 +51,31 @@ class Projects {
   }
 
   /**
+   * Finds which projects moved their issues to GitLab work items.
+   *
+   * @param string[] $nids
+   *   Project node IDs.
+   *
+   * @return string[]
+   *   The node IDs of projects without a Drupal.org issue queue.
+   */
+  public function getMigratedProjectNids(array $nids): array {
+    $migrated = [];
+    // api-d7 returns at most 50 nodes per page.
+    foreach (array_chunk(array_values(array_unique($nids)), 50) as $chunk) {
+      $uri = 'node.json?' . http_build_query(['nid' => $chunk, 'limit' => 50]);
+      $response = $this->client->get($uri);
+      $data = Json::decode($response->getBody()->getContents());
+      foreach ($data['list'] ?? [] as $node) {
+        if ($node['field_project_has_issue_queue'] === FALSE) {
+          $migrated[] = (string) $node['nid'];
+        }
+      }
+    }
+    return $migrated;
+  }
+
+  /**
    *
    */
   public function getProjects($type = 'full', $page = 1, $limit = 100) {
