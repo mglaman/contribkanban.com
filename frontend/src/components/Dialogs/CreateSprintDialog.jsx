@@ -8,7 +8,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { legacyApiFetch, drupalApiFetch } from "../../api";
 
 function CreateSprintDialog({ open, handleClose }) {

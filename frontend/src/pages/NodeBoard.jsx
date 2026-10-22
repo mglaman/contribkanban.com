@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Box, IconButton, Grid, Typography } from "@mui/material";
 import { Edit as EditIcon } from "@mui/icons-material";
-import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { Link } from "react-router";
+import { useParams } from "react-router";
 import { useAuth, fetchAsAuthenticated } from "../context/auth";
 import useWindowHeight from "../hooks/windowHeight";
 import usePageTitle from "../hooks/pageTitle";
@@ -77,11 +77,14 @@ function NodeBoard() {
     <Box sx={{ position: "relative", height: heightFix }}>
       <Grid
         container
-        justifyContent="space-between"
-        alignItems="center"
-        sx={{ py: 1, px: 2 }}
+        sx={{
+          justifyContent: "space-between",
+          alignItems: "center",
+          py: 1,
+          px: 2,
+        }}
       >
-        <Grid item>
+        <Grid>
           <Typography component="h2" variant="h6">
             {boardTitle}
           </Typography>

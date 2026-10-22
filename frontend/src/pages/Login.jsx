@@ -8,7 +8,7 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import { Link as RouterLink, Navigate } from "react-router-dom";
+import { Link as RouterLink, Navigate } from "react-router";
 import usePageTitle from "../hooks/pageTitle";
 import { authWithPasswordGrant } from "../context/auth";
 import { useAuth } from "../context/auth";
@@ -91,7 +91,7 @@ function LoginForm() {
           Sign In
         </Button>
         <Grid container>
-          <Grid item xs>
+          <Grid size="grow">
             <Link
               component={RouterLink}
               to={`/forgot-password`}
@@ -100,7 +100,7 @@ function LoginForm() {
               Forgot password?
             </Link>
           </Grid>
-          <Grid item>
+          <Grid>
             <Link component={RouterLink} to={`/register`} variant="body2">
               {"Don't have an account? Sign Up"}
             </Link>

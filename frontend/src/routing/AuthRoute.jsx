@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Navigate } from "react-router-dom";
+import { Route, Navigate } from "react-router";
 import { useAuth } from "../context/auth";
 
 function AuthRoute({ children }) {

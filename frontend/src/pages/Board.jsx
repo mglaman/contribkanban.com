@@ -8,7 +8,7 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link } from "react-router";
 import {
   apiFetch,
   getMappedIncludes,
@@ -92,11 +92,14 @@ function Board() {
     return (
       <Grid
         container
-        justifyContent="center"
-        alignItems="center"
-        style={{ height: "100%", padding: "40px" }}
+        sx={{
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          p: 5,
+        }}
       >
-        <Grid item style={{ textAlign: "center" }}>
+        <Grid style={{ textAlign: "center" }}>
           <Typography variant="h5" gutterBottom>
             Board "{machineName}" not found
           </Typography>
@@ -111,11 +114,14 @@ function Board() {
     <Box sx={{ position: "relative", height: heightFix }}>
       <Grid
         container
-        justifyContent="space-between"
-        alignItems="center"
-        sx={{ py: 1, px: 2 }}
+        sx={{
+          justifyContent: "space-between",
+          alignItems: "center",
+          py: 1,
+          px: 2,
+        }}
       >
-        <Grid item>
+        <Grid>
           <Typography component="h2" variant="h6">
             {boardTitle}
           </Typography>
@@ -125,7 +131,7 @@ function Board() {
             </Typography>
           ) : null}
         </Grid>
-        <Grid item>
+        <Grid>
           <FormControl
           sx={{ m: 1, minWidth: 120 }}
             variant="outlined"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import {
   Container,
   Grid,
@@ -10,9 +10,9 @@ import {
   Button,
   List,
   ListItem,
+  ListItemButton,
   ListItemAvatar,
   ListItemText,
-  ListItemSecondaryAction,
   IconButton,
   Avatar,
 } from "@mui/material";
@@ -57,7 +57,7 @@ function Me() {
     <Container maxWidth="md" sx={{ mt: 4 }}>
       <CreateIssueCollectionDialog open={open} handleClose={handleClose} />
       <Grid container spacing={4}>
-        <Grid item md={6} lg={4} xl={3}>
+        <Grid size={{ md: 6, lg: 4, xl: 3 }}>
           <Card>
             <CardContent
               sx={{
@@ -83,7 +83,7 @@ function Me() {
             </CardActions>
           </Card>
         </Grid>
-        <Grid item md={6} lg={8} xl={9}>
+        <Grid size={{ md: 6, lg: 8, xl: 9 }}>
           <Grid>
             <Card>
               <CardActions></CardActions>
@@ -91,17 +91,9 @@ function Me() {
                 {nodeBoards.data.map((board) => {
                   return (
                     <ListItem
-                      button
+                      disablePadding
                       key={board.id}
-                      onClick={() => navigate(`/node-board/${board.id}`)}
-                    >
-                      <ListItemAvatar>
-                        <Avatar>
-                          <FolderIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary={board.attributes.title} />
-                      <ListItemSecondaryAction>
+                      secondaryAction={
                         <IconButton
                           edge="end"
                           aria-label="edit"
@@ -112,7 +104,18 @@ function Me() {
                         >
                           <EditIcon />
                         </IconButton>
-                      </ListItemSecondaryAction>
+                      }
+                    >
+                      <ListItemButton
+                        onClick={() => navigate(`/node-board/${board.id}`)}
+                      >
+                        <ListItemAvatar>
+                          <Avatar>
+                            <FolderIcon />
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary={board.attributes.title} />
+                      </ListItemButton>
                     </ListItem>
                   );
                 })}

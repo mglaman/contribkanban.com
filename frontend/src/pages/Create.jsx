@@ -38,14 +38,14 @@ function Create() {
 
   return (
     <Container sx={{ mt: 2 }}>
-      <Grid container justifyContent="space-between" spacing={2}>
-        <Grid item xs={12} md={4}>
+      <Grid container spacing={2} sx={{ justifyContent: "space-between" }}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Card>
             <CardContent>
               <Typography gutterBottom variant="h5">
                 Project board
               </Typography>
-              <Typography gutterBottom variant="body1" color="textSecondary">
+              <Typography gutterBottom variant="body1" color="text.secondary">
                 a board for a single project on Drupal.org
               </Typography>
             </CardContent>
@@ -62,13 +62,13 @@ function Create() {
             </CardActions>
           </Card>
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Card>
             <CardContent>
               <Typography gutterBottom variant="h5">
                 Sprint board
               </Typography>
-              <Typography gutterBottom variant="body1" color="textSecondary">
+              <Typography gutterBottom variant="body1" color="text.secondary">
                 a board for an issue tag
               </Typography>
             </CardContent>
@@ -85,13 +85,13 @@ function Create() {
             </CardActions>
           </Card>
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Card>
             <CardContent>
               <Typography gutterBottom variant="h5">
                 Issue collection board
               </Typography>
-              <Typography gutterBottom variant="body1" color="textSecondary">
+              <Typography gutterBottom variant="body1" color="text.secondary">
                 create a kanban board for a specific list of issues
               </Typography>
             </CardContent>
@@ -109,13 +109,13 @@ function Create() {
             </CardActions>
           </Card>
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Card>
             <CardContent>
               <Typography gutterBottom variant="h5">
                 Custom board
               </Typography>
-              <Typography gutterBottom variant="body1" color="textSecondary">
+              <Typography gutterBottom variant="body1" color="text.secondary">
                 a custom board, (coming soon)
               </Typography>
             </CardContent>

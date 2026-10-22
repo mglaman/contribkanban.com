@@ -1,11 +1,11 @@
 # ContribKanban
 
-Kanban board app for Drupal.org contribution issue tracking. Monorepo with a Drupal 10 backend, React 18 frontend, and a Chrome extension.
+Kanban board app for Drupal.org contribution issue tracking. Monorepo with a Drupal 10 backend, React 19 frontend, and a Chrome extension.
 
 ## Project structure
 
 - `/web` — Drupal 10 application root; custom modules in `web/modules/custom/`
-- `/frontend` — React 18 SPA (Vite, JSX, MUI v5, Vitest)
+- `/frontend` — React 19 SPA (Vite, JSX, MUI v9, React Router, Vitest)
 - `/extension` — Chrome extension in **maintenance mode** (React 16, MUI v4, Webpack 4)
 - `/config` — Drupal configuration exports (version-controlled, must stay in sync)
 
@@ -41,7 +41,7 @@ API utilities are in `frontend/src/api/index.js`. The base URL is environment-aw
 
 ## Chrome extension
 
-The extension is in **maintenance mode**. It uses React 16 and MUI v4 — do not apply React 18 or MUI v5 patterns here. Build with:
+The extension is in **maintenance mode**. It uses React 16 and MUI v4 — do not apply React 19 or MUI v9 patterns here. Build with:
 
 ```bash
 yarn workspace @contribkanban/chrome-extension build
@@ -71,7 +71,9 @@ Frontend tests use Vitest + Testing Library:
 yarn workspace @contribkanban/frontend test
 ```
 
-Tests live in `frontend/src/__tests__/` and `frontend/src/components/**/__tests__/`.
+Tests live in `frontend/src/__tests__/` and `frontend/src/components/**/__tests__/`. Page-level tests in `frontend/src/__tests__/pages/` render the whole app with `renderApp()` and `mockFetch()` from `frontend/src/test-utils.jsx`; add one when changing a page.
+
+Style with `sx` or `styled()` from `@mui/material/styles`. `@mui/styles` (`withStyles`, `makeStyles`) is gone and does not work with React 19.
 
 ## Deployment
 
