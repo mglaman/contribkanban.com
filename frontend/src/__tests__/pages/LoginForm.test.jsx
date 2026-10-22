@@ -65,6 +65,7 @@ describe("Login and registration forms", () => {
     expect(currentPath()).toBe("/me");
     expect(JSON.parse(localStorage.getItem("oauth"))).toEqual(TEST_TOKENS);
     expect(grant.get("grant_type")).toBe("password");
+    expect(grant.get("scope")).toBe("authenticated");
     expect(grant.get("username")).toBe("tester@example.com");
   });
 
