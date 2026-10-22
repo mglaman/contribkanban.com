@@ -151,8 +151,9 @@ function Board({ classes }) {
             className={classes.formControl}
             size="small"
           >
-            <InputLabel>Type</InputLabel>
+            <InputLabel id="filter-type-label">Type</InputLabel>
             <Select
+              labelId="filter-type-label"
               label="Type"
               value={filterCategory}
               onChange={(event) => setFilterCategory(event.target.value)}
@@ -173,8 +174,9 @@ function Board({ classes }) {
             className={classes.formControl}
             size="small"
           >
-            <InputLabel>Priority</InputLabel>
+            <InputLabel id="filter-priority-label">Priority</InputLabel>
             <Select
+              labelId="filter-priority-label"
               label="Priority"
               value={filterPriority}
               onChange={(event) => setFilterPriority(event.target.value)}

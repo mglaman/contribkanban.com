@@ -119,12 +119,15 @@ function Me({ classes }) {
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText primary={board.attributes.title} />
-                      <ListItemSecondaryAction
-                        onClick={() =>
-                          history.push(`/node-board/${board.id}/edit`)
-                        }
-                      >
-                        <IconButton edge="end" aria-label="edit" size="large">
+                      <ListItemSecondaryAction>
+                        <IconButton
+                          edge="end"
+                          aria-label="edit"
+                          size="large"
+                          onClick={() =>
+                            navigate(`/node-board/${board.id}/edit`)
+                          }
+                        >
                           <EditIcon />
                         </IconButton>
                       </ListItemSecondaryAction>

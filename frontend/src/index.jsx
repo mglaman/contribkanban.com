@@ -1,29 +1,19 @@
 import { createRoot } from 'react-dom/client';
-import { createTheme } from '@mui/material/styles';
 import React from "react";
 import { ThemeProvider,  } from "@mui/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
+import theme from "./theme";
 import * as serviceWorker from "./serviceWorker";
 import "./index.css";
-const muiTheme = createTheme({
-  palette: {
-    primary: {
-      light: "rgba(145, 202, 237, 1)",
-      main: "rgba(6, 120, 190, 1)",
-      dark: "rgba(1, 69, 118, 1)",
-      contrastText: "#fff",
-    },
-  },
-});
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-      <ThemeProvider theme={muiTheme}>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
         <Router>
           <App />
