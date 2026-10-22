@@ -7,14 +7,7 @@ use Drupal\Core\Entity\Routing\AdminHtmlRouteProvider;
 
 class BoardHtmlRouteProvider extends AdminHtmlRouteProvider {
 
-  /**
-   * {@inheritdoc}
-   *
-   * Lie and say its a string for `machine_name` support.
-   */
-  protected function getEntityTypeIdKeyType(EntityTypeInterface $entity_type) {
-    return 'string';
-  }
+  use NonIntegerIdRoutesTrait;
 
   /**
    *
@@ -27,7 +20,8 @@ class BoardHtmlRouteProvider extends AdminHtmlRouteProvider {
       $collection->add("entity.{$entity_type_id}.canonical_alternative", $canonical_route);
     }
 
-    return $collection;
+    // Boards are routed by machine name.
+    return $this->removeIntegerIdRequirement($collection, $entity_type_id);
   }
 
 }
