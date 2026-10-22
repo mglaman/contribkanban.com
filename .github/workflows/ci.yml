@@ -1,0 +1,117 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build_frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn run frontend-build
+
+  build_extension:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: yarn run extension-build
+
+  phpstan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-drupal
+      - run: ./bin/phpstan analyse web/modules/custom --debug
+
+  phpunit:
+    runs-on: ubuntu-latest
+    env:
+      SIMPLETEST_DB: sqlite://localhost//tmp/drupal-test.sqlite
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-drupal
+      - name: Create files directory
+        run: mkdir -p web/sites/default/files && chmod 777 web/sites/default/files
+      - run: ./bin/phpunit web/modules/custom --no-coverage
+
+  upgrade_status:
+    runs-on: ubuntu-latest
+    # Reports Drupal 11 deprecations in contrib projects, so it fails until
+    # those projects are updated. Informational until then.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-drupal
+      - name: Install backend
+        run: ./bin/drush -y site-install --account-pass=admin
+      - run: ./bin/drush upgrade_status:analyze --all --ignore-uninstalled
+
+  e2e_test:
+    runs-on: ubuntu-latest
+    env:
+      REACT_APP_API_BASE_URL: http://127.0.0.1:8080
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      # Set up from the tested commit, since master may not have this action.
+      # The settings file is ignored by Git and survives the checkouts below.
+      - uses: ./.github/actions/setup-drupal
+      # Install from master first so updates and config import run against
+      # the production schema, like a deployment.
+      - name: Switch to master for original install
+        run: git checkout origin/master
+      - name: Install Composer dependencies for master
+        run: composer install -n --prefer-dist
+      - name: Install backend
+        run: ./bin/drush -y site-install --account-pass=admin
+      - name: Create test login user
+        run: ./bin/drush user:create logintest@example.com --mail="logintest@example.com" --password="letmein"
+      - name: Switch back to the tested commit
+        run: git checkout ${{ github.sha }}
+      - name: Install Composer dependencies for the tested commit
+        run: composer install -n --prefer-dist
+      # Picks up a change in `deployment_identifier`.
+      - name: Clear container cache
+        run: ./bin/drush sql:query "DELETE FROM cache_container;" -vvv
+      - name: Run updates
+        run: ./bin/drush updb -y
+      - name: Import config
+        run: ./bin/drush cim -y
+      - name: Check for config changes
+        run: |
+          ./bin/drush config:status 2>&1
+          ./bin/drush config:status 2>&1 | grep "No differences"
+      - name: Start built-in web server
+        run: nohup php -S 127.0.0.1:8080 -t web > /tmp/php-server.log 2>&1 &
+      - name: Wait for web server
+        run: curl -fsS --retry 30 --retry-delay 2 --retry-connrefused http://127.0.0.1:8080/jsonapi
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - run: ./bin/drush en dblog
+      - run: yarn run frontend-test
+      - name: Show watchdog log
+        if: always()
+        run: ./bin/drush wd-show

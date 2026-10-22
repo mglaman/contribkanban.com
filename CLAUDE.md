@@ -62,7 +62,7 @@ yarn workspace @contribkanban/chrome-extension build
 ./bin/phpstan analyse              # static analysis
 ```
 
-These are also enforced in CI (CircleCI).
+PHPStan is enforced in CI (GitHub Actions, `.github/workflows/ci.yml`). PHPCS is not yet; it currently reports violations.
 
 ## Testing
 
@@ -75,7 +75,7 @@ Tests live in `frontend/src/__tests__/` and `frontend/src/components/**/__tests_
 
 ## Deployment
 
-Push to `master` → CircleCI runs build + test → Lagoon auto-deploys to production (`https://contribkanban.com`).
+Push to `master` → GitHub Actions runs build + test → Lagoon auto-deploys to production (`https://contribkanban.com`).
 
 Do not force-push master.
 
