@@ -42,9 +42,6 @@
         "drupal/core-dev": "^10.6",
         "palantirnet/drupal-rector": "^0.21.0"
     },
-    "replace": {
-        "drupal/toolbar": "*"
-    },
     "conflict": {
         "drupal/drupal": "*"
     },
