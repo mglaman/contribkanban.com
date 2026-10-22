@@ -1,28 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { withStyles } from "@mui/styles";
 import { Grid, Paper, Typography } from "@mui/material";
 import qs from "qs";
 import { drupalApiFetch } from "../../api";
 import { filterIssues } from "../../api/gitlab";
 import KanbanCard from "./Card";
 
-const styles = (theme) => ({
-  gridItem: {
-    flex: "0 0 320px",
-    maxWidth: "320px",
-    position: "relative",
-    transform: "translate3d(0, 0, 0)",
-    maxHeight: "100%",
-  },
-  paper: {
-    padding: theme.spacing(1),
-    // margin: theme.spacing(1),
-    height: "100%",
-    overflow: "scroll",
-  },
-});
-
-function BoardList({ board, list, workItems, classes }) {
+function BoardList({ board, list, workItems }) {
   const [currentState, setCurrentState] = useState("LOADING");
   const [listItems, setListItems] = useState([]);
 
@@ -111,8 +94,21 @@ function BoardList({ board, list, workItems, classes }) {
   }, [board, list, workItems]);
 
   return (
-    <Grid item key={list.id} className={classes.gridItem}>
-      <Paper elevation={0} className={classes.paper}>
+    <Grid
+      item
+      key={list.id}
+      sx={{
+        flex: "0 0 320px",
+        maxWidth: "320px",
+        position: "relative",
+        transform: "translate3d(0, 0, 0)",
+        maxHeight: "100%",
+      }}
+    >
+      <Paper
+        elevation={0}
+        sx={{ p: 1, height: "100%", overflow: "scroll" }}
+      >
         <Typography gutterBottom variant="subtitle1">
           {list.attributes.title} ({listItems.length})
         </Typography>
@@ -127,4 +123,4 @@ function BoardList({ board, list, workItems, classes }) {
     </Grid>
   );
 }
-export default withStyles(styles)(BoardList);
+export default BoardList;

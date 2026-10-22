@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Box,
   Container,
   TextField,
   Button,
@@ -7,23 +8,12 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import { withStyles } from "@mui/styles";
 import { Link as RouterLink, Navigate } from "react-router-dom";
 import usePageTitle from "../hooks/pageTitle";
 import { authWithPasswordGrant } from "../context/auth";
 import { useAuth } from "../context/auth";
 
-const styles = (theme) => ({
-  form: {
-    width: "100%",
-    marginTop: theme.spacing(4),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-});
-
-function LoginForm({ classes }) {
+function LoginForm() {
   usePageTitle("Login");
   const { authTokens, setAuthTokens } = useAuth();
   const [authUsername, setAuthUsername] = useState("");
@@ -54,8 +44,9 @@ function LoginForm({ classes }) {
 
   return (
     <Container maxWidth="xs">
-      <form
-        className={classes.form}
+      <Box
+        component="form"
+        sx={{ width: "100%", mt: 4 }}
         onSubmit={(event) => {
           event.preventDefault();
           doLogin();
@@ -95,7 +86,7 @@ function LoginForm({ classes }) {
           fullWidth
           variant="contained"
           color="primary"
-          className={classes.submit}
+          sx={{ mt: 3, mb: 2 }}
         >
           Sign In
         </Button>
@@ -115,8 +106,8 @@ function LoginForm({ classes }) {
             </Link>
           </Grid>
         </Grid>
-      </form>
+      </Box>
     </Container>
   );
 }
-export default withStyles(styles)(LoginForm);
+export default LoginForm;

@@ -1,5 +1,4 @@
 import React from "react";
-import { withStyles } from "@mui/styles";
 import {
   Typography,
   Card,
@@ -47,23 +46,19 @@ const categoryToIcon = {
   5: <PlanIcon titleAccess="Plan" fontSize="small" />,
 };
 
-const styles = (theme) => ({
-  root: {
-    cursor: "pointer",
-    transition: "transform 0.1s ease",
-    transform: "translateZ(0)",
-    "&:hover": {
-      transform: "translate(0, -2px)",
-    },
-  },
-});
-
-function BoardCard({ data, classes }) {
+function BoardCard({ data }) {
   return (
     <Card
       variant="outlined"
-      sx={{ mb: 1}}
-      className={classes.root}
+      sx={{
+        mb: 1,
+        cursor: "pointer",
+        transition: "transform 0.1s ease",
+        transform: "translateZ(0)",
+        "&:hover": {
+          transform: "translate(0, -2px)",
+        },
+      }}
       onClick={() => {
         window.open(data.url);
       }}
@@ -92,7 +87,7 @@ function BoardCard({ data, classes }) {
           size="small"
         />
         {data.field_issue_assigned ? (
-          <Chip label="Assigned" size="small" className={classes.chip} />
+          <Chip label="Assigned" size="small" />
         ) : null}
         {/* <Chip
           label={data.field_issue_component}
@@ -103,4 +98,4 @@ function BoardCard({ data, classes }) {
     </Card>
   );
 }
-export default withStyles(styles)(BoardCard);
+export default BoardCard;

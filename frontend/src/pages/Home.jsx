@@ -1,45 +1,33 @@
 import React from "react";
 import { useParams } from 'react-router-dom';
 
-import { withStyles } from "@mui/styles";
-import { Grid, Container, Paper, Typography, Link } from "@mui/material";
+import { Box, Grid, Container, Paper, Typography, Link } from "@mui/material";
 import amazeeHosting from "./amazeeio-hosted-badge.png";
 import BoardListing from "../components/BoardListing";
 import usePageTitle from "../hooks/pageTitle";
-const styles = (theme) => ({
-  root: {
-    display: "flex",
-    marginTop: theme.spacing(2),
-  },
-  container: {
-    // marginTop: theme.spacing(15),
-    // marginBottom: theme.spacing(30),
-    display: "flex",
-    position: "relative",
-  },
-  paper: {
-    padding: theme.spacing(2),
-    marginBottom: theme.spacing(4),
-    display: "flex",
-    overflow: "auto",
-    flexDirection: "column",
-  },
-});
 
-function Home({ classes }) {
+const paperSx = {
+  p: 2,
+  mb: 4,
+  display: "flex",
+  overflow: "auto",
+  flexDirection: "column",
+};
+
+function Home() {
   const { boardType } = useParams();
   usePageTitle(`All boards`);
   return (
-    <section className={classes.root}>
-      <Container className={classes.container}>
+    <Box component="section" sx={{ display: "flex", mt: 2 }}>
+      <Container sx={{ display: "flex", position: "relative" }}>
         <Grid container spacing={4}>
           <Grid item xs={12} md={8}>
-            <Paper className={classes.paper}>
+            <Paper sx={paperSx}>
               <BoardListing boardType={boardType || null} />
             </Paper>
           </Grid>
           <Grid item xs={12} md={4}>
-            <Paper className={classes.paper}>
+            <Paper sx={paperSx}>
               <Typography gutterBottom variant="h5">
                 Welcome to Contrib Kanban!
               </Typography>
@@ -53,7 +41,7 @@ function Home({ classes }) {
                 simpler way to contribute to Drupal projects.
               </Typography>
             </Paper>
-            <Paper className={classes.paper}>
+            <Paper sx={paperSx}>
               <Link href={`https://www.amazee.io/`}>
                 <img src={amazeeHosting} alt="hosting provided by amazee.io" />
               </Link>
@@ -61,7 +49,7 @@ function Home({ classes }) {
           </Grid>
         </Grid>
       </Container>
-    </section>
+    </Box>
   );
 }
-export default withStyles(styles)(Home);
+export default Home;

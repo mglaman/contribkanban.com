@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import React from "react";
-import { ThemeProvider,  } from "@mui/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";

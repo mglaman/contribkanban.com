@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { withStyles } from "@mui/styles";
 import {
   List,
   ListItem,
@@ -17,13 +16,7 @@ import { Link as RouterLink } from "react-router-dom";
 import qs from "qs";
 import { apiFetch } from "../api";
 
-const styles = (theme) => ({
-  margin: {
-    marginBottom: theme.spacing(2),
-  },
-});
-
-function BoardListing({ boardType, classes }) {
+function BoardListing({ boardType }) {
   const [currentState, setCurrentState] = useState("LOADING");
   const [boards, setBoards] = useState({});
   const [apiSearchUrl, setApiSearchUrl] = useState();
@@ -150,7 +143,7 @@ function BoardListing({ boardType, classes }) {
   return (
     <section>
       <form>
-        <FormControl fullWidth className={classes.margin}>
+        <FormControl fullWidth sx={{ mb: 2 }}>
           <TextField
             label="Search"
             variant="standard"
@@ -166,4 +159,4 @@ function BoardListing({ boardType, classes }) {
   );
 }
 
-export default withStyles(styles)(BoardListing);
+export default BoardListing;

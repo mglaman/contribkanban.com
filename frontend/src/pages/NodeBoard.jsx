@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { IconButton, Grid, Typography } from "@mui/material";
+import { Box, IconButton, Grid, Typography } from "@mui/material";
 import { Edit as EditIcon } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import { withStyles } from "@mui/styles";
 import { useParams } from "react-router-dom";
 import { useAuth, fetchAsAuthenticated } from "../context/auth";
 import useWindowHeight from "../hooks/windowHeight";
@@ -10,17 +9,7 @@ import usePageTitle from "../hooks/pageTitle";
 import KanbanBoard from "../components/Board/NodeBoard";
 import { useAppBar } from "../context/appBar";
 
-const styles = (theme) => ({
-  root: {
-    position: "relative",
-    height: "100%",
-  },
-  boardBar: {
-    padding: theme.spacing(1, 2),
-  },
-});
-
-function NodeBoard({ classes }) {
+function NodeBoard() {
   const { uuid } = useParams();
   const { authTokens } = useAuth();
   const { setActions } = useAppBar();
@@ -85,17 +74,12 @@ function NodeBoard({ classes }) {
   }
 
   return (
-    <div
-      className={classes.root}
-      style={{
-        height: heightFix,
-      }}
-    >
+    <Box sx={{ position: "relative", height: heightFix }}>
       <Grid
         container
         justifyContent="space-between"
         alignItems="center"
-        className={classes.boardBar}
+        sx={{ py: 1, px: 2 }}
       >
         <Grid item>
           <Typography component="h2" variant="h6">
@@ -104,8 +88,8 @@ function NodeBoard({ classes }) {
         </Grid>
       </Grid>
       <KanbanBoard board={board} canEdit={canEdit} />
-    </div>
+    </Box>
   );
 }
 
-export default withStyles(styles)(NodeBoard);
+export default NodeBoard;
