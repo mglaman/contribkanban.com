@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 
 import { Box, Grid, Container, Paper, Typography, Link } from "@mui/material";
 import amazeeHosting from "./amazeeio-hosted-badge.png";
@@ -19,14 +19,14 @@ function Home() {
   usePageTitle(`All boards`);
   return (
     <Box component="section" sx={{ display: "flex", mt: 2 }}>
-      <Container sx={{ display: "flex", position: "relative" }}>
+      <Container sx={{ position: "relative" }}>
         <Grid container spacing={4}>
-          <Grid item xs={12} md={8}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <Paper sx={paperSx}>
               <BoardListing boardType={boardType || null} />
             </Paper>
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Paper sx={paperSx}>
               <Typography gutterBottom variant="h5">
                 Welcome to Contrib Kanban!

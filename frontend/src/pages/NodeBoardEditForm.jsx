@@ -16,11 +16,10 @@ import {
   Paper,
   List,
   ListItem,
-  ListItemSecondaryAction,
   IconButton,
 } from "@mui/material";
-import { DeleteOutline as DeleteOutlineIcon } from "@mui/icons-material";
-import { useParams, useNavigate } from "react-router-dom";
+import { DeleteOutlined as DeleteOutlineIcon } from "@mui/icons-material";
+import { useParams, useNavigate } from "react-router";
 import { useAuth, fetchAsAuthenticated } from "../context/auth";
 import useFetchIssue from "../hooks/fetchIssue";
 
@@ -139,10 +138,10 @@ function NodeBoardEditForm() {
         }}
       >
         <Grid container spacing={4}>
-          <Grid item md={12}>
+          <Grid size={{ md: 12 }}>
             {message ? <Typography color="error">{message}</Typography> : null}
           </Grid>
-          <Grid item md={5}>
+          <Grid size={{ md: 5 }}>
             <Card>
               <CardContent>
                 <TextField
@@ -195,22 +194,28 @@ function NodeBoardEditForm() {
               </CardActions>
             </Card>
           </Grid>
-          <Grid item md={7}>
+          <Grid size={{ md: 7 }}>
             <Paper>
               <List>
                 {nids.map((nid, k) => {
                   return (
-                    <ListItem key={k}>
+                    <ListItem
+                      key={k}
+                      secondaryAction={
+                        <IconButton
+                          onClick={() => removeNid(k)}
+                          size="large"
+                          aria-label="remove issue"
+                        >
+                          <DeleteOutlineIcon />
+                        </IconButton>
+                      }
+                    >
                       <IssueTextField
                         setRef={setRef}
                         nid={nid}
                         onBlur={updateNids}
                       />
-                      <ListItemSecondaryAction>
-                        <IconButton onClick={() => removeNid(k)} size="large">
-                          <DeleteOutlineIcon />
-                        </IconButton>
-                      </ListItemSecondaryAction>
                     </ListItem>
                   );
                 })}
@@ -241,8 +246,10 @@ function IssueTextField({ onBlur, setRef, nid }) {
       value={value}
       name={nid}
       fullWidth
-      InputProps={{
-        onBlur,
+      slotProps={{
+        input: {
+          onBlur,
+        },
       }}
       placeholder={"Issue ID"}
       onChange={(event) => setValue(event.target.value)}

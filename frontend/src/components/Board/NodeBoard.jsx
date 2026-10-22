@@ -36,7 +36,6 @@ function NodeBoard({ board }) {
     });
     return (
       <Grid
-        item
         sx={{
           flex: "0 0 320px",
           maxWidth: "320px",

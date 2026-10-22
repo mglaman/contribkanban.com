@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   List,
   ListItem,
+  ListItemButton,
   ListItemAvatar,
   ListItemText,
   Avatar,
@@ -12,7 +13,7 @@ import {
   Grid,
 } from "@mui/material";
 import { Folder as FolderIcon } from "@mui/icons-material";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "react-router";
 import qs from "qs";
 import { apiFetch } from "../api";
 
@@ -37,8 +38,7 @@ function BoardListing({ boardType }) {
       <Grid
         container
         direction="row"
-        justifyContent="space-between"
-        alignItems="center"
+        sx={{ justifyContent: "space-between", alignItems: "center" }}
       >
         <ButtonGroup variant="text" color="primary">
           <PagerButton link={links?.prev} text={`Previous`} />
@@ -66,20 +66,18 @@ function BoardListing({ boardType }) {
       <List>
         {boards.data.map((board) => {
           return (
-            <ListItem
-              button
-              key={board.id}
-              underline="none"
-              color="inherit"
-              component={RouterLink}
-              to={`/board/${board.attributes.machine_name}`}
-            >
-              <ListItemAvatar>
-                <Avatar>
-                  <FolderIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={board.attributes.title} />
+            <ListItem disablePadding key={board.id}>
+              <ListItemButton
+                component={RouterLink}
+                to={`/board/${board.attributes.machine_name}`}
+              >
+                <ListItemAvatar>
+                  <Avatar>
+                    <FolderIcon />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={board.attributes.title} />
+              </ListItemButton>
             </ListItem>
           );
         })}

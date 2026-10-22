@@ -8,7 +8,7 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import { Link as RouterLink, Navigate } from "react-router-dom";
+import { Link as RouterLink, Navigate } from "react-router";
 import usePageTitle from "../hooks/pageTitle";
 import { useAuth, authWithPasswordGrant } from "../context/auth";
 import { apiFetch } from "../api";
@@ -154,7 +154,7 @@ function RegisterForm() {
           Create your account
         </Button>
         <Grid container>
-          <Grid item>
+          <Grid>
             <Link component={RouterLink} to={`/login`} variant="body2">
               {"Have an account? Log in"}
             </Link>

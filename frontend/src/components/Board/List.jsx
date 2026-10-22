@@ -95,7 +95,6 @@ function BoardList({ board, list, workItems }) {
 
   return (
     <Grid
-      item
       key={list.id}
       sx={{
         flex: "0 0 320px",
