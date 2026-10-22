@@ -4,6 +4,20 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # Major core upgrades need real migration work, not a Dependabot PR.
+    ignore:
+      - dependency-name: "drupal/core*"
+        update-types: ["version-update:semver-major"]
+    # core-recommended pins drupal/core, so the core packages must move
+    # together or Composer cannot resolve the update.
+    groups:
+      drupal-core:
+        patterns:
+          - "drupal/core*"
+      drupal-core-security:
+        applies-to: security-updates
+        patterns:
+          - "drupal/core*"
   - package-ecosystem: "npm"
     directory: "/frontend"
     schedule:
