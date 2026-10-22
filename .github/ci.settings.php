@@ -10,7 +10,7 @@ $databases['default']['default'] = [
 
 // The e2e job switches branches with a forced checkout, which reverts the
 // hash salt site-install writes into the tracked settings.php.
-$settings['hash_salt'] = 'contribkanban-ci';
+$settings['hash_salt'] = hash('sha256', 'contribkanban-ci');
 
 # TODO come up with a dynamic identifier between branch changes.
 # $settings['deployment_identifier'] = getenv('GITHUB_SHA');
