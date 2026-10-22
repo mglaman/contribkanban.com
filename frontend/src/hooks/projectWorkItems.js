@@ -1,71 +1,48 @@
 import { useState, useEffect } from "react";
-import { drupalApiFetch } from "../api";
 import { fetchOpenWorkItems } from "../api/gitlab";
 
-// Before the project is checked, the board does not know its issue source.
-const RESOLVING = { state: "RESOLVING", issues: [] };
-
-async function fetchProject(nid) {
-  try {
-    const res = await drupalApiFetch(`/node/${nid}.json`);
-    return res.ok ? await res.json() : null;
-  } catch (err) {
-    return null;
-  }
-}
+const LOADING = { state: "LOADING", issues: [] };
 
 /**
- * Loads a project board's issues from GitLab when the project has moved there.
+ * Loads a project board's issues from GitLab when the board is set to use them.
  *
- * Drupal.org keeps listing a migrated project's issues as they were at
- * migration time, so those boards must read work items from GitLab instead.
+ * Project boards are named after the project's machine name, which is also its
+ * path on git.drupalcode.org.
  *
  * @param {object|undefined} board The board's JSON:API resource.
  * @returns {null|{state: string, issues: object[]}} Null when the board should
  *   query Drupal.org, otherwise the GitLab issues and their loading state.
  */
 const useProjectWorkItems = (board) => {
-  const projectNid =
-    board?.type === "board--drupalorg_project"
-      ? board.attributes.project_nid[0]
+  const machineName =
+    board?.type === "board--drupalorg_project" &&
+    board.attributes.gitlab_work_items
+      ? board.attributes.machine_name
       : undefined;
   // Keyed by project so a new board never sees the previous board's result.
-  const [result, setResult] = useState({ projectNid: undefined, workItems: null });
+  const [result, setResult] = useState({ machineName: undefined, workItems: LOADING });
 
   useEffect(() => {
-    if (!projectNid) {
+    if (!machineName) {
       return;
     }
     const controller = new AbortController();
     const resolve = (workItems) => {
       if (!controller.signal.aborted) {
-        setResult({ projectNid, workItems });
+        setResult({ machineName, workItems });
       }
     };
-    async function load() {
-      const project = await fetchProject(projectNid);
-      if (project?.field_project_has_issue_queue !== false) {
-        resolve(null);
-        return;
-      }
-      resolve({ state: "LOADING", issues: [] });
-      try {
-        await fetchOpenWorkItems(
-          `project/${project.field_project_machine_name}`,
-          (issues) => resolve({ state: "OK", issues }),
-          controller.signal
-        );
-      } catch (err) {
-        resolve({ state: "ERROR", issues: [] });
-      }
-    }
-    load();
+    fetchOpenWorkItems(
+      `project/${machineName}`,
+      (issues) => resolve({ state: "OK", issues }),
+      controller.signal
+    ).catch(() => resolve({ state: "ERROR", issues: [] }));
     return () => controller.abort();
-  }, [projectNid]);
+  }, [machineName]);
 
-  if (!projectNid) {
+  if (!machineName) {
     return null;
   }
-  return result.projectNid === projectNid ? result.workItems : RESOLVING;
+  return result.machineName === machineName ? result.workItems : LOADING;
 };
 export default useProjectWorkItems;

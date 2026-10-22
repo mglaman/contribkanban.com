@@ -138,7 +138,7 @@ function Board({ classes }) {
           <Typography component="h2" variant="h6">
             {boardTitle}
           </Typography>
-          {workItems && workItems.state !== "RESOLVING" ? (
+          {workItems ? (
             <Typography variant="caption" color="text.secondary">
               Work items from git.drupalcode.org
             </Typography>
