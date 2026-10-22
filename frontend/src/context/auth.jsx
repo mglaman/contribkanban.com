@@ -97,6 +97,8 @@ export const authWithPasswordGrant = async (username, password) => {
       body: qs.stringify({
         grant_type: "password",
         client_id: clientId,
+        // Tokens only get the permissions of the roles their scopes name.
+        scope: "authenticated",
         username,
         password,
       }),
