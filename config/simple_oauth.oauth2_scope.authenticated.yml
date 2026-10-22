@@ -1,0 +1,21 @@
+uuid: 3866c9ee-f280-4603-b3a4-cfaf3cda1417
+langcode: en
+status: true
+dependencies: {  }
+id: authenticated
+name: authenticated
+description: 'Authenticated user'
+grant_types:
+  authorization_code:
+    status: true
+  client_credentials:
+    status: true
+  refresh_token:
+    status: true
+  password:
+    status: true
+umbrella: false
+parent: null
+granularity_id: role
+granularity_configuration:
+  role: authenticated

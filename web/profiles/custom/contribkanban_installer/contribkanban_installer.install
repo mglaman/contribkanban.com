@@ -103,7 +103,8 @@ function contribkanban_installer_setup_consumer()
       'secret' => NULL,
       'confidential' => FALSE,
       'third_party' => FALSE,
-      'roles' => [['target_id' => 'frontend_user']],
+      'grant_types' => ['password', 'refresh_token'],
+      'scopes' => [['scope_id' => 'frontend_user']],
     ])->save();
   }
 }

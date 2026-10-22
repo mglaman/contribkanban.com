@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for contribkanban_api.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
+
+/**
+ * Implements hook_update_dependencies().
+ */
+function contribkanban_api_update_dependencies(): array {
+  // Replace the oauth2_token scopes field between simple_oauth's scope entity
+  // updates and simple_oauth_update_8605.
+  $dependencies['contribkanban_api'][10001] = ['simple_oauth' => 8604];
+  $dependencies['simple_oauth'][8605] = ['contribkanban_api' => 10001];
+  return $dependencies;
+}
+
+/**
+ * Replace the 5.x oauth2_token scopes field before simple_oauth_update_8605.
+ *
+ * Since simple_oauth 6.1.2, update 8605 renames the 5.x scopes_target_id
+ * column and then uninstalls the 5.x field definition, which still points at
+ * scopes_target_id, so the uninstall fails. Swapping the field here, the way
+ * 6.1.1 did, leaves 8605 nothing to rename.
+ */
+function contribkanban_api_update_10001(): void {
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+  $legacy_definition = $update_manager->getFieldStorageDefinition('scopes', 'oauth2_token');
+  if ($legacy_definition === NULL || $legacy_definition->getType() !== 'entity_reference') {
+    return;
+  }
+  $update_manager->uninstallFieldStorageDefinition($legacy_definition);
+  $update_manager->installFieldStorageDefinition(
+    'scopes',
+    'oauth2_token',
+    'simple_oauth',
+    BaseFieldDefinition::create('oauth2_scope_reference')
+      ->setLabel(t('Scopes'))
+      ->setDescription(t('The scopes for this Access Token.'))
+      ->setRevisionable(TRUE)
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setTranslatable(FALSE)
+  );
+}
