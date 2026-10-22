@@ -15,7 +15,7 @@ RUN npm ci
 COPY frontend ./
 RUN npm run build
 
-FROM amazeeio/nginx
+FROM uselagoon/nginx
 COPY --from=builder /app/build /app
 COPY frontend/app.nginx.conf /etc/nginx/conf.d/app.conf
 
