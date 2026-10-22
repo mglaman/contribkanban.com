@@ -11,6 +11,10 @@ import { createTheme } from '@mui/material/styles';
 import App from "../App";
 import { authWithPasswordGrant, fetchAsAuthenticated } from "../context/auth";
 
+// These tests call the real backend. Password hashing and token signing on
+// CI's single-threaded PHP server can take more than the 1s default.
+const BACKEND_WAIT = { timeout: 10000 };
+
 describe("login form", () => {
   it("logs in and shows me Me page", async () => {
     const { debug, getByLabelText, getByText } = render(
@@ -26,13 +30,13 @@ describe("login form", () => {
     await userEvent.click(getByText("Sign In"));
 
     try {
-      await waitForElementToBeRemoved(() => getByText("Sign In"));
+      await waitForElementToBeRemoved(() => getByText("Sign In"), BACKEND_WAIT);
     } catch (err) {
       // debug();
       throw err;
     }
 
-    await waitFor(() => getByText("logintest@example.com"));
+    await waitFor(() => getByText("logintest@example.com"), BACKEND_WAIT);
   });
 
   it("gets a token that can create and update an issue collection", async () => {
