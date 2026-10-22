@@ -104,6 +104,14 @@ jobs:
         run: nohup php -S 127.0.0.1:8080 -t web > /tmp/php-server.log 2>&1 &
       - name: Wait for web server
         run: curl -fsS --retry 30 --retry-delay 2 --retry-connrefused http://127.0.0.1:8080/jsonapi
+      - name: DEBUG token endpoint
+        continue-on-error: true
+        run: |
+          curl -s -X POST http://127.0.0.1:8080/oauth/token -d grant_type=password -d client_id=d4f7c501-cff9-4a3f-bae7-aec1db19456c -d scope=authenticated -d username=logintest@example.com -d password=letmein; echo
+          ./bin/drush ev '$c = \Drupal::entityTypeManager()->getStorage("consumer")->loadMultiple(); foreach ($c as $x) { echo $x->get("client_id")->value, " grants=", implode(",", array_column($x->get("grant_types")->getValue(), "value")), PHP_EOL; }'
+          ./bin/drush pm:list --status=enabled --format=list | grep -i oauth
+          ls -la web/sites/default/files/private/keys || true
+          tail -40 /tmp/php-server.log
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
