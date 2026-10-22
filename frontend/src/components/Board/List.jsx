@@ -3,6 +3,7 @@ import { withStyles } from "@mui/styles";
 import { Grid, Paper, Typography } from "@mui/material";
 import qs from "qs";
 import { drupalApiFetch } from "../../api";
+import { filterIssues } from "../../api/gitlab";
 import KanbanCard from "./Card";
 
 const styles = (theme) => ({
@@ -21,11 +22,16 @@ const styles = (theme) => ({
   },
 });
 
-function BoardList({ board, list, classes }) {
+function BoardList({ board, list, workItems, classes }) {
   const [currentState, setCurrentState] = useState("LOADING");
   const [listItems, setListItems] = useState([]);
 
   useEffect(() => {
+    if (workItems) {
+      setCurrentState(workItems.state);
+      setListItems(filterIssues(workItems.issues, list.attributes));
+      return;
+    }
     async function fetchListItems() {
       const filterData = {
         ...list.attributes,
@@ -102,7 +108,7 @@ function BoardList({ board, list, classes }) {
     setListItems([]);
     setCurrentState("LOADING");
     fetchListItems();
-  }, [board, list]);
+  }, [board, list, workItems]);
 
   return (
     <Grid item key={list.id} className={classes.gridItem}>
@@ -110,9 +116,13 @@ function BoardList({ board, list, classes }) {
         <Typography gutterBottom variant="subtitle1">
           {list.attributes.title} ({listItems.length})
         </Typography>
-        {currentState !== "OK"
-          ? [<span key={list.id}>Loading...</span>]
-          : listItems.map((item) => <KanbanCard key={item.nid} data={item} />)}
+        {currentState === "ERROR" ? (
+          <span>Could not load issues.</span>
+        ) : currentState !== "OK" ? (
+          <span>Loading...</span>
+        ) : (
+          listItems.map((item) => <KanbanCard key={item.nid} data={item} />)
+        )}
       </Paper>
     </Grid>
   );

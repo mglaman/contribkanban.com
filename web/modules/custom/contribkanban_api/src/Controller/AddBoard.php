@@ -104,6 +104,8 @@ final class AddBoard implements ContainerInjectionInterface {
       'title' => $project['title'],
       'project_nid' => [$project['nid']],
       'machine_name' => $machine_name,
+      // Projects without a Drupal.org issue queue have moved to GitLab.
+      'gitlab_work_items' => $project['hasIssues'] === FALSE,
       'lists' => [
         $backlog,
         $active,

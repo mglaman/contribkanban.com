@@ -56,6 +56,11 @@ class BoardForm extends ContentEntityForm {
     if (isset($form['version'])) {
       $form['version']['#group'] = 'basic_info';
     }
+    if (isset($form['gitlab_work_items'])) {
+      $form['gitlab_work_items']['#group'] = 'basic_info';
+      // Only project boards map to a single GitLab project.
+      $form['gitlab_work_items']['#access'] = $this->entity->bundle() === 'drupalorg_project';
+    }
     return $form;
   }
 

@@ -10,3 +10,6 @@ RUN composer install --prefer-dist --no-dev
 COPY . /app
 
 ENV WEBROOT=web
+# Drush Launcher only detects Drush 8-11, so it falls back for Drush 12+.
+# Point the fallback at the project's Drush instead of the image's Drush 8.
+ENV DRUSH_LAUNCHER_FALLBACK=/app/bin/drush

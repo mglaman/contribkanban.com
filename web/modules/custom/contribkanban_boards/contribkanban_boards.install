@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for contribkanban_boards.
+ */
+
+use Drupal\contribkanban_boards\Entity\Board;
+
+/**
+ * Add the GitLab work items field to boards.
+ */
+function contribkanban_boards_update_10001(): void {
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+    'gitlab_work_items',
+    'board',
+    'contribkanban_boards',
+    Board::gitlabWorkItemsFieldDefinition()
+  );
+}
