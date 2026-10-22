@@ -75,8 +75,12 @@ jobs:
       # such as entries in .gitignore, and installs again after each switch.
       - name: Switch to master for original install
         run: git checkout --force origin/master
+      # Start from an empty tree: Composer loads plugins from the installed
+      # vendor directory, which still holds the tested commit's packages.
       - name: Install Composer dependencies for master
-        run: composer install -n --prefer-dist
+        run: |
+          rm -rf vendor web/core web/modules/contrib web/themes/contrib web/profiles/contrib drush/Commands/contrib
+          composer install -n --prefer-dist
       - name: Install backend
         run: ./bin/drush -y site-install --account-pass=admin
       - name: Create test login user
