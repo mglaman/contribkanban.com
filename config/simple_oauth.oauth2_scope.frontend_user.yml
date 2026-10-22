@@ -1,0 +1,19 @@
+uuid: dbb18d80-080a-4e90-ba7f-1a98e9c21ebf
+langcode: en
+status: true
+dependencies: {  }
+id: frontend_user
+name: frontend_user
+description: 'Frontend user'
+grant_types:
+  authorization_code:
+    status: true
+  client_credentials:
+    status: true
+  refresh_token:
+    status: true
+umbrella: false
+parent: null
+granularity_id: role
+granularity_configuration:
+  role: frontend_user
