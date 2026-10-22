@@ -1,4 +1,4 @@
-FROM node:18 as builder
+FROM node:24 AS builder
 
 ARG LAGOON_PROJECT
 ARG LAGOON_GIT_BRANCH
