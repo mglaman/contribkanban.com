@@ -19,7 +19,6 @@
         "php": "^8.2",
         "amazeeio/drupal_integrations": "^0.5",
         "composer/installers": "^1.2 | ^2.0",
-        "cweagans/composer-patches": "^1.6.5",
         "drupal/admin_toolbar": "^3.0",
         "drupal/core-composer-scaffold": "^10.6",
         "drupal/core-recommended": "^10.6",
@@ -43,6 +42,9 @@
         "drupal/core-dev": "^10.6",
         "palantirnet/drupal-rector": "^0.21.0"
     },
+    "replace": {
+        "drupal/toolbar": "*"
+    },
     "conflict": {
         "drupal/drupal": "*"
     },
@@ -56,7 +58,6 @@
         "sort-packages": true,
         "allow-plugins": {
             "composer/installers": true,
-            "cweagans/composer-patches": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "drupal/core-composer-scaffold": true,
             "php-http/discovery": true,
@@ -65,11 +66,6 @@
         }
     },
     "extra": {
-        "enable-patching": true,
-        "composer-exit-on-patch-failure": true,
-        "patchLevel": {
-            "drupal/core": "-p2"
-        },
         "drupal-scaffold": {
             "excludes": [
                 "sites/default/default.services.yml",

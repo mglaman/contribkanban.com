@@ -77,6 +77,7 @@ Do not force-push master.
 
 ## Key cautions
 
+- **`composer.json` replaces `drupal/toolbar`.** Drupal.org metadata makes `drupal/admin_toolbar` require `drupal/toolbar`, the contrib project for Drupal 11.3+. On Drupal 10 core ships Toolbar, so the root `replace` lets Composer resolve. Remove it when moving to a core version without the Toolbar module.
 - **No unnecessary dependencies.** Do not add npm packages or Composer packages without a clear need.
 - **OAuth flow is fragile.** Token refresh logic in `auth.jsx` handles 401s transparently; changes here need careful testing.
 - **Config must stay in sync.** Any Drupal config change not exported and committed will be lost on next deploy.
