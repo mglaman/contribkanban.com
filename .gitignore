@@ -33,4 +33,4 @@
 
 node_modules
 yarn-error.log
-/.drush-lock-update
+/.drush-lock-update/.phpunit.cache/
