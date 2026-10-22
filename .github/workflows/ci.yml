@@ -17,9 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: "18"
+          node-version-file: .nvmrc
           cache: yarn
       - run: yarn install --frozen-lockfile
       - run: yarn run frontend-build
@@ -28,9 +28,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: "18"
+          node-version-file: .nvmrc
           cache: yarn
       - run: yarn install --frozen-lockfile
       - run: yarn run extension-build
@@ -105,9 +105,9 @@ jobs:
         run: nohup php -S 127.0.0.1:8080 -t web > /tmp/php-server.log 2>&1 &
       - name: Wait for web server
         run: curl -fsS --retry 30 --retry-delay 2 --retry-connrefused http://127.0.0.1:8080/jsonapi
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: "18"
+          node-version-file: .nvmrc
           cache: yarn
       - run: yarn install --frozen-lockfile
       - run: ./bin/drush en dblog
