@@ -6,12 +6,14 @@ use Drupal\contribkanban_api\Projects;
 use Drupal\contribkanban_projects\Entity\Project;
 use Drupal\contribkanban_projects\Scraper;
 use Drupal\KernelTests\Core\Entity\EntityKernelTestBase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Verifies Scraper creates and deduplicates Project entities.
- *
- * @group contribkanban_projects
  */
+#[Group('contribkanban_projects')]
+#[RunTestsInSeparateProcesses]
 class ScraperTest extends EntityKernelTestBase {
 
   protected static $modules = ['contribkanban_projects', 'contribkanban_api', 'entity'];
