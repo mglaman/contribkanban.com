@@ -6,7 +6,7 @@ import {
   waitFor,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { ThemeProvider,  } from "@mui/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from '@mui/material/styles';
 import App from "../App";
 

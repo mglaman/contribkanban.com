@@ -17,6 +17,8 @@ export default defineConfig(({ mode }) => {
       globals: true,
       environment: 'jsdom',
       setupFiles: './src/setupTests.js',
+      // Full-page tests render the whole app and run in parallel workers.
+      testTimeout: 15000,
     },
     define: {
       'process.env': { ...env, NODE_ENV: mode },

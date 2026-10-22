@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { withStyles } from "@mui/styles";
 import {
   Container,
   Grid,
@@ -25,15 +24,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useAuth, fetchAsAuthenticated } from "../context/auth";
 import useFetchIssue from "../hooks/fetchIssue";
 
-const styles = (theme) => ({
-  root: {
-    marginTop: theme.spacing(2),
-  },
-  collaboration: {
-    marginTop: theme.spacing(2),
-  },
-});
-function NodeBoardEditForm({ classes }) {
+function NodeBoardEditForm() {
   const nidRefs = [];
   const navigate = useNavigate();
   const { uuid } = useParams();
@@ -140,7 +131,7 @@ function NodeBoardEditForm({ classes }) {
   }
 
   return (
-    <Container className={classes.root}>
+    <Container sx={{ mt: 2 }}>
       <form
         onSubmit={(event) => {
           event.preventDefault();
@@ -163,10 +154,7 @@ function NodeBoardEditForm({ classes }) {
                   onChange={(event) => setBoardTitle(event.target.value)}
                   disabled={currentState === "LOADING"}
                 />
-                <FormControl
-                  component="fieldset"
-                  className={classes.collaboration}
-                >
+                <FormControl component="fieldset" sx={{ mt: 2 }}>
                   <FormLabel component="legend">Collaboration</FormLabel>
                   <RadioGroup
                     value={collaboration}
@@ -263,4 +251,4 @@ function IssueTextField({ onBlur, setRef, nid }) {
   );
 }
 
-export default withStyles(styles)(NodeBoardEditForm);
+export default NodeBoardEditForm;

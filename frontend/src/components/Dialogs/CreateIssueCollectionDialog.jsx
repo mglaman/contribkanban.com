@@ -13,17 +13,10 @@ import {
   FormControlLabel,
   Radio,
 } from "@mui/material";
-import { withStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
 import { useAuth, fetchAsAuthenticated } from "../../context/auth";
 
-const styles = (theme) => ({
-  collaboration: {
-    marginTop: theme.spacing(2),
-  },
-});
-
-function CreateIssueCollectionDialog({ classes, open, handleClose }) {
+function CreateIssueCollectionDialog({ open, handleClose }) {
   const navigate = useNavigate();
   const { authTokens } = useAuth();
   const [boardTitle, setBoardTitle] = useState();
@@ -101,7 +94,7 @@ function CreateIssueCollectionDialog({ classes, open, handleClose }) {
             onChange={(event) => setBoardTitle(event.target.value)}
             disabled={currentState === "LOADING"}
           />
-          <FormControl component="fieldset" className={classes.collaboration}>
+          <FormControl component="fieldset" sx={{ mt: 2 }}>
             <FormLabel component="legend">Collaboration</FormLabel>
             <RadioGroup
               value={collaboration}
@@ -145,4 +138,4 @@ function CreateIssueCollectionDialog({ classes, open, handleClose }) {
     </Dialog>
   );
 }
-export default withStyles(styles)(CreateIssueCollectionDialog);
+export default CreateIssueCollectionDialog;

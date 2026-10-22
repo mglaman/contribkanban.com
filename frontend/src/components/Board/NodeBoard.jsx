@@ -1,32 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { withStyles } from "@mui/styles";
 import { Grid, Typography, Paper } from "@mui/material";
 import qs from "qs";
 import { drupalApiFetch } from "../../api";
 import KanbanCard from "./Card";
 
-const styles = (theme) => ({
-  root: {
-    overflowX: "auto",
-    overflowY: "hidden",
-    height: "100%",
-  },
-  paper: {
-    padding: theme.spacing(1),
-    margin: theme.spacing(1),
-    height: "100%",
-    overflow: "scroll",
-  },
-  item: {
-    flex: "0 0 320px",
-    maxWidth: "320px",
-    position: "relative",
-    transform: "translate3d(0, 0, 0)",
-    maxHeight: "100%",
-  },
-});
-
-function NodeBoard({ board, classes }) {
+function NodeBoard({ board }) {
   const [issues, setIssues] = useState([]);
 
   useEffect(() => {
@@ -57,8 +35,20 @@ function NodeBoard({ board, classes }) {
       return statuses.includes(parseInt(item.field_issue_status));
     });
     return (
-      <Grid item className={classes.item}>
-        <Paper elevation={0} className={classes.paper}>
+      <Grid
+        item
+        sx={{
+          flex: "0 0 320px",
+          maxWidth: "320px",
+          position: "relative",
+          transform: "translate3d(0, 0, 0)",
+          maxHeight: "100%",
+        }}
+      >
+        <Paper
+          elevation={0}
+          sx={{ p: 1, m: 1, height: "100%", overflow: "scroll" }}
+        >
           <Typography variant="subtitle1">
             {label} ({listIssues.length})
           </Typography>
@@ -75,7 +65,11 @@ function NodeBoard({ board, classes }) {
   }
 
   return (
-    <Grid container wrap="nowrap" className={classes.root}>
+    <Grid
+      container
+      wrap="nowrap"
+      sx={{ overflowX: "auto", overflowY: "hidden", height: "100%" }}
+    >
       <NodeBoardList issues={issues} label={`Postponed`} statuses={[4, 16]} />
       <NodeBoardList issues={issues} label={`Active`} statuses={[1]} />
       <NodeBoardList issues={issues} label={`Needs work`} statuses={[13]} />
@@ -89,4 +83,4 @@ function NodeBoard({ board, classes }) {
     </Grid>
   );
 }
-export default withStyles(styles)(NodeBoard);
+export default NodeBoard;

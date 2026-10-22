@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { withStyles } from "@mui/styles";
 import {
+  Box,
   Grid,
   FormControl,
   InputLabel,
@@ -19,21 +19,7 @@ import usePageTitle from "../hooks/pageTitle";
 import useProjectWorkItems from "../hooks/projectWorkItems";
 import KanbanBoard from "../components/Board/Board";
 
-const styles = (theme) => ({
-  root: {
-    position: "relative",
-    height: "100%",
-  },
-  boardBar: {
-    padding: theme.spacing(1, 2),
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-});
-
-function Board({ classes }) {
+function Board() {
   const { machineName } = useParams();
   const [currentState, setCurrentState] = useState("LOADING");
   const [board, setBoard] = useState(null);
@@ -122,17 +108,12 @@ function Board({ classes }) {
     );
   }
   return (
-    <div
-      className={classes.root}
-      style={{
-        height: heightFix,
-      }}
-    >
+    <Box sx={{ position: "relative", height: heightFix }}>
       <Grid
         container
         justifyContent="space-between"
         alignItems="center"
-        className={classes.boardBar}
+        sx={{ py: 1, px: 2 }}
       >
         <Grid item>
           <Typography component="h2" variant="h6">
@@ -148,11 +129,11 @@ function Board({ classes }) {
           <FormControl
           sx={{ m: 1, minWidth: 120 }}
             variant="outlined"
-            className={classes.formControl}
             size="small"
           >
-            <InputLabel>Type</InputLabel>
+            <InputLabel id="filter-type-label">Type</InputLabel>
             <Select
+              labelId="filter-type-label"
               label="Type"
               value={filterCategory}
               onChange={(event) => setFilterCategory(event.target.value)}
@@ -170,11 +151,11 @@ function Board({ classes }) {
           <FormControl
           sx={{ m: 1, minWidth: 120 }}
             variant="outlined"
-            className={classes.formControl}
             size="small"
           >
-            <InputLabel>Priority</InputLabel>
+            <InputLabel id="filter-priority-label">Priority</InputLabel>
             <Select
+              labelId="filter-priority-label"
               label="Priority"
               value={filterPriority}
               onChange={(event) => setFilterPriority(event.target.value)}
@@ -195,8 +176,8 @@ function Board({ classes }) {
         lists={lists}
         workItems={workItems}
       />
-    </div>
+    </Box>
   );
 }
 
-export default withStyles(styles)(Board);
+export default Board;

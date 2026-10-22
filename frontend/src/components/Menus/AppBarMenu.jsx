@@ -6,17 +6,11 @@ import {
   List,
   Link,
 } from "@mui/material";
-import { withStyles } from "@mui/styles";
 import { Link as RouterLink } from "react-router-dom";
 
-const styles = (theme) => ({
-  drawerList: {
-    width: 250,
-  },
-});
-function AppBarMenu({ classes, links }) {
+function AppBarMenu({ links }) {
   return (
-    <List className={classes.drawerList}>
+    <List sx={{ width: 250 }}>
       {links.map((link) => (
         <ListItem
           button
@@ -32,4 +26,4 @@ function AppBarMenu({ classes, links }) {
     </List>
   );
 }
-export default withStyles(styles)(AppBarMenu);
+export default AppBarMenu;

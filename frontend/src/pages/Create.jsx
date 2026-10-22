@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { withStyles } from "@mui/styles";
 import {
   Container,
   Card,
@@ -14,16 +13,6 @@ import CreateProjectDialog from "../components/Dialogs/CreateProjectDialog";
 import CreateSprintDialog from "../components/Dialogs/CreateSprintDialog";
 import CreateIssueCollectionDialog from "../components/Dialogs/CreateIssueCollectionDialog";
 import { useAuth } from "../context/auth";
-
-const styles = (theme) => ({
-  root: {
-    marginTop: theme.spacing(2),
-  },
-  paper: {
-    height: "100%",
-    padding: theme.spacing(2),
-  },
-});
 
 function DialogFactory({ type, ...rest }) {
   switch (type) {
@@ -40,7 +29,7 @@ function DialogFactory({ type, ...rest }) {
   }
 }
 
-function Create({ classes }) {
+function Create() {
   usePageTitle(`Create a new board`);
   const { authTokens } = useAuth();
   const [open, setOpen] = useState(false);
@@ -48,7 +37,7 @@ function Create({ classes }) {
   const handleClose = () => setOpen(false);
 
   return (
-    <Container className={classes.root}>
+    <Container sx={{ mt: 2 }}>
       <Grid container justifyContent="space-between" spacing={2}>
         <Grid item xs={12} md={4}>
           <Card>
@@ -143,4 +132,4 @@ function Create({ classes }) {
   );
 }
 
-export default withStyles(styles)(Create);
+export default Create;

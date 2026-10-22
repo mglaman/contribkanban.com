@@ -17,32 +17,11 @@ import {
   Avatar,
 } from "@mui/material";
 import { Dashboard as FolderIcon, Edit as EditIcon } from "@mui/icons-material";
-import { withStyles } from "@mui/styles";
 import { useAuth, fetchAsAuthenticated } from "../context/auth";
 import CreateIssueCollectionDialog from "../components/Dialogs/CreateIssueCollectionDialog";
 import Gravatar from "../components/Gravatar";
 
-const styles = (theme) => ({
-  root: {
-    marginTop: theme.spacing(4),
-  },
-  paper: {
-    marginBottom: theme.spacing(4),
-  },
-  accountActions: {
-    flexDirection: "column",
-  },
-  acccountButtons: {
-    width: "100%",
-  },
-  accountBadge: {
-    display: "flex",
-    alignItems: "center",
-    flexDirection: "column",
-  },
-});
-
-function Me({ classes }) {
+function Me() {
   const navigate = useNavigate();
   const { authTokens, currentUser } = useAuth();
   const [nodeBoards, setNodeBoards] = useState({
@@ -75,12 +54,18 @@ function Me({ classes }) {
   }
 
   return (
-    <Container maxWidth="md" className={classes.root}>
+    <Container maxWidth="md" sx={{ mt: 4 }}>
       <CreateIssueCollectionDialog open={open} handleClose={handleClose} />
       <Grid container spacing={4}>
         <Grid item md={6} lg={4} xl={3}>
           <Card>
-            <CardContent className={classes.accountBadge}>
+            <CardContent
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
               <Gravatar emailHash={currentUser.data.attributes.mail_hash} />
               <Typography gutterBottom variant="subtitle2">
                 {currentUser.data.attributes.mail}
@@ -89,13 +74,10 @@ function Me({ classes }) {
                 {currentUser.data.attributes.drupalorg_username}
               </Typography>
             </CardContent>
-            <CardActions className={classes.accountActions}>
-              <Button className={classes.acccountButtons}>Edit account</Button>
-              <Button className={classes.acccountButtons}>My issues</Button>
-              <Button
-                className={classes.acccountButtons}
-                onClick={() => setOpen(true)}
-              >
+            <CardActions sx={{ flexDirection: "column" }}>
+              <Button fullWidth>Edit account</Button>
+              <Button fullWidth>My issues</Button>
+              <Button fullWidth onClick={() => setOpen(true)}>
                 New issue collection
               </Button>
             </CardActions>
@@ -119,12 +101,15 @@ function Me({ classes }) {
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText primary={board.attributes.title} />
-                      <ListItemSecondaryAction
-                        onClick={() =>
-                          history.push(`/node-board/${board.id}/edit`)
-                        }
-                      >
-                        <IconButton edge="end" aria-label="edit" size="large">
+                      <ListItemSecondaryAction>
+                        <IconButton
+                          edge="end"
+                          aria-label="edit"
+                          size="large"
+                          onClick={() =>
+                            navigate(`/node-board/${board.id}/edit`)
+                          }
+                        >
                           <EditIcon />
                         </IconButton>
                       </ListItemSecondaryAction>
@@ -139,4 +124,4 @@ function Me({ classes }) {
     </Container>
   );
 }
-export default withStyles(styles)(Me);
+export default Me;

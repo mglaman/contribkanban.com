@@ -1,19 +1,15 @@
 import React from "react";
-import { withStyles } from "@mui/styles";
 import { Grid } from "@mui/material";
 import BoardList from "./List";
 
-const styles = () => ({
-  root: {
-    overflowX: "auto",
-    overflowY: "hidden",
-    height: "100%",
-  },
-});
-
-function Board({ board, lists, workItems, classes }) {
+function Board({ board, lists, workItems }) {
   return (
-    <Grid container wrap="nowrap" className={classes.root} spacing={1}>
+    <Grid
+      container
+      wrap="nowrap"
+      spacing={1}
+      sx={{ overflowX: "auto", overflowY: "hidden", height: "100%" }}
+    >
       {lists.map((list) => (
         <BoardList
           key={list.id}
@@ -25,4 +21,4 @@ function Board({ board, lists, workItems, classes }) {
     </Grid>
   );
 }
-export default withStyles(styles)(Board);
+export default Board;
