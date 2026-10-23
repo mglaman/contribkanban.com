@@ -77,8 +77,7 @@ function contribkanban_boards_update_10002(): string {
   $list_storage->delete($list_storage->loadMultiple($orphan_ids));
 
   // Boards are routed by machine name, so a duplicate is unreachable. Keep
-  // the oldest board's name. Re-saving the others suffixes theirs in
-  // Board::preSave().
+  // the oldest board's name and suffix the others.
   $duplicates = $database->select('board', 'b')
     ->fields('b', ['machine_name'])
     ->groupBy('b.machine_name')
@@ -95,6 +94,7 @@ function contribkanban_boards_update_10002(): string {
     array_shift($ids);
     foreach ($board_storage->loadMultiple($ids) as $board) {
       assert($board instanceof BoardInterface);
+      $board->set('machine_name', Board::uniqueMachineName($board_storage, $machine_name, $board->bundle()));
       $board->save();
       $renamed[] = "$machine_name to " . $board->get('machine_name')->value;
     }

@@ -47,7 +47,8 @@ final class AddTag implements ContainerInjectionInterface {
    *   The tag name.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
-   *   The board's machine name.
+   *   The board's machine name, with 201 if created or 200 if it existed, or
+   *   the validation errors with 422.
    */
   public function handle(Request $request, $tag) {
     $tag_name = urldecode($tag);
@@ -112,6 +113,14 @@ final class AddTag implements ContainerInjectionInterface {
         $fixed,
       ],
     ]);
+    $violations = $board->validate();
+    if ($violations->count() > 0) {
+      $errors = [];
+      foreach ($violations as $violation) {
+        $errors[$violation->getPropertyPath()] = strip_tags((string) $violation->getMessage());
+      }
+      return new JsonResponse(['errors' => $errors], 422);
+    }
     $board->save();
 
     return new JsonResponse([

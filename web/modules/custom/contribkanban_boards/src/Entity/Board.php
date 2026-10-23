@@ -58,35 +58,63 @@ class Board extends ContentEntityBase implements BoardInterface {
   /**
    * {@inheritdoc}
    */
-  public function preSave(EntityStorageInterface $storage) {
-    parent::preSave($storage);
-    if ($this->get('machine_name')->isEmpty()) {
-      $this->get('machine_name')->setValue(preg_replace("/\s/", '', $this->label()));
+  public static function preCreate(EntityStorageInterface $storage, array &$values) {
+    parent::preCreate($storage, $values);
+    // Boards are routed by machine name, and project and tag boards can
+    // collide, such as the mongodb project and the mongodb tag. Pick a free
+    // name when the board is created, so validation sees the final name.
+    $machine_name = $values['machine_name'] ?? preg_replace('/\s/', '', (string) ($values['title'] ?? ''));
+    $bundle = $values['type'] ?? NULL;
+    if (is_string($machine_name) && $machine_name !== '' && is_string($bundle)) {
+      $values['machine_name'] = self::uniqueMachineName($storage, $machine_name, $bundle);
     }
-
-    // Boards are routed by machine name, so a duplicate would be unreachable.
-    // Project and tag boards can collide, such as the mongodb project and the
-    // mongodb tag, so suffix the name when another board has it.
-    $machine_name = (string) $this->get('machine_name')->value;
-    $suffix = $this->bundle() === 'drupalorg_sprint' ? 'tag' : 'board';
-    $candidate = $machine_name;
-    for ($counter = 1; $this->machineNameTaken($storage, $candidate); $counter++) {
-      $candidate = $machine_name . '-' . $suffix . ($counter > 1 ? '-' . $counter : '');
-    }
-    $this->set('machine_name', $candidate);
   }
 
   /**
-   * Checks whether another board uses a machine name.
+   * {@inheritdoc}
    */
-  private function machineNameTaken(EntityStorageInterface $storage, string $machine_name): bool {
-    $query = $storage->getQuery()
-      ->accessCheck(FALSE)
-      ->condition('machine_name', $machine_name);
-    if (!$this->isNew()) {
-      $query->condition('board_id', $this->id(), '<>');
+  public function preSave(EntityStorageInterface $storage) {
+    parent::preSave($storage);
+    // The admin form creates the board before its title is known.
+    if ($this->get('machine_name')->isEmpty()) {
+      $machine_name = (string) preg_replace('/\s/', '', (string) $this->label());
+      $this->set('machine_name', self::uniqueMachineName($storage, $machine_name, $this->bundle()));
     }
-    return (bool) $query->count()->execute();
+  }
+
+  /**
+   * Returns a machine name no other board uses.
+   *
+   * @param \Drupal\Core\Entity\EntityStorageInterface $storage
+   *   The board storage.
+   * @param string $machine_name
+   *   The preferred machine name.
+   * @param string $bundle
+   *   The board type, which picks the suffix.
+   *
+   * @return string
+   *   The first free name of: the preferred name, the name suffixed with -tag
+   *   for tag boards or -board otherwise, then the suffixed name with -2, -3,
+   *   and so on.
+   */
+  public static function uniqueMachineName(EntityStorageInterface $storage, string $machine_name, string $bundle): string {
+    $suffix = $bundle === 'drupalorg_sprint' ? 'tag' : 'board';
+    $candidate = $machine_name;
+    for ($counter = 1; self::machineNameTaken($storage, $candidate); $counter++) {
+      $candidate = $machine_name . '-' . $suffix . ($counter > 1 ? '-' . $counter : '');
+    }
+    return $candidate;
+  }
+
+  /**
+   * Checks whether a board uses a machine name.
+   */
+  private static function machineNameTaken(EntityStorageInterface $storage, string $machine_name): bool {
+    return (bool) $storage->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('machine_name', $machine_name)
+      ->count()
+      ->execute();
   }
 
   /**
