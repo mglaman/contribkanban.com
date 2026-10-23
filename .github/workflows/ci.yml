@@ -71,16 +71,22 @@ jobs:
       - uses: ./.github/actions/setup-drupal
       # Install from master first so updates and config import run against
       # the production schema, like a deployment.
+      # Forced, because composer install scaffolds files into the work tree,
+      # such as entries in .gitignore, and installs again after each switch.
       - name: Switch to master for original install
-        run: git checkout origin/master
+        run: git checkout --force origin/master
+      # Start from an empty tree: Composer loads plugins from the installed
+      # vendor directory, which still holds the tested commit's packages.
       - name: Install Composer dependencies for master
-        run: composer install -n --prefer-dist
+        run: |
+          rm -rf vendor web/core web/modules/contrib web/themes/contrib web/profiles/contrib drush/Commands/contrib
+          composer install -n --prefer-dist
       - name: Install backend
         run: ./bin/drush -y site-install --account-pass=admin
       - name: Create test login user
         run: ./bin/drush user:create logintest@example.com --mail="logintest@example.com" --password="letmein"
       - name: Switch back to the tested commit
-        run: git checkout ${{ github.sha }}
+        run: git checkout --force ${{ github.sha }}
       - name: Install Composer dependencies for the tested commit
         run: composer install -n --prefer-dist
       # Picks up a change in `deployment_identifier`.

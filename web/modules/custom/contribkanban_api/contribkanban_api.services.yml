@@ -17,14 +17,6 @@ services:
     class: Drupal\contribkanban_api\Tags
     arguments: ['@drupalorg_client']
 
-  contribkanban_api.normalizer.field_item:
-    class: Drupal\contribkanban_api\Normalizer\FieldItemNormalizer
-    tags:
-      - { name: normalizer, priority: 8 }
-  contribkanban_api.normalizer.field:
-    class: Drupal\contribkanban_api\Normalizer\FieldNormalizer
-    tags:
-      - { name: normalizer, priority: 9 }
   contribkanban_api.resource_type_build_subscriber:
     class: Drupal\contribkanban_api\EventSubscriber\ResourceTypeBuildSubscriber
     tags:

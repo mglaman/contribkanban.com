@@ -1,10 +1,10 @@
 # ContribKanban
 
-Kanban board app for Drupal.org contribution issue tracking. Monorepo with a Drupal 10 backend and a React 19 frontend.
+Kanban board app for Drupal.org contribution issue tracking. Monorepo with a Drupal 11 backend and a React 19 frontend.
 
 ## Project structure
 
-- `/web` — Drupal 10 application root; custom modules in `web/modules/custom/`
+- `/web` — Drupal 11 application root; custom modules in `web/modules/custom/`
 - `/frontend` — React 19 SPA (Vite, JSX, MUI v9, React Router, Vitest)
 - `/config` — Drupal configuration exports (version-controlled, must stay in sync)
 

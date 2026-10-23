@@ -2,15 +2,17 @@
 
 namespace Drupal\Tests\contribkanban_projects\Kernel;
 
-use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\contribkanban_projects\Entity\Project;
+use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\KernelTests\Core\Entity\EntityKernelTestBase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Verifies Project entity schema and persistence.
- *
- * @group contribkanban_projects
  */
+#[Group('contribkanban_projects')]
+#[RunTestsInSeparateProcesses]
 class ProjectEntityTest extends EntityKernelTestBase {
 
   protected static $modules = ['contribkanban_projects', 'contribkanban_api', 'entity'];

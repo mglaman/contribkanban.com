@@ -5,14 +5,16 @@ namespace Drupal\Tests\contribkanban_users\Kernel;
 use Drupal\KernelTests\Core\Entity\EntityKernelTestBase;
 use Drupal\user\Entity\User;
 use GuzzleHttp\Client;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
  * Verifies contribkanban_users adds expected base fields to User entity.
- *
- * @group contribkanban_users
  */
+#[Group('contribkanban_users')]
+#[RunTestsInSeparateProcesses]
 class UserBaseFieldsTest extends EntityKernelTestBase {
 
   protected static $modules = ['contribkanban_users'];

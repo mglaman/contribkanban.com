@@ -7,14 +7,14 @@ use Drupal\Core\Entity\Routing\AdminHtmlRouteProvider;
 
 class NodeBoardHtmlRouterProvider extends AdminHtmlRouteProvider {
 
+  use NonIntegerIdRoutesTrait;
+
   /**
    * {@inheritdoc}
-   *
-   * Lie and say its a string for `machine_name` support.
    */
-  protected function getEntityTypeIdKeyType(EntityTypeInterface $entity_type) {
-    $field_storage_definitions = $this->entityFieldManager->getFieldStorageDefinitions($entity_type->id());
-    return $field_storage_definitions[$entity_type->getKey('uuid')]->getType();
+  public function getRoutes(EntityTypeInterface $entity_type) {
+    // Node boards are routed by UUID.
+    return $this->removeIntegerIdRequirement(parent::getRoutes($entity_type), $entity_type->id());
   }
 
 }

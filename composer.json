@@ -16,15 +16,14 @@
         }
     ],
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "amazeeio/drupal_integrations": "^0.5",
         "composer/installers": "^1.2 | ^2.0",
         "drupal/admin_toolbar": "^3.0",
-        "drupal/core-composer-scaffold": "^10.6",
-        "drupal/core-recommended": "^10.6",
-        "drupal/email_registration": "^1.0@RC",
+        "drupal/core-composer-scaffold": "^11.4",
+        "drupal/core-recommended": "^11.4",
         "drupal/entity": "~1.0",
-        "drupal/gin": "^4.1@RC",
+        "drupal/gin": "^5",
         "drupal/inline_entity_form": "^3.0@beta",
         "drupal/jsonapi_hypermedia": "^1.6",
         "drupal/jsonapi_search_api": "^1.0@beta",
@@ -40,8 +39,8 @@
         "laminas/laminas-feed": "^2.22"
     },
     "require-dev": {
-        "drupal/core-dev": "^10.6",
-        "palantirnet/drupal-rector": "^0.21.0"
+        "drupal/core-dev": "^11.4",
+        "palantirnet/drupal-rector": "^1"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -60,7 +59,8 @@
             "drupal/core-composer-scaffold": true,
             "php-http/discovery": true,
             "phpstan/extension-installer": true,
-            "tbachert/spi": true
+            "tbachert/spi": true,
+            "symfony/runtime": true
         }
     },
     "extra": {
@@ -82,6 +82,7 @@
         },
         "installer-paths": {
             "web/core": ["type:drupal-core"],
+            "recipes/{$name}": ["type:drupal-recipe"],
             "web/libraries/{$name}": ["type:drupal-library"],
             "web/modules/contrib/{$name}": ["type:drupal-module"],
             "web/profiles/contrib/{$name}": ["type:drupal-profile"],
