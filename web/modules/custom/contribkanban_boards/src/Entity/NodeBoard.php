@@ -55,7 +55,7 @@ class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwner
   const IS_PUBLIC = 'public';
 
   /**
-   *
+   * {@inheritdoc}
    */
   protected function urlRouteParameters($rel) {
     $uri_route_parameters = parent::urlRouteParameters($rel);

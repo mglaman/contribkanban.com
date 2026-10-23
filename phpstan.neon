@@ -10,5 +10,3 @@ parameters:
 			project:
 				class: Drupal\contribkanban_projects\Entity\Project
 				storage: Drupal\Core\Entity\Sql\SqlContentEntityStorage
-includes:
-	- phpstan-baseline.neon

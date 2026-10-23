@@ -47,59 +47,59 @@ class BoardList extends ContentEntityBase implements BoardListInterface {
   }
 
   /**
-   * @return \Drupal\Core\Field\FieldItemListInterface
+   * {@inheritdoc}
    */
   public function getProjects() {
-    foreach ($this->getBoard()->get('project_nid') as $item) {
-      $this->get('project_nid')->appendItem($item->value);
+    foreach ($this->getBoard()->get('project_nid')->getValue() as $value) {
+      $this->get('project_nid')->appendItem($value['value']);
     }
     return $this->get('project_nid');
   }
 
   /**
-   * @return \Drupal\Core\Field\FieldItemListInterface
+   * {@inheritdoc}
    */
   public function getCategory() {
     return $this->get('category');
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function getComponent() {
     return $this->get('component');
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function getParentIssue() {
-    foreach ($this->getBoard()->get('parent_issue') as $item) {
-      $this->get('parent_issue')->appendItem($item->value);
+    foreach ($this->getBoard()->get('parent_issue')->getValue() as $value) {
+      $this->get('parent_issue')->appendItem($value['value']);
     }
     return $this->get('parent_issue');
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function getPriority() {
     return $this->get('priority');
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function getStatuses() {
     return $this->get('statuses');
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function getTags() {
-    foreach ($this->getBoard()->get('tag') as $item) {
-      $this->get('tag')->appendItem($item->value);
+    foreach ($this->getBoard()->get('tag')->getValue() as $value) {
+      $this->get('tag')->appendItem($value['value']);
     }
     return $this->get('tag');
   }
@@ -108,29 +108,31 @@ class BoardList extends ContentEntityBase implements BoardListInterface {
    * {@inheritdoc}
    */
   public function getVersion() {
-    foreach ($this->getBoard()->get('version') as $item) {
-      $this->get('version')->appendItem($item->value);
+    foreach ($this->getBoard()->get('version')->getValue() as $value) {
+      $this->get('version')->appendItem($value['value']);
     }
     return $this->get('version');
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function preSave(EntityStorageInterface $storage) {
     if (!$this->get('tag')->isEmpty()) {
-      foreach ($this->get('tag') as $delta => $item) {
-        if (!is_numeric($item->value)) {
-          // Look up the tag ID.
-          $tag = \Drupal::getContainer()->get('drupalorg_tags')->getTag($item->value);
-          if (empty($tag)) {
-            $this->get('tag')->removeItem($delta);
+      // Replace tag names with their term IDs, and drop unknown tags.
+      $tids = [];
+      foreach ($this->get('tag')->getValue() as $value) {
+        $tag = $value['value'];
+        if (!is_numeric($tag)) {
+          $term = \Drupal::getContainer()->get('drupalorg_tags')->getTag($tag);
+          if (empty($term)) {
+            continue;
           }
-          else {
-            $item->value = $tag['tid'];
-          }
+          $tag = $term['tid'];
         }
+        $tids[] = $tag;
       }
+      $this->set('tag', $tids);
     }
     parent::preSave($storage);
   }

@@ -12,10 +12,7 @@ abstract class StringOptionsWidget extends WidgetBase {
    * {@inheritdoc}
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
-    $selected = [];
-    foreach ($items as $item) {
-      $selected[] = $item->value;
-    }
+    $selected = array_column($items->getValue(), 'value');
 
     $element += [
       '#type' => $items->getFieldDefinition()->getFieldStorageDefinition()->getCardinality() == 1 ? 'radios' : 'checkboxes',
@@ -47,7 +44,10 @@ abstract class StringOptionsWidget extends WidgetBase {
   }
 
   /**
+   * Gets the options for the widget.
    *
+   * @return array
+   *   Option labels, keyed by value.
    */
   abstract public function getOptions();
 

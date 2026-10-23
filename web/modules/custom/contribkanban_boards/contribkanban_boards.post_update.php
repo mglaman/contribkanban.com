@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Post update functions for contribkanban_boards.
+ */
+
 use Drupal\contribkanban_boards\Entity\NodeBoard;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Utility\UpdateException;
@@ -35,7 +40,7 @@ function contribkanban_boards_post_update_migrate_to_install_profile() {
 }
 
 /**
- *
+ * Merge the per-project-type board bundles into drupalorg_project.
  */
 function contribkanban_boards_post_update_migrate_board_providers_bundles() {
   $board_provider_manager = \Drupal::getContainer()->get('plugin.manager.board_provider');
@@ -49,9 +54,6 @@ function contribkanban_boards_post_update_migrate_board_providers_bundles() {
   }
   catch (PluginNotFoundException $e) {
     throw new UpdateException('Should not happen.', 0, $e);
-  }
-  if (!$board_definition || !$board_list_definition) {
-    throw new UpdateException('Should not happen.', 0);
   }
 
   $database = \Drupal::database();

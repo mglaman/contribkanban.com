@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\contribkanban_users\Kernel;
 
+use Drupal\contribkanban_users\GravatarFieldItemList;
 use Drupal\KernelTests\Core\Entity\EntityKernelTestBase;
 use Drupal\user\Entity\User;
 use GuzzleHttp\Client;
@@ -17,8 +18,14 @@ use Psr\Http\Message\StreamInterface;
 #[RunTestsInSeparateProcesses]
 class UserBaseFieldsTest extends EntityKernelTestBase {
 
+  /**
+   * {@inheritdoc}
+   */
   protected static $modules = ['contribkanban_users'];
 
+  /**
+   * Tests that the user entity has the drupal.org base fields.
+   */
   public function testUserBaseFieldsExist(): void {
     $field_definitions = \Drupal::service('entity_field.manager')
       ->getBaseFieldDefinitions('user');
@@ -28,6 +35,9 @@ class UserBaseFieldsTest extends EntityKernelTestBase {
     $this->assertArrayHasKey('mail_hash', $field_definitions);
   }
 
+  /**
+   * Tests the drupalorg_username field definition.
+   */
   public function testDrupalorgUsernameFieldDefinition(): void {
     $field_definitions = \Drupal::service('entity_field.manager')
       ->getBaseFieldDefinitions('user');
@@ -37,6 +47,9 @@ class UserBaseFieldsTest extends EntityKernelTestBase {
     $this->assertEquals(255, $field->getSetting('max_length'));
   }
 
+  /**
+   * Tests the drupalorg_uid field definition.
+   */
   public function testDrupalorgUidFieldDefinition(): void {
     $field_definitions = \Drupal::service('entity_field.manager')
       ->getBaseFieldDefinitions('user');
@@ -46,6 +59,9 @@ class UserBaseFieldsTest extends EntityKernelTestBase {
     $this->assertEquals(255, $field->getSetting('max_length'));
   }
 
+  /**
+   * Tests that mail_hash is a computed field.
+   */
   public function testMailHashFieldIsComputed(): void {
     $field_definitions = \Drupal::service('entity_field.manager')
       ->getBaseFieldDefinitions('user');
@@ -54,6 +70,9 @@ class UserBaseFieldsTest extends EntityKernelTestBase {
     $this->assertTrue($field->isComputed());
   }
 
+  /**
+   * Tests that mail_hash computes its value with GravatarFieldItemList.
+   */
   public function testMailHashFieldUsesGravatarFieldItemList(): void {
     $mock_client = $this->createMock(Client::class);
     $mock_client->expects($this->never())->method('get');
@@ -66,12 +85,15 @@ class UserBaseFieldsTest extends EntityKernelTestBase {
     $user->save();
 
     $field_list = $user->get('mail_hash');
-    $this->assertInstanceOf(\Drupal\contribkanban_users\GravatarFieldItemList::class, $field_list);
+    $this->assertInstanceOf(GravatarFieldItemList::class, $field_list);
     $first = $field_list->first();
     $this->assertNotNull($first);
     $this->assertEquals(md5('test@example.com'), $first->getValue()['value']);
   }
 
+  /**
+   * Tests that saving looks up the drupal.org UID for a username.
+   */
   public function testPresaveFetchesDrupalorgUidWhenUsernameSet(): void {
     $stream = $this->createMock(StreamInterface::class);
     $stream->method('getContents')
@@ -98,6 +120,9 @@ class UserBaseFieldsTest extends EntityKernelTestBase {
     $this->assertEquals('12345', $user->get('drupalorg_uid')->value);
   }
 
+  /**
+   * Tests that saving skips the lookup when the UID is set.
+   */
   public function testPresaveSkipsApiCallWhenUidAlreadySet(): void {
     $mock_client = $this->createMock(Client::class);
     $mock_client->expects($this->never())->method('get');
@@ -114,6 +139,9 @@ class UserBaseFieldsTest extends EntityKernelTestBase {
     $this->assertEquals('12345', $user->get('drupalorg_uid')->value);
   }
 
+  /**
+   * Tests that saving skips the lookup without a username.
+   */
   public function testPresaveSkipsApiCallWhenUsernameEmpty(): void {
     $mock_client = $this->createMock(Client::class);
     $mock_client->expects($this->never())->method('get');

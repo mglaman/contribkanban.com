@@ -15,13 +15,22 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 #[RunTestsInSeparateProcesses]
 class ProjectEntityTest extends EntityKernelTestBase {
 
+  /**
+   * {@inheritdoc}
+   */
   protected static $modules = ['contribkanban_projects', 'contribkanban_api', 'entity'];
 
+  /**
+   * {@inheritdoc}
+   */
   protected function setUp(): void {
     parent::setUp();
     $this->installEntitySchema('project');
   }
 
+  /**
+   * Tests that the project entity defines its base fields.
+   */
   public function testProjectBaseFieldsExist(): void {
     $field_definitions = \Drupal::service('entity_field.manager')
       ->getBaseFieldDefinitions('project');
@@ -35,6 +44,9 @@ class ProjectEntityTest extends EntityKernelTestBase {
     $this->assertArrayHasKey('versions', $field_definitions);
   }
 
+  /**
+   * Tests the field types of the project base fields.
+   */
   public function testProjectFieldTypes(): void {
     $field_definitions = \Drupal::service('entity_field.manager')
       ->getBaseFieldDefinitions('project');
@@ -44,6 +56,9 @@ class ProjectEntityTest extends EntityKernelTestBase {
     }
   }
 
+  /**
+   * Tests that components and versions accept unlimited values.
+   */
   public function testComponentsAndVersionsUnlimitedCardinality(): void {
     $field_definitions = \Drupal::service('entity_field.manager')
       ->getBaseFieldDefinitions('project');
@@ -58,6 +73,9 @@ class ProjectEntityTest extends EntityKernelTestBase {
     );
   }
 
+  /**
+   * Tests creating and loading a project.
+   */
   public function testProjectCreateAndLoad(): void {
     $project = Project::create([
       'name' => 'Drupal',
@@ -77,6 +95,9 @@ class ProjectEntityTest extends EntityKernelTestBase {
     $this->assertEquals('3060', $loaded->get('nid')->value);
   }
 
+  /**
+   * Tests saving multiple components and versions.
+   */
   public function testProjectMultiValueFields(): void {
     $project = Project::create([
       'name' => 'Views',

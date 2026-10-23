@@ -9,14 +9,12 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\entity\UncacheableEntityAccessControlHandler;
 use Drupal\options\Plugin\Field\FieldType\ListStringItem;
 
-class NodeBoardAccessControlHandler extends UncacheableEntityAccessControlHandler
-{
+class NodeBoardAccessControlHandler extends UncacheableEntityAccessControlHandler {
 
   /**
-   *
+   * {@inheritdoc}
    */
-  protected function checkAccess(EntityInterface $entity, $operation, AccountInterface $account)
-  {
+  protected function checkAccess(EntityInterface $entity, $operation, AccountInterface $account) {
     $access = parent::checkAccess($entity, $operation, $account);
     if ($access->isAllowed()) {
       return $access;
@@ -47,4 +45,5 @@ class NodeBoardAccessControlHandler extends UncacheableEntityAccessControlHandle
 
     return $access;
   }
+
 }

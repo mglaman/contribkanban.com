@@ -20,22 +20,23 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class Me extends EntityResourceBase implements ContainerInjectionInterface {
 
-  private $currentUser;
-
   /**
+   * Constructs a Me resource.
    *
+   * @param \Drupal\Core\Session\AccountInterface $currentUser
+   *   The current user.
    */
-  public function __construct(AccountInterface $account) {
-    $this->currentUser = $account;
-  }
+  public function __construct(
+    private readonly AccountInterface $currentUser,
+  ) {}
 
   /**
-   *
+   * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     return new self(
-          $container->get('current_user')
-      );
+      $container->get('current_user')
+    );
   }
 
   /**

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * @file
+ * Install tasks and updates for the ContribKanban profile.
+ */
+
+use Drupal\user\Entity\Role;
+use Drupal\consumers\Entity\Consumer;
 use Drupal\Core\Extension\ModuleInstallerInterface;
 use Drupal\Core\File\FileSystem;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
@@ -7,8 +14,10 @@ use Drupal\Core\Utility\UpdateException;
 use Drupal\simple_oauth\Service\Filesystem\FileSystemChecker;
 use Drupal\simple_oauth\Service\KeyGeneratorService;
 
-function contribkanban_installer_install_tasks($install_state)
-{
+/**
+ * Implements hook_install_tasks().
+ */
+function contribkanban_installer_install_tasks($install_state) {
   return [
     'contribkanban_installer_generate_keys' => [
       'display_name' => new TranslatableMarkup('Generate OAuth2 keys'),
@@ -21,12 +30,8 @@ function contribkanban_installer_install_tasks($install_state)
 
 /**
  * Generate OAuth2 keys.
- *
- * @param $install_state
- *   An array of information about the current installation state.
  */
-function contribkanban_installer_generate_keys()
-{
+function contribkanban_installer_generate_keys() {
   $key_gen = \Drupal::service('simple_oauth.key.generator');
   assert($key_gen instanceof KeyGeneratorService);
   $file_system_checker = \Drupal::service('simple_oauth.filesystem_checker');
@@ -53,14 +58,16 @@ function contribkanban_installer_generate_keys()
   if ($file_system_checker->fileExist($public_key_filename) && $file_system_checker->fileExist($public_key_filename)) {
     $file_system->chmod($public_key_filename, 0600);
     $file_system->chmod($private_key_filename, 0600);
-  } else {
+  }
+  else {
     $key_gen->generateKeys($real_dir);
   }
 }
 
-
-function contribkanban_installer_update_8001()
-{
+/**
+ * Remove leftover schema versions for the minimal profile and devel.
+ */
+function contribkanban_installer_update_8001() {
   \Drupal::database()->delete('key_value')
     ->condition('collection', 'system.schema')
     ->condition('name', 'minimal')
@@ -71,30 +78,34 @@ function contribkanban_installer_update_8001()
     ->execute();
 }
 
-function contribkanban_installer_update_8002()
-{
+/**
+ * Clear the cached list of profile files.
+ */
+function contribkanban_installer_update_8002() {
   \Drupal::state()->delete('system.profile.files');
 }
 
-function contribkanban_installer_setup_consumer()
-{
-  $initial_consumer = \Drupal\consumers\Entity\Consumer::load(1);
+/**
+ * Create the OAuth2 consumer the frontend signs in with.
+ */
+function contribkanban_installer_setup_consumer() {
+  $initial_consumer = Consumer::load(1);
   if ($initial_consumer) {
     $initial_consumer->delete();
   }
 
   $entity_repository = \Drupal::service('entity.repository');
   $exists = $entity_repository->loadEntityByUuid('consumer', 'd4f7c501-cff9-4a3f-bae7-aec1db19456c');
-  if ($exists === null) {
-    $consumer_role = \Drupal\user\Entity\Role::load('frontend_user');
+  if ($exists === NULL) {
+    $consumer_role = Role::load('frontend_user');
     if (!$consumer_role) {
-      \Drupal\user\Entity\Role::create([
+      Role::create([
         'id' => 'frontend_user',
         'label' => 'Frontend user',
       ])->save();
     }
 
-    \Drupal\consumers\Entity\Consumer::create([
+    Consumer::create([
       'uuid' => 'd4f7c501-cff9-4a3f-bae7-aec1db19456c',
       'client_id' => 'd4f7c501-cff9-4a3f-bae7-aec1db19456c',
       'owner_id' => '',
@@ -109,9 +120,10 @@ function contribkanban_installer_setup_consumer()
   }
 }
 
-
-function contribkanban_installer_update_8003()
-{
+/**
+ * Install Consumers and Simple OAuth, and generate keys.
+ */
+function contribkanban_installer_update_8003() {
   $module_installer = \Drupal::service('module_installer');
   assert($module_installer instanceof ModuleInstallerInterface);
   $module_installer->install(['consumers', 'simple_oauth']);

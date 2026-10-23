@@ -15,18 +15,6 @@ class ProjectForm extends ContentEntityForm {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
-    /* @var $entity \Drupal\contribkanban_projects\Entity\Project */
-    $form = parent::buildForm($form, $form_state);
-
-    $entity = $this->entity;
-
-    return $form;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function save(array $form, FormStateInterface $form_state) {
     $entity = &$this->entity;
 

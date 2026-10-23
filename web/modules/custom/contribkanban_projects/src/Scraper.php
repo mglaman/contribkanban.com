@@ -8,22 +8,52 @@ use Drupal\Core\State\StateInterface;
 use Psr\Log\LoggerInterface;
 
 class Scraper {
-  protected $projectsHelper;
-  protected $state;
-  protected $logger;
-  protected $projectStorage;
+
+  /**
+   * The api-d7 page to fetch next.
+   *
+   * @var int
+   */
   protected $currentPage = 0;
+
+  /**
+   * The number of pages fetched in this run.
+   *
+   * @var int
+   */
   protected $processedPages = 0;
+
+  /**
+   * The most pages to fetch in one run.
+   *
+   * @var int
+   */
   protected $pageLimit = 10;
 
-  public function __construct(Projects $projectsHelper, StateInterface $state, LoggerInterface $logger, EntityTypeManagerInterface $entity_type_manager) {
-    $this->projectsHelper = $projectsHelper;
-    $this->state = $state;
-    $this->logger = $logger;
-    $this->projectStorage = $entity_type_manager->getStorage('project');
+  /**
+   * Constructs a Scraper.
+   *
+   * @param \Drupal\contribkanban_api\Projects $projectsHelper
+   *   Looks up projects on drupal.org.
+   * @param \Drupal\Core\State\StateInterface $state
+   *   Stores the page to resume from.
+   * @param \Psr\Log\LoggerInterface $logger
+   *   The scraper's logger.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   The entity type manager.
+   */
+  public function __construct(
+    protected Projects $projectsHelper,
+    protected StateInterface $state,
+    protected LoggerInterface $logger,
+    protected EntityTypeManagerInterface $entityTypeManager,
+  ) {
     $this->currentPage = $this->state->get('project_scraper_last_page', 0);
   }
 
+  /**
+   * Imports projects from drupal.org, up to the page limit.
+   */
   public function scrape() {
     while ($this->processedPages <= $this->pageLimit) {
       $data = $this->projectsHelper->getProjects('full', $this->currentPage, 100);
@@ -48,13 +78,20 @@ class Scraper {
     }
   }
 
+  /**
+   * Creates a project entity for each project node not stored yet.
+   *
+   * @param array $data
+   *   The project nodes from one api-d7 page.
+   */
   protected function processList(array $data) {
+    $project_storage = $this->entityTypeManager->getStorage('project');
     foreach ($data as $project) {
-      $exists = $this->projectStorage->loadByProperties([
-        'machine_name' => $project['field_project_machine_name']
+      $exists = $project_storage->loadByProperties([
+        'machine_name' => $project['field_project_machine_name'],
       ]);
       if (empty($exists)) {
-        $this->projectStorage->create([
+        $project_storage->create([
           'name' => $project['title'],
           'machine_name' => $project['field_project_machine_name'],
           'project_type' => $project['field_project_type'],

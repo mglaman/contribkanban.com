@@ -12,8 +12,3 @@ services:
     parent: paramconverter.entity
     tags:
       - { name: paramconverter, priority: 10 }
-  # exception.missing_board_html:
-  #   class: Drupal\contribkanban_boards\EventSubscriber\MissingBoardExceptionHtmlSubscriber
-  #   tags:
-  #     - { name: event_subscriber }
-  #   arguments: ['@config.factory', '@http_kernel', '@logger.channel.php', '@redirect.destination', '@router.no_access_checks', '@access_manager']

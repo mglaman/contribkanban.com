@@ -35,6 +35,13 @@ jobs:
       - uses: ./.github/actions/setup-drupal
       - run: ./bin/phpstan analyse web/modules/custom --debug
 
+  phpcs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup-drupal
+      - run: ./bin/phpcs
+
   phpunit:
     runs-on: ubuntu-latest
     env:

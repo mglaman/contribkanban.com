@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Hooks for contribkanban_users.
+ */
+
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\user\UserInterface;
@@ -12,8 +17,7 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 /**
  * Implements hook_entity_base_field_info().
  */
-function contribkanban_users_entity_base_field_info(EntityTypeInterface $entity_type)
-{
+function contribkanban_users_entity_base_field_info(EntityTypeInterface $entity_type) {
   if ($entity_type->id() == 'user') {
     $fields = [];
     $fields['drupalorg_username'] = BaseFieldDefinition::create('string')
@@ -41,8 +45,7 @@ function contribkanban_users_entity_base_field_info(EntityTypeInterface $entity_
 /**
  * Implements hook_ENTITY_TYPE_presave().
  */
-function contribkanban_users_user_presave(EntityInterface $entity)
-{
+function contribkanban_users_user_presave(EntityInterface $entity) {
   if ($entity instanceof UserInterface) {
     // If the uid is not cached, see if a username is provided and cache it.
     if ($entity->get('drupalorg_uid')->isEmpty()) {

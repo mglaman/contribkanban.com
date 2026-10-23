@@ -21,4 +21,3 @@ services:
     class: Drupal\contribkanban_api\EventSubscriber\ResourceTypeBuildSubscriber
     tags:
       - { name: event_subscriber }
-

@@ -10,7 +10,7 @@ class BoardHtmlRouteProvider extends AdminHtmlRouteProvider {
   use NonIntegerIdRoutesTrait;
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function getRoutes(EntityTypeInterface $entity_type) {
     $collection = parent::getRoutes($entity_type);
