@@ -155,15 +155,6 @@ class Board extends ContentEntityBase implements BoardInterface {
       ->setDescription(t('Issues tagged with this tag.'))
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED);
 
-    $fields['parent_issue'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Parent issue'))
-      ->setDescription(t('A parent issue to restrict issues to.'))
-      ->setSetting('max_length', 255)
-      ->setDisplayOptions('form', [
-        'type'   => 'string_textfield',
-        'weight' => -5,
-      ]);
-
     $fields['version'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Version constraint'))
       ->setDescription(t('Issues for this version.'))
@@ -194,7 +185,9 @@ class Board extends ContentEntityBase implements BoardInterface {
       ->setRequired(TRUE);
 
     $fields['machine_name'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('The machine name used for routing'))
+      ->setLabel(t('Machine name'))
+      ->setDescription(t('Used in the board URL.'))
+      ->addConstraint('UniqueField')
       ->setReadOnly(TRUE);
 
     $fields['gitlab_work_items'] = self::gitlabWorkItemsFieldDefinition();

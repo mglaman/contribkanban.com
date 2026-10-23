@@ -59,32 +59,8 @@ class BoardList extends ContentEntityBase implements BoardListInterface {
   /**
    * {@inheritdoc}
    */
-  public function getCategory() {
-    return $this->get('category');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getComponent() {
     return $this->get('component');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getParentIssue() {
-    foreach ($this->getBoard()->get('parent_issue')->getValue() as $value) {
-      $this->get('parent_issue')->appendItem($value['value']);
-    }
-    return $this->get('parent_issue');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getPriority() {
-    return $this->get('priority');
   }
 
   /**
@@ -169,39 +145,12 @@ class BoardList extends ContentEntityBase implements BoardListInterface {
         'weight' => -5,
       ]);
 
-    $fields['category'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Category'))
-      ->setDescription(t('The issue category'))
-      ->setSetting('max_length', 255)
-      ->setDisplayOptions('form', [
-        'type'   => 'category_options',
-        'weight' => -5,
-      ]);
-
     $fields['component'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Component'))
       ->setDescription(t('The issue component'))
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
         'type'   => 'string_textfield',
-        'weight' => -5,
-      ]);
-
-    $fields['parent_issue'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Parent issue'))
-      ->setDescription(t('A parent issue to restrict issues to.'))
-      ->setSetting('max_length', 255)
-      ->setDisplayOptions('form', [
-        'type'   => 'string_textfield',
-        'weight' => -5,
-      ]);
-
-    $fields['priority'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Priority'))
-      ->setDescription(t('The issue priority'))
-      ->setSetting('max_length', 255)
-      ->setDisplayOptions('form', [
-        'type'   => 'priority_options',
         'weight' => -5,
       ]);
 

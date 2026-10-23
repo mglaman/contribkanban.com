@@ -6,6 +6,7 @@
  */
 
 use Drupal\contribkanban_boards\Entity\Board;
+use Drupal\search_api\IndexInterface;
 
 /**
  * Add the GitLab work items field to boards.
@@ -17,4 +18,40 @@ function contribkanban_boards_update_10001(): void {
     'contribkanban_boards',
     Board::gitlabWorkItemsFieldDefinition()
   );
+}
+
+/**
+ * Remove the parent issue, category, and priority board settings.
+ *
+ * Only custom boards, which are deleted, and the old experience_builder board
+ * used them.
+ */
+function contribkanban_boards_update_10002(): void {
+  // Drop the index fields first, or Search API fails to rebuild its Views
+  // data for properties that no longer exist.
+  $index = \Drupal::moduleHandler()->moduleExists('search_api')
+    ? \Drupal::entityTypeManager()->getStorage('search_api_index')->load('boards')
+    : NULL;
+  if ($index instanceof IndexInterface) {
+    foreach (['category', 'priority'] as $field_id) {
+      if ($index->getField($field_id) !== NULL) {
+        $index->removeField($field_id);
+      }
+    }
+    $index->save();
+  }
+
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+  $fields = [
+    'board' => ['parent_issue'],
+    'board_list' => ['category', 'parent_issue', 'priority'],
+  ];
+  foreach ($fields as $entity_type_id => $field_names) {
+    foreach ($field_names as $field_name) {
+      $definition = $update_manager->getFieldStorageDefinition($field_name, $entity_type_id);
+      if ($definition !== NULL) {
+        $update_manager->uninstallFieldStorageDefinition($definition);
+      }
+    }
+  }
 }

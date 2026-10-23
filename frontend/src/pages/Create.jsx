@@ -22,8 +22,6 @@ function DialogFactory({ type, ...rest }) {
       return <CreateSprintDialog {...rest} />;
     case "node_board":
       return <CreateIssueCollectionDialog {...rest} />;
-    case "custom":
-      return null;
     default:
       return null;
   }
@@ -105,23 +103,6 @@ function Create() {
                 disabled={!authTokens}
               >
                 {authTokens ? `Create` : `Log in to create`}
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-        <Grid size={{ xs: 12, md: 4 }}>
-          <Card>
-            <CardContent>
-              <Typography gutterBottom variant="h5">
-                Custom board
-              </Typography>
-              <Typography gutterBottom variant="body1" color="text.secondary">
-                a custom board, (coming soon)
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small" disabled>
-                Create
               </Button>
             </CardActions>
           </Card>

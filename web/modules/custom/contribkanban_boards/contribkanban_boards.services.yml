@@ -12,3 +12,6 @@ services:
     parent: paramconverter.entity
     tags:
       - { name: paramconverter, priority: 10 }
+  contribkanban_boards.machine_names:
+    class: Drupal\contribkanban_boards\BoardMachineNames
+    arguments: ['@entity_type.manager']

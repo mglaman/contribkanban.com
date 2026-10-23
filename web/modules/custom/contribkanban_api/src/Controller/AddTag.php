@@ -3,6 +3,7 @@
 namespace Drupal\contribkanban_api\Controller;
 
 use Drupal\contribkanban_api\Tags;
+use Drupal\contribkanban_boards\BoardMachineNames;
 use Drupal\contribkanban_boards\Entity\Board;
 use Drupal\contribkanban_boards\Entity\BoardInterface;
 use Drupal\contribkanban_boards\Entity\BoardList;
@@ -22,10 +23,13 @@ final class AddTag implements ContainerInjectionInterface {
    *   Looks up issue tags on drupal.org.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
+   * @param \Drupal\contribkanban_boards\BoardMachineNames $machineNames
+   *   Picks a machine name no other board uses.
    */
   public function __construct(
     private readonly Tags $tagsHelper,
     private readonly EntityTypeManagerInterface $entityTypeManager,
+    private readonly BoardMachineNames $machineNames,
   ) {}
 
   /**
@@ -34,7 +38,8 @@ final class AddTag implements ContainerInjectionInterface {
   public static function create(ContainerInterface $container) {
     return new self(
       $container->get('drupalorg_tags'),
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('contribkanban_boards.machine_names')
     );
   }
 
@@ -103,6 +108,7 @@ final class AddTag implements ContainerInjectionInterface {
     $board = Board::create([
       'type' => $bundle,
       'title' => $tag_data['name'],
+      'machine_name' => $this->machineNames->unique(preg_replace('/\s/', '', $tag_data['name']), 'tag'),
       'tag' => [$tag_data['tid']],
       'lists' => [
         $needs_review,
