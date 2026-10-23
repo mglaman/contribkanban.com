@@ -135,6 +135,8 @@ jobs:
           ./bin/drush search-api:index
           curl -fsS "http://127.0.0.1:8080/boards?search=smoke" | grep "Smoke test board"
           curl -fsS "http://127.0.0.1:8080/boards?type=drupalorg_sprint&search=smoke" | grep "No boards match"
+          curl -fsS "http://127.0.0.1:8080/boards" | grep 'id="contribkanban-create-board"'
+          curl -fsS "http://127.0.0.1:8080/boards/new" | grep "Project machine name"
       - name: Show watchdog log
         if: always()
         run: ./bin/drush wd-show

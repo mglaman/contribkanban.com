@@ -1,11 +1,37 @@
-.layout-main {
+.layout-page {
   width: 100%;
   max-width: var(--ck-max-width);
   margin: 0 auto;
   padding: 24px var(--ck-gutter) 48px;
   display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.layout-main {
+  flex: 999 1 600px;
+  min-width: 0;
+  display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+/* Stacks under the main content when there isn't room beside it. */
+.layout-sidebar {
+  flex: 1 1 320px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 28px;
+  border-radius: var(--ck-radius-panel);
+  background: var(--ck-surface);
+  box-shadow: var(--ck-shadow);
+}
+
+.layout-sidebar h2 {
+  margin-bottom: 6px;
 }
 
 .layout-main:focus {
@@ -30,6 +56,12 @@
 }
 
 /* Status messages. */
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .messages {
   padding: 14px 18px;
   border-radius: var(--ck-radius-card);
@@ -40,6 +72,10 @@
 
 .messages--error {
   border-left-color: var(--ck-danger);
+}
+
+.messages--warning {
+  border-left-color: var(--ck-warning);
 }
 
 .messages__list {

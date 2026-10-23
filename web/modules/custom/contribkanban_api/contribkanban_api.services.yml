@@ -16,6 +16,9 @@ services:
   drupalorg_tags:
     class: Drupal\contribkanban_api\Tags
     arguments: ['@drupalorg_client']
+  contribkanban_api.board_factory:
+    class: Drupal\contribkanban_api\BoardFactory
+    arguments: ['@drupalorg_projects', '@drupalorg_tags', '@entity_type.manager']
 
   contribkanban_api.resource_type_build_subscriber:
     class: Drupal\contribkanban_api\EventSubscriber\ResourceTypeBuildSubscriber
