@@ -1,8 +1,21 @@
-main form:not(.views-exposed-form) {
+main form:not(.views-exposed-form),
+.layout-sidebar form {
   display: flex;
   flex-direction: column;
   gap: 18px;
   max-width: 480px;
+}
+
+fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+fieldset legend {
+  margin-bottom: 10px;
+  padding: 0;
 }
 
 .form-item {
@@ -63,9 +76,12 @@ input[type="submit"]:hover {
   color: var(--ck-surface);
 }
 
-.form-item--error-message,
-.form-item .error {
+.form-item--error-message {
   color: var(--ck-danger);
+}
+
+:is(input, select, textarea).error {
+  border: 2px solid var(--ck-danger);
 }
 
 /* The board search: one large field with the button beside it. */
@@ -90,4 +106,62 @@ input[type="submit"]:hover {
 
 .board-listing .views-exposed-form .form-actions input[type="submit"] {
   min-height: 56px;
+}
+
+/* Start a board: the board kinds as selectable cards. */
+.create-board div:has(> .form-type-radio) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.create-board .form-type-radio {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 6px 8px;
+  padding: 14px;
+  border: 2px solid var(--ck-border-subtle);
+  border-radius: var(--ck-radius-card);
+}
+
+.create-board .form-type-radio:has(:checked) {
+  border-color: var(--ck-accent);
+  background: var(--ck-accent-soft);
+}
+
+.create-board .form-type-radio:has(:focus-visible) {
+  outline: 2px solid var(--ck-accent);
+  outline-offset: 2px;
+}
+
+.create-board .form-type-radio input:focus-visible {
+  outline: none;
+}
+
+.create-board .form-type-radio label {
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Makes the whole card select its radio. */
+.create-board .form-type-radio label::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+}
+
+.create-board .form-type-radio .description {
+  grid-column: 1 / -1;
+  line-height: 1.4;
+}
+
+.layout-sidebar .create-board input[type="submit"] {
+  width: 100%;
+  min-height: 52px;
+}
+
+.create-board__intro {
+  color: var(--ck-muted);
 }

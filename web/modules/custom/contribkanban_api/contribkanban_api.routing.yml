@@ -20,3 +20,10 @@ conribkanban_api.jsonapi.me:
     _jsonapi_resource_types: ["user--user"]
   requirements:
     _user_is_logged_in: "TRUE"
+contribkanban_api.create_board:
+  path: "/boards/new"
+  defaults:
+    _form: '\Drupal\contribkanban_api\Form\CreateBoardForm'
+    _title: "Start a board"
+  requirements:
+    _access: "TRUE"

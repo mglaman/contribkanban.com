@@ -10,4 +10,5 @@ regions:
   highlighted: Highlighted
   title: Title
   content: Content
+  sidebar: Sidebar
   footer: Footer

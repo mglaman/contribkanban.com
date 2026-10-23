@@ -1,0 +1,25 @@
+uuid: e8d863b6-507b-4e08-896a-a299afeb0f07
+langcode: en
+status: true
+dependencies:
+  module:
+    - contribkanban_api
+    - system
+  theme:
+    - contribkanban
+id: contribkanban_create_board
+theme: contribkanban
+region: sidebar
+weight: 0
+provider: null
+plugin: contribkanban_create_board
+settings:
+  id: contribkanban_create_board
+  label: 'Start a board'
+  label_display: visible
+  provider: contribkanban_api
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /boards
