@@ -60,13 +60,16 @@ class Board extends ContentEntityBase implements BoardInterface {
    */
   public static function preCreate(EntityStorageInterface $storage, array &$values) {
     parent::preCreate($storage, $values);
-    // Boards are routed by machine name, and project and tag boards can
-    // collide, such as the mongodb project and the mongodb tag. Pick a free
-    // name when the board is created, so validation sees the final name.
-    $machine_name = $values['machine_name'] ?? preg_replace('/\s/', '', (string) ($values['title'] ?? ''));
+    // Boards are routed by machine name. Pick a free one when the board is
+    // created, so validation sees the final name.
     $bundle = $values['type'] ?? NULL;
-    if (is_string($machine_name) && $machine_name !== '' && is_string($bundle)) {
-      $values['machine_name'] = self::uniqueMachineName($storage, $machine_name, $bundle);
+    $title = $values['title'] ?? NULL;
+    if (!is_string($bundle)) {
+      return;
+    }
+    $machine_name = $values['machine_name'] ?? (is_string($title) ? self::deriveMachineName($title, $bundle) : NULL);
+    if (is_string($machine_name) && $machine_name !== '') {
+      $values['machine_name'] = self::uniqueMachineName($storage, $machine_name);
     }
   }
 
@@ -77,9 +80,20 @@ class Board extends ContentEntityBase implements BoardInterface {
     parent::preSave($storage);
     // The admin form creates the board before its title is known.
     if ($this->get('machine_name')->isEmpty()) {
-      $machine_name = (string) preg_replace('/\s/', '', (string) $this->label());
-      $this->set('machine_name', self::uniqueMachineName($storage, $machine_name, $this->bundle()));
+      $machine_name = self::deriveMachineName((string) $this->label(), $this->bundle());
+      $this->set('machine_name', self::uniqueMachineName($storage, $machine_name));
     }
+  }
+
+  /**
+   * Derives a machine name from a board title.
+   *
+   * Tag board names end in -tag. drupal.org project machine names can't
+   * contain a hyphen, so a tag board never takes a project board's name.
+   */
+  private static function deriveMachineName(string $title, string $bundle): string {
+    $machine_name = (string) preg_replace('/\s/', '', $title);
+    return $bundle === 'drupalorg_sprint' ? $machine_name . '-tag' : $machine_name;
   }
 
   /**
@@ -89,19 +103,15 @@ class Board extends ContentEntityBase implements BoardInterface {
    *   The board storage.
    * @param string $machine_name
    *   The preferred machine name.
-   * @param string $bundle
-   *   The board type, which picks the suffix.
    *
    * @return string
-   *   The first free name of: the preferred name, the name suffixed with -tag
-   *   for tag boards or -board otherwise, then the suffixed name with -2, -3,
-   *   and so on.
+   *   The preferred name if it is free, otherwise the first free one of
+   *   name-2, name-3, and so on.
    */
-  public static function uniqueMachineName(EntityStorageInterface $storage, string $machine_name, string $bundle): string {
-    $suffix = $bundle === 'drupalorg_sprint' ? 'tag' : 'board';
+  public static function uniqueMachineName(EntityStorageInterface $storage, string $machine_name): string {
     $candidate = $machine_name;
-    for ($counter = 1; self::machineNameTaken($storage, $candidate); $counter++) {
-      $candidate = $machine_name . '-' . $suffix . ($counter > 1 ? '-' . $counter : '');
+    for ($counter = 2; self::machineNameTaken($storage, $candidate); $counter++) {
+      $candidate = $machine_name . '-' . $counter;
     }
     return $candidate;
   }

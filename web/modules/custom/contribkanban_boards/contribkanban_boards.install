@@ -77,7 +77,8 @@ function contribkanban_boards_update_10002(): string {
   $list_storage->delete($list_storage->loadMultiple($orphan_ids));
 
   // Boards are routed by machine name, so a duplicate is unreachable. Keep
-  // the oldest board's name and suffix the others.
+  // the oldest board's name. Tag boards take the -tag suffix that new tag
+  // boards get, and anything else gets a number.
   $duplicates = $database->select('board', 'b')
     ->fields('b', ['machine_name'])
     ->groupBy('b.machine_name')
@@ -94,7 +95,8 @@ function contribkanban_boards_update_10002(): string {
     array_shift($ids);
     foreach ($board_storage->loadMultiple($ids) as $board) {
       assert($board instanceof BoardInterface);
-      $board->set('machine_name', Board::uniqueMachineName($board_storage, $machine_name, $board->bundle()));
+      $preferred = $board->bundle() === 'drupalorg_sprint' ? $machine_name . '-tag' : $machine_name;
+      $board->set('machine_name', Board::uniqueMachineName($board_storage, $preferred));
       $board->save();
       $renamed[] = "$machine_name to " . $board->get('machine_name')->value;
     }
