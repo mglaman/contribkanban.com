@@ -49,7 +49,8 @@ final class AddBoard implements ContainerInjectionInterface {
    *   The project's machine name.
    *
    * @return \Symfony\Component\HttpFoundation\JsonResponse
-   *   The board's machine name, with 201 if created or 200 if it existed.
+   *   The board's machine name, with 201 if created or 200 if it existed, or
+   *   the validation errors with 422.
    */
   public function handle($machine_name) {
     $machine_name = urldecode($machine_name);
@@ -125,6 +126,14 @@ final class AddBoard implements ContainerInjectionInterface {
         $fixed,
       ],
     ]);
+    $violations = $board->validate();
+    if ($violations->count() > 0) {
+      $errors = [];
+      foreach ($violations as $violation) {
+        $errors[$violation->getPropertyPath()] = strip_tags((string) $violation->getMessage());
+      }
+      return new JsonResponse(['errors' => $errors], 422);
+    }
     $board->save();
 
     return new JsonResponse([

@@ -16,8 +16,6 @@ permissions:
   - 'access content'
   - 'create drupalorg_core board'
   - 'create drupalorg_core board_list'
-  - 'create drupalorg_custom board'
-  - 'create drupalorg_custom board_list'
   - 'create node_board'
   - 'delete own files'
   - 'update own node_board'

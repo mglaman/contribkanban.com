@@ -22,9 +22,6 @@ function BoardList({ board, list, workItems }) {
           board.attributes.project_nid
         ),
         tag: list.attributes.tag.concat(board.attributes.tag),
-        parent_issue: board.attributes.parent_issue
-          ? board.attributes.parent_issue
-          : list.attributes.parent_issue,
         version: list.attributes.version
           .concat(board.attributes.version)
           .map((version) =>
@@ -59,11 +56,6 @@ function BoardList({ board, list, workItems }) {
       }
       if (filterData.component !== null) {
         queryString["field_issue_component"] = filterData.component;
-      }
-      if (filterData.parent_issue && filterData.parent_issue.trim()) {
-        queryString["field_issue_parent"] = {
-          target_id: filterData.parent_issue.trim().split(","),
-        };
       }
       if (filterData.priority !== null) {
         queryString["field_issue_priority"] = filterData.priority;

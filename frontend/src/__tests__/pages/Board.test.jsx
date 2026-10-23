@@ -27,7 +27,6 @@ function boardDocument({ gitlab = false } = {}) {
           project_nid: ["17345"],
           tag: [],
           version: [],
-          parent_issue: null,
           gitlab_work_items: gitlab,
         },
         relationships: {
@@ -46,10 +45,7 @@ function boardDocument({ gitlab = false } = {}) {
         project_nid: [],
         tag: [],
         version: [],
-        parent_issue: null,
-        category: null,
         component: null,
-        priority: null,
       },
     })),
   };

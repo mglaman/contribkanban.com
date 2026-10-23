@@ -23,36 +23,12 @@ interface BoardListInterface extends ContentEntityInterface {
   public function getProjects();
 
   /**
-   * Gets the issue category filter.
-   *
-   * @return \Drupal\Core\Field\FieldItemListInterface
-   *   The category field items.
-   */
-  public function getCategory();
-
-  /**
    * Gets the issue component filter.
    *
    * @return \Drupal\Core\Field\FieldItemListInterface
    *   The component field items.
    */
   public function getComponent();
-
-  /**
-   * Gets the parent issue filter, including the board's.
-   *
-   * @return \Drupal\Core\Field\FieldItemListInterface
-   *   The parent_issue field items.
-   */
-  public function getParentIssue();
-
-  /**
-   * Gets the issue priority filter.
-   *
-   * @return \Drupal\Core\Field\FieldItemListInterface
-   *   The priority field items.
-   */
-  public function getPriority();
 
   /**
    * Gets the issue statuses this list shows.

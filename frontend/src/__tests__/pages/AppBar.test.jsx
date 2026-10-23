@@ -40,7 +40,6 @@ describe("App bar", () => {
       ["Drupal core", "/boards/core"],
       ["Projects", "/boards/project"],
       ["Sprints", "/boards/sprint"],
-      ["Custom", "/boards/custom"],
       ["Create", "/create"],
       ["Log in", "/login"],
       ["Register", "/register"],
@@ -53,6 +52,9 @@ describe("App bar", () => {
     }
     expect(
       within(drawer).queryByRole("link", { name: "My account" })
+    ).not.toBeInTheDocument();
+    expect(
+      within(drawer).queryByRole("link", { name: "Custom" })
     ).not.toBeInTheDocument();
   });
 

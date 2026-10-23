@@ -33,6 +33,12 @@ class DrupalOrgSprint extends PluginBase implements BoardProviderInterface {
     if (isset($base_field_definitions['tag'])) {
       $fields['tag'] = clone $base_field_definitions['tag'];
       $fields['tag']->setDisplayOptions('form', []);
+      $fields['tag']->setRequired(TRUE);
+    }
+    // Tag boards query every project.
+    if (isset($base_field_definitions['project_nid'])) {
+      $fields['project_nid'] = clone $base_field_definitions['project_nid'];
+      $fields['project_nid']->setRequired(FALSE);
     }
     return $fields;
   }

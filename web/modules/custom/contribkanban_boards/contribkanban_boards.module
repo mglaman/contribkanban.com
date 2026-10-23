@@ -72,10 +72,7 @@ function contribkanban_boards_board_view(array &$build, EntityInterface $entity,
     assert($board_list instanceof BoardListInterface);
     $attributes['title'] = $board_list->label();
     $attributes['projects'] = FieldHelper::stringAsJson($board_list->getProjects());
-    $attributes['category'] = FieldHelper::stringAsJson($board_list->getCategory());
     $attributes['component'] = FieldHelper::stringAsJson($board_list->getComponent());
-    $attributes['parent'] = FieldHelper::stringAsJson($board_list->getParentIssue());
-    $attributes['priority'] = FieldHelper::stringAsJson($board_list->getPriority());
     $attributes['statuses'] = FieldHelper::stringAsJson($board_list->getStatuses());
     $attributes['tag'] = FieldHelper::stringAsJson($board_list->getTags());
     $version = $board_list->getVersion();

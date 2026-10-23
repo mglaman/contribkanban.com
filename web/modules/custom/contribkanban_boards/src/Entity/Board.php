@@ -58,11 +58,36 @@ class Board extends ContentEntityBase implements BoardInterface {
   /**
    * {@inheritdoc}
    */
-  public function preSave(EntityStorageInterface $storage) {
-    parent::preSave($storage);
-    if ($this->get('machine_name')->isEmpty()) {
-      $this->get('machine_name')->setValue(preg_replace("/\s/", '', $this->label()));
+  public static function preCreate(EntityStorageInterface $storage, array &$values) {
+    parent::preCreate($storage, $values);
+    // Derive the machine name now, so validation sees it.
+    $bundle = $values['type'] ?? NULL;
+    $title = $values['title'] ?? NULL;
+    if (!isset($values['machine_name']) && is_string($bundle) && is_string($title)) {
+      $values['machine_name'] = self::deriveMachineName($title, $bundle);
     }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function onChange($name) {
+    parent::onChange($name);
+    // The admin form sets the title after the board is created.
+    if ($name === 'title' && $this->isNew() && $this->get('machine_name')->isEmpty()) {
+      $this->set('machine_name', self::deriveMachineName((string) $this->label(), $this->bundle()));
+    }
+  }
+
+  /**
+   * Derives a machine name from a board title.
+   *
+   * Tag board names end in -tag. drupal.org project machine names can't
+   * contain a hyphen, so a tag board never takes a project board's name.
+   */
+  private static function deriveMachineName(string $title, string $bundle): string {
+    $machine_name = (string) preg_replace('/\s/', '', $title);
+    return $bundle === 'drupalorg_sprint' ? $machine_name . '-tag' : $machine_name;
   }
 
   /**
@@ -155,15 +180,6 @@ class Board extends ContentEntityBase implements BoardInterface {
       ->setDescription(t('Issues tagged with this tag.'))
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED);
 
-    $fields['parent_issue'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Parent issue'))
-      ->setDescription(t('A parent issue to restrict issues to.'))
-      ->setSetting('max_length', 255)
-      ->setDisplayOptions('form', [
-        'type'   => 'string_textfield',
-        'weight' => -5,
-      ]);
-
     $fields['version'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Version constraint'))
       ->setDescription(t('Issues for this version.'))
@@ -194,7 +210,9 @@ class Board extends ContentEntityBase implements BoardInterface {
       ->setRequired(TRUE);
 
     $fields['machine_name'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('The machine name used for routing'))
+      ->setLabel(t('Machine name'))
+      ->setDescription(t('Used in the board URL.'))
+      ->addConstraint('UniqueField')
       ->setReadOnly(TRUE);
 
     $fields['gitlab_work_items'] = self::gitlabWorkItemsFieldDefinition();
