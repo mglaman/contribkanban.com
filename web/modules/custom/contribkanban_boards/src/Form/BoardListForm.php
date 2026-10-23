@@ -8,7 +8,7 @@ use Drupal\Core\Form\FormStateInterface;
 class BoardListForm extends ContentEntityForm {
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);

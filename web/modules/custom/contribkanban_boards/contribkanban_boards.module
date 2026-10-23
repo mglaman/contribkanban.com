@@ -1,16 +1,16 @@
 <?php
 
-use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
-use Drupal\Core\Render\Markup;
 /**
  * @file
- * Module file for contribkanban_boards.
+ * Hooks for contribkanban_boards.
  */
 
 use Drupal\contribkanban_boards\Entity\BoardListInterface;
 use Drupal\contribkanban_boards\FieldHelper;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
+use Drupal\Core\Render\Markup;
 use Drupal\Core\Site\Settings;
 
 /**
@@ -126,4 +126,3 @@ SCRIPT;
 
   }
 }
-

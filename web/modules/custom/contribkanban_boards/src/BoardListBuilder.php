@@ -12,8 +12,8 @@ class BoardListBuilder extends EntityListBuilder {
    */
   public function buildHeader() {
     $header = [
-      'type'  => t('Type'),
-      'label' => t('Label'),
+      'type'  => $this->t('Type'),
+      'label' => $this->t('Label'),
     ] + parent::buildHeader();
     return $header;
   }

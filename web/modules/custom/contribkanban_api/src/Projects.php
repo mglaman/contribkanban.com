@@ -8,19 +8,23 @@ use GuzzleHttp\Client;
 class Projects {
 
   /**
-   * @var \GuzzleHttp\Client
+   * Constructs a Projects object.
+   *
+   * @param \GuzzleHttp\Client $client
+   *   An HTTP client for the drupal.org api-d7 endpoint.
    */
-  protected $client;
+  public function __construct(
+    protected Client $client,
+  ) {}
 
   /**
+   * Loads a project from drupal.org by machine name.
    *
-   */
-  public function __construct(Client $client) {
-    $this->client = $client;
-  }
-
-  /**
+   * @param string $machine_name
+   *   The project's machine name.
    *
+   * @return array
+   *   The project's details, or an empty array if it does not exist.
    */
   public function getProject($machine_name) {
     $params = [
@@ -76,7 +80,17 @@ class Projects {
   }
 
   /**
+   * Lists projects from drupal.org.
    *
+   * @param string $type
+   *   The project type, such as "full" or "sandbox".
+   * @param int $page
+   *   The page to load.
+   * @param int $limit
+   *   The number of projects per page.
+   *
+   * @return array
+   *   The api-d7 response, or an empty array when there are no results.
    */
   public function getProjects($type = 'full', $page = 1, $limit = 100) {
     $params = [

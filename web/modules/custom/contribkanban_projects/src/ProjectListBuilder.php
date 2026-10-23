@@ -13,7 +13,6 @@ use Drupal\Core\Link;
  */
 class ProjectListBuilder extends EntityListBuilder {
 
-
   /**
    * {@inheritdoc}
    */
@@ -27,7 +26,7 @@ class ProjectListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    /* @var $entity \Drupal\contribkanban_projects\Entity\Project */
+    /** @var \Drupal\contribkanban_projects\Entity\Project $entity */
     $row['id'] = $entity->id();
     $row['name'] = Link::createFromRoute(
       $entity->label(),

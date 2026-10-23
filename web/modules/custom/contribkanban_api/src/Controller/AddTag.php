@@ -3,8 +3,8 @@
 namespace Drupal\contribkanban_api\Controller;
 
 use Drupal\contribkanban_api\Tags;
-use Drupal\contribkanban_boards\BoardProviderManager;
 use Drupal\contribkanban_boards\Entity\Board;
+use Drupal\contribkanban_boards\Entity\BoardInterface;
 use Drupal\contribkanban_boards\Entity\BoardList;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -15,34 +15,39 @@ use Drupal\Component\Serialization\Json;
 
 final class AddTag implements ContainerInjectionInterface {
 
-  protected $tagsHelper;
-
-  protected $boardProvider;
-
-  protected $boardStorage;
-
   /**
+   * Constructs an AddTag controller.
    *
+   * @param \Drupal\contribkanban_api\Tags $tagsHelper
+   *   Looks up issue tags on drupal.org.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   The entity type manager.
    */
-  public function __construct(Tags $tags, BoardProviderManager $board_provider, EntityTypeManagerInterface $entity_type_manager) {
-    $this->tagsHelper = $tags;
-    $this->boardProvider = $board_provider;
-    $this->boardStorage = $entity_type_manager->getStorage('board');
-  }
+  public function __construct(
+    private readonly Tags $tagsHelper,
+    private readonly EntityTypeManagerInterface $entityTypeManager,
+  ) {}
 
   /**
-   *
+   * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     return new self(
       $container->get('drupalorg_tags'),
-      $container->get('plugin.manager.board_provider'),
       $container->get('entity_type.manager')
     );
   }
 
   /**
+   * Creates a sprint board for an issue tag, or returns the existing one.
    *
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The request, whose JSON body holds the tag's term ID as "tid".
+   * @param string $tag
+   *   The tag name.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   The board's machine name.
    */
   public function handle(Request $request, $tag) {
     $tag_name = urldecode($tag);
@@ -59,9 +64,11 @@ final class AddTag implements ContainerInjectionInterface {
     }
 
     $bundle = 'drupalorg_sprint';
-    $existing_board = $this->boardStorage->loadByProperties(['tag' => $tag_data['tid'], 'type' => $bundle]);
+    $board_storage = $this->entityTypeManager->getStorage('board');
+    $existing_board = $board_storage->loadByProperties(['tag' => $tag_data['tid'], 'type' => $bundle]);
     if (!empty($existing_board)) {
       $existing_board = reset($existing_board);
+      assert($existing_board instanceof BoardInterface);
       return new JsonResponse([
         'machine_name' => $existing_board->get('machine_name')->value,
       ], 200);

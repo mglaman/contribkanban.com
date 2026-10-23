@@ -2,7 +2,6 @@
 
 namespace Drupal\contribkanban_boards\ParamConverter;
 
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\ParamConverter\EntityConverter;
 use Drupal\Core\TypedData\TranslatableInterface;
 use Symfony\Component\Routing\Route;
@@ -31,7 +30,7 @@ class EntityUuidConverter extends EntityConverter {
     $entity = reset($entities);
     // If the entity type is translatable, ensure we return the proper
     // translation object for the current context.
-    if ($entity instanceof EntityInterface && $entity instanceof TranslatableInterface) {
+    if ($entity instanceof TranslatableInterface) {
       $entity = $this->entityRepository->getTranslationFromContext($entity, NULL, ['operation' => 'entity_upcast']);
     }
     return $entity;

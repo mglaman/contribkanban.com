@@ -16,13 +16,22 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 #[RunTestsInSeparateProcesses]
 class ScraperTest extends EntityKernelTestBase {
 
+  /**
+   * {@inheritdoc}
+   */
   protected static $modules = ['contribkanban_projects', 'contribkanban_api', 'entity'];
 
+  /**
+   * {@inheritdoc}
+   */
   protected function setUp(): void {
     parent::setUp();
     $this->installEntitySchema('project');
   }
 
+  /**
+   * Creates a scraper that reads projects from a mock.
+   */
   protected function createScraper(Projects $mock_projects): Scraper {
     return new Scraper(
       $mock_projects,
@@ -32,6 +41,9 @@ class ScraperTest extends EntityKernelTestBase {
     );
   }
 
+  /**
+   * Builds an api-d7 project node.
+   */
   protected function projectData(string $machine_name = 'drupal', string $nid = '3060'): array {
     return [
       'title'                      => ucfirst($machine_name),
@@ -42,6 +54,9 @@ class ScraperTest extends EntityKernelTestBase {
     ];
   }
 
+  /**
+   * Tests that scraping creates a project for each node.
+   */
   public function testScrapeCreatesProjectsFromList(): void {
     $mock = $this->createMock(Projects::class);
     $mock->method('getProjects')
@@ -55,6 +70,9 @@ class ScraperTest extends EntityKernelTestBase {
     $this->assertCount(1, $results);
   }
 
+  /**
+   * Tests that scraping skips projects that already exist.
+   */
   public function testScrapeSkipsExistingProject(): void {
     Project::create([
       'name'         => 'Drupal',
@@ -75,6 +93,9 @@ class ScraperTest extends EntityKernelTestBase {
     $this->assertCount(1, $results);
   }
 
+  /**
+   * Tests that the page state resets after the last page.
+   */
   public function testScrapeResetsStateOnLastPage(): void {
     \Drupal::state()->set('project_scraper_last_page', 3);
 
@@ -87,6 +108,9 @@ class ScraperTest extends EntityKernelTestBase {
     $this->assertEquals(0, \Drupal::state()->get('project_scraper_last_page'));
   }
 
+  /**
+   * Tests that scraping stops when a page has no data.
+   */
   public function testScrapeBreaksWhenEmptyData(): void {
     $mock = $this->createMock(Projects::class);
     $mock->method('getProjects')->willReturn([]);
@@ -99,6 +123,9 @@ class ScraperTest extends EntityKernelTestBase {
     $this->assertCount(0, $results);
   }
 
+  /**
+   * Tests that the page state advances after each page.
+   */
   public function testScrapeAdvancesPageState(): void {
     $mock = $this->createMock(Projects::class);
     $mock->method('getProjects')

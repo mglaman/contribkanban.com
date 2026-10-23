@@ -5,6 +5,7 @@ namespace Drupal\contribkanban_api\Controller;
 use Drupal\contribkanban_api\Projects;
 use Drupal\contribkanban_boards\BoardProviderManager;
 use Drupal\contribkanban_boards\Entity\Board;
+use Drupal\contribkanban_boards\Entity\BoardInterface;
 use Drupal\contribkanban_boards\Entity\BoardList;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -14,23 +15,24 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 final class AddBoard implements ContainerInjectionInterface {
 
-  protected $projectsHelper;
-
-  protected $boardProvider;
-
-  protected $boardStorage;
-
   /**
+   * Constructs an AddBoard controller.
    *
+   * @param \Drupal\contribkanban_api\Projects $projectsHelper
+   *   Looks up projects on drupal.org.
+   * @param \Drupal\contribkanban_boards\BoardProviderManager $boardProvider
+   *   The board provider plugin manager.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   The entity type manager.
    */
-  public function __construct(Projects $projects, BoardProviderManager $board_provider, EntityTypeManagerInterface $entity_type_manager) {
-    $this->projectsHelper = $projects;
-    $this->boardProvider = $board_provider;
-    $this->boardStorage = $entity_type_manager->getStorage('board');
-  }
+  public function __construct(
+    private readonly Projects $projectsHelper,
+    private readonly BoardProviderManager $boardProvider,
+    private readonly EntityTypeManagerInterface $entityTypeManager,
+  ) {}
 
   /**
-   *
+   * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     return new self(
@@ -41,7 +43,13 @@ final class AddBoard implements ContainerInjectionInterface {
   }
 
   /**
+   * Creates a board for a drupal.org project, or returns the existing one.
    *
+   * @param string $machine_name
+   *   The project's machine name.
+   *
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   The board's machine name, with 201 if created or 200 if it existed.
    */
   public function handle($machine_name) {
     $machine_name = urldecode($machine_name);
@@ -60,9 +68,11 @@ final class AddBoard implements ContainerInjectionInterface {
       throw new HttpException(500, 'Unable to determine board type for project');
     }
 
-    $existing_board = $this->boardStorage->loadByProperties(['project_nid' => $project['nid'], 'type' => $bundle]);
+    $board_storage = $this->entityTypeManager->getStorage('board');
+    $existing_board = $board_storage->loadByProperties(['project_nid' => $project['nid'], 'type' => $bundle]);
     if (!empty($existing_board)) {
       $existing_board = reset($existing_board);
+      assert($existing_board instanceof BoardInterface);
       return new JsonResponse([
         'machine_name' => $existing_board->get('machine_name')->value,
       ], 200);

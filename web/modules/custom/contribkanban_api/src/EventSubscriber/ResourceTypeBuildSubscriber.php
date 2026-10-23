@@ -11,7 +11,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 final class ResourceTypeBuildSubscriber implements EventSubscriberInterface {
 
   /**
-   *
+   * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
     return [
@@ -20,7 +20,10 @@ final class ResourceTypeBuildSubscriber implements EventSubscriberInterface {
   }
 
   /**
+   * Hides configuration entities and internal IDs from JSON:API.
    *
+   * @param \Drupal\jsonapi\ResourceType\ResourceTypeBuildEvent $event
+   *   The resource type build event.
    */
   public function onResourceTypeBuild(ResourceTypeBuildEvent $event) {
     $entities_to_disable = [
@@ -30,7 +33,7 @@ final class ResourceTypeBuildSubscriber implements EventSubscriberInterface {
       'menu', 'action', 'rest_resource_config', 'page', 'page_variant', 'node_type',
       'node', 'path_alias',
     ];
-    [$entity_type_id, $bundle] = explode('--', $event->getResourceTypeName());
+    [$entity_type_id] = explode('--', $event->getResourceTypeName());
     if (in_array($entity_type_id, $entities_to_disable, TRUE)) {
       $event->disableResourceType();
     }

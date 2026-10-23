@@ -6,6 +6,7 @@ use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Field\Plugin\Field\FieldType\StringItem;
 
 /**
@@ -55,7 +56,7 @@ use Drupal\Core\Field\Plugin\Field\FieldType\StringItem;
 class Board extends ContentEntityBase implements BoardInterface {
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function preSave(EntityStorageInterface $storage) {
     parent::preSave($storage);
@@ -65,7 +66,7 @@ class Board extends ContentEntityBase implements BoardInterface {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function toUrl($rel = 'canonical', array $options = []) {
     if ($rel == 'canonical' && $this->bundle() == 'drupalorg_sprint') {
@@ -75,7 +76,7 @@ class Board extends ContentEntityBase implements BoardInterface {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   protected function urlRouteParameters($rel) {
     if ($rel == 'canonical' && $this->bundle() == 'drupalorg_sprint') {
@@ -97,26 +98,28 @@ class Board extends ContentEntityBase implements BoardInterface {
    */
   public function postSave(EntityStorageInterface $storage, $update = TRUE) {
     parent::postSave($storage, $update);
-    // Ensure there's a back-reference on each product board_list.
-    foreach ($this->lists as $item) {
-      $board_list = $item->entity;
-      if ($board_list->board_id->isEmpty()) {
-        $board_list->board_id = $this->id();
+    // Ensure each list references its board.
+    $lists = $this->get('lists');
+    assert($lists instanceof EntityReferenceFieldItemListInterface);
+    foreach ($lists->referencedEntities() as $board_list) {
+      assert($board_list instanceof BoardListInterface);
+      if ($board_list->get('board_id')->isEmpty()) {
+        $board_list->set('board_id', $this->id());
         $board_list->save();
       }
     }
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public static function postDelete(EntityStorageInterface $storage, array $entities) {
     /** @var \Drupal\contribkanban_boards\Entity\Board[] $entities */
     parent::postDelete($storage, $entities);
     foreach ($entities as $board) {
-      foreach ($board->get('lists') as $item) {
-        /** @var \Drupal\contribkanban_boards\Entity\BoardListInterface $board_list */
-        $board_list = $item->entity;
+      $lists = $board->get('lists');
+      assert($lists instanceof EntityReferenceFieldItemListInterface);
+      foreach ($lists->referencedEntities() as $board_list) {
         $board_list->delete();
       }
     }

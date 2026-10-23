@@ -8,19 +8,23 @@ use GuzzleHttp\Client;
 class Tags {
 
   /**
-   * @var \GuzzleHttp\Client
+   * Constructs a Tags object.
+   *
+   * @param \GuzzleHttp\Client $client
+   *   An HTTP client for the drupal.org api-d7 endpoint.
    */
-  protected $client;
+  public function __construct(
+    protected Client $client,
+  ) {}
 
   /**
+   * Loads an issue tag from drupal.org by name.
    *
-   */
-  public function __construct(Client $client) {
-    $this->client = $client;
-  }
-
-  /**
+   * @param string $tag
+   *   The tag name.
    *
+   * @return array
+   *   The taxonomy term, or an empty array if it does not exist.
    */
   public function getTag($tag) {
     $params = [
