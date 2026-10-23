@@ -60,28 +60,22 @@ class Board extends ContentEntityBase implements BoardInterface {
    */
   public static function preCreate(EntityStorageInterface $storage, array &$values) {
     parent::preCreate($storage, $values);
-    // Boards are routed by machine name. Pick a free one when the board is
-    // created, so validation sees the final name.
+    // Derive the machine name now, so validation sees it.
     $bundle = $values['type'] ?? NULL;
     $title = $values['title'] ?? NULL;
-    if (!is_string($bundle)) {
-      return;
-    }
-    $machine_name = $values['machine_name'] ?? (is_string($title) ? self::deriveMachineName($title, $bundle) : NULL);
-    if (is_string($machine_name) && $machine_name !== '') {
-      $values['machine_name'] = self::uniqueMachineName($storage, $machine_name);
+    if (!isset($values['machine_name']) && is_string($bundle) && is_string($title)) {
+      $values['machine_name'] = self::deriveMachineName($title, $bundle);
     }
   }
 
   /**
    * {@inheritdoc}
    */
-  public function preSave(EntityStorageInterface $storage) {
-    parent::preSave($storage);
-    // The admin form creates the board before its title is known.
-    if ($this->get('machine_name')->isEmpty()) {
-      $machine_name = self::deriveMachineName((string) $this->label(), $this->bundle());
-      $this->set('machine_name', self::uniqueMachineName($storage, $machine_name));
+  public function onChange($name) {
+    parent::onChange($name);
+    // The admin form sets the title after the board is created.
+    if ($name === 'title' && $this->isNew() && $this->get('machine_name')->isEmpty()) {
+      $this->set('machine_name', self::deriveMachineName((string) $this->label(), $this->bundle()));
     }
   }
 
@@ -94,37 +88,6 @@ class Board extends ContentEntityBase implements BoardInterface {
   private static function deriveMachineName(string $title, string $bundle): string {
     $machine_name = (string) preg_replace('/\s/', '', $title);
     return $bundle === 'drupalorg_sprint' ? $machine_name . '-tag' : $machine_name;
-  }
-
-  /**
-   * Returns a machine name no other board uses.
-   *
-   * @param \Drupal\Core\Entity\EntityStorageInterface $storage
-   *   The board storage.
-   * @param string $machine_name
-   *   The preferred machine name.
-   *
-   * @return string
-   *   The preferred name if it is free, otherwise the first free one of
-   *   name-2, name-3, and so on.
-   */
-  public static function uniqueMachineName(EntityStorageInterface $storage, string $machine_name): string {
-    $candidate = $machine_name;
-    for ($counter = 2; self::machineNameTaken($storage, $candidate); $counter++) {
-      $candidate = $machine_name . '-' . $counter;
-    }
-    return $candidate;
-  }
-
-  /**
-   * Checks whether a board uses a machine name.
-   */
-  private static function machineNameTaken(EntityStorageInterface $storage, string $machine_name): bool {
-    return (bool) $storage->getQuery()
-      ->accessCheck(FALSE)
-      ->condition('machine_name', $machine_name)
-      ->count()
-      ->execute();
   }
 
   /**
