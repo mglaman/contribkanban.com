@@ -5,7 +5,7 @@ environment_variables:
 environments:
   master:
     cronjobs:
-    - command: php bin/drush cron
+    - command: drush cron
       name: drush cron
       schedule: H * * * *
       service: cli
@@ -31,21 +31,21 @@ tasks:
   post-rollout:
   - run:
       command: |
-        if [[ -n ${LAGOON_PR_BASE_BRANCH} ]] && tables=$(php bin/drush sqlq 'show tables;') && [ -z "$tables" ]; then
-            php bin/drush -y site-install --account-pass=admin
+        if [[ -n ${LAGOON_PR_BASE_BRANCH} ]] && tables=$(drush sqlq 'show tables;') && [ -z "$tables" ]; then
+            drush -y site-install --account-pass=admin
         fi
       name: If this is a pull request, install the database.
       service: cli
   - run:
-      command: php bin/drush updb --yes
+      command: drush updb --yes
       name: drush updb
       service: cli
   - run:
-      command: php bin/drush cim --yes
+      command: drush cim --yes
       name: drush cim
       service: cli
   - run:
-      command: php bin/drush sapi-i --yes
+      command: drush sapi-i --yes
       name: drush sapi-i
       service: cli
   - run:
