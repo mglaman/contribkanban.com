@@ -52,11 +52,11 @@ API utilities are in `frontend/src/api/index.js`. The base URL is environment-aw
 ### Code quality (run before marking Drupal work done)
 
 ```bash
-./bin/phpcs web/modules/custom     # coding standards
-./bin/phpstan analyse              # static analysis
+./bin/phpcs                        # coding standards (phpcs.xml.dist)
+./bin/phpstan analyse              # static analysis, no baseline
 ```
 
-PHPStan is enforced in CI (GitHub Actions, `.github/workflows/ci.yml`). PHPCS is not yet; it currently reports violations.
+Both run in CI (GitHub Actions, `.github/workflows/ci.yml`) and must stay clean. Class doc comments are not required; method, property, and file doc comments are. Fix PHPStan errors instead of adding a baseline.
 
 ## Testing
 

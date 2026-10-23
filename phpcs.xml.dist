@@ -1,15 +1,19 @@
-<?xml version="1.0"?>
-<ruleset name="ContribKanban CS">
-  <description>Drupal 8 coding standards</description>
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="contribkanban">
+  <description>Drupal coding standards for custom code.</description>
+
+  <file>web/modules/custom</file>
+  <file>web/profiles/custom</file>
+
   <exclude-pattern>*/vendor/*</exclude-pattern>
-  <rule ref="Drupal"/>
-  <rule ref="Drupal.WhiteSpace.OpenTagNewline.BlankLine">
-    <severity>0</severity>
+
+  <arg name="extensions" value="php,module,inc,install,test,profile,theme,info,yml"/>
+  <arg name="colors"/>
+  <arg value="sp"/>
+
+  <rule ref="Drupal">
+    <!-- Class names say what a class is; a required docblock only repeats it. -->
+    <exclude name="Drupal.Commenting.ClassComment"/>
   </rule>
-  <rule ref="Drupal.Commenting.ClassComment.Missing">
-    <severity>0</severity>
-  </rule>
-    <rule ref="Drupal.Commenting.FileComment.Missing">
-      <severity>0</severity>
-    </rule>
+  <rule ref="DrupalPractice"/>
 </ruleset>
