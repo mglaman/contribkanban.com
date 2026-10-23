@@ -1,0 +1,13 @@
+entity.node_board.canonical:
+  title: 'View'
+  route_name: entity.node_board.canonical
+  base_route: entity.node_board.canonical
+entity.node_board.edit_form:
+  title: 'Edit'
+  route_name: entity.node_board.edit_form
+  base_route: entity.node_board.canonical
+entity.node_board.delete_form:
+  title: 'Delete'
+  route_name: entity.node_board.delete_form
+  base_route: entity.node_board.canonical
+  weight: 10

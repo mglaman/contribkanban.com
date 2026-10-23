@@ -164,3 +164,50 @@
   color: var(--ck-muted);
   text-align: center;
 }
+
+/* Account page. */
+.issue-collections {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 640px;
+  padding: 28px;
+  border-radius: var(--ck-radius-panel);
+  background: var(--ck-surface);
+  box-shadow: var(--ck-shadow);
+}
+
+.issue-collections__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.issue-collections__list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--ck-border-subtle);
+}
+
+.issue-collections__list a:first-child {
+  color: var(--ck-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.issue-collections__edit {
+  color: var(--ck-muted);
+}
+
+.issue-collections .item-list > p {
+  color: var(--ck-muted);
+}
+
+.issue-collections__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+}
