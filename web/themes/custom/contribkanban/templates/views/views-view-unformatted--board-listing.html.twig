@@ -1,0 +1,9 @@
+{#
+/**
+ * @file
+ * Board listing rows, without wrappers, so each card is a grid item.
+ */
+#}
+{% for row in rows %}
+  {{- row.content -}}
+{% endfor %}

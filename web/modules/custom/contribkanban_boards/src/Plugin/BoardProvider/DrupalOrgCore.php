@@ -10,7 +10,7 @@ use Drupal\Core\Plugin\PluginBase;
  *
  * @BoardProvider(
  *   id = "drupalorg_core",
- *   label = @Translation("Drupal core"),
+ *   label = @Translation("Core component"),
  *   description = @Translation("Add a board for a module"),
  * )
  */

@@ -1,0 +1,18 @@
+{%
+  set source_labels = {
+    gitlab: 'GitLab'|t,
+    drupalorg: 'drupal.org'|t,
+    both: 'GitLab and drupal.org'|t,
+  }
+%}
+<a class="board-card" href="{{ url }}">
+  <span class="board-card__title">{{ title }}</span>
+  <span class="board-card__meta">
+    {% if type %}
+      <span class="board-card__chip">{{ type }}</span>
+    {% endif %}
+    {% if source %}
+      <span class="board-card__chip board-card__chip--{{ source }}">{{ source_labels[source] }}</span>
+    {% endif %}
+  </span>
+</a>

@@ -1,0 +1,70 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--ck-ground);
+  color: var(--ck-text);
+  font-family: var(--ck-font);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--ck-accent);
+}
+
+a:hover {
+  color: var(--ck-accent-strong);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ck-accent);
+  outline-offset: 2px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+p {
+  margin: 0;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  width: 1px;
+  height: 1px;
+  word-wrap: normal;
+}
+
+.visually-hidden.focusable:is(:active, :focus) {
+  position: static !important;
+  overflow: visible;
+  clip: auto;
+  width: auto;
+  height: auto;
+}
+
+.skip-link {
+  display: inline-block;
+  margin: 8px var(--ck-gutter);
+  padding: 8px 16px;
+  border-radius: var(--ck-radius-pill);
+  background: var(--ck-surface);
+}

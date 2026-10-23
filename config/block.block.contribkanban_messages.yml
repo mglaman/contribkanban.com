@@ -1,0 +1,22 @@
+uuid: cd9b9f15-b37a-4488-9d56-b886dbc68faa
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - contribkanban
+_core:
+  default_config_hash: WvPhI8OwllG0gE69-F8qL3ai3nd5SbYD6JpmEuZcyok
+id: contribkanban_messages
+theme: contribkanban
+region: highlighted
+weight: -10
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  label_display: '0'
+  provider: system
+visibility: {  }

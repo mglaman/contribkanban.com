@@ -1,0 +1,31 @@
+/**
+ * Design tokens shared by the theme's components and the board island.
+ */
+:root {
+  --ck-font: Figtree, system-ui, sans-serif;
+  --ck-ground: #f4f6f8;
+  --ck-surface: #fff;
+  --ck-surface-muted: #f3f4f6;
+  --ck-text: #1f2937;
+  --ck-muted: #4b5563;
+  --ck-border: #d1d5db;
+  --ck-border-subtle: #e5e7eb;
+  --ck-accent: #0f766e;
+  --ck-accent-strong: #134e4a;
+  --ck-accent-soft: #f0fdfa;
+  --ck-danger: #b91c1c;
+  --ck-radius-card: 14px;
+  --ck-radius-panel: 20px;
+  --ck-radius-input: 12px;
+  --ck-radius-pill: 999px;
+  --ck-shadow: 0 1px 2px rgb(15 23 42 / 5%), 0 4px 12px rgb(15 23 42 / 5%);
+  --ck-shadow-subtle: 0 1px 2px rgb(15 23 42 / 6%);
+  --ck-gutter: 40px;
+  --ck-max-width: 1240px;
+}
+
+@media (width < 640px) {
+  :root {
+    --ck-gutter: 16px;
+  }
+}

@@ -1,0 +1,32 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Pill navigation
+description: A row of links shown as pills, with the current one highlighted.
+status: stable
+props:
+  type: object
+  required:
+    - label
+    - items
+  properties:
+    label:
+      type: string
+      title: Accessible name
+    variant:
+      type: string
+      title: Variant
+      description: Subtle highlights the current link in white. Solid highlights it in dark gray and shows the others in white.
+      enum:
+        - subtle
+        - solid
+    items:
+      type: array
+      title: Links
+      items:
+        type: object
+        properties:
+          label:
+            type: string
+          url:
+            type: string
+          current:
+            type: boolean

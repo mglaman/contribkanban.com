@@ -1,0 +1,13 @@
+name: ContribKanban
+type: theme
+description: 'The public theme for ContribKanban.'
+core_version_requirement: ^11
+base theme: false
+logo: logo.svg
+libraries:
+  - contribkanban/global
+regions:
+  highlighted: Highlighted
+  title: Title
+  content: Content
+  footer: Footer

@@ -5,6 +5,7 @@ parameters:
 		- */tests/fixtures/*.php
 	paths:
 		- web/modules/custom
+		- web/themes/custom
 	drupal:
 		entityMapping:
 			project:

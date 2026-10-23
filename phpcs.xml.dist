@@ -4,6 +4,7 @@
 
   <file>web/modules/custom</file>
   <file>web/profiles/custom</file>
+  <file>web/themes/custom</file>
 
   <exclude-pattern>*/vendor/*</exclude-pattern>
 

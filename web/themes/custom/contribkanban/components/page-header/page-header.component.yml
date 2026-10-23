@@ -1,0 +1,36 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Page header
+description: Site name, logo, main navigation, and the account link.
+status: stable
+props:
+  type: object
+  required:
+    - site_name
+    - front_url
+  properties:
+    site_name:
+      type: string
+      title: Site name
+    front_url:
+      type: string
+      title: Front page URL
+    nav:
+      type: array
+      title: Main navigation
+      items:
+        type: object
+        properties:
+          label:
+            type: string
+          url:
+            type: string
+          current:
+            type: boolean
+    account:
+      type: object
+      title: Account link
+      properties:
+        label:
+          type: string
+        url:
+          type: string

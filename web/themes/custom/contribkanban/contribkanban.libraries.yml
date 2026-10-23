@@ -1,0 +1,10 @@
+global:
+  css:
+    base:
+      'https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap': { type: external }
+      css/tokens.css: {}
+      css/base.css: {}
+    layout:
+      css/layout.css: {}
+    component:
+      css/forms.css: {}

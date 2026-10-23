@@ -1,0 +1,137 @@
+uuid: 2f65361d-168c-483e-ab47-ec5bb89d7bd0
+langcode: en
+status: true
+dependencies:
+  config:
+    - search_api.index.boards
+  module:
+    - search_api
+id: board_listing
+label: 'Board listing'
+module: views
+description: 'Search and browse boards.'
+tag: ''
+base_table: search_api_index_boards
+base_field: search_api_id
+display:
+  default:
+    id: default
+    display_title: Default
+    display_plugin: default
+    position: 0
+    display_options:
+      title: 'Find a board'
+      pager:
+        type: full
+        options:
+          offset: 0
+          items_per_page: 24
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Search
+          reset_button: false
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: false
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      access:
+        type: none
+        options: {  }
+      cache:
+        type: search_api_tag
+        options: {  }
+      empty:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          plugin_id: text_custom
+          empty: true
+          content: 'No boards match your search.'
+      sorts:
+        title_sort:
+          id: title_sort
+          table: search_api_index_boards
+          field: title_sort
+          plugin_id: search_api
+          order: ASC
+      filters:
+        search_api_fulltext:
+          id: search_api_fulltext
+          table: search_api_index_boards
+          field: search_api_fulltext
+          plugin_id: search_api_fulltext
+          operator: and
+          exposed: true
+          expose:
+            operator_id: search_api_fulltext_op
+            label: 'Search boards'
+            identifier: search
+            remember_roles:
+              authenticated: authenticated
+          parse_mode: terms
+          fields:
+            - title
+        board_type:
+          id: board_type
+          table: search_api_index_boards
+          field: board_type
+          plugin_id: search_api_string
+          operator: '='
+          exposed: true
+          expose:
+            operator_id: board_type_op
+            label: 'Board type'
+            identifier: type
+            remember_roles:
+              authenticated: authenticated
+      style:
+        type: default
+        options: {  }
+      row:
+        type: search_api
+        options:
+          view_modes:
+            'entity:board':
+              drupalorg_core: card
+              drupalorg_project: card
+              drupalorg_sprint: card
+      query:
+        type: search_api_query
+        options: {  }
+      header:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          plugin_id: text_custom
+          content: 'Kanban boards for Drupal projects, issue tags, and core components, built from drupal.org and GitLab issues.'
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+      tags:
+        - 'config:search_api.index.boards'
+        - 'search_api_list:boards'
+  page:
+    id: page
+    display_title: Page
+    display_plugin: page
+    position: 1
+    display_options:
+      display_extenders: {  }
+      path: boards
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+      tags:
+        - 'config:search_api.index.boards'
+        - 'search_api_list:boards'

@@ -1,0 +1,21 @@
+{#
+/**
+ * @file
+ * The board listing: search, type links, board cards, and the pager.
+ */
+#}
+<div{{ attributes.addClass('board-listing') }}>
+  {{ title_prefix }}
+  {{ title_suffix }}
+  {% if header %}
+    <div class="board-listing__intro">{{ header }}</div>
+  {% endif %}
+  {{ exposed }}
+  {{ include('contribkanban:pill-nav', {label: 'Board type'|t, items: type_links, variant: 'solid'}, with_context = false) }}
+  {% if rows %}
+    <div class="board-listing__grid">{{ rows }}</div>
+  {% elseif empty %}
+    <div class="board-listing__empty">{{ empty }}</div>
+  {% endif %}
+  {{ pager }}
+</div>

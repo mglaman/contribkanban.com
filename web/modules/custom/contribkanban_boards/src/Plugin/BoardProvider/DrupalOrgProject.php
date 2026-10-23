@@ -10,7 +10,7 @@ use Drupal\Core\Plugin\PluginBase;
  *
  * @BoardProvider(
  *   id = "drupalorg_project",
- *   label = @Translation("Projects"),
+ *   label = @Translation("Project"),
  *   description = @Translation("Add a board for a project"),
  * )
  */

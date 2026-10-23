@@ -1,0 +1,22 @@
+uuid: e6995d25-4716-4274-b662-353ab694156d
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - contribkanban
+_core:
+  default_config_hash: hBHXB7hC05XU7pDYzETt-GUcpFlogK1gkjyAsg0Ym58
+id: contribkanban_content
+theme: contribkanban
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

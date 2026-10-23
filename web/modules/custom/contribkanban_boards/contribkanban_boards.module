@@ -5,6 +5,7 @@
  * Hooks for contribkanban_boards.
  */
 
+use Drupal\contribkanban_boards\Entity\BoardInterface;
 use Drupal\contribkanban_boards\Entity\BoardListInterface;
 use Drupal\contribkanban_boards\FieldHelper;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
@@ -37,6 +38,20 @@ function contribkanban_boards_theme($existing, $type, $theme, $path) {
 }
 
 /**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function contribkanban_boards_theme_suggestions_board(array $variables): array {
+  $board = $variables['elements']['#board'];
+  assert($board instanceof BoardInterface);
+  $view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
+  return [
+    'board__' . $view_mode,
+    'board__' . $board->bundle(),
+    'board__' . $board->bundle() . '__' . $view_mode,
+  ];
+}
+
+/**
  * Implements hook_ENTITY_TYPE_view().
  */
 function contribkanban_boards_node_board_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
@@ -55,6 +70,9 @@ function contribkanban_boards_node_board_view(array &$build, EntityInterface $en
  * Implements hook_ENTITY_TYPE_view().
  */
 function contribkanban_boards_board_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode) {
+  if ($view_mode !== 'full') {
+    return;
+  }
   $build['#attached']['drupalSettings']['board'] = [];
 
   /** @var \Drupal\contribkanban_boards\Entity\BoardInterface $board */

@@ -1,0 +1,93 @@
+main form:not(.views-exposed-form) {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 480px;
+}
+
+.form-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+}
+
+.form-item label,
+fieldset legend {
+  font-weight: 600;
+}
+
+.form-item .description {
+  color: var(--ck-muted);
+  font-size: 13px;
+}
+
+input:is([type="text"], [type="search"], [type="email"], [type="password"], [type="url"], [type="number"]),
+select,
+textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid var(--ck-border);
+  border-radius: var(--ck-radius-input);
+  background: var(--ck-surface);
+  color: var(--ck-text);
+  font: inherit;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.button,
+input[type="submit"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 24px;
+  border: 0;
+  border-radius: var(--ck-radius-pill);
+  background: var(--ck-accent);
+  color: var(--ck-surface);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.button:hover,
+input[type="submit"]:hover {
+  background: var(--ck-accent-strong);
+  color: var(--ck-surface);
+}
+
+.form-item--error-message,
+.form-item .error {
+  color: var(--ck-danger);
+}
+
+/* The board search: one large field with the button beside it. */
+.board-listing .views-exposed-form {
+  display: flex;
+  gap: 10px;
+}
+
+.board-listing .views-exposed-form .form-item-search {
+  flex: 1;
+}
+
+.board-listing .views-exposed-form input[type="search"],
+.board-listing .views-exposed-form input[type="text"] {
+  min-height: 56px;
+  padding: 16px 22px;
+  border: 0;
+  border-radius: 16px;
+  font-size: 17px;
+  box-shadow: var(--ck-shadow);
+}
+
+.board-listing .views-exposed-form .form-actions input[type="submit"] {
+  min-height: 56px;
+}

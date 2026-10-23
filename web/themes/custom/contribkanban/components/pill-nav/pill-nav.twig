@@ -1,0 +1,5 @@
+<nav class="pill-nav pill-nav--{{ variant|default('subtle') }}" aria-label="{{ label }}">
+  {% for item in items %}
+    <a class="pill-nav__link" href="{{ item.url }}"{% if item.current %} aria-current="page"{% endif %}>{{ item.label }}</a>
+  {% endfor %}
+</nav>

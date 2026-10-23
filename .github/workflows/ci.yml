@@ -121,6 +121,20 @@ jobs:
       - run: ./bin/drush en dblog
       - run: npm test
         working-directory: frontend
+      # After the React tests, so the extra board doesn't change their results.
+      - name: Check the Drupal board listing
+        run: |
+          ./bin/drush php:eval '
+            use Drupal\contribkanban_boards\Entity\Board;
+            use Drupal\contribkanban_boards\Entity\BoardList;
+            Board::create([
+              "type" => "drupalorg_core",
+              "title" => "Smoke test board",
+              "lists" => [BoardList::create(["type" => "drupalorg_core", "title" => "Active", "statuses" => [1]])],
+            ])->save();'
+          ./bin/drush search-api:index
+          curl -fsS "http://127.0.0.1:8080/boards?search=smoke" | grep "Smoke test board"
+          curl -fsS "http://127.0.0.1:8080/boards?type=drupalorg_sprint&search=smoke" | grep "No boards match"
       - name: Show watchdog log
         if: always()
         run: ./bin/drush wd-show
