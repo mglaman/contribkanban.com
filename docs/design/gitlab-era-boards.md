@@ -121,6 +121,39 @@ A small front-end theme replaces Gin as the default theme. Gin, the admin theme,
 
 `board-shell` mounts the island. The island is a Vite library build written into the component's directory as its JavaScript file, so Drupal attaches it through the component's own library. No separate frontend build or deploy target.
 
+### Visual design
+
+Direction B ("Open air") from the [design directions canvas](https://claude.ai/artifact/Avf64rYCTUYeP5G8J4TzC8), with direction C's logo: a rounded square outline with three descending bars, in teal and dark gray on a light header.
+
+Tokens, as CSS custom properties shared by the SDCs and the board island:
+
+| Token | Value | Use |
+|---|---|---|
+| `--ck-font` | Figtree, system-ui, sans-serif | All text. 15px body, 34px page titles. |
+| `--ck-ground` | `#F4F6F8` | Page background |
+| `--ck-surface` | `#FFFFFF` | Cards, panels, inputs |
+| `--ck-text` | `#1F2937` | Body text |
+| `--ck-muted` | `#4B5563` | Secondary text (7:1 on white) |
+| `--ck-border` | `#D1D5DB` | Inputs, dashed empty states |
+| `--ck-accent` | `#0F766E` | Links, primary buttons, focus, logo outline |
+| `--ck-accent-strong` | `#134E4A` | Hover and pressed |
+| `--ck-radius-card` | `14px` | Issue and board cards |
+| `--ck-radius-pill` | `999px` | Buttons, filters, chips |
+| `--ck-shadow` | `0 1px 2px rgba(15,23,42,.05), 0 4px 12px rgba(15,23,42,.05)` | Cards and panels |
+
+Status column headers are tinted, never the cards:
+
+| Status | Background | Text |
+|---|---|---|
+| Postponed | `#E5E7EB` | `#1F2937` |
+| Active | `#DBEAFE` | `#1E3A8A` |
+| Needs work | `#FFEDD5` | `#7C2D12` |
+| Needs review | `#FEF3C7` | `#713F12` |
+| Reviewed & tested | `#DCFCE7` | `#14532D` |
+| Fixed | `#CCFBF1` | `#134E4A` |
+
+Cards show the title, category (red for bugs), priority only when Major or Critical, the issue number, and an avatar when assigned. Touch targets are at least 44px.
+
 ### The board island
 
 - **React 19**, no router and no app state beyond the board. It reads the board configuration from `board-shell`'s data attributes, then fetches issues from drupal.org and GitLab in the browser. Each viewer keeps their own GitLab rate limit, and tag boards need no server cache.
@@ -143,6 +176,5 @@ Astro isn't needed. Astro wants to own page rendering, statically or through a N
 ## Open questions
 
 - Do the 9 active accounts need anything special at cut-over? Their passwords live in Drupal, so session login works for them unchanged.
-- Should the theme be styled from scratch, or start from a minimal base like Olivero's tokens?
 - Should past-event tag boards (50 with no GitLab issues) stay as drupal.org-only boards or be deleted?
 - When core's queue moves, will components become `component::` scoped labels? That decides how core component boards map.
