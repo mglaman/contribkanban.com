@@ -6,6 +6,7 @@
  */
 
 use Drupal\contribkanban_boards\Entity\Board;
+use Drupal\contribkanban_boards\Entity\BoardInterface;
 use Drupal\search_api\IndexInterface;
 
 /**
@@ -21,12 +22,12 @@ function contribkanban_boards_update_10001(): void {
 }
 
 /**
- * Remove the parent issue, category, and priority board settings.
+ * Prune board configuration and make machine names unique.
  *
- * Only custom boards, which are deleted, and the old experience_builder board
- * used them.
+ * Removes the parent issue, category, and priority settings, deletes custom
+ * and stale boards and orphaned lists, and renames duplicate machine names.
  */
-function contribkanban_boards_update_10002(): void {
+function contribkanban_boards_update_10002(): string {
   // Drop the index fields first, or Search API fails to rebuild its Views
   // data for properties that no longer exist.
   $index = \Drupal::moduleHandler()->moduleExists('search_api')
@@ -54,4 +55,55 @@ function contribkanban_boards_update_10002(): void {
       }
     }
   }
+
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $board_storage = $entity_type_manager->getStorage('board');
+  $list_storage = $entity_type_manager->getStorage('board_list');
+
+  // Custom boards were built in the admin UI and are all abandoned. The
+  // experience_builder project was renamed to canvas, which has its own board.
+  $stale = $board_storage->loadByProperties(['type' => 'drupalorg_custom'])
+    + $board_storage->loadByProperties(['machine_name' => 'experience_builder']);
+  $board_storage->delete($stale);
+
+  // Lists whose board no longer exists.
+  $database = \Drupal::database();
+  $query = $database->select('board_list', 'l');
+  $query->leftJoin('board', 'b', '[b].[board_id] = [l].[board_id]');
+  $orphan_ids = $query->fields('l', ['board_list_id'])
+    ->isNull('b.board_id')
+    ->execute()
+    ->fetchCol();
+  $list_storage->delete($list_storage->loadMultiple($orphan_ids));
+
+  // Boards are routed by machine name, so a duplicate is unreachable. Keep
+  // the oldest board's name. Re-saving the others suffixes theirs in
+  // Board::preSave().
+  $duplicates = $database->select('board', 'b')
+    ->fields('b', ['machine_name'])
+    ->groupBy('b.machine_name')
+    ->having('COUNT(*) > 1')
+    ->execute()
+    ->fetchCol();
+  $renamed = [];
+  foreach ($duplicates as $machine_name) {
+    $ids = $board_storage->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('machine_name', $machine_name)
+      ->sort('board_id')
+      ->execute();
+    array_shift($ids);
+    foreach ($board_storage->loadMultiple($ids) as $board) {
+      assert($board instanceof BoardInterface);
+      $board->save();
+      $renamed[] = "$machine_name to " . $board->get('machine_name')->value;
+    }
+  }
+
+  return sprintf(
+    'Deleted %d boards and %d orphaned lists. Renamed %s.',
+    count($stale),
+    count($orphan_ids),
+    $renamed ? implode(', ', $renamed) : 'no boards'
+  );
 }

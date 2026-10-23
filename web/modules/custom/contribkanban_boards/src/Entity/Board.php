@@ -63,6 +63,30 @@ class Board extends ContentEntityBase implements BoardInterface {
     if ($this->get('machine_name')->isEmpty()) {
       $this->get('machine_name')->setValue(preg_replace("/\s/", '', $this->label()));
     }
+
+    // Boards are routed by machine name, so a duplicate would be unreachable.
+    // Project and tag boards can collide, such as the mongodb project and the
+    // mongodb tag, so suffix the name when another board has it.
+    $machine_name = (string) $this->get('machine_name')->value;
+    $suffix = $this->bundle() === 'drupalorg_sprint' ? 'tag' : 'board';
+    $candidate = $machine_name;
+    for ($counter = 1; $this->machineNameTaken($storage, $candidate); $counter++) {
+      $candidate = $machine_name . '-' . $suffix . ($counter > 1 ? '-' . $counter : '');
+    }
+    $this->set('machine_name', $candidate);
+  }
+
+  /**
+   * Checks whether another board uses a machine name.
+   */
+  private function machineNameTaken(EntityStorageInterface $storage, string $machine_name): bool {
+    $query = $storage->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('machine_name', $machine_name);
+    if (!$this->isNew()) {
+      $query->condition('board_id', $this->id(), '<>');
+    }
+    return (bool) $query->count()->execute();
   }
 
   /**

@@ -3,7 +3,6 @@
 namespace Drupal\contribkanban_api\Controller;
 
 use Drupal\contribkanban_api\Projects;
-use Drupal\contribkanban_boards\BoardMachineNames;
 use Drupal\contribkanban_boards\BoardProviderManager;
 use Drupal\contribkanban_boards\Entity\Board;
 use Drupal\contribkanban_boards\Entity\BoardInterface;
@@ -25,14 +24,11 @@ final class AddBoard implements ContainerInjectionInterface {
    *   The board provider plugin manager.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\contribkanban_boards\BoardMachineNames $machineNames
-   *   Picks a machine name no other board uses.
    */
   public function __construct(
     private readonly Projects $projectsHelper,
     private readonly BoardProviderManager $boardProvider,
     private readonly EntityTypeManagerInterface $entityTypeManager,
-    private readonly BoardMachineNames $machineNames,
   ) {}
 
   /**
@@ -42,8 +38,7 @@ final class AddBoard implements ContainerInjectionInterface {
     return new self(
       $container->get('drupalorg_projects'),
       $container->get('plugin.manager.board_provider'),
-      $container->get('entity_type.manager'),
-      $container->get('contribkanban_boards.machine_names')
+      $container->get('entity_type.manager')
     );
   }
 
@@ -118,7 +113,7 @@ final class AddBoard implements ContainerInjectionInterface {
       'type' => $bundle,
       'title' => $project['title'],
       'project_nid' => [$project['nid']],
-      'machine_name' => $this->machineNames->unique($machine_name, 'project'),
+      'machine_name' => $machine_name,
       // Projects without a Drupal.org issue queue have moved to GitLab.
       'gitlab_work_items' => $project['hasIssues'] === FALSE,
       'lists' => [
