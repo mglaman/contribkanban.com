@@ -10,7 +10,7 @@ use Drupal\Core\Plugin\PluginBase;
  *
  * @BoardProvider(
  *   id = "drupalorg_sprint",
- *   label = @Translation("Sprint"),
+ *   label = @Translation("Tag"),
  *   description = @Translation("Add a board for a Drupal.org issue tag."),
  * )
  */

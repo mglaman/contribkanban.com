@@ -5,6 +5,7 @@ Kanban board app for Drupal.org contribution issue tracking. Monorepo with a Dru
 ## Project structure
 
 - `/web` — Drupal 11 application root; custom modules in `web/modules/custom/`
+- `/web/themes/custom/contribkanban` — Front-end theme. Markup lives in single directory components under `components/`; design tokens are CSS custom properties in `css/tokens.css`. Gin stays the admin theme.
 - `/frontend` — React 19 SPA (Vite, JSX, MUI v9, React Router, Vitest)
 - `/config` — Drupal configuration exports (version-controlled, must stay in sync)
 

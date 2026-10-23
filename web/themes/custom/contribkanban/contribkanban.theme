@@ -1,0 +1,88 @@
+<?php
+
+/**
+ * @file
+ * Theme hooks for ContribKanban.
+ */
+
+use Drupal\contribkanban_boards\Entity\BoardInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_preprocess_HOOK() for page templates.
+ */
+function contribkanban_preprocess_page(array &$variables): void {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  $variables['site_name'] = (string) \Drupal::config('system.site')->get('name');
+  $variables['front_url'] = Url::fromRoute('<front>')->toString();
+  $variables['main_nav'] = [
+    [
+      'label' => (string) t('Boards'),
+      'url' => Url::fromRoute('view.board_listing.page')->toString(),
+      'current' => $route_name === 'view.board_listing.page',
+    ],
+  ];
+  $variables['account_link'] = \Drupal::currentUser()->isAnonymous()
+    ? ['label' => (string) t('Log in'), 'url' => Url::fromRoute('user.login')->toString()]
+    : ['label' => (string) t('Account'), 'url' => Url::fromRoute('user.page')->toString()];
+  $variables['#cache']['contexts'][] = 'route';
+  $variables['#cache']['contexts'][] = 'user.roles:anonymous';
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for board templates.
+ */
+function contribkanban_preprocess_board(array &$variables): void {
+  $board = $variables['elements']['#board'];
+  assert($board instanceof BoardInterface);
+  $bundles = \Drupal::service('entity_type.bundle.info')->getBundleInfo('board');
+  $gitlab = $board->bundle() === 'drupalorg_project' && (bool) $board->get('gitlab_work_items')->value;
+  $variables['card'] = [
+    'title' => (string) $board->label(),
+    'url' => $board->toUrl()->toString(),
+    'type' => (string) ($bundles[$board->bundle()]['label'] ?? ''),
+    'source' => $gitlab ? 'gitlab' : 'drupalorg',
+  ];
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for the board listing view.
+ */
+function contribkanban_preprocess_views_view__board_listing(array &$variables): void {
+  $query = \Drupal::request()->query;
+  $current_type = (string) $query->get('type', '');
+  $search = (string) $query->get('search', '');
+  $types = [
+    '' => t('All'),
+    'drupalorg_project' => t('Projects'),
+    'drupalorg_sprint' => t('Tags'),
+    'drupalorg_core' => t('Core components'),
+  ];
+  $variables['type_links'] = [];
+  foreach ($types as $type => $label) {
+    $variables['type_links'][] = [
+      'label' => (string) $label,
+      'url' => Url::fromRoute('<current>', [], [
+        'query' => array_filter(['type' => $type, 'search' => $search]),
+      ])->toString(),
+      'current' => $type === $current_type,
+    ];
+  }
+  $variables['#cache']['contexts'][] = 'url.query_args:type';
+  $variables['#cache']['contexts'][] = 'url.query_args:search';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for views_exposed_form.
+ */
+function contribkanban_form_views_exposed_form_alter(array &$form, FormStateInterface $form_state): void {
+  if (($form['#id'] ?? '') !== 'views-exposed-form-board-listing-page') {
+    return;
+  }
+  $form['#attributes']['role'] = 'search';
+  $form['search']['#title_display'] = 'invisible';
+  $form['search']['#attributes']['placeholder'] = t('Search projects, tags, and components');
+  // The type links below the search field set the type.
+  $form['type']['#type'] = 'hidden';
+}

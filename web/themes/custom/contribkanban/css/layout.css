@@ -1,0 +1,130 @@
+.layout-main {
+  width: 100%;
+  max-width: var(--ck-max-width);
+  margin: 0 auto;
+  padding: 24px var(--ck-gutter) 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.layout-main:focus {
+  outline: none;
+}
+
+.layout-title {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.site-footer {
+  max-width: var(--ck-max-width);
+  margin: 0 auto;
+  padding: 24px var(--ck-gutter) 40px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  color: var(--ck-muted);
+  font-size: 14px;
+}
+
+/* Status messages. */
+.messages {
+  padding: 14px 18px;
+  border-radius: var(--ck-radius-card);
+  background: var(--ck-surface);
+  box-shadow: var(--ck-shadow);
+  border-left: 4px solid var(--ck-accent);
+}
+
+.messages--error {
+  border-left-color: var(--ck-danger);
+}
+
+.messages__list {
+  margin: 0;
+  padding-left: 18px;
+}
+
+/* Local tasks, for admins. */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tabs a {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: var(--ck-radius-pill);
+  background: var(--ck-surface);
+  color: var(--ck-text);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.tabs .is-active a {
+  background: var(--ck-text);
+  color: var(--ck-surface);
+}
+
+/* Pager. */
+.pager__items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pager__item a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  min-width: 44px;
+  justify-content: center;
+  padding: 0 14px;
+  border-radius: var(--ck-radius-pill);
+  background: var(--ck-surface);
+  color: var(--ck-text);
+  text-decoration: none;
+  box-shadow: var(--ck-shadow-subtle);
+}
+
+.pager__item.is-active a {
+  background: var(--ck-text);
+  color: var(--ck-surface);
+  font-weight: 600;
+}
+
+/* Board listing. */
+.board-listing {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.board-listing__intro {
+  max-width: 560px;
+  color: var(--ck-muted);
+}
+
+.board-listing__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.board-listing__empty {
+  padding: 32px 16px;
+  border: 2px dashed var(--ck-border);
+  border-radius: var(--ck-radius-card);
+  color: var(--ck-muted);
+  text-align: center;
+}

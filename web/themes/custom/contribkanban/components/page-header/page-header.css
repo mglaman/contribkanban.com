@@ -1,0 +1,40 @@
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 32px;
+  padding: 20px var(--ck-gutter);
+}
+
+.page-header__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ck-text);
+  font-size: 19px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.page-header__brand:hover {
+  color: var(--ck-text);
+}
+
+.page-header__logo-frame {
+  color: var(--ck-accent);
+}
+
+.page-header__account {
+  margin-left: auto;
+  padding: 8px 16px;
+  border: 1px solid var(--ck-border);
+  border-radius: var(--ck-radius-pill);
+  color: var(--ck-text);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.page-header__account:hover {
+  border-color: var(--ck-text);
+  color: var(--ck-text);
+}

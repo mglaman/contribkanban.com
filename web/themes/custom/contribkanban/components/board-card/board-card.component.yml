@@ -1,0 +1,29 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Board card
+description: A board in a listing, linking to the board.
+status: stable
+props:
+  type: object
+  required:
+    - title
+    - url
+  properties:
+    title:
+      type: string
+      title: Board title
+    url:
+      type: string
+      title: Board URL
+    type:
+      type: string
+      title: Board type label
+      examples:
+        - Project
+        - Tag
+    source:
+      type: string
+      title: Where the issues come from
+      enum:
+        - gitlab
+        - drupalorg
+        - both

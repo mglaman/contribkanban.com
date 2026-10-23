@@ -1,0 +1,12 @@
+<header class="page-header">
+  <a class="page-header__brand" href="{{ front_url }}">
+    <svg width="26" height="26" viewBox="0 0 22 22" fill="none" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4" stroke="currentColor" stroke-width="1.5" class="page-header__logo-frame"/><path d="M7 6v10M11 6v7M15 6v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    {{ site_name }}
+  </a>
+  {% if nav %}
+    {{ include('contribkanban:pill-nav', {label: 'Main'|t, items: nav, variant: 'subtle'}, with_context = false) }}
+  {% endif %}
+  {% if account %}
+    <a class="page-header__account" href="{{ account.url }}">{{ account.label }}</a>
+  {% endif %}
+</header>

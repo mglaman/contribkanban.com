@@ -54,4 +54,5 @@ module:
 theme:
   claro: 0
   gin: 0
+  contribkanban: 0
 profile: contribkanban_installer

@@ -1,0 +1,11 @@
+uuid: dccea959-d86c-4815-84e6-450bd589af2a
+langcode: en
+status: true
+dependencies:
+  module:
+    - contribkanban_boards
+id: board.card
+label: Card
+description: null
+targetEntityType: board
+cache: true

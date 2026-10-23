@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * The page layout: site header, main content, and footer.
+ */
+#}
+{{ include('contribkanban:page-header', {
+  site_name: site_name,
+  front_url: front_url,
+  nav: main_nav,
+  account: account_link,
+}, with_context = false) }}
+<main id="main-content" class="layout-main" tabindex="-1">
+  {{ page.highlighted }}
+  {% if page.title %}
+    <div class="layout-title">{{ page.title }}</div>
+  {% endif %}
+  {{ page.content }}
+</main>
+<footer class="site-footer">
+  {{ page.footer }}
+  <p>{{ 'Built by <a href=":url">Matt Glaman</a>.'|t({':url': 'https://mglaman.dev'}) }}</p>
+  <p>{{ 'Hosted by <a href=":url">amazee.io</a>.'|t({':url': 'https://www.amazee.io'}) }}</p>
+</footer>

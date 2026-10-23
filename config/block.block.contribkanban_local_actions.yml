@@ -1,0 +1,20 @@
+uuid: 611f85f3-35a3-4be2-9305-720cbe4e9873
+langcode: en
+status: true
+dependencies:
+  theme:
+    - contribkanban
+_core:
+  default_config_hash: OQ9aJ-4qVwK1x00o9EOYK4eFDjQr_HLpbPiJaPSVZiQ
+id: contribkanban_local_actions
+theme: contribkanban
+region: content
+weight: -10
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }
