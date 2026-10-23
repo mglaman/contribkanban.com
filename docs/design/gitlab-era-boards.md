@@ -74,26 +74,75 @@ That split causes real costs:
 - #600: the board page queries the search index before the new board is indexed, and the API marks the empty answer cacheable.
 - The OAuth stack needed three PRs to survive the simple_oauth 6 upgrade.
 - CORS, two hostnames, and a separate frontend image to build and deploy.
+- About 4,000 lines of React, mostly pages Drupal could render: listings, forms, and account screens.
 
 Options:
 
 | Option | What changes | Cost |
 |---|---|---|
-| A. Drupal serves the React build | One origin. Drupal session cookies replace OAuth, so simple_oauth, consumers, scopes, and keys go away. JSON:API and issue fetching stay as they are. | A catch-all route that returns the SPA's `index.html`, a JSON login endpoint (core's `/user/login?_format=json`), and dropping the frontend Lagoon service. |
-| B. Drupal renders boards | Twig plus a little JavaScript. Drupal fetches issues and caches them. | Rewrites the frontend that was just upgraded. Server-side fetching shares one rate limit across all viewers, so it needs caching. |
-| C. Keep the split | Fix #600 and move on | Keeps OAuth, CORS, and two deploy targets |
+| A. Drupal serves the React SPA | One origin, with session login replacing OAuth. Every React page stays. | A catch-all route, session and CSRF handling in React, dropping the frontend service. The app stays about the same size. |
+| B. Drupal renders everything | Twig, with Drupal fetching and caching issues | Server-side fetching shares one GitLab rate limit across all viewers, so every board needs a cache. Loses the interactive board. |
+| C. Drupal pages with a board island | Drupal renders pages with single directory components (SDCs). A small React bundle renders only the board. | A front-end theme, a few Drupal forms and views, and rebuilding the board without MUI |
+| D. Keep the split | Fix #600 and move on | Keeps OAuth, CORS, and two deploy targets |
 
-**Recommendation: A.** It removes the most moving parts for the least rewriting. Issue fetching stays in the browser, so each viewer keeps their own GitLab rate limit and tag boards don't need a server cache. #600's race is fixed separately either way: `AddBoard` indexes the new board before it responds.
+**Recommendation: C.** Drupal does what it's good at: accounts, forms, listings, access, and layout. JavaScript does the one interactive thing, the board. It also returns to the original design: `board.html.twig` is a single `<div id="Board">`, and `contribkanban_boards_board_view()` already passes each list's configuration to `drupalSettings`.
+
+### Pages
+
+| Page | Today (React route) | With C |
+|---|---|---|
+| Board | `/board/:machineName`, loads the board from the search index | Drupal's board route renders the page shell. The island reads its configuration from the page, so #600's lookup race goes away. |
+| Issue collection | `/node-board/:uuid` | Same, on the existing node board route |
+| Board listing and search | React list over `/jsonapi/index/boards` | A Search API view with a text filter and a board type filter |
+| Create a board | React dialogs posting to `/api/boards/add` | One Drupal form running the `AddBoard` and `AddTag` logic |
+| Log in, register, log out, account | React forms over OAuth | Drupal core |
+| Forgot password | A stub that says "In progress" | Drupal core, so it starts working |
+| Edit an issue collection | React form over JSON:API | Drupal entity form with an issue ID widget |
+
+### What goes away
+
+- React Router, the auth context, and every page component except the board
+- simple_oauth, simple_oauth_password_grant, the consumer, scopes, and keys
+- CORS, `api.contribkanban.com` as a separate origin, and most of the JSON:API exposure
+- The `frontend` Lagoon service and `lagoon/Dockerfile.app`
+- MUI and Emotion
+
+### Building pages with SDCs
+
+A small front-end theme replaces Gin as the default theme. Gin, the admin theme, renders the public pages today. The theme's markup lives in single directory components: one directory per component, holding its Twig template, CSS, optional JavaScript, and a schema for its props and slots.
+
+| Component | Used for |
+|---|---|
+| `page-header`, `layout` | Site chrome and page regions |
+| `board-card` | A board in listings |
+| `board-shell` | The board page: title, filters, and an empty column per list, with the board configuration in data attributes |
+| `issue-card` | The card markup and CSS. The island renders the same classes, so cards look identical however they're rendered. |
+| `form-field`, `button` | Restyling Drupal's form elements |
+
+`board-shell` mounts the island. The island is a Vite library build written into the component's directory as its JavaScript file, so Drupal attaches it through the component's own library. No separate frontend build or deploy target.
+
+### The board island
+
+- **React 19**, no router and no app state beyond the board. It reads the board configuration from `board-shell`'s data attributes, then fetches issues from drupal.org and GitLab in the browser. Each viewer keeps their own GitLab rate limit, and tag boards need no server cache.
+- **No MUI.** Cards, columns, and chips are plain elements styled by the SDCs' CSS and shared custom properties.
+- **Base UI** (`@base-ui/react`, from the team behind Radix, MUI, and Floating UI) for the few accessible widgets plain HTML doesn't cover well, such as a filter menu. Native elements come first: `<select>`, `<dialog>`, and the popover API cover most of it.
+- **Filters** stay client-side, so changing Type or Priority doesn't reload the page. They also go into the URL, so a filtered board can be shared.
+- **Tests:** the existing board tests move with the island. Drupal pages get functional tests instead of Vitest page tests.
+
+Astro isn't needed. Astro wants to own page rendering, statically or through a Node server. With Drupal rendering pages, "islands" just means mounting a component into server-rendered markup, which a component library already does.
 
 ## Plan
 
-1. **Prune configuration.** Delete custom boards, remove list `category` and `priority`, resolve `parent_issue` and the multi-project boards, and make `machine_name` unique. Post-update hooks migrate the data, and the frontend tests cover the remaining settings.
-2. **Re-couple (A).** Same origin, session authentication, and removal of the OAuth stack and the frontend service.
-3. **Tag boards on GitLab.** Merge `groups/project/issues?labels=<tag>` with drupal.org results. Start with the 55 tags that have GitLab issues.
-4. **Issue collections on GitLab.** Collections store drupal.org node IDs. A migrated issue keeps its number as its GitLab IID, and api-d7 returns its `new_url`, which gives the project path. Resolve each ID once and store project plus IID.
+1. **Prune configuration.** Delete custom boards, remove list `category` and `priority`, resolve `parent_issue` and the multi-project boards, and make `machine_name` unique.
+2. **Theme and components.** Create the front-end theme and its SDCs, and render the listing, create form, and issue collection forms in Drupal. The React app keeps running beside it until the board island ships.
+3. **Board island.** Rebuild `Board`, `List`, `Card`, and the GitLab loading as the `board-shell` component's JavaScript, without MUI.
+4. **Cut over.** Serve everything from `contribkanban.com`, and redirect old React routes to their Drupal pages. Remove OAuth, the frontend service, and the React app.
+5. **Tag boards on GitLab.** Merge `groups/project/issues?labels=<tag>` with drupal.org results, starting with the 55 tags that have GitLab issues.
+6. **Issue collections on GitLab.** Collections store drupal.org node IDs. A migrated issue keeps its number as its GitLab IID, and api-d7 returns its `new_url`, which gives the project path. Resolve each ID once and store project plus IID.
 
 ## Open questions
 
-- Can the 9 active accounts keep their issue collections across the switch to session login? Their passwords already live in Drupal, so yes, unless OAuth-only clients exist.
+- Do the 9 active accounts need anything special at cut-over? Their passwords live in Drupal, so session login works for them unchanged.
+- Should the theme be styled from scratch, or start from a minimal base like Olivero's tokens?
 - Should past-event tag boards (50 with no GitLab issues) stay as drupal.org-only boards or be deleted?
 - When core's queue moves, will components become `component::` scoped labels? That decides how core component boards map.
