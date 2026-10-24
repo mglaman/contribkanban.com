@@ -1,3 +1,11 @@
+# Builds the board island into the board-shell component.
+FROM node:24 AS island
+WORKDIR /app/frontend
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
+COPY frontend ./
+RUN npm run build:island
+
 FROM uselagoon/php-8.4-cli-drupal
 
 RUN composer self-update --2
@@ -6,6 +14,7 @@ COPY composer.json composer.lock /app/
 COPY scripts /app/scripts
 RUN composer install --prefer-dist --no-dev
 COPY . /app
+COPY --from=island /app/web/themes/custom/contribkanban/components/board-shell/board-shell.js /app/web/themes/custom/contribkanban/components/board-shell/
 
 ENV WEBROOT=web
 # The image puts /app/vendor/bin on PATH, but Composer's bin-dir here is bin.

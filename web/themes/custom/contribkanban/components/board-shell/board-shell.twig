@@ -1,0 +1,32 @@
+<div class="board-shell">
+  <div class="board-shell__header">
+    <div class="board-shell__heading">
+      {% if back_url %}
+        <a class="board-shell__back" href="{{ back_url }}"><span aria-hidden="true">←</span> {{ 'All boards'|t }}</a>
+      {% endif %}
+      <h1>{{ title }}</h1>
+      {% if source_url %}
+        <p class="board-shell__source">
+          {% if config.source == 'gitlab' %}
+            {{ 'Work items from <a href=":url">git.drupalcode.org</a>'|t({':url': source_url}) }}
+          {% else %}
+            {{ 'Issues from <a href=":url">drupal.org</a>'|t({':url': source_url}) }}
+          {% endif %}
+        </p>
+      {% endif %}
+    </div>
+    <div class="board-shell__filters" data-board-filters></div>
+  </div>
+  <noscript>
+    <p class="board-shell__noscript">{{ 'The board loads issues with JavaScript. Turn it on to see them.'|t }}</p>
+  </noscript>
+  {# The island replaces these columns. #}
+  <div class="board-shell__columns" data-board="{{ config|json_encode }}">
+    {% for list in config.lists %}
+      <section class="board-column">
+        <h2 class="board-column__header board-column__header--{{ list.tone }}">{{ list.title }}</h2>
+        <p class="board-column__status">{{ 'Loading issues…'|t }}</p>
+      </section>
+    {% endfor %}
+  </div>
+</div>

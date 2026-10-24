@@ -28,6 +28,12 @@ function contribkanban_preprocess_page(array &$variables): void {
       'current' => $route_name === 'contribkanban_api.create_board',
     ],
   ];
+  // Boards need the full width and render their own title.
+  $variables['board_page'] = in_array($route_name, [
+    'entity.board.canonical',
+    'entity.board.canonical_alternative',
+    'entity.board.version',
+  ], TRUE);
   $variables['account_link'] = \Drupal::currentUser()->isAnonymous()
     ? ['label' => (string) t('Log in'), 'url' => Url::fromRoute('user.login')->toString()]
     : ['label' => (string) t('Account'), 'url' => Url::fromRoute('user.page')->toString()];
@@ -41,6 +47,16 @@ function contribkanban_preprocess_page(array &$variables): void {
 function contribkanban_preprocess_board(array &$variables): void {
   $board = $variables['elements']['#board'];
   assert($board instanceof BoardInterface);
+  if ($variables['elements']['#view_mode'] === 'full') {
+    $config = $variables['elements']['#island'];
+    $variables['shell'] = [
+      'title' => (string) $board->label(),
+      'back_url' => Url::fromRoute('view.board_listing.page')->toString(),
+      'source_url' => _contribkanban_board_source_url($board, $config['gitlabProject']),
+      'config' => $config,
+    ];
+    return;
+  }
   $bundles = \Drupal::service('entity_type.bundle.info')->getBundleInfo('board');
   $gitlab = $board->bundle() === 'drupalorg_project' && (bool) $board->get('gitlab_work_items')->value;
   $variables['card'] = [
@@ -49,6 +65,29 @@ function contribkanban_preprocess_board(array &$variables): void {
     'type' => (string) ($bundles[$board->bundle()]['label'] ?? ''),
     'source' => $gitlab ? 'gitlab' : 'drupalorg',
   ];
+}
+
+/**
+ * Gets the page that lists a board's issues on drupal.org or GitLab.
+ *
+ * @param \Drupal\contribkanban_boards\Entity\BoardInterface $board
+ *   The board.
+ * @param string|null $gitlab_project
+ *   The GitLab project path, when the board reads GitLab.
+ *
+ * @return string
+ *   The URL, or an empty string for a project board without a project.
+ */
+function _contribkanban_board_source_url(BoardInterface $board, ?string $gitlab_project): string {
+  if ($gitlab_project !== NULL) {
+    return "https://git.drupalcode.org/$gitlab_project/-/work_items";
+  }
+  $project_nid = $board->get('project_nid')->value;
+  return match ($board->bundle()) {
+    'drupalorg_sprint' => 'https://www.drupal.org/project/issues/search?issue_tags=' . rawurlencode((string) $board->label()),
+    'drupalorg_core' => 'https://www.drupal.org/project/issues/drupal',
+    default => is_string($project_nid) && $project_nid !== '' ? "https://www.drupal.org/node/$project_nid" : '',
+  };
 }
 
 /**

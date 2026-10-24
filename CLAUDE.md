@@ -34,6 +34,17 @@ ddev frontend test     # run Vitest
 npm run start | build | test
 ```
 
+### Board island
+
+`frontend/src/island/` is the board page's React app, without MUI or a router. Drupal renders the `board-shell` component with the board configuration in `data-board`, and the island renders the filters and columns into it. It loads issues from drupal.org and GitLab in the browser.
+
+```bash
+ddev frontend build:island   # writes components/board-shell/board-shell.js
+ddev drush cr                # Drupal finds a new component file after a cache rebuild
+```
+
+The built file is ignored by Git. `lagoon/Dockerfile.cli` builds it during deploys. The rest of `frontend/` is the old SPA, which goes away once Drupal serves every page.
+
 State management is React Context API only (no Redux/Zustand). Do not introduce external state libraries.
 
 Auth tokens are stored in localStorage under the key `"oauth"` and managed by `frontend/src/context/auth.jsx`. The token refresh logic (401 handling) is subtle — be careful when touching auth flows.
@@ -66,7 +77,7 @@ Frontend tests use Vitest + Testing Library:
 ddev exec "cd frontend && npx vitest --run"
 ```
 
-Tests live in `frontend/src/__tests__/` and `frontend/src/components/**/__tests__/`. Page-level tests in `frontend/src/__tests__/pages/` render the whole app with `renderApp()` and `mockFetch()` from `frontend/src/test-utils.jsx`; add one when changing a page.
+Tests live in `frontend/src/__tests__/`, `frontend/src/components/**/__tests__/`, and `frontend/src/island/__tests__/`. Page-level tests in `frontend/src/__tests__/pages/` render the whole app with `renderApp()` and `mockFetch()` from `frontend/src/test-utils.jsx`; add one when changing a page.
 
 Style with `sx` or `styled()` from `@mui/material/styles`. `@mui/styles` (`withStyles`, `makeStyles`) is gone and does not work with React 19.
 
