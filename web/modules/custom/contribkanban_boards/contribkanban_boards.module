@@ -11,8 +11,10 @@ use Drupal\contribkanban_boards\FieldHelper;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
+use Drupal\Core\Link;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Site\Settings;
+use Drupal\Core\Url;
 
 /**
  * Implements hook_theme().
@@ -63,6 +65,60 @@ function contribkanban_boards_node_board_view(array &$build, EntityInterface $en
   ];
   $build['output'] = [
     '#markup' => Markup::create('<div id="NodeBoard" style="position: relative;height: 100%;"></div>'),
+  ];
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view() for user entities.
+ *
+ * Lists the issue collections on the user's own account page.
+ */
+function contribkanban_boards_user_view(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display, $view_mode): void {
+  $build['#cache']['contexts'][] = 'user';
+  if ($view_mode !== 'full' || (int) $entity->id() !== (int) \Drupal::currentUser()->id()) {
+    return;
+  }
+  $storage = \Drupal::entityTypeManager()->getStorage('node_board');
+  $ids = $storage->getQuery()
+    ->accessCheck(TRUE)
+    ->condition('uid', $entity->id())
+    ->sort('title')
+    ->execute();
+  $items = [];
+  foreach ($storage->loadMultiple($ids) as $collection) {
+    $items[] = [
+      'view' => $collection->toLink()->toRenderable(),
+      'edit' => $collection->toLink(t('Edit'), 'edit-form', [
+        'attributes' => ['class' => ['issue-collections__edit']],
+      ])->toRenderable(),
+    ];
+  }
+  $build['issue_collections'] = [
+    '#type' => 'container',
+    '#attributes' => ['class' => ['issue-collections']],
+    '#weight' => -10,
+    '#cache' => ['tags' => ['node_board_list']],
+    'heading' => [
+      '#type' => 'html_tag',
+      '#tag' => 'h2',
+      '#value' => t('Your issue collections'),
+    ],
+    'list' => [
+      '#theme' => 'item_list',
+      '#items' => $items,
+      '#empty' => t('Collect issues from any project on one board.'),
+      '#attributes' => ['class' => ['issue-collections__list']],
+    ],
+    'actions' => [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['issue-collections__actions']],
+      'add' => Url::fromRoute('entity.node_board.add_form')->access()
+        ? Link::createFromRoute(t('New issue collection'), 'entity.node_board.add_form', [], [
+          'attributes' => ['class' => ['button']],
+        ])->toRenderable()
+        : [],
+      'logout' => Link::createFromRoute(t('Log out'), 'user.logout')->toRenderable(),
+    ],
   ];
 }
 

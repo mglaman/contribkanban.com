@@ -10,17 +10,13 @@ class NodeBoardForm extends ContentEntityForm {
   /**
    * {@inheritdoc}
    */
-  public function form(array $form, FormStateInterface $form_state) {
-    $form = parent::form($form, $form_state);
-    return $form;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
-    parent::submitForm($form, $form_state);
+  public function save(array $form, FormStateInterface $form_state) {
+    $status = parent::save($form, $form_state);
+    $this->messenger()->addStatus($status === SAVED_NEW
+      ? $this->t('Created the %title issue collection.', ['%title' => $this->entity->label()])
+      : $this->t('Saved the %title issue collection.', ['%title' => $this->entity->label()]));
     $form_state->setRedirectUrl($this->entity->toUrl());
+    return $status;
   }
 
 }

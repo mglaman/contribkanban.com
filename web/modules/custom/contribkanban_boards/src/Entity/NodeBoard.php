@@ -27,13 +27,13 @@ use Drupal\user\EntityOwnerTrait;
  *   handlers = {
  *     "access" = "\Drupal\contribkanban_boards\NodeBoardAccessControlHandler",
  *     "permission_provider" = "\Drupal\entity\UncacheableEntityPermissionProvider",
- *     "query_access" = "\Drupal\entity\QueryAccess\QueryAccessHandler",
+ *     "query_access" = "\Drupal\entity\QueryAccess\UncacheableQueryAccessHandler",
  *     "views_data" = "\Drupal\views\EntityViewsData",
  *     "form" = {
  *       "default" = "\Drupal\contribkanban_boards\Form\NodeBoardForm",
  *       "add" = "\Drupal\contribkanban_boards\Form\NodeBoardForm",
  *       "edit" = "\Drupal\contribkanban_boards\Form\NodeBoardForm",
- *       "delete" = "\Drupal\Core\Entity\ContentEntityDeleteForm"
+ *       "delete" = "\Drupal\contribkanban_boards\Form\NodeBoardDeleteForm"
  *     },
  *     "route_provider" = {
  *       "html" = "\Drupal\contribkanban_boards\Routing\NodeBoardHtmlRouterProvider",
@@ -41,6 +41,8 @@ use Drupal\user\EntityOwnerTrait;
  *     "list_builder" = "\Drupal\contribkanban_boards\BoardListBuilder",
  *   },
  *   links = {
+ *     "add-form" = "/node-board/add",
+ *     "edit-form" = "/node-board/{node_board}/edit",
  *     "delete-form" = "/node-board/{node_board}/delete",
  *     "canonical" = "/node-board/{node_board}",
  *     "collection" = "/admin/node-boards",
@@ -74,26 +76,24 @@ class NodeBoard extends ContentEntityBase implements BoardInterface, EntityOwner
     $fields['title'] = BaseFieldDefinition::create('string')
       ->setLabel(new TranslatableMarkup('Title'))
       ->setRequired(TRUE)
-      ->setDescription(new TranslatableMarkup('The board title'))
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
         'type' => 'string_textfield',
         'weight' => -5,
       ]);
     $fields['nids'] = BaseFieldDefinition::create('string')
-      ->setLabel(new TranslatableMarkup('Issue Node IDs'))
+      ->setLabel(new TranslatableMarkup('Issues'))
       ->setDescription(new TranslatableMarkup('The node IDs for issues on this board'))
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
       ->setRequired(FALSE)
       ->setSetting('max_length', 255)
       ->setDisplayOptions('form', [
-        'type'   => 'string_textfield',
+        'type'   => 'issue_ids',
         'weight' => 0,
       ]);
 
     $fields['collaboration'] = BaseFieldDefinition::create('list_string')
-      ->setLabel(new TranslatableMarkup('Collaboration'))
-      ->setDescription(new TranslatableMarkup('Collaboration settings for the board.'))
+      ->setLabel(new TranslatableMarkup('Who can use it'))
       ->setRequired(TRUE)
       ->setSetting('allowed_values', [
         self::IS_PRIVATE => new TranslatableMarkup('Private: only accessible to you, when logged in'),

@@ -25,9 +25,24 @@ fieldset legend {
   margin: 0;
 }
 
+.form-type-radio,
+.form-type-checkbox {
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.form-type-radio + .form-type-radio,
+.form-type-checkbox + .form-type-checkbox {
+  margin-top: 8px;
+}
+
 .form-item label,
 fieldset legend {
   font-weight: 600;
+}
+
+.form-item label.option {
+  font-weight: 400;
 }
 
 .form-item .description {
@@ -70,10 +85,26 @@ input[type="submit"] {
   cursor: pointer;
 }
 
+a.button {
+  text-decoration: none;
+}
+
 .button:hover,
 input[type="submit"]:hover {
   background: var(--ck-accent-strong);
   color: var(--ck-surface);
+}
+
+/* Cancel links on confirmation forms. */
+.button.dialog-cancel {
+  background: var(--ck-surface);
+  color: var(--ck-text);
+  box-shadow: var(--ck-shadow-subtle);
+}
+
+.button.dialog-cancel:hover {
+  background: var(--ck-surface-muted);
+  color: var(--ck-text);
 }
 
 .form-item--error-message {
