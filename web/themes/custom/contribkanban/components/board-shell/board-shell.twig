@@ -14,6 +14,9 @@
           {% endif %}
         </p>
       {% endif %}
+      {% if edit_url %}
+        <p><a class="board-shell__edit" href="{{ edit_url }}">{{ 'Edit'|t }}</a></p>
+      {% endif %}
     </div>
     <div class="board-shell__filters" data-board-filters></div>
   </div>

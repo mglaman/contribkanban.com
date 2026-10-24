@@ -63,3 +63,31 @@ export async function fetchListIssues(list, filters, signal) {
   const lastPage = Number(new URL(data.last).searchParams.get("page"));
   return { issues: data.list, total: lastPage * PAGE_SIZE, partial: true };
 }
+
+/**
+ * Fetches issues by node ID, for an issue collection.
+ *
+ * api-d7 returns 50 issues per request, so larger collections load in chunks.
+ *
+ * @param {string[]} nids
+ * @param {AbortSignal} [signal]
+ * @returns {Promise<object[]>} The issues, highest priority first.
+ */
+export async function fetchIssuesByNid(nids, signal) {
+  const chunks = [];
+  for (let start = 0; start < nids.length; start += PAGE_SIZE) {
+    chunks.push(nids.slice(start, start + PAGE_SIZE));
+  }
+  const pages = await Promise.all(
+    chunks.map(async (chunk) => {
+      const params = new URLSearchParams({ type: "project_issue", limit: String(PAGE_SIZE) });
+      appendAll(params, "nid", chunk);
+      const res = await fetch(`${API_URL}?${params}`, { headers: { Accept: "application/json" }, signal });
+      if (!res.ok) {
+        throw new Error(`drupal.org responded ${res.status}`);
+      }
+      return (await res.json()).list;
+    })
+  );
+  return pages.flat().sort((a, b) => Number(b.field_issue_priority) - Number(a.field_issue_priority));
+}

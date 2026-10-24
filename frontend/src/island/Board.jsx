@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Column from "./Column";
 import Filters from "./Filters";
-import { fetchListIssues } from "./drupalorg";
+import { fetchIssuesByNid, fetchListIssues } from "./drupalorg";
 import { filterIds, matchesText, readFilters, writeFilters } from "./filters";
 import { fetchOpenWorkItems, filterIssues } from "./gitlab";
 
@@ -94,6 +94,59 @@ function GitLabColumns({ project, lists, category, priority, text }) {
 }
 
 /**
+ * Loads an issue collection's issues once.
+ *
+ * @param {string[]} nids
+ * @returns {{state: string, issues: object[]}}
+ */
+function useCollection(nids) {
+  const [result, setResult] = useState(LOADING);
+  useEffect(() => {
+    if (nids.length === 0) {
+      setResult({ ...LOADING, state: "ok" });
+      return undefined;
+    }
+    const controller = new AbortController();
+    const resolve = (value) => {
+      if (!controller.signal.aborted) {
+        setResult(value);
+      }
+    };
+    fetchIssuesByNid(nids, controller.signal)
+      .then((issues) => resolve({ state: "ok", issues }))
+      .catch(() => resolve({ ...LOADING, state: "error" }));
+    return () => controller.abort();
+  }, [nids]);
+  return result;
+}
+
+/**
+ * Every list on an issue collection, sharing one load.
+ */
+function CollectionColumns({ nids, lists, category, priority, text }) {
+  const collection = useCollection(nids);
+  return lists.map((list, index) => {
+    const issues = collection.issues.filter(
+      (issue) =>
+        list.statuses.includes(issue.field_issue_status) &&
+        (!category || issue.field_issue_category === category) &&
+        (!priority || issue.field_issue_priority === priority) &&
+        matchesText(issue, text)
+    );
+    return (
+      <Column
+        key={index}
+        list={list}
+        state={collection.state}
+        issues={issues}
+        total={issues.length}
+        partial={false}
+      />
+    );
+  });
+}
+
+/**
  * The board island.
  *
  * @param {object} props
@@ -115,7 +168,15 @@ function Board({ config, filtersSlot }) {
   return (
     <>
       {filtersSlot ? createPortal(toolbar, filtersSlot) : toolbar}
-      {config.source === "gitlab" ? (
+      {config.nids ? (
+        <CollectionColumns
+          nids={config.nids}
+          lists={config.lists}
+          category={category}
+          priority={priority}
+          text={filters.text}
+        />
+      ) : config.source === "gitlab" ? (
         <GitLabColumns
           project={config.gitlabProject}
           lists={config.lists}
