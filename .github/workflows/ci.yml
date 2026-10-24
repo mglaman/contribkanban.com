@@ -27,6 +27,7 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
       - run: npm run build
+      - run: npm run build:island
 
   phpstan:
     runs-on: ubuntu-latest
@@ -137,6 +138,7 @@ jobs:
           curl -fsS "http://127.0.0.1:8080/boards?type=drupalorg_sprint&search=smoke" | grep "No boards match"
           curl -fsS "http://127.0.0.1:8080/boards" | grep 'id="contribkanban-create-board"'
           curl -fsS "http://127.0.0.1:8080/boards/new" | grep "Project machine name"
+          curl -fsS "http://127.0.0.1:8080/board/Smoketestboard" | grep 'data-board="'
       - name: Show watchdog log
         if: always()
         run: ./bin/drush wd-show

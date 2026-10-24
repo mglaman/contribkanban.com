@@ -4,7 +4,7 @@ import {
   toDrupalOrgIssue,
   filterIssues,
   fetchOpenWorkItems,
-} from "../api/gitlab";
+} from "../gitlab";
 
 function makeWorkItem(iid, labels, assignees = []) {
   return {
