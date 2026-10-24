@@ -9,3 +9,5 @@ COPY --from=cli /app /app
 ENV WEBROOT=web
 
 RUN echo "~^www.contribkanban.com           https://contribkanban.com\$request_uri;" >> /etc/nginx/redirects-map.conf
+RUN echo "~^app.contribkanban.com           https://contribkanban.com\$request_uri;" >> /etc/nginx/redirects-map.conf
+RUN echo "~^api.contribkanban.com           https://contribkanban.com\$request_uri;" >> /etc/nginx/redirects-map.conf

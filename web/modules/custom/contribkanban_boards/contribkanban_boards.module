@@ -163,30 +163,23 @@ function contribkanban_boards_inline_entity_form_entity_form_alter(&$entity_form
 
 /**
  * Implements hook_page_attachments().
+ *
+ * Adds Fathom analytics where the site sets `fathom_site_id`.
  */
-function contribkanban_boards_page_attachments(array &$attachments) {
-
-  $ga_id = Settings::get('google_analytics_id');
-  if (!\Drupal::getContainer()->get('router.admin_context')->isAdminRoute()) {
-    $script = <<<SCRIPT
-    <script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-ga('create', '$ga_id', 'auto');
-ga('send', 'pageview');
-</script>
-SCRIPT;
-
-    $attachments['#attached']['html_head'][] = [
-      [
-        '#tag' => 'script',
-        '#value' => $script,
-        '#weight' => -100,
-      ],
-      'gtag_script',
-    ];
-
+function contribkanban_boards_page_attachments(array &$attachments): void {
+  $site_id = Settings::get('fathom_site_id');
+  if (!is_string($site_id) || $site_id === '' || \Drupal::service('router.admin_context')->isAdminRoute()) {
+    return;
   }
+  $attachments['#attached']['html_head'][] = [
+    [
+      '#tag' => 'script',
+      '#attributes' => [
+        'src' => 'https://cdn.usefathom.com/script.js',
+        'data-site' => $site_id,
+        'defer' => TRUE,
+      ],
+    ],
+    'fathom',
+  ];
 }

@@ -30,3 +30,6 @@ $config['swiftmailer.transport']['smtp_credentials'] = [
     'password' => getenv('SWIFTMAILER_SMTP_PASSWORD'),
   ],
 ];
+
+// Fathom analytics, added by contribkanban_boards_page_attachments().
+$settings['fathom_site_id'] = 'ZARWNCHR';
