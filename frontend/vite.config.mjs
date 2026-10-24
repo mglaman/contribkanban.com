@@ -1,27 +1,28 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig(({ mode }) => {
-  // Only REACT_APP_* variables reach the bundle. An empty prefix would load
-  // every variable on the build machine.
-  const env = loadEnv(mode, process.cwd(), 'REACT_APP_');
-  return {
-    build: {
-      outDir: 'build',
+// Builds the board island into the board-shell component, so Drupal attaches
+// it through the component's own library.
+export default defineConfig(({ command }) => ({
+  plugins: [react()],
+  publicDir: false,
+  // Library mode leaves process.env alone, and React reads NODE_ENV. Tests
+  // need React's development build.
+  define: command === 'build' ? { 'process.env.NODE_ENV': JSON.stringify('production') } : {},
+  build: {
+    outDir: '../web/themes/custom/contribkanban/components/board-shell',
+    // The output directory holds the component's other files.
+    emptyOutDir: false,
+    lib: {
+      entry: 'src/island/main.jsx',
+      formats: ['iife'],
+      name: 'ContribKanbanBoard',
+      fileName: () => 'board-shell.js',
     },
-    server: {
-      allowedHosts: ['contribkanban.com.ddev.site'],
-    },
-    plugins: [react()],
-    test: {
-      globals: true,
-      environment: 'jsdom',
-      setupFiles: './src/setupTests.js',
-      // Full-page tests render the whole app and run in parallel workers.
-      testTimeout: 15000,
-    },
-    define: {
-      'process.env': { ...env, NODE_ENV: mode },
-    }
-  };
-});
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/setupTests.js',
+  },
+}));

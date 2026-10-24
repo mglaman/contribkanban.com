@@ -1,14 +1,14 @@
 #!/bin/bash
 
-## Description: Run frontend tasks
+## Description: Run board island tasks
 ## Usage: frontend
 ## Example: "ddev frontend build"
-## Example: "ddev frontend start"
+## Example: "ddev frontend watch"
 ## Example: "ddev frontend test"
 
 if [ -z "$1" ]
   then
-  echo "Options are build, start, or test"
+  echo "Options are build, watch, or test"
   exit
 fi
 

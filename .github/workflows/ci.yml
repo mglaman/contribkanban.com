@@ -27,7 +27,7 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
       - run: npm run build
-      - run: npm run build:island
+      - run: npm test -- --run
 
   phpstan:
     runs-on: ubuntu-latest
@@ -68,8 +68,6 @@ jobs:
 
   e2e_test:
     runs-on: ubuntu-latest
-    env:
-      REACT_APP_API_BASE_URL: http://127.0.0.1:8080
     steps:
       - uses: actions/checkout@v7
         with:
@@ -91,15 +89,14 @@ jobs:
           composer install -n --prefer-dist
       - name: Install backend
         run: ./bin/drush -y site-install --account-pass=admin
-      - name: Create test login user
-        run: ./bin/drush user:create logintest@example.com --mail="logintest@example.com" --password="letmein"
       - name: Switch back to the tested commit
         run: git checkout --force ${{ github.sha }}
       - name: Install Composer dependencies for the tested commit
         run: composer install -n --prefer-dist
-      # Picks up a change in `deployment_identifier`.
+      # Picks up a change in `deployment_identifier`. Drupal creates the table
+      # again when it next caches the container.
       - name: Clear container cache
-        run: ./bin/drush sql:query "DELETE FROM cache_container;" -vvv
+        run: ./bin/drush sql:query "DROP TABLE IF EXISTS cache_container;"
       - name: Run updates
         run: ./bin/drush updb -y
       - name: Import config
@@ -111,18 +108,8 @@ jobs:
       - name: Start built-in web server
         run: nohup php -S 127.0.0.1:8080 -t web > /tmp/php-server.log 2>&1 &
       - name: Wait for web server
-        run: curl -fsS --retry 30 --retry-delay 2 --retry-connrefused http://127.0.0.1:8080/jsonapi
-      - uses: actions/setup-node@v7
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
-      - run: npm ci
-        working-directory: frontend
+        run: curl -fsS --retry 30 --retry-delay 2 --retry-connrefused http://127.0.0.1:8080/user/login
       - run: ./bin/drush en dblog
-      - run: npm test
-        working-directory: frontend
-      # After the React tests, so the extra board doesn't change their results.
       - name: Check the Drupal board listing
         run: |
           ./bin/drush php:eval '
