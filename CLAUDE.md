@@ -36,7 +36,7 @@ npm run start | build | test
 
 ### Board island
 
-`frontend/src/island/` is the board page's React app, without MUI or a router. Drupal renders the `board-shell` component with the board configuration in `data-board`, and the island renders the filters and columns into it. It loads issues from drupal.org and GitLab in the browser.
+`frontend/src/island/` is the React app for board and issue collection pages, without MUI or a router. Drupal renders the `board-shell` component with the board configuration in `data-board`, and the island renders the filters and columns into it. It loads issues from drupal.org and GitLab in the browser.
 
 ```bash
 ddev frontend build:island   # writes components/board-shell/board-shell.js

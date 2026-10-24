@@ -8,6 +8,7 @@ use Drupal\contribkanban_boards\BoardIslandConfig;
 use Drupal\contribkanban_boards\Entity\Board;
 use Drupal\contribkanban_boards\Entity\BoardInterface;
 use Drupal\contribkanban_boards\Entity\BoardList;
+use Drupal\contribkanban_boards\Entity\NodeBoard;
 use Drupal\KernelTests\KernelTestBase;
 
 /**
@@ -23,6 +24,7 @@ final class BoardIslandConfigTest extends KernelTestBase {
     'entity',
     'inline_entity_form',
     'options',
+    'user',
   ];
 
   /**
@@ -138,6 +140,30 @@ final class BoardIslandConfigTest extends KernelTestBase {
 
     self::assertSame(['3060'], $list['projects']);
     self::assertSame('layout_builder.module', $list['component']);
+  }
+
+  /**
+   * Tests an issue collection's fixed lists and unique node IDs.
+   *
+   * @covers ::collection
+   */
+  public function testCollection(): void {
+    $collection = NodeBoard::create([
+      'title' => 'Looking for work',
+      'nids' => ['3512345', '2924212', '3512345'],
+      'collaboration' => NodeBoard::IS_SHARED,
+    ]);
+
+    $config = BoardIslandConfig::collection($collection);
+
+    self::assertSame('drupalorg', $config['source']);
+    self::assertSame(['3512345', '2924212'], $config['nids']);
+    self::assertSame(
+      ['Postponed', 'Active', 'Needs work', 'Needs review', 'Reviewed & tested', 'Fixed'],
+      array_column($config['lists'], 'title'),
+    );
+    self::assertSame(['14', '15'], $config['lists'][4]['statuses']);
+    self::assertSame('rtbc', $config['lists'][4]['tone']);
   }
 
 }

@@ -6,6 +6,7 @@ namespace Drupal\contribkanban_boards;
 
 use Drupal\contribkanban_boards\Entity\BoardInterface;
 use Drupal\contribkanban_boards\Entity\BoardListInterface;
+use Drupal\contribkanban_boards\Entity\NodeBoard;
 use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 
@@ -24,6 +25,18 @@ final class BoardIslandConfig {
     '14' => 'rtbc',
     '15' => 'rtbc',
     '16' => 'postponed',
+  ];
+
+  /**
+   * An issue collection's columns, by title and statuses.
+   */
+  private const COLLECTION_LISTS = [
+    'Postponed' => ['4', '16'],
+    'Active' => ['1'],
+    'Needs work' => ['13'],
+    'Needs review' => ['8'],
+    'Reviewed & tested' => ['14', '15'],
+    'Fixed' => ['2', '7'],
   ];
 
   /**
@@ -69,6 +82,39 @@ final class BoardIslandConfig {
       // Project boards are named after the project's machine name, which is
       // also its path on git.drupalcode.org.
       'gitlabProject' => $gitlab ? 'project/' . $board->get('machine_name')->value : NULL,
+      'lists' => $lists,
+    ];
+  }
+
+  /**
+   * Builds the board island's configuration for an issue collection.
+   *
+   * The island loads the collection's issues once and sorts them into the
+   * columns by status.
+   *
+   * @param \Drupal\contribkanban_boards\Entity\NodeBoard $collection
+   *   The issue collection.
+   *
+   * @return array{source: string, gitlabProject: null, nids: list<string>, lists: list<array<string, mixed>>}
+   *   The configuration.
+   */
+  public static function collection(NodeBoard $collection): array {
+    $lists = [];
+    foreach (self::COLLECTION_LISTS as $title => $statuses) {
+      $lists[] = [
+        'title' => $title,
+        'tone' => self::TONES[$statuses[0]],
+        'statuses' => $statuses,
+        'projects' => [],
+        'tags' => [],
+        'versions' => [],
+        'component' => NULL,
+      ];
+    }
+    return [
+      'source' => 'drupalorg',
+      'gitlabProject' => NULL,
+      'nids' => array_values(array_unique(self::values($collection->get('nids')))),
       'lists' => $lists,
     ];
   }

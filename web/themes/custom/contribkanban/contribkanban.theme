@@ -6,6 +6,7 @@
  */
 
 use Drupal\contribkanban_boards\Entity\BoardInterface;
+use Drupal\contribkanban_boards\Entity\NodeBoard;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 
@@ -33,6 +34,7 @@ function contribkanban_preprocess_page(array &$variables): void {
     'entity.board.canonical',
     'entity.board.canonical_alternative',
     'entity.board.version',
+    'entity.node_board.canonical',
   ], TRUE);
   $variables['account_link'] = \Drupal::currentUser()->isAnonymous()
     ? ['label' => (string) t('Log in'), 'url' => Url::fromRoute('user.login')->toString()]
@@ -64,6 +66,19 @@ function contribkanban_preprocess_board(array &$variables): void {
     'url' => $board->toUrl()->toString(),
     'type' => (string) ($bundles[$board->bundle()]['label'] ?? ''),
     'source' => $gitlab ? 'gitlab' : 'drupalorg',
+  ];
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for issue collection templates.
+ */
+function contribkanban_preprocess_node_board(array &$variables): void {
+  $collection = $variables['elements']['#node_board'];
+  assert($collection instanceof NodeBoard);
+  $variables['shell'] = [
+    'title' => (string) $collection->label(),
+    'edit_url' => $variables['elements']['#edit_url'] ?? '',
+    'config' => $variables['elements']['#island'],
   ];
 }
 

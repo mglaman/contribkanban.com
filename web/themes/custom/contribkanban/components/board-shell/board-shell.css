@@ -22,7 +22,8 @@
   overflow-wrap: anywhere;
 }
 
-.board-shell__back {
+.board-shell__back,
+.board-shell__edit {
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;

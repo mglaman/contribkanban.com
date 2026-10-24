@@ -143,6 +143,43 @@ describe("Board", () => {
     expect(fetch).toHaveBeenCalledTimes(1);
   });
 
+  it("loads an issue collection in chunks and sorts it into lists by status", async () => {
+    const nids = Array.from({ length: 60 }, (_, index) => String(5000 + index));
+    const issueFor = (nid) => ({
+      ...ISSUES[0],
+      nid,
+      title: `Issue ${nid}`,
+      field_issue_status: nid === "5059" ? "8" : "1",
+      field_issue_category: nid === "5001" ? "2" : "1",
+    });
+    const fetch = vi.fn((url) => {
+      const params = new URL(url).searchParams;
+      const requested = [...params.entries()].filter(([key]) => key.startsWith("nid[")).map(([, nid]) => nid);
+      return Promise.resolve(jsonResponse({ list: requested.map(issueFor) }));
+    });
+    vi.stubGlobal("fetch", fetch);
+    render(<Board config={{ source: "drupalorg", gitlabProject: null, nids, lists: LISTS }} filtersSlot={null} />);
+
+    expect(await within(column("Active")).findByText("59")).toBeInTheDocument();
+    expect(within(column("Needs review")).getByText("Issue 5059")).toBeInTheDocument();
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch.mock.calls[1][0]).toContain("nid%5B0%5D=5050");
+
+    await userEvent.selectOptions(screen.getByRole("combobox", { name: "Type" }), "task");
+    expect(within(column("Active")).getByText("Issue 5001")).toBeInTheDocument();
+    expect(within(column("Active")).getByText("1")).toBeInTheDocument();
+    expect(fetch).toHaveBeenCalledTimes(2);
+  });
+
+  it("shows empty lists for an empty issue collection", async () => {
+    const fetch = vi.fn();
+    vi.stubGlobal("fetch", fetch);
+    render(<Board config={{ source: "drupalorg", gitlabProject: null, nids: [], lists: LISTS }} filtersSlot={null} />);
+
+    expect(within(column("Active")).getByText("Nothing here right now")).toBeInTheDocument();
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
   it("renders the filters into the board shell's slot", async () => {
     vi.stubGlobal("fetch", vi.fn(drupalOrgFetch));
     const slot = document.createElement("div");

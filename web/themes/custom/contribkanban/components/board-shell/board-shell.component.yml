@@ -17,6 +17,9 @@ props:
     source_url:
       type: string
       title: Where the issues come from, on drupal.org or GitLab
+    edit_url:
+      type: string
+      title: Edit form URL, for people who can edit the board
     config:
       type: object
       title: Board configuration
@@ -34,6 +37,11 @@ props:
           type:
             - string
             - 'null'
+        nids:
+          type: array
+          description: An issue collection's drupal.org node IDs. The island loads them once and sorts them into the lists by status.
+          items:
+            type: string
         lists:
           type: array
           items:
