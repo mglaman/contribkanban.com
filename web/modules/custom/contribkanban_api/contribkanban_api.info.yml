@@ -1,8 +1,4 @@
 name: ContribKanban API
-description: API for ContribKanban
+description: Creates boards from drupal.org projects and tags.
 type: module
 core_version_requirement: '*'
-dependencies:
-  - drupal:jsonapi
-  - consumers:consumers
-  - simple_oauth:simple_oauth

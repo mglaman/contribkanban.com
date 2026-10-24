@@ -39,9 +39,9 @@ Keep the island small: React and plain elements styled by the theme's CSS. No UI
 ## Drupal backend
 
 ### Rules
-- All data is exposed via **JSON:API only** — no custom REST controllers.
+- Drupal renders pages with forms, views, and components. The site has no JSON:API or REST endpoints; the board island reads drupal.org and GitLab directly. Don't add endpoints without a clear need.
 - All Drupal config must be exported to `/config` and committed. After config changes: `ddev drush cim` to import, `ddev drush cex` to export.
-- Drupal sessions handle log in. Simple OAuth is left over from the React app and is being removed.
+- Drupal core handles accounts and log in with sessions.
 - **Search API** powers board search. Schema/field changes may require an index rebuild: `ddev drush sapi-r all && ddev drush sapi-i all`.
 
 ### Code quality (run before marking Drupal work done)
