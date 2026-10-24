@@ -93,9 +93,10 @@ jobs:
         run: git checkout --force ${{ github.sha }}
       - name: Install Composer dependencies for the tested commit
         run: composer install -n --prefer-dist
-      # Picks up a change in `deployment_identifier`.
+      # Picks up a change in `deployment_identifier`. Drupal creates the table
+      # again when it next caches the container.
       - name: Clear container cache
-        run: ./bin/drush sql:query "DELETE FROM cache_container;" -vvv
+        run: ./bin/drush sql:query "DROP TABLE IF EXISTS cache_container;"
       - name: Run updates
         run: ./bin/drush updb -y
       - name: Import config
