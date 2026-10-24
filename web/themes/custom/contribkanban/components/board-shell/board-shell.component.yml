@@ -1,0 +1,40 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Board shell
+description: The board page. The board island, this component's JavaScript, renders the filters and the issues in each column.
+status: stable
+props:
+  type: object
+  required:
+    - title
+    - config
+  properties:
+    title:
+      type: string
+      title: Board title
+    back_url:
+      type: string
+      title: Board listing URL
+    source_url:
+      type: string
+      title: Where the issues come from, on drupal.org or GitLab
+    config:
+      type: object
+      title: Board configuration
+      description: Read by the board island. See BoardIslandConfig::build().
+      required:
+        - source
+        - lists
+      properties:
+        source:
+          type: string
+          enum:
+            - gitlab
+            - drupalorg
+        gitlabProject:
+          type:
+            - string
+            - 'null'
+        lists:
+          type: array
+          items:
+            type: object

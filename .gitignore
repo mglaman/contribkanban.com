@@ -34,3 +34,6 @@
 node_modules
 yarn-error.log
 /.drush-lock-update/.phpunit.cache/
+
+# Built from frontend/src/island by `npm run build:island`.
+/web/themes/custom/contribkanban/components/board-shell/board-shell.js

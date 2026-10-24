@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { fetchOpenWorkItems } from "../api/gitlab";
+import { fetchOpenWorkItems } from "../island/gitlab";
 
 const LOADING = { state: "LOADING", issues: [] };
 

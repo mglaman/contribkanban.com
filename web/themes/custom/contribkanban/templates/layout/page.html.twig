@@ -10,10 +10,10 @@
   nav: main_nav,
   account: account_link,
 }, with_context = false) }}
-<div class="layout-page">
+<div class="layout-page{{ board_page ? ' layout-page--board' }}">
   <main id="main-content" class="layout-main" tabindex="-1">
     {{ page.highlighted }}
-    {% if page.title %}
+    {% if page.title and not board_page %}
       <div class="layout-title">{{ page.title }}</div>
     {% endif %}
     {{ page.content }}

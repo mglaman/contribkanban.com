@@ -15,6 +15,7 @@
   "scripts": {
     "start": "vite --host",
     "build": "vite build",
+    "build:island": "vite build --config vite.island.config.js",
     "serve": "vite preview --host",
     "test": "vitest"
   },

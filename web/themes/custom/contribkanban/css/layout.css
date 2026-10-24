@@ -9,6 +9,10 @@
   align-items: flex-start;
 }
 
+.layout-page--board {
+  max-width: none;
+}
+
 .layout-main {
   flex: 999 1 600px;
   min-width: 0;
