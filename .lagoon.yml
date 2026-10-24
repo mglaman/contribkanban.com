@@ -10,17 +10,18 @@ environments:
       schedule: H * * * *
       service: cli
     routes:
-    - frontend:
-      - app.contribkanban.com:
-          insecure: Redirect
-          tls-acme: "true"
+    # Drupal serves every page. The other hostnames redirect to
+    # contribkanban.com in lagoon/Dockerfile.nginx.
+    - nginx:
       - contribkanban.com:
           insecure: Redirect
           tls-acme: "true"
       - www.contribkanban.com:
           insecure: Redirect
           tls-acme: "true"
-    - nginx:
+      - app.contribkanban.com:
+          insecure: Redirect
+          tls-acme: "true"
       - api.contribkanban.com:
           insecure: Redirect
           tls-acme: "true"

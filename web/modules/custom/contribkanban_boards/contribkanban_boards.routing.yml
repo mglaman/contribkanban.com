@@ -6,3 +6,70 @@ entity.board.version:
     version: ''
   requirements:
     _entity_access: 'board.view'
+
+# Paths from the React app, which Drupal pages replaced. Logging out goes to
+# the confirm form, since a redirect to /user/logout would carry a CSRF token.
+contribkanban_boards.legacy.login:
+  path: '/login'
+  defaults:
+    _controller: '\Drupal\contribkanban_boards\Controller\LegacyRedirectController::toRoute'
+    route_name: 'user.login'
+  requirements:
+    # A redirect; the page it leads to checks access.
+    _access: 'TRUE'
+contribkanban_boards.legacy.register:
+  path: '/register'
+  defaults:
+    _controller: '\Drupal\contribkanban_boards\Controller\LegacyRedirectController::toRoute'
+    route_name: 'user.register'
+  requirements:
+    # A redirect; the page it leads to checks access.
+    _access: 'TRUE'
+contribkanban_boards.legacy.forgot_password:
+  path: '/forgot-password'
+  defaults:
+    _controller: '\Drupal\contribkanban_boards\Controller\LegacyRedirectController::toRoute'
+    route_name: 'user.pass'
+  requirements:
+    # A redirect; the page it leads to checks access.
+    _access: 'TRUE'
+contribkanban_boards.legacy.me:
+  path: '/me'
+  defaults:
+    _controller: '\Drupal\contribkanban_boards\Controller\LegacyRedirectController::toRoute'
+    route_name: 'user.page'
+  requirements:
+    # A redirect; the page it leads to checks access.
+    _access: 'TRUE'
+contribkanban_boards.legacy.logout:
+  path: '/logout'
+  defaults:
+    _controller: '\Drupal\contribkanban_boards\Controller\LegacyRedirectController::toRoute'
+    route_name: 'user.logout.confirm'
+  requirements:
+    # A redirect; the page it leads to checks access.
+    _access: 'TRUE'
+contribkanban_boards.legacy.create:
+  path: '/create'
+  defaults:
+    _controller: '\Drupal\contribkanban_boards\Controller\LegacyRedirectController::toRoute'
+    route_name: 'contribkanban_api.create_board'
+  requirements:
+    # A redirect; the page it leads to checks access.
+    _access: 'TRUE'
+contribkanban_boards.legacy.about:
+  path: '/about'
+  defaults:
+    _controller: '\Drupal\contribkanban_boards\Controller\LegacyRedirectController::toRoute'
+    route_name: '<front>'
+  requirements:
+    # A redirect; the page it leads to checks access.
+    _access: 'TRUE'
+contribkanban_boards.legacy.listing:
+  path: '/boards/{type}'
+  defaults:
+    _controller: '\Drupal\contribkanban_boards\Controller\LegacyRedirectController::toListing'
+  requirements:
+    # A redirect; the page it leads to checks access.
+    _access: 'TRUE'
+    type: 'project|sprint|core'

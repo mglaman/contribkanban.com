@@ -83,7 +83,7 @@ Style with `sx` or `styled()` from `@mui/material/styles`. `@mui/styles` (`withS
 
 ## Deployment
 
-Push to `master` → GitHub Actions runs build + test → Lagoon auto-deploys to production (`https://contribkanban.com`).
+Push to `master` → GitHub Actions runs build + test → Lagoon auto-deploys to production (`https://contribkanban.com`). Drupal's nginx serves every hostname; `www`, `app`, and `api` redirect to `contribkanban.com` (`lagoon/Dockerfile.nginx`).
 
 Do not force-push master.
 

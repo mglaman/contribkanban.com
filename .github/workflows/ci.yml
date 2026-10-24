@@ -139,6 +139,15 @@ jobs:
           curl -fsS "http://127.0.0.1:8080/boards" | grep 'id="contribkanban-create-board"'
           curl -fsS "http://127.0.0.1:8080/boards/new" | grep "Project machine name"
           curl -fsS "http://127.0.0.1:8080/board/Smoketestboard" | grep 'data-board="'
+      - name: Check redirects from React app paths
+        run: |
+          redirect() {
+            test "$(curl -sS -o /dev/null -w '%{http_code} %{redirect_url}' "http://127.0.0.1:8080$1")" = "301 http://127.0.0.1:8080$2"
+          }
+          redirect /login /user/login
+          redirect /logout /user/logout/confirm
+          redirect /create /boards/new
+          redirect /boards/sprint "/boards?type=drupalorg_sprint"
       - name: Show watchdog log
         if: always()
         run: ./bin/drush wd-show
