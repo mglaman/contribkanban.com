@@ -4,6 +4,7 @@ import {
   toDrupalOrgIssue,
   filterIssues,
   fetchOpenWorkItems,
+  fetchLabeledWorkItems,
 } from "../gitlab";
 
 function makeWorkItem(iid, labels, assignees = []) {
@@ -143,5 +144,24 @@ describe("fetchOpenWorkItems", () => {
     await expect(fetchOpenWorkItems("project/nope", vi.fn())).rejects.toThrow(
       "404"
     );
+  });
+});
+
+describe("fetchLabeledWorkItems", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("searches drupal.org's project group by label", async () => {
+    const fetchMock = vi.fn().mockResolvedValueOnce(makePage([makeWorkItem(1, [])]));
+    vi.stubGlobal("fetch", fetchMock);
+    const onPage = vi.fn();
+
+    await fetchLabeledWorkItems("Coding standards", onPage);
+
+    expect(fetchMock.mock.calls[0][0]).toBe(
+      "https://git.drupalcode.org/api/v4/groups/project/issues?labels=Coding+standards&state=opened&per_page=100&page=1"
+    );
+    expect(onPage.mock.calls[0][0].map((i) => i.nid)).toEqual(["1"]);
   });
 });

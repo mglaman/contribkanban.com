@@ -5,6 +5,7 @@
  * Post update functions for contribkanban_boards.
  */
 
+use Drupal\contribkanban_boards\Entity\BoardInterface;
 use Drupal\contribkanban_boards\Entity\NodeBoard;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Utility\UpdateException;
@@ -91,4 +92,33 @@ function contribkanban_boards_post_update_migrate_board_providers_bundles() {
       'drupalorg_theme',
     ], 'IN')
     ->execute();
+}
+
+/**
+ * Match tag board titles to their drupal.org tag names.
+ *
+ * Tag boards load GitLab work items by a label named after the tag, and
+ * labels are case-sensitive. These four boards predate titles coming from
+ * the tag.
+ */
+function contribkanban_boards_post_update_tag_board_titles(): void {
+  $names = [
+    '1101' => 'Accessibility',
+    '1888' => 'PHPUnit',
+    '33664' => 'Composer',
+    '174109' => 'Commerce Sprint',
+  ];
+  $storage = \Drupal::entityTypeManager()->getStorage('board');
+  $ids = $storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('type', 'drupalorg_sprint')
+    ->condition('tag', array_keys($names), 'IN')
+    ->execute();
+  foreach ($storage->loadMultiple($ids) as $board) {
+    assert($board instanceof BoardInterface);
+    $tid = (string) $board->get('tag')->value;
+    if (isset($names[$tid]) && $board->label() !== $names[$tid]) {
+      $board->set('title', $names[$tid])->save();
+    }
+  }
 }

@@ -9,6 +9,8 @@
         <p class="board-shell__source">
           {% if config.source == 'gitlab' %}
             {{ 'Work items from <a href=":url">git.drupalcode.org</a>'|t({':url': source_url}) }}
+          {% elseif gitlab_url %}
+            {{ 'Issues from <a href=":url">drupal.org</a> and <a href=":gitlab">git.drupalcode.org</a>'|t({':url': source_url, ':gitlab': gitlab_url}) }}
           {% else %}
             {{ 'Issues from <a href=":url">drupal.org</a>'|t({':url': source_url}) }}
           {% endif %}

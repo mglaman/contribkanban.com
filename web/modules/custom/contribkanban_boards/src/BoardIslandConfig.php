@@ -50,7 +50,7 @@ final class BoardIslandConfig {
    * @param string $version
    *   A version from the URL, added to every list.
    *
-   * @return array{source: string, gitlabProject: string|null, lists: list<array<string, mixed>>}
+   * @return array{source: string, gitlabProject: string|null, gitlabLabel: string|null, lists: list<array<string, mixed>>}
    *   The configuration.
    */
   public static function build(BoardInterface $board, string $version = ''): array {
@@ -82,6 +82,9 @@ final class BoardIslandConfig {
       // Project boards are named after the project's machine name, which is
       // also its path on git.drupalcode.org.
       'gitlabProject' => $gitlab ? 'project/' . $board->get('machine_name')->value : NULL,
+      // Tag boards also load GitLab work items with a label named after the
+      // tag, which is the board's title.
+      'gitlabLabel' => $board->bundle() === 'drupalorg_sprint' ? (string) $board->label() : NULL,
       'lists' => $lists,
     ];
   }
@@ -95,7 +98,7 @@ final class BoardIslandConfig {
    * @param \Drupal\contribkanban_boards\Entity\NodeBoard $collection
    *   The issue collection.
    *
-   * @return array{source: string, gitlabProject: null, nids: list<string>, lists: list<array<string, mixed>>}
+   * @return array{source: string, gitlabProject: null, gitlabLabel: null, nids: list<string>, lists: list<array<string, mixed>>}
    *   The configuration.
    */
   public static function collection(NodeBoard $collection): array {
@@ -114,6 +117,7 @@ final class BoardIslandConfig {
     return [
       'source' => 'drupalorg',
       'gitlabProject' => NULL,
+      'gitlabLabel' => NULL,
       'nids' => array_values(array_unique(self::values($collection->get('nids')))),
       'lists' => $lists,
     ];

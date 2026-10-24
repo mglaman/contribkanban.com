@@ -103,30 +103,27 @@ export function filterIssues(issues, filter) {
     .sort((a, b) => Number(b.field_issue_priority) - Number(a.field_issue_priority));
 }
 
-async function fetchPage(fullPath, page, signal) {
-  const res = await fetch(
-    `${GITLAB_API_URL}/projects/${encodeURIComponent(fullPath)}/issues?state=opened&per_page=100&page=${page}`,
-    { signal }
-  );
+async function fetchPage(url, page, signal) {
+  const res = await fetch(`${url}&page=${page}`, { signal });
   if (!res.ok) {
-    throw new Error(`GitLab responded ${res.status} for ${fullPath}`);
+    throw new Error(`GitLab responded ${res.status} for ${url}`);
   }
   return res;
 }
 
 /**
- * Fetches every open work item in a project.
+ * Fetches every open work item from an issues endpoint.
  *
  * The first page reports the page count, then the remaining pages load in
  * parallel.
  *
- * @param {string} fullPath The GitLab project path, like `project/tool`.
+ * @param {string} url The endpoint, with a query string.
  * @param {(issues: object[]) => void} onPage Called with the issues loaded so far.
  * @param {AbortSignal} [signal]
  * @returns {Promise<void>}
  */
-export async function fetchOpenWorkItems(fullPath, onPage, signal) {
-  const first = await fetchPage(fullPath, 1, signal);
+async function fetchAllPages(url, onPage, signal) {
+  const first = await fetchPage(url, 1, signal);
   const firstItems = (await first.json()).map(toDrupalOrgIssue);
   onPage(firstItems);
 
@@ -137,8 +134,40 @@ export async function fetchOpenWorkItems(fullPath, onPage, signal) {
   }
   const pages = [];
   for (let page = 2; page <= totalPages; page++) {
-    pages.push(fetchPage(fullPath, page, signal).then((res) => res.json()));
+    pages.push(fetchPage(url, page, signal).then((res) => res.json()));
   }
   const rest = (await Promise.all(pages)).flat().map(toDrupalOrgIssue);
   onPage(firstItems.concat(rest));
+}
+
+/**
+ * Fetches every open work item in a project.
+ *
+ * @param {string} fullPath The GitLab project path, like `project/tool`.
+ * @param {(issues: object[]) => void} onPage Called with the issues loaded so far.
+ * @param {AbortSignal} [signal]
+ * @returns {Promise<void>}
+ */
+export function fetchOpenWorkItems(fullPath, onPage, signal) {
+  return fetchAllPages(
+    `${GITLAB_API_URL}/projects/${encodeURIComponent(fullPath)}/issues?state=opened&per_page=100`,
+    onPage,
+    signal
+  );
+}
+
+/**
+ * Fetches every open work item with a label, across drupal.org's projects.
+ *
+ * Labels are case-sensitive, and drupal.org issue tags became labels with the
+ * same name.
+ *
+ * @param {string} label The label, like `Novice`.
+ * @param {(issues: object[]) => void} onPage Called with the issues loaded so far.
+ * @param {AbortSignal} [signal]
+ * @returns {Promise<void>}
+ */
+export function fetchLabeledWorkItems(label, onPage, signal) {
+  const params = new URLSearchParams({ labels: label, state: "opened", per_page: "100" });
+  return fetchAllPages(`${GITLAB_API_URL}/groups/project/issues?${params}`, onPage, signal);
 }

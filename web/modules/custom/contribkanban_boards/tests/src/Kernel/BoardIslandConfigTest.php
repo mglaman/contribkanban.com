@@ -10,10 +10,9 @@ use Drupal\contribkanban_boards\Entity\BoardInterface;
 use Drupal\contribkanban_boards\Entity\BoardList;
 use Drupal\contribkanban_boards\Entity\NodeBoard;
 use Drupal\KernelTests\KernelTestBase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/**
- * @coversDefaultClass \Drupal\contribkanban_boards\BoardIslandConfig
- */
+#[CoversClass(BoardIslandConfig::class)]
 final class BoardIslandConfigTest extends KernelTestBase {
 
   /**
@@ -63,8 +62,6 @@ final class BoardIslandConfigTest extends KernelTestBase {
 
   /**
    * Tests that lists get the board's projects and versions.
-   *
-   * @covers ::build
    */
   public function testDrupalOrgProject(): void {
     $board = $this->createBoard('drupalorg_project', [
@@ -80,6 +77,7 @@ final class BoardIslandConfigTest extends KernelTestBase {
 
     self::assertSame('drupalorg', $config['source']);
     self::assertNull($config['gitlabProject']);
+    self::assertNull($config['gitlabLabel']);
     self::assertSame([
       [
         'title' => 'Postponed',
@@ -104,8 +102,6 @@ final class BoardIslandConfigTest extends KernelTestBase {
 
   /**
    * Tests a project board that reads GitLab.
-   *
-   * @covers ::build
    */
   public function testGitLabProject(): void {
     $board = $this->createBoard('drupalorg_project', [
@@ -125,9 +121,25 @@ final class BoardIslandConfigTest extends KernelTestBase {
   }
 
   /**
+   * Tests that tag boards also read GitLab, by a label named after the tag.
+   */
+  public function testTag(): void {
+    $board = $this->createBoard('drupalorg_sprint', [
+      'title' => 'Coding standards',
+      'tag' => ['1234'],
+    ], [
+      ['title' => 'Active', 'statuses' => [1]],
+    ]);
+
+    $config = BoardIslandConfig::build($board);
+
+    self::assertSame('drupalorg', $config['source']);
+    self::assertSame('Coding standards', $config['gitlabLabel']);
+    self::assertSame(['1234'], $config['lists'][0]['tags']);
+  }
+
+  /**
    * Tests that core component lists keep their component.
-   *
-   * @covers ::build
    */
   public function testCoreComponent(): void {
     $board = $this->createBoard('drupalorg_core', [
@@ -144,8 +156,6 @@ final class BoardIslandConfigTest extends KernelTestBase {
 
   /**
    * Tests an issue collection's fixed lists and unique node IDs.
-   *
-   * @covers ::collection
    */
   public function testCollection(): void {
     $collection = NodeBoard::create([

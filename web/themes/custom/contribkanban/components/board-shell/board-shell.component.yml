@@ -17,6 +17,9 @@ props:
     source_url:
       type: string
       title: Where the issues come from, on drupal.org or GitLab
+    gitlab_url:
+      type: string
+      title: GitLab work items with the tag's label, for tag boards
     edit_url:
       type: string
       title: Edit form URL, for people who can edit the board
@@ -37,6 +40,11 @@ props:
           type:
             - string
             - 'null'
+        gitlabLabel:
+          type:
+            - string
+            - 'null'
+          description: A tag board's GitLab label. The island merges its open work items into the lists.
         nids:
           type: array
           description: An issue collection's drupal.org node IDs. The island loads them once and sorts them into the lists by status.
