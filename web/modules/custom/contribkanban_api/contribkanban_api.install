@@ -7,44 +7,32 @@
 
 declare(strict_types=1);
 
-use Drupal\Core\Field\BaseFieldDefinition;
-use Drupal\Core\Field\FieldStorageDefinitionInterface;
-
 /**
- * Implements hook_update_dependencies().
+ * Implements hook_update_last_removed().
  */
-function contribkanban_api_update_dependencies(): array {
-  // Replace the oauth2_token scopes field between simple_oauth's scope entity
-  // updates and simple_oauth_update_8605.
-  $dependencies['contribkanban_api'][10001] = ['simple_oauth' => 8604];
-  $dependencies['simple_oauth'][8605] = ['contribkanban_api' => 10001];
-  return $dependencies;
+function contribkanban_api_update_last_removed(): int {
+  return 10001;
 }
 
 /**
- * Replace the 5.x oauth2_token scopes field before simple_oauth_update_8605.
+ * Delete OAuth2 tokens and consumers, so config import can uninstall them.
  *
- * Since simple_oauth 6.1.2, update 8605 renames the 5.x scopes_target_id
- * column and then uninstalls the 5.x field definition, which still points at
- * scopes_target_id, so the uninstall fails. Swapping the field here, the way
- * 6.1.1 did, leaves 8605 nothing to rename.
+ * Drupal refuses to uninstall a module while entities of its types exist.
  */
-function contribkanban_api_update_10001(): void {
-  $update_manager = \Drupal::entityDefinitionUpdateManager();
-  $legacy_definition = $update_manager->getFieldStorageDefinition('scopes', 'oauth2_token');
-  if ($legacy_definition === NULL || $legacy_definition->getType() !== 'entity_reference') {
-    return;
+function contribkanban_api_update_10002(array &$sandbox): void {
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $entity_type_ids = array_values(array_filter(
+    ['oauth2_token', 'consumer'],
+    static fn (string $entity_type_id): bool => $entity_type_manager->hasDefinition($entity_type_id),
+  ));
+  foreach ($entity_type_ids as $entity_type_id) {
+    $storage = $entity_type_manager->getStorage($entity_type_id);
+    $ids = $storage->getQuery()->accessCheck(FALSE)->range(0, 50)->execute();
+    if ($ids !== []) {
+      $storage->delete($storage->loadMultiple($ids));
+      $sandbox['#finished'] = 0;
+      return;
+    }
   }
-  $update_manager->uninstallFieldStorageDefinition($legacy_definition);
-  $update_manager->installFieldStorageDefinition(
-    'scopes',
-    'oauth2_token',
-    'simple_oauth',
-    BaseFieldDefinition::create('oauth2_scope_reference')
-      ->setLabel(t('Scopes'))
-      ->setDescription(t('The scopes for this Access Token.'))
-      ->setRevisionable(TRUE)
-      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
-      ->setTranslatable(FALSE)
-  );
+  $sandbox['#finished'] = 1;
 }
