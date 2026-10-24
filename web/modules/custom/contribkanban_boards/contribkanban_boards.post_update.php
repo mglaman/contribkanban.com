@@ -5,6 +5,7 @@
  * Post update functions for contribkanban_boards.
  */
 
+use Drupal\contribkanban_boards\Entity\BoardInterface;
 use Drupal\contribkanban_boards\Entity\NodeBoard;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Utility\UpdateException;
@@ -114,6 +115,7 @@ function contribkanban_boards_post_update_tag_board_titles(): void {
     ->condition('tag', array_keys($names), 'IN')
     ->execute();
   foreach ($storage->loadMultiple($ids) as $board) {
+    assert($board instanceof BoardInterface);
     $tid = (string) $board->get('tag')->value;
     if (isset($names[$tid]) && $board->label() !== $names[$tid]) {
       $board->set('title', $names[$tid])->save();
