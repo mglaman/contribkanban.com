@@ -55,6 +55,9 @@ function contribkanban_preprocess_board(array &$variables): void {
       'title' => (string) $board->label(),
       'back_url' => Url::fromRoute('view.board_listing.page')->toString(),
       'source_url' => _contribkanban_board_source_url($board, $config['gitlabProject']),
+      'gitlab_url' => $config['gitlabLabel'] !== NULL
+        ? 'https://git.drupalcode.org/groups/project/-/work_items?label_name[]=' . rawurlencode($config['gitlabLabel'])
+        : '',
       'config' => $config,
     ];
     return;
