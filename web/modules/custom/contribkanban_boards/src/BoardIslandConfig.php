@@ -49,12 +49,16 @@ final class BoardIslandConfig {
    *   The board.
    * @param string $version
    *   A version from the URL, added to every list.
+   * @param list<int> $moved_projects
+   *   For tag boards, node IDs of projects whose issues moved to GitLab.
+   *   Drupal.org keeps their issues, frozen, so the island drops them.
    *
-   * @return array{source: string, gitlabProject: string|null, gitlabLabel: string|null, lists: list<array<string, mixed>>}
+   * @return array{source: string, gitlabProject: string|null, gitlabLabel: string|null, movedProjects: list<int>, lists: list<array<string, mixed>>}
    *   The configuration.
    */
-  public static function build(BoardInterface $board, string $version = ''): array {
+  public static function build(BoardInterface $board, string $version = '', array $moved_projects = []): array {
     $gitlab = $board->bundle() === 'drupalorg_project' && (bool) $board->get('gitlab_work_items')->value;
+    $tag_board = $board->bundle() === 'drupalorg_sprint';
     $board_versions = self::values($board->get('version'));
     if ($version !== '') {
       $board_versions[] = $version;
@@ -84,7 +88,8 @@ final class BoardIslandConfig {
       'gitlabProject' => $gitlab ? 'project/' . $board->get('machine_name')->value : NULL,
       // Tag boards also load GitLab work items with a label named after the
       // tag, which is the board's title.
-      'gitlabLabel' => $board->bundle() === 'drupalorg_sprint' ? (string) $board->label() : NULL,
+      'gitlabLabel' => $tag_board ? (string) $board->label() : NULL,
+      'movedProjects' => $tag_board ? $moved_projects : [],
       'lists' => $lists,
     ];
   }
@@ -98,7 +103,7 @@ final class BoardIslandConfig {
    * @param \Drupal\contribkanban_boards\Entity\NodeBoard $collection
    *   The issue collection.
    *
-   * @return array{source: string, gitlabProject: null, gitlabLabel: null, nids: list<string>, lists: list<array<string, mixed>>}
+   * @return array{source: string, gitlabProject: null, gitlabLabel: null, movedProjects: list<int>, nids: list<string>, lists: list<array<string, mixed>>}
    *   The configuration.
    */
   public static function collection(NodeBoard $collection): array {
@@ -118,6 +123,7 @@ final class BoardIslandConfig {
       'source' => 'drupalorg',
       'gitlabProject' => NULL,
       'gitlabLabel' => NULL,
+      'movedProjects' => [],
       'nids' => array_values(array_unique(self::values($collection->get('nids')))),
       'lists' => $lists,
     ];

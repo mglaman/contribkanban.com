@@ -55,28 +55,44 @@ class Projects {
   }
 
   /**
-   * Finds which projects moved their issues to GitLab work items.
+   * Lists the projects that moved their issues to GitLab work items.
    *
-   * @param string[] $nids
-   *   Project node IDs.
+   * Drupal.org clears `field_project_has_issue_queue` when a project's issues
+   * move, and api-d7 can filter on it.
    *
-   * @return string[]
-   *   The node IDs of projects without a Drupal.org issue queue.
+   * @return \Generator<int, array{nid: string, title: string, machine_name: string, project_type: string}>
+   *   The projects, loaded a page of 50 at a time.
    */
-  public function getMigratedProjectNids(array $nids): array {
-    $migrated = [];
-    // api-d7 returns at most 50 nodes per page.
-    foreach (array_chunk(array_values(array_unique($nids)), 50) as $chunk) {
-      $uri = 'node.json?' . http_build_query(['nid' => $chunk, 'limit' => 50]);
-      $response = $this->client->get($uri);
-      $data = Json::decode($response->getBody()->getContents());
-      foreach ($data['list'] ?? [] as $node) {
-        if ($node['field_project_has_issue_queue'] === FALSE) {
-          $migrated[] = (string) $node['nid'];
+  public function listMigratedProjects(): \Generator {
+    $types = [
+      'project_module',
+      'project_theme',
+      'project_distribution',
+      'project_general',
+      'project_theme_engine',
+      'project_drupalorg',
+    ];
+    foreach ($types as $type) {
+      $page = 0;
+      do {
+        $uri = 'node.json?' . http_build_query([
+          'type' => $type,
+          'field_project_has_issue_queue' => 0,
+          'limit' => 50,
+          'page' => $page,
+        ]);
+        $data = Json::decode($this->client->get($uri)->getBody()->getContents());
+        foreach ($data['list'] ?? [] as $node) {
+          yield [
+            'nid' => (string) $node['nid'],
+            'title' => (string) $node['title'],
+            'machine_name' => (string) $node['field_project_machine_name'],
+            'project_type' => (string) ($node['field_project_type'] ?? ''),
+          ];
         }
-      }
+        $page++;
+      } while (!empty($data['next']));
     }
-    return $migrated;
   }
 
   /**

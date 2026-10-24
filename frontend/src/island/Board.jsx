@@ -1,26 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import Column from "./Column";
 import Filters from "./Filters";
-import { fetchIssuesByNid, fetchListIssues, fetchMovedProjects } from "./drupalorg";
+import { fetchIssuesByNid, fetchListIssues } from "./drupalorg";
 import { filterIds, matchesText, readFilters, writeFilters } from "./filters";
 import { fetchLabeledWorkItems, fetchOpenWorkItems, filterIssues } from "./gitlab";
 
 const LOADING = { state: "loading", issues: [], total: 0, partial: false };
 
 const byPriority = (a, b) => Number(b.field_issue_priority) - Number(a.field_issue_priority);
-
-/**
- * Drops issues from projects whose issues moved to GitLab.
- *
- * @param {{issues: object[], total: number, partial: boolean}} data
- * @returns {Promise<{issues: object[], total: number, partial: boolean}>}
- */
-async function withoutMovedProjects(data) {
-  const moved = await fetchMovedProjects(data.issues.map((issue) => issue.field_project?.id).filter(Boolean));
-  const issues = data.issues.filter((issue) => !moved.has(issue.field_project?.id));
-  return { ...data, issues, total: data.total - (data.issues.length - issues.length) };
-}
 
 /**
  * Loads a list's first page from drupal.org.
@@ -30,10 +18,9 @@ async function withoutMovedProjects(data) {
  * @param {object} list The list from the board configuration.
  * @param {string|null} category
  * @param {string|null} priority
- * @param {boolean} dropMoved Whether to drop issues from projects on GitLab.
  * @returns {{state: string, issues: object[], total: number, partial: boolean}}
  */
-function useListIssues(list, category, priority, dropMoved) {
+function useListIssues(list, category, priority) {
   const key = `${category}:${priority}`;
   // Keyed by query so a changed filter shows loading, not the previous result.
   const [result, setResult] = useState({ key: null });
@@ -46,11 +33,10 @@ function useListIssues(list, category, priority, dropMoved) {
       }
     };
     fetchListIssues(list, { category, priority }, controller.signal)
-      .then((data) => (dropMoved ? withoutMovedProjects(data) : data))
       .then((data) => resolve({ state: "ok", ...data }))
       .catch(() => resolve({ ...LOADING, state: "error" }));
     return () => controller.abort();
-  }, [list, key, category, priority, dropMoved]);
+  }, [list, key, category, priority]);
 
   return result.key === key ? result : LOADING;
 }
@@ -59,7 +45,7 @@ function useListIssues(list, category, priority, dropMoved) {
  * A list that queries drupal.org. The search text filters the loaded issues.
  */
 function DrupalOrgColumn({ list, category, priority, text }) {
-  const current = useListIssues(list, category, priority, false);
+  const current = useListIssues(list, category, priority);
   const issues = current.issues.filter((issue) => matchesText(issue, text));
   return (
     <Column
@@ -125,10 +111,10 @@ function GitLabColumns({ project, lists, category, priority, text }) {
  * A tag board list: drupal.org issues merged with GitLab work items.
  *
  * Projects that moved to GitLab leave their issues on drupal.org, frozen, so
- * those come from GitLab only.
+ * those come from GitLab only. Drupal lists the moved projects.
  */
-function TagColumn({ list, workItems, category, priority, text }) {
-  const drupalorg = useListIssues(list, category, priority, true);
+function TagColumn({ list, workItems, movedProjects, category, priority, text }) {
+  const drupalorg = useListIssues(list, category, priority);
   const gitlab = filterIssues(workItems.issues, {
     statuses: list.statuses,
     category,
@@ -136,7 +122,9 @@ function TagColumn({ list, workItems, category, priority, text }) {
     version: list.versions,
   });
   const gitlabNids = new Set(gitlab.map((issue) => issue.nid));
-  const fromDrupalOrg = drupalorg.issues.filter((issue) => !gitlabNids.has(issue.nid));
+  const fromDrupalOrg = drupalorg.issues.filter(
+    (issue) => !gitlabNids.has(issue.nid) && !movedProjects.has(issue.field_project?.id)
+  );
   const issues = gitlab
     .concat(fromDrupalOrg)
     .sort(byPriority)
@@ -158,13 +146,15 @@ function TagColumn({ list, workItems, category, priority, text }) {
 /**
  * Every list on a tag board, sharing one load of the label's work items.
  */
-function TagColumns({ label, lists, category, priority, text }) {
+function TagColumns({ label, movedProjects, lists, category, priority, text }) {
   const workItems = useWorkItems(fetchLabeledWorkItems, label);
+  const moved = useMemo(() => new Set(movedProjects.map(String)), [movedProjects]);
   return lists.map((list, index) => (
     <TagColumn
       key={index}
       list={list}
       workItems={workItems}
+      movedProjects={moved}
       category={category}
       priority={priority}
       text={text}
@@ -258,6 +248,7 @@ function Board({ config, filtersSlot }) {
       ) : config.gitlabLabel ? (
         <TagColumns
           label={config.gitlabLabel}
+          movedProjects={config.movedProjects ?? []}
           lists={config.lists}
           category={category}
           priority={priority}
