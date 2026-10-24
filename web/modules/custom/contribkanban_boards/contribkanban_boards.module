@@ -67,7 +67,8 @@ function contribkanban_boards_node_board_view(array &$build, EntityInterface $en
     return;
   }
   assert($entity instanceof NodeBoard);
-  $build['#island'] = BoardIslandConfig::collection($entity);
+  $build['#island'] = BoardIslandConfig::collection($entity, _contribkanban_boards_gitlab_project_nids());
+  $build['#cache']['tags'][] = 'project_list';
   $edit = $entity->toUrl('edit-form');
   $access = $edit->access(NULL, TRUE);
   $build['#edit_url'] = $access->isAllowed() ? $edit->toString() : NULL;

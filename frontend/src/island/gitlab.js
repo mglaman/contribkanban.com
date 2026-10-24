@@ -64,6 +64,23 @@ export function scopedLabelValue(labels, scope) {
 }
 
 /**
+ * Maps a work item's state to a Drupal.org issue status ID.
+ *
+ * A closed work item is closed whatever its `state::` label says, and counts
+ * as Closed (fixed) unless the label says Fixed.
+ *
+ * @param {object} workItem A work item from the REST issues API.
+ * @returns {string}
+ */
+function issueStatus(workItem) {
+  const status = STATE_TO_STATUS[scopedLabelValue(workItem.labels, "state")];
+  if (workItem.state === "closed") {
+    return status === "2" ? "2" : "7";
+  }
+  return status ?? "1";
+}
+
+/**
  * Converts a GitLab work item into the Drupal.org issue shape cards and lists use.
  *
  * @param {object} workItem A work item from the REST issues API.
@@ -76,7 +93,7 @@ export function toDrupalOrgIssue(workItem) {
     nid: String(workItem.iid),
     title: workItem.title,
     url: workItem.web_url,
-    field_issue_status: STATE_TO_STATUS[scopedLabelValue(labels, "state")] ?? "1",
+    field_issue_status: issueStatus(workItem),
     field_issue_category: CATEGORY_TO_ID[scopedLabelValue(labels, "category")] ?? null,
     field_issue_priority: PRIORITY_TO_ID[scopedLabelValue(labels, "priority")] ?? "200",
     field_issue_version: version ? version.slice(1) : null,
@@ -171,3 +188,32 @@ export function fetchLabeledWorkItems(label, onPage, signal) {
   const params = new URLSearchParams({ labels: label, state: "opened", per_page: "100" });
   return fetchAllPages(`${GITLAB_API_URL}/groups/project/issues?${params}`, onPage, signal);
 }
+
+/**
+ * Fetches work items by IID from one project, open or closed.
+ *
+ * Migrated drupal.org issues keep their node ID as their IID.
+ *
+ * @param {string} fullPath The GitLab project path, like `project/tool`.
+ * @param {string[]} iids
+ * @param {AbortSignal} [signal]
+ * @returns {Promise<object[]>} Issues from toDrupalOrgIssue().
+ */
+export async function fetchWorkItemsByIid(fullPath, iids, signal) {
+  const pages = [];
+  for (let start = 0; start < iids.length; start += 100) {
+    const params = new URLSearchParams({ state: "all", per_page: "100" });
+    iids.slice(start, start + 100).forEach((iid) => params.append("iids[]", iid));
+    const url = `${GITLAB_API_URL}/projects/${encodeURIComponent(fullPath)}/issues?${params}`;
+    pages.push(
+      fetch(url, { signal }).then((res) => {
+        if (!res.ok) {
+          throw new Error(`GitLab responded ${res.status} for ${fullPath}`);
+        }
+        return res.json();
+      })
+    );
+  }
+  return (await Promise.all(pages)).flat().map(toDrupalOrgIssue);
+}
+

@@ -166,10 +166,11 @@ final class BoardIslandConfigTest extends KernelTestBase {
       'collaboration' => NodeBoard::IS_SHARED,
     ]);
 
-    $config = BoardIslandConfig::collection($collection);
+    $config = BoardIslandConfig::collection($collection, [2350161]);
 
     self::assertSame('drupalorg', $config['source']);
     self::assertSame(['3512345', '2924212'], $config['nids']);
+    self::assertSame([2350161], $config['movedProjects']);
     self::assertSame(
       ['Postponed', 'Active', 'Needs work', 'Needs review', 'Reviewed & tested', 'Fixed'],
       array_column($config['lists'], 'title'),
