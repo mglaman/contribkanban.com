@@ -4,9 +4,12 @@ import Column from "./Column";
 import Filters from "./Filters";
 import { fetchIssuesByNid, fetchListIssues } from "./drupalorg";
 import { filterIds, matchesText, readFilters, writeFilters } from "./filters";
-import { fetchLabeledWorkItems, fetchOpenWorkItems, filterIssues } from "./gitlab";
+import { fetchLabeledWorkItems, fetchOpenWorkItems, fetchWorkItemsByIid, filterIssues } from "./gitlab";
 
 const LOADING = { state: "loading", issues: [], total: 0, partial: false };
+
+// A stable default, so an absent list doesn't reload the board on each render.
+const NO_PROJECTS = [];
 
 const byPriority = (a, b) => Number(b.field_issue_priority) - Number(a.field_issue_priority);
 
@@ -162,13 +165,44 @@ function TagColumns({ label, movedProjects, lists, category, priority, text }) {
   ));
 }
 
+// A drupal.org issue URL names its project, which is also its GitLab path.
+const ISSUE_PROJECT = /^https:\/\/www\.drupal\.org\/project\/([^/]+)\/issues\//;
+
+/**
+ * Replaces issues from projects that moved to GitLab with their work items.
+ *
+ * Drupal.org keeps moved issues frozen, and each keeps its node ID as its
+ * IID. A project that GitLab can't answer for keeps its drupal.org copies.
+ *
+ * @param {object[]} issues Issues from drupal.org.
+ * @param {Set<string>} movedProjects Node IDs of projects on GitLab.
+ * @param {AbortSignal} signal
+ * @returns {Promise<object[]>}
+ */
+async function withGitLabWorkItems(issues, movedProjects, signal) {
+  const iidsByProject = new Map();
+  for (const issue of issues) {
+    const match = ISSUE_PROJECT.exec(issue.url ?? "");
+    if (match && movedProjects.has(issue.field_project?.id)) {
+      const path = `project/${match[1]}`;
+      iidsByProject.set(path, [...(iidsByProject.get(path) ?? []), issue.nid]);
+    }
+  }
+  const workItems = await Promise.all(
+    [...iidsByProject].map(([path, iids]) => fetchWorkItemsByIid(path, iids, signal).catch(() => []))
+  );
+  const byNid = new Map(workItems.flat().map((issue) => [issue.nid, issue]));
+  return issues.map((issue) => byNid.get(issue.nid) ?? issue).sort(byPriority);
+}
+
 /**
  * Loads an issue collection's issues once.
  *
  * @param {string[]} nids
+ * @param {Set<string>} movedProjects Node IDs of projects on GitLab.
  * @returns {{state: string, issues: object[]}}
  */
-function useCollection(nids) {
+function useCollection(nids, movedProjects) {
   const [result, setResult] = useState(LOADING);
   useEffect(() => {
     if (nids.length === 0) {
@@ -182,18 +216,20 @@ function useCollection(nids) {
       }
     };
     fetchIssuesByNid(nids, controller.signal)
+      .then((issues) => withGitLabWorkItems(issues, movedProjects, controller.signal))
       .then((issues) => resolve({ state: "ok", issues }))
       .catch(() => resolve({ ...LOADING, state: "error" }));
     return () => controller.abort();
-  }, [nids]);
+  }, [nids, movedProjects]);
   return result;
 }
 
 /**
  * Every list on an issue collection, sharing one load.
  */
-function CollectionColumns({ nids, lists, category, priority, text }) {
-  const collection = useCollection(nids);
+function CollectionColumns({ nids, movedProjects, lists, category, priority, text }) {
+  const moved = useMemo(() => new Set(movedProjects.map(String)), [movedProjects]);
+  const collection = useCollection(nids, moved);
   return lists.map((list, index) => {
     const issues = collection.issues.filter(
       (issue) =>
@@ -240,6 +276,7 @@ function Board({ config, filtersSlot }) {
       {config.nids ? (
         <CollectionColumns
           nids={config.nids}
+          movedProjects={config.movedProjects ?? NO_PROJECTS}
           lists={config.lists}
           category={category}
           priority={priority}
@@ -248,7 +285,7 @@ function Board({ config, filtersSlot }) {
       ) : config.gitlabLabel ? (
         <TagColumns
           label={config.gitlabLabel}
-          movedProjects={config.movedProjects ?? []}
+          movedProjects={config.movedProjects ?? NO_PROJECTS}
           lists={config.lists}
           category={category}
           priority={priority}

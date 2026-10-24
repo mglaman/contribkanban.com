@@ -171,6 +171,58 @@ describe("Board", () => {
     expect(fetch).toHaveBeenCalledTimes(2);
   });
 
+  it("loads a collection's issues from GitLab when their project moved", async () => {
+    const issue = (nid, project, status) => ({
+      ...ISSUES[0],
+      nid,
+      title: `Drupal.org ${nid}`,
+      url: `https://www.drupal.org/project/${project}/issues/${nid}`,
+      field_issue_status: status,
+      field_project: { id: project === "copyscape" ? "2350161" : "17345" },
+    });
+    const fetch = vi.fn((url) => {
+      if (url.startsWith("https://git.drupalcode.org")) {
+        return Promise.resolve(
+          jsonResponse([
+            {
+              iid: 3549178,
+              title: "GitLab 3549178",
+              web_url: "https://git.drupalcode.org/project/copyscape/-/work_items/3549178",
+              labels: ["state::needsReview"],
+              assignees: [],
+              state: "opened",
+            },
+          ])
+        );
+      }
+      return Promise.resolve(
+        jsonResponse({ list: [issue("3549178", "copyscape", "13"), issue("101", "pathauto", "1")] })
+      );
+    });
+    vi.stubGlobal("fetch", fetch);
+    render(
+      <Board
+        config={{
+          source: "drupalorg",
+          gitlabProject: null,
+          movedProjects: [2350161],
+          nids: ["3549178", "101"],
+          lists: [...LISTS, { ...LISTS[0], title: "Needs work", tone: "needs-work", statuses: ["13"] }],
+        }}
+        filtersSlot={null}
+      />
+    );
+
+    // The frozen drupal.org copy says Needs work; GitLab says Needs review.
+    expect(await within(column("Needs review")).findByText("GitLab 3549178")).toBeInTheDocument();
+    expect(within(column("Active")).getByText("Drupal.org 101")).toBeInTheDocument();
+    expect(screen.queryByText("Drupal.org 3549178")).not.toBeInTheDocument();
+    const gitlab = fetch.mock.calls.map(([url]) => url).filter((url) => url.includes("drupalcode"));
+    expect(gitlab).toEqual([
+      "https://git.drupalcode.org/api/v4/projects/project%2Fcopyscape/issues?state=all&per_page=100&iids%5B%5D=3549178",
+    ]);
+  });
+
   it("shows empty lists for an empty issue collection", async () => {
     const fetch = vi.fn();
     vi.stubGlobal("fetch", fetch);

@@ -102,11 +102,14 @@ final class BoardIslandConfig {
    *
    * @param \Drupal\contribkanban_boards\Entity\NodeBoard $collection
    *   The issue collection.
+   * @param list<int> $moved_projects
+   *   Node IDs of projects whose issues moved to GitLab. The island loads
+   *   those issues from GitLab.
    *
    * @return array{source: string, gitlabProject: null, gitlabLabel: null, movedProjects: list<int>, nids: list<string>, lists: list<array<string, mixed>>}
    *   The configuration.
    */
-  public static function collection(NodeBoard $collection): array {
+  public static function collection(NodeBoard $collection, array $moved_projects = []): array {
     $lists = [];
     foreach (self::COLLECTION_LISTS as $title => $statuses) {
       $lists[] = [
@@ -123,7 +126,7 @@ final class BoardIslandConfig {
       'source' => 'drupalorg',
       'gitlabProject' => NULL,
       'gitlabLabel' => NULL,
-      'movedProjects' => [],
+      'movedProjects' => $moved_projects,
       'nids' => array_values(array_unique(self::values($collection->get('nids')))),
       'lists' => $lists,
     ];

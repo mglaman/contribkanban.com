@@ -77,6 +77,15 @@ describe("toDrupalOrgIssue", () => {
   });
 });
 
+describe("closed work items", () => {
+  it("count as Closed (fixed), or Fixed when labeled", () => {
+    const closed = (labels) => toDrupalOrgIssue({ ...makeWorkItem(1, labels), state: "closed" });
+    expect(closed(["state::needsReview"]).field_issue_status).toBe("7");
+    expect(closed([]).field_issue_status).toBe("7");
+    expect(closed(["state::fixed"]).field_issue_status).toBe("2");
+  });
+});
+
 describe("filterIssues", () => {
   const issues = [
     makeWorkItem(1, ["state::needsReview", "priority::minor", "category::task"]),
