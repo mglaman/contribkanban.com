@@ -13,8 +13,8 @@ ddev start
 
 ddev composer install
 
-ddev frontend start
+ddev frontend build
 ```
 
-Drupal backend accessible at `https://contribkanban.com.ddev.site` and frontend at `https://contribkanban.com.ddev.site:9443/`
+The site is at `https://contribkanban.com.ddev.site`. `ddev frontend build` builds the board island, the React app that renders each board.
 

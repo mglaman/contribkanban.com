@@ -19,21 +19,6 @@ x-environment: &default-environment
   #XDEBUG_ENABLE: "true"
 
 services:
-  frontend:
-    build:
-      context: .
-      dockerfile: lagoon/Dockerfile.app
-    labels:
-      # Lagoon Labels
-      lagoon.type: nginx
-    environment:
-      <<: *default-environment
-      LAGOON_LOCALDEV_URL: contribkanban-app.docker.amazee.io
-      REACT_APP_API_BASE_URL: http://drupal-varnish.contribkanban-app.docker.amazee.io/
-    networks:
-      - amazeeio-network
-      - default
-
   cli:
     build:
       context: .

@@ -17,11 +17,6 @@ web_environment:
   - LAGOON_PROJECT=contribkanban
   - LAGOON_ENVIRONMENT=master
 nodejs_version: "24"
-web_extra_exposed_ports:
-  - name: react-app
-    container_port: 5173
-    http_port: 9090
-    https_port: 9443
 # Key features of ddev's config.yaml:
 
 # name: <projectname> # Name of the project, automatically provides
