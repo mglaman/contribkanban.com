@@ -73,11 +73,12 @@ final class BoardIslandConfigTest extends KernelTestBase {
       ['title' => 'Custom', 'statuses' => [3]],
     ]);
 
-    $config = BoardIslandConfig::build($board, '8.x-2.x');
+    $config = BoardIslandConfig::build($board, '8.x-2.x', [2350161]);
 
     self::assertSame('drupalorg', $config['source']);
     self::assertNull($config['gitlabProject']);
     self::assertNull($config['gitlabLabel']);
+    self::assertSame([], $config['movedProjects']);
     self::assertSame([
       [
         'title' => 'Postponed',
@@ -131,10 +132,11 @@ final class BoardIslandConfigTest extends KernelTestBase {
       ['title' => 'Active', 'statuses' => [1]],
     ]);
 
-    $config = BoardIslandConfig::build($board);
+    $config = BoardIslandConfig::build($board, '', [2350161]);
 
     self::assertSame('drupalorg', $config['source']);
     self::assertSame('Coding standards', $config['gitlabLabel']);
+    self::assertSame([2350161], $config['movedProjects']);
     self::assertSame(['1234'], $config['lists'][0]['tags']);
   }
 

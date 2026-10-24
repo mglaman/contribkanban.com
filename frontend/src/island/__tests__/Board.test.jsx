@@ -2,7 +2,6 @@ import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import { render, screen, within, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Board from "../Board";
-import { resetMovedProjects } from "../drupalorg";
 
 const LISTS = [
   { title: "Active", tone: "active", statuses: ["1"], projects: ["17345"], tags: [], versions: [], component: null },
@@ -36,7 +35,6 @@ function column(name) {
 
 describe("Board", () => {
   beforeEach(() => {
-    resetMovedProjects();
     window.history.replaceState(null, "", "/board/pathauto");
   });
 
@@ -182,7 +180,7 @@ describe("Board", () => {
     expect(fetch).not.toHaveBeenCalled();
   });
 
-  it("merges a tag's GitLab work items with drupal.org issues from projects still there", async () => {
+  it("merges a tag's GitLab work items with drupal.org issues from projects that didn't move", async () => {
     const tagLists = LISTS.map((list) => ({ ...list, projects: [], tags: ["772"] }));
     const doIssue = (nid, project, status) => ({
       ...ISSUES[0],
@@ -203,26 +201,15 @@ describe("Board", () => {
       if (url.startsWith("https://git.drupalcode.org")) {
         return Promise.resolve(jsonResponse([workItem(300, "active"), workItem(400, "needsReview")]));
       }
-      const params = new URL(url).searchParams;
-      if (params.get("type") === "project_issue") {
-        const status = params.get("field_issue_status[value][0]");
-        return Promise.resolve(
-          jsonResponse({ list: drupalOrgIssues.filter((issue) => issue.field_issue_status === status) })
-        );
-      }
+      const status = new URL(url).searchParams.get("field_issue_status[value][0]");
       return Promise.resolve(
-        jsonResponse({
-          list: [
-            { nid: "10", field_project_has_issue_queue: true },
-            { nid: "20", field_project_has_issue_queue: false },
-          ],
-        })
+        jsonResponse({ list: drupalOrgIssues.filter((issue) => issue.field_issue_status === status) })
       );
     });
     vi.stubGlobal("fetch", fetch);
     render(
       <Board
-        config={{ source: "drupalorg", gitlabProject: null, gitlabLabel: "Novice", lists: tagLists }}
+        config={{ source: "drupalorg", gitlabProject: null, gitlabLabel: "Novice", movedProjects: [20], lists: tagLists }}
         filtersSlot={null}
       />
     );
@@ -235,6 +222,8 @@ describe("Board", () => {
     expect(within(column("Needs review")).getByText("GitLab 400")).toBeInTheDocument();
     expect(within(column("Active")).getByText("2")).toBeInTheDocument();
     expect(fetch.mock.calls.filter(([url]) => url.includes("labels=Novice"))).toHaveLength(1);
+    // Two lists from drupal.org and one GitLab load; Drupal lists the moved projects.
+    expect(fetch).toHaveBeenCalledTimes(3);
   });
 
   it("renders the filters into the board shell's slot", async () => {

@@ -141,7 +141,12 @@ function contribkanban_boards_board_view(array &$build, EntityInterface $entity,
   }
   assert($entity instanceof BoardInterface);
   $version = \Drupal::routeMatch()->getParameter('version');
-  $build['#island'] = BoardIslandConfig::build($entity, is_string($version) ? $version : '');
+  $moved_projects = [];
+  if ($entity->bundle() === 'drupalorg_sprint') {
+    $moved_projects = _contribkanban_boards_gitlab_project_nids();
+    $build['#cache']['tags'][] = 'project_list';
+  }
+  $build['#island'] = BoardIslandConfig::build($entity, is_string($version) ? $version : '', $moved_projects);
   // The version comes from the route.
   $build['#cache']['contexts'][] = 'route';
   $lists = $entity->get('lists');
@@ -149,6 +154,25 @@ function contribkanban_boards_board_view(array &$build, EntityInterface $entity,
   foreach ($lists->referencedEntities() as $list) {
     $build['#cache']['tags'] = Cache::mergeTags($build['#cache']['tags'] ?? [], $list->getCacheTags());
   }
+}
+
+/**
+ * Gets the node IDs of projects whose issues moved to GitLab.
+ *
+ * @return list<int>
+ *   The node IDs, from projects flagged by drush ck-gitlab.
+ */
+function _contribkanban_boards_gitlab_project_nids(): array {
+  $entity_type_manager = \Drupal::entityTypeManager();
+  if (!$entity_type_manager->hasDefinition('project')) {
+    return [];
+  }
+  $rows = $entity_type_manager->getStorage('project')->getAggregateQuery()
+    ->accessCheck(FALSE)
+    ->condition('gitlab_issues', 1)
+    ->groupBy('nid')
+    ->execute();
+  return array_values(array_map(static fn (array $row): int => (int) $row['nid'], $rows));
 }
 
 /**

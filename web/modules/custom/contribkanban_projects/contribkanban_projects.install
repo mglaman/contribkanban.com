@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for contribkanban_projects.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Field\BaseFieldDefinition;
+
+/**
+ * Add the gitlab_issues field to projects.
+ */
+function contribkanban_projects_update_10001(): void {
+  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
+    'gitlab_issues',
+    'project',
+    'contribkanban_projects',
+    BaseFieldDefinition::create('boolean')
+      ->setLabel('Issues on GitLab')
+      ->setDescription('Whether the project moved its issues to GitLab work items. Set by drush contribkanban:flag-gitlab-boards.')
+      ->setDefaultValue(FALSE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'boolean',
+        'weight' => -5,
+      ])
+  );
+}

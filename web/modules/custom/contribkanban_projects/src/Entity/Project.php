@@ -118,6 +118,16 @@ class Project extends ContentEntityBase implements ProjectInterface {
         'weight' => -5,
       ]);
 
+    $fields['gitlab_issues'] = BaseFieldDefinition::create('boolean')
+      ->setLabel('Issues on GitLab')
+      ->setDescription('Whether the project moved its issues to GitLab work items. Set by drush contribkanban:flag-gitlab-boards.')
+      ->setDefaultValue(FALSE)
+      ->setDisplayOptions('view', [
+        'label' => 'inline',
+        'type' => 'boolean',
+        'weight' => -5,
+      ]);
+
     return $fields;
   }
 

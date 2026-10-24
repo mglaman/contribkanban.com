@@ -43,6 +43,7 @@ Keep the island small: React and plain elements styled by the theme's CSS. No UI
 - All Drupal config must be exported to `/config` and committed. After config changes: `ddev drush cim` to import, `ddev drush cex` to export.
 - Drupal core handles accounts and log in with sessions.
 - **Search API** powers board search. Schema/field changes may require an index rebuild: `ddev drush sapi-r all && ddev drush sapi-i all`.
+- **Which projects moved to GitLab** is stored on project entities (`gitlab_issues`), not checked at view time. `drush ck-gitlab` refreshes it from drupal.org, creates missing projects, and flags project boards (about 10 minutes). Tag boards and issue collections read the flags.
 
 ### Code quality (run before marking Drupal work done)
 
