@@ -61,7 +61,7 @@ final class FlagGitlabBoardsTest extends KernelTestBase {
     $command = new BoardCommands($this->container->get('entity_type.manager'), $projects);
     $command->setLogger(new DrushLoggerManager());
 
-    $command->flagGitlabBoards(['dry-run' => FALSE]);
+    $command->flagGitlabBoards(['dry-run' => FALSE, 'export' => NULL, 'from' => NULL]);
 
     $flags = [];
     foreach (Project::loadMultiple() as $project) {
@@ -89,11 +89,65 @@ final class FlagGitlabBoardsTest extends KernelTestBase {
     $command = new BoardCommands($this->container->get('entity_type.manager'), $projects);
     $command->setLogger(new DrushLoggerManager());
 
-    $command->flagGitlabBoards(['dry-run' => TRUE]);
+    $command->flagGitlabBoards(['dry-run' => TRUE, 'export' => NULL, 'from' => NULL]);
 
     $projects = Project::loadMultiple();
     self::assertCount(1, $projects);
     self::assertFalse((bool) reset($projects)->get('gitlab_issues')->value);
+  }
+
+  /**
+   * Tests that a file exported on one site flags projects on another.
+   */
+  public function testExportAndFrom(): void {
+    $file = tempnam(sys_get_temp_dir(), 'ck-gitlab');
+    $projects = $this->createMock(Projects::class);
+    $projects->method('listMigratedProjects')->willReturnCallback(static function (): \Generator {
+      yield ['nid' => '2350161', 'title' => 'Copyscape', 'machine_name' => 'copyscape', 'project_type' => 'full'];
+    });
+    $command = new BoardCommands($this->container->get('entity_type.manager'), $projects);
+    $command->setLogger(new DrushLoggerManager());
+
+    $command->flagGitlabBoards(['dry-run' => FALSE, 'export' => $file, 'from' => NULL]);
+    $count = $this->container->get('entity_type.manager')->getStorage('project')->getQuery()->accessCheck(FALSE)->count()->execute();
+    self::assertSame(0, $count, 'Exporting saves nothing.');
+
+    // Production can't reach drupal.org, so it reads the file instead.
+    $blocked = $this->createMock(Projects::class);
+    $blocked->expects(self::never())->method('listMigratedProjects');
+    $command = new BoardCommands($this->container->get('entity_type.manager'), $blocked);
+    $command->setLogger(new DrushLoggerManager());
+
+    $command->flagGitlabBoards(['dry-run' => FALSE, 'export' => NULL, 'from' => $file]);
+    unlink($file);
+
+    $flags = [];
+    foreach (Project::loadMultiple() as $project) {
+      $flags[$project->get('machine_name')->value] = (bool) $project->get('gitlab_issues')->value;
+    }
+    self::assertSame(['copyscape' => TRUE], $flags);
+  }
+
+  /**
+   * Tests that a malformed file stops the command before saving anything.
+   */
+  public function testFromRejectsMalformedFile(): void {
+    $file = tempnam(sys_get_temp_dir(), 'ck-gitlab');
+    file_put_contents($file, '[{"nid": "2350161"}]');
+    $command = new BoardCommands($this->container->get('entity_type.manager'), $this->createMock(Projects::class));
+    $command->setLogger(new DrushLoggerManager());
+
+    try {
+      $command->flagGitlabBoards(['dry-run' => FALSE, 'export' => NULL, 'from' => $file]);
+      self::fail('A malformed file should throw.');
+    }
+    catch (\RuntimeException $e) {
+      self::assertStringContainsString('without a numeric nid', $e->getMessage());
+    }
+    finally {
+      unlink($file);
+    }
+    self::assertCount(0, Project::loadMultiple());
   }
 
 }
