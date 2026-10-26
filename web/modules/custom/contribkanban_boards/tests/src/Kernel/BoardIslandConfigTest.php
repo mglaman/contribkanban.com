@@ -157,12 +157,12 @@ final class BoardIslandConfigTest extends KernelTestBase {
   }
 
   /**
-   * Tests an issue collection's fixed lists and unique node IDs.
+   * Tests an issue collection's fixed lists, node IDs, and work items.
    */
   public function testCollection(): void {
     $collection = NodeBoard::create([
       'title' => 'Looking for work',
-      'nids' => ['3512345', '2924212', '3512345'],
+      'nids' => ['3512345', 'project/tool#3583123', '2924212', '3512345', 'project/mcp#3587791'],
       'collaboration' => NodeBoard::IS_SHARED,
     ]);
 
@@ -170,6 +170,10 @@ final class BoardIslandConfigTest extends KernelTestBase {
 
     self::assertSame('drupalorg', $config['source']);
     self::assertSame(['3512345', '2924212'], $config['nids']);
+    self::assertSame([
+      ['path' => 'project/tool', 'iid' => '3583123'],
+      ['path' => 'project/mcp', 'iid' => '3587791'],
+    ], $config['workItems']);
     self::assertSame([2350161], $config['movedProjects']);
     self::assertSame(
       ['Postponed', 'Active', 'Needs work', 'Needs review', 'Reviewed & tested', 'Fixed'],

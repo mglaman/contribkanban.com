@@ -98,7 +98,8 @@ final class BoardIslandConfig {
    * Builds the board island's configuration for an issue collection.
    *
    * The island loads the collection's issues once and sorts them into the
-   * columns by status.
+   * columns by status. Drupal.org issues come by node ID, and GitLab work
+   * items by project path and IID.
    *
    * @param \Drupal\contribkanban_boards\Entity\NodeBoard $collection
    *   The issue collection.
@@ -106,7 +107,7 @@ final class BoardIslandConfig {
    *   Node IDs of projects whose issues moved to GitLab. The island loads
    *   those issues from GitLab.
    *
-   * @return array{source: string, gitlabProject: null, gitlabLabel: null, movedProjects: list<int>, nids: list<string>, lists: list<array<string, mixed>>}
+   * @return array{source: string, gitlabProject: null, gitlabLabel: null, movedProjects: list<int>, nids: list<string>, workItems: list<array{path: string, iid: string}>, lists: list<array<string, mixed>>}
    *   The configuration.
    */
   public static function collection(NodeBoard $collection, array $moved_projects = []): array {
@@ -122,12 +123,23 @@ final class BoardIslandConfig {
         'component' => NULL,
       ];
     }
+    $nids = [];
+    $work_items = [];
+    foreach (array_unique(self::values($collection->get('nids'))) as $value) {
+      if (ctype_digit($value)) {
+        $nids[] = $value;
+      }
+      elseif (preg_match('/^(project\/[a-z0-9_]+)#(\d+)$/', $value, $matches) === 1) {
+        $work_items[] = ['path' => $matches[1], 'iid' => $matches[2]];
+      }
+    }
     return [
       'source' => 'drupalorg',
       'gitlabProject' => NULL,
       'gitlabLabel' => NULL,
       'movedProjects' => $moved_projects,
-      'nids' => array_values(array_unique(self::values($collection->get('nids')))),
+      'nids' => $nids,
+      'workItems' => $work_items,
       'lists' => $lists,
     ];
   }

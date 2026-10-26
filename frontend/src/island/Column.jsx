@@ -35,7 +35,7 @@ function Column({ list, state, issues, total, partial }) {
         <p className="board-column__empty">Nothing here right now</p>
       ) : null}
       {issues.slice(0, shown).map((issue) => (
-        <Card key={issue.nid} issue={issue} />
+        <Card key={issue.url ?? issue.nid} issue={issue} />
       ))}
       {remaining > 0 ? (
         <button type="button" className="board-column__more" onClick={() => setShown(shown + STEP)}>

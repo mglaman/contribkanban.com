@@ -26,9 +26,9 @@ final class IssueIdsWidget extends WidgetBase {
     $element['#type'] = 'textarea';
     $element['#default_value'] = implode("\n", $values);
     $element['#rows'] = max(6, min(20, count($values) + 2));
-    $element['#placeholder'] = "3412345\nhttps://www.drupal.org/project/drupal/issues/3412345";
+    $element['#placeholder'] = "https://www.drupal.org/project/drupal/issues/3412345\nhttps://git.drupalcode.org/project/tool/-/work_items/3583123";
     // Replaces the field's description, which is written for developers.
-    $element['#description'] = new TranslatableMarkup('One per line. Paste an issue number or its drupal.org URL.');
+    $element['#description'] = new TranslatableMarkup('One per line. Paste a drupal.org issue URL or number, or a git.drupalcode.org work item URL.');
     $element['#element_validate'] = [[self::class, 'validateElement']];
     return $element;
   }
@@ -44,10 +44,10 @@ final class IssueIdsWidget extends WidgetBase {
   public static function validateElement(array $element, FormStateInterface $form_state): void {
     $invalid = array_filter(
       self::lines((string) $element['#value']),
-      static fn (string $line): bool => self::parseIssueId($line) === NULL,
+      static fn (string $line): bool => self::parseIssue($line) === NULL,
     );
     if ($invalid !== []) {
-      $form_state->setError($element, new TranslatableMarkup('These lines are not drupal.org issues: %lines', [
+      $form_state->setError($element, new TranslatableMarkup('These lines are not drupal.org issues or GitLab work items: %lines', [
         '%lines' => implode(', ', $invalid),
       ]));
     }
@@ -59,7 +59,7 @@ final class IssueIdsWidget extends WidgetBase {
   public function massageFormValues(array|string $values, array $form, FormStateInterface $form_state): array {
     $items = [];
     foreach (self::lines((string) $values) as $line) {
-      $id = self::parseIssueId($line);
+      $id = self::parseIssue($line);
       if ($id !== NULL) {
         $items[$id] = ['value' => $id];
       }
@@ -82,27 +82,34 @@ final class IssueIdsWidget extends WidgetBase {
   }
 
   /**
-   * Gets the issue ID from a number or an issue URL.
+   * Gets the stored value for a drupal.org issue or a GitLab work item.
+   *
+   * A drupal.org issue is stored as its node ID. A GitLab work item is stored
+   * as its project path and IID, such as "project/tool#3583123", because IIDs
+   * are only unique within a project. Work items created on GitLab share
+   * numbers with unrelated drupal.org nodes.
    *
    * @param string $line
-   *   An issue number, such as "3412345" or "#3412345", or an issue URL on
-   *   drupal.org or git.drupalcode.org. Migrated issues keep their number as
-   *   their GitLab ID.
+   *   An issue number, such as "3412345" or "#3412345", a drupal.org issue
+   *   URL, a git.drupalcode.org work item URL, or a stored work item value.
    *
    * @return string|null
-   *   The issue ID, or NULL if the line isn't an issue.
+   *   The value to store, or NULL if the line isn't an issue.
    */
-  public static function parseIssueId(string $line): ?string {
+  public static function parseIssue(string $line): ?string {
     if (preg_match('/^#?(\d+)$/', $line, $matches) === 1) {
       return ltrim($matches[1], '0') ?: NULL;
     }
+    if (preg_match('~^https?://(?:www\.)?drupal\.org/(?:project/[^/]+/issues|node|i)/(\d+)(?:[/?#]|$)~', $line, $matches) === 1) {
+      return $matches[1];
+    }
     $patterns = [
-      '~^https?://(?:www\.)?drupal\.org/(?:project/[^/]+/issues|node|i)/(\d+)(?:[/?#]|$)~',
-      '~^https?://git\.drupalcode\.org/project/[^/]+/-/(?:issues|work_items)/(\d+)(?:[/?#]|$)~',
+      '~^https?://git\.drupalcode\.org/(project/[a-z0-9_]+)/-/(?:issues|work_items)/(\d+)(?:[/?#]|$)~',
+      '~^(project/[a-z0-9_]+)#(\d+)$~',
     ];
     foreach ($patterns as $pattern) {
       if (preg_match($pattern, $line, $matches) === 1) {
-        return $matches[1];
+        return $matches[1] . '#' . $matches[2];
       }
     }
     return NULL;

@@ -8,8 +8,9 @@ import { fetchLabeledWorkItems, fetchOpenWorkItems, fetchWorkItemsByIid, filterI
 
 const LOADING = { state: "loading", issues: [], total: 0, partial: false };
 
-// A stable default, so an absent list doesn't reload the board on each render.
+// Stable defaults, so an absent list doesn't reload the board on each render.
 const NO_PROJECTS = [];
+const NO_WORK_ITEMS = [];
 
 const byPriority = (a, b) => Number(b.field_issue_priority) - Number(a.field_issue_priority);
 
@@ -196,16 +197,35 @@ async function withGitLabWorkItems(issues, movedProjects, signal) {
 }
 
 /**
+ * Fetches work items by IID, one request per project.
+ *
+ * @param {{path: string, iid: string}[]} workItems
+ * @param {AbortSignal} signal
+ * @returns {Promise<object[]>}
+ */
+async function fetchWorkItems(workItems, signal) {
+  const iidsByProject = new Map();
+  for (const { path, iid } of workItems) {
+    iidsByProject.set(path, [...(iidsByProject.get(path) ?? []), iid]);
+  }
+  const issues = await Promise.all(
+    [...iidsByProject].map(([path, iids]) => fetchWorkItemsByIid(path, iids, signal))
+  );
+  return issues.flat();
+}
+
+/**
  * Loads an issue collection's issues once.
  *
- * @param {string[]} nids
+ * @param {string[]} nids Drupal.org issue node IDs.
+ * @param {{path: string, iid: string}[]} workItems GitLab work items.
  * @param {Set<string>} movedProjects Node IDs of projects on GitLab.
  * @returns {{state: string, issues: object[]}}
  */
-function useCollection(nids, movedProjects) {
+function useCollection(nids, workItems, movedProjects) {
   const [result, setResult] = useState(LOADING);
   useEffect(() => {
-    if (nids.length === 0) {
+    if (nids.length === 0 && workItems.length === 0) {
       setResult({ ...LOADING, state: "ok" });
       return undefined;
     }
@@ -215,21 +235,29 @@ function useCollection(nids, movedProjects) {
         setResult(value);
       }
     };
-    fetchIssuesByNid(nids, controller.signal)
-      .then((issues) => withGitLabWorkItems(issues, movedProjects, controller.signal))
-      .then((issues) => resolve({ state: "ok", issues }))
+    const fromDrupalOrg = nids.length
+      ? fetchIssuesByNid(nids, controller.signal).then((issues) =>
+          withGitLabWorkItems(issues, movedProjects, controller.signal)
+        )
+      : Promise.resolve([]);
+    Promise.all([fromDrupalOrg, fetchWorkItems(workItems, controller.signal)])
+      .then(([issues, gitlab]) => {
+        // A moved drupal.org issue and its work item can both be listed.
+        const byUrl = new Map(issues.concat(gitlab).map((issue) => [issue.url, issue]));
+        resolve({ state: "ok", issues: [...byUrl.values()].sort(byPriority) });
+      })
       .catch(() => resolve({ ...LOADING, state: "error" }));
     return () => controller.abort();
-  }, [nids, movedProjects]);
+  }, [nids, workItems, movedProjects]);
   return result;
 }
 
 /**
  * Every list on an issue collection, sharing one load.
  */
-function CollectionColumns({ nids, movedProjects, lists, category, priority, text }) {
+function CollectionColumns({ nids, workItems, movedProjects, lists, category, priority, text }) {
   const moved = useMemo(() => new Set(movedProjects.map(String)), [movedProjects]);
-  const collection = useCollection(nids, moved);
+  const collection = useCollection(nids, workItems, moved);
   return lists.map((list, index) => {
     const issues = collection.issues.filter(
       (issue) =>
@@ -276,6 +304,7 @@ function Board({ config, filtersSlot }) {
       {config.nids ? (
         <CollectionColumns
           nids={config.nids}
+          workItems={config.workItems ?? NO_WORK_ITEMS}
           movedProjects={config.movedProjects ?? NO_PROJECTS}
           lists={config.lists}
           category={category}
