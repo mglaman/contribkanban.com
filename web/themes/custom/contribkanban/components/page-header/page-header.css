@@ -3,7 +3,9 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 12px 32px;
-  padding: 20px var(--ck-gutter);
+  padding: 16px var(--ck-gutter);
+  border-bottom: 1px solid var(--ck-border-subtle);
+  background: var(--ck-surface);
 }
 
 .page-header__brand {

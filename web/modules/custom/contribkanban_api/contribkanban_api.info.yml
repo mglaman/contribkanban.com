@@ -1,4 +1,0 @@
-name: ContribKanban API
-description: Creates boards from drupal.org projects and tags.
-type: module
-core_version_requirement: '*'

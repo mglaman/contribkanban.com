@@ -25,11 +25,11 @@ function contribkanban_preprocess_page(array &$variables): void {
     ],
     [
       'label' => (string) t('Create a board'),
-      'url' => Url::fromRoute('contribkanban_api.create_board')->toString(),
-      'current' => $route_name === 'contribkanban_api.create_board',
+      'url' => Url::fromRoute('contribkanban_boards.create_board')->toString(),
+      'current' => $route_name === 'contribkanban_boards.create_board',
     ],
   ];
-  // Boards need the full width and render their own title.
+  // Boards render their own title.
   $variables['board_page'] = in_array($route_name, [
     'entity.board.canonical',
     'entity.board.canonical_alternative',

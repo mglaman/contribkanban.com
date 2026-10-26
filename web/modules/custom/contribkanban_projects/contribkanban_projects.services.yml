@@ -1,8 +1,18 @@
+parameters:
+  contribkanban_projects.drupalorg_client.config:
+    base_uri: 'https://www.drupal.org/api-d7/'
+    headers:
+      Accept: 'application/json'
+      User-Agent: 'ContribKanban/1.0 (https://contribkanban.com)'
+
 services:
-  logger.channel.contribkanban_projects_scraper:
-    class: Drupal\Core\Logger\LoggerChannel
-    factory: logger.factory:get
-    arguments: ['contribkanban_projects_scraper']
-  contribkanban_projects.scraper:
-    class: Drupal\contribkanban_projects\Scraper
-    arguments: ['@drupalorg_projects', '@state', '@logger.channel.contribkanban_projects_scraper', '@entity_type.manager']
+  drupalorg_client:
+    class: GuzzleHttp\Client
+    factory: http_client_factory:fromOptions
+    arguments: ['%contribkanban_projects.drupalorg_client.config%']
+  drupalorg_projects:
+    class: Drupal\contribkanban_projects\Projects
+    arguments: ['@drupalorg_client']
+  drupalorg_tags:
+    class: Drupal\contribkanban_projects\Tags
+    arguments: ['@drupalorg_client']

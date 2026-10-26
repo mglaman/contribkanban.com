@@ -48,7 +48,7 @@ Keep the island small: React and plain elements styled by the theme's CSS. No UI
   ddev drush ck-gitlab --export=moved-projects.json
   lagoon ssh -p contribkanban -e master -C "drush ck-gitlab --from=-" < moved-projects.json
   ```
-  The project scraper and tag name lookups on board list save also call drupal.org, so they fail on production too.
+  Tag name lookups on board list save and the "Start a board" form also call drupal.org, so they fail on production too.
 
 ### Code quality (run before marking Drupal work done)
 

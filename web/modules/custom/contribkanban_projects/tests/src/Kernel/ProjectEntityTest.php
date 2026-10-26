@@ -18,7 +18,7 @@ class ProjectEntityTest extends EntityKernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected static $modules = ['contribkanban_projects', 'contribkanban_api', 'entity'];
+  protected static $modules = ['contribkanban_projects', 'entity'];
 
   /**
    * {@inheritdoc}

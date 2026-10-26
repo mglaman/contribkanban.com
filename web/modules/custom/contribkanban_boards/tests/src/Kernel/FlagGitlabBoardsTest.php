@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Drupal\Tests\contribkanban_api\Kernel;
+namespace Drupal\Tests\contribkanban_boards\Kernel;
 
-use Drupal\contribkanban_api\Drush\Commands\BoardCommands;
-use Drupal\contribkanban_api\Projects;
+use Drupal\contribkanban_boards\Drush\Commands\BoardCommands;
 use Drupal\contribkanban_boards\Entity\Board;
 use Drupal\contribkanban_projects\Entity\Project;
+use Drupal\contribkanban_projects\Projects;
 use Drupal\KernelTests\KernelTestBase;
 use Drush\Log\DrushLoggerManager;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -19,7 +19,6 @@ final class FlagGitlabBoardsTest extends KernelTestBase {
    * {@inheritdoc}
    */
   protected static $modules = [
-    'contribkanban_api',
     'contribkanban_boards',
     'contribkanban_projects',
     'entity',
