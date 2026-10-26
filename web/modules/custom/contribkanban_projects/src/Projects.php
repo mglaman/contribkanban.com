@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\contribkanban_api;
+namespace Drupal\contribkanban_projects;
 
 use Drupal\Component\Serialization\Json;
 use GuzzleHttp\Client;

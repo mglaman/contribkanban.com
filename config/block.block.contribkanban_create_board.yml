@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
-    - contribkanban_api
+    - contribkanban_boards
     - system
   theme:
     - contribkanban
@@ -17,7 +17,7 @@ settings:
   id: contribkanban_create_board
   label: 'Start a board'
   label_display: visible
-  provider: contribkanban_api
+  provider: contribkanban_boards
 visibility:
   request_path:
     id: request_path

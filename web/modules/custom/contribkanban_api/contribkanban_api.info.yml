@@ -1,4 +1,4 @@
 name: ContribKanban API
-description: Creates boards from drupal.org projects and tags.
+description: Empty. Config import uninstalls it; delete it after that deploys.
 type: module
 core_version_requirement: '*'

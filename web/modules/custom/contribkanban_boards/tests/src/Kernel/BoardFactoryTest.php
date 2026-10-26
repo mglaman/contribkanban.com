@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Drupal\Tests\contribkanban_api\Kernel;
+namespace Drupal\Tests\contribkanban_boards\Kernel;
 
-use Drupal\contribkanban_api\BoardFactory;
-use Drupal\contribkanban_api\Projects;
-use Drupal\contribkanban_api\Tags;
+use Drupal\contribkanban_boards\BoardFactory;
 use Drupal\contribkanban_boards\Entity\BoardListInterface;
+use Drupal\contribkanban_projects\Projects;
+use Drupal\contribkanban_projects\Tags;
 use Drupal\KernelTests\Core\Entity\EntityKernelTestBase;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
@@ -15,7 +15,7 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 /**
  * Verifies BoardFactory finds existing boards and builds new ones.
  */
-#[Group('contribkanban_api')]
+#[Group('contribkanban_boards')]
 #[RunTestsInSeparateProcesses]
 class BoardFactoryTest extends EntityKernelTestBase {
 
@@ -23,8 +23,8 @@ class BoardFactoryTest extends EntityKernelTestBase {
    * {@inheritdoc}
    */
   protected static $modules = [
-    'contribkanban_api',
     'contribkanban_boards',
+    'contribkanban_projects',
     'entity',
     'inline_entity_form',
     'options',

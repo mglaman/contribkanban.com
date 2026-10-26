@@ -1,5 +1,5 @@
 parameters:
-  contribkanban_api.drupalorg_client.config:
+  contribkanban_projects.drupalorg_client.config:
     base_uri: 'https://www.drupal.org/api-d7/'
     headers:
       Accept: 'application/json'
@@ -9,13 +9,10 @@ services:
   drupalorg_client:
     class: GuzzleHttp\Client
     factory: http_client_factory:fromOptions
-    arguments: ['%contribkanban_api.drupalorg_client.config%']
+    arguments: ['%contribkanban_projects.drupalorg_client.config%']
   drupalorg_projects:
-    class: Drupal\contribkanban_api\Projects
+    class: Drupal\contribkanban_projects\Projects
     arguments: ['@drupalorg_client']
   drupalorg_tags:
-    class: Drupal\contribkanban_api\Tags
+    class: Drupal\contribkanban_projects\Tags
     arguments: ['@drupalorg_client']
-  contribkanban_api.board_factory:
-    class: Drupal\contribkanban_api\BoardFactory
-    arguments: ['@drupalorg_projects', '@drupalorg_tags', '@entity_type.manager']

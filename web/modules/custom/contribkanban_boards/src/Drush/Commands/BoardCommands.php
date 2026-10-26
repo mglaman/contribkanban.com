@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Drupal\contribkanban_api\Drush\Commands;
+namespace Drupal\contribkanban_boards\Drush\Commands;
 
-use Drupal\contribkanban_api\Projects;
 use Drupal\contribkanban_boards\Entity\BoardInterface;
+use Drupal\contribkanban_projects\Projects;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drush\Attributes as CLI;

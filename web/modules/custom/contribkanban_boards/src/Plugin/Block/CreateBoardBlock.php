@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Drupal\contribkanban_api\Plugin\Block;
+namespace Drupal\contribkanban_boards\Plugin\Block;
 
-use Drupal\contribkanban_api\Form\CreateBoardForm;
+use Drupal\contribkanban_boards\Form\CreateBoardForm;
 use Drupal\Core\Block\Attribute\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormBuilderInterface;
