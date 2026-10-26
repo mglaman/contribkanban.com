@@ -16,15 +16,17 @@ const ISSUES = [
   { nid: "101", title: "Fix the focus ring", field_issue_status: "1", field_project: { id: "17345", machine_name: "pathauto" } },
   { nid: "102", title: "Write a kernel test", field_issue_status: "13", field_project: { id: "17345", machine_name: "pathauto" } },
   { nid: "103", title: "Frozen after the move", field_issue_status: "8", field_project: { id: "2350161", machine_name: "tool" } },
+  { nid: "104", title: "Taken on drupal.org", field_issue_status: "1", field_project: { id: "17345", machine_name: "pathauto" }, field_issue_assigned: { id: "1" } },
 ].map((issue) => ({ ...issue, field_issue_priority: "200", url: `https://www.drupal.org/node/${issue.nid}` }));
 
 const WORK_ITEMS = [
   { iid: 3583123, title: "Review the MCP server", labels: ["state::needsReview"] },
   { iid: 3583124, title: "Already reviewed", labels: ["state::rtbc"] },
+  { iid: 3583125, title: "Taken on GitLab", labels: ["state::needsWork"], assignees: [{ username: "f0ns" }] },
 ].map((item) => ({
+  assignees: [],
   ...item,
   state: "opened",
-  assignees: [],
   milestone: null,
   web_url: `https://git.drupalcode.org/project/mcp/-/work_items/${item.iid}`,
 }));
@@ -72,6 +74,9 @@ describe("Roulette", () => {
     // Neither the RTBC work item nor the moved project's frozen issue.
     expect(screen.queryByText("Already reviewed")).not.toBeInTheDocument();
     expect(screen.queryByText("Frozen after the move")).not.toBeInTheDocument();
+    // Nor issues someone is assigned to.
+    expect(screen.queryByText("Taken on drupal.org")).not.toBeInTheDocument();
+    expect(screen.queryByText("Taken on GitLab")).not.toBeInTheDocument();
   });
 
   it("picks the tag in the URL and writes a picked tag back", async () => {

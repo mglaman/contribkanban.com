@@ -71,7 +71,8 @@ function initialTag(tags, search) {
 
 /**
  * Loads the issues to roll for: the first page of drupal.org issues with the
- * tag, by priority, and every GitLab work item with its label.
+ * tag, by priority, and every GitLab work item with its label. Issues someone
+ * is assigned to stay off the strip.
  *
  * @param {{label: string, tid: string}} tag
  * @param {Set<string>} movedProjects Node IDs of projects on GitLab.
@@ -92,7 +93,8 @@ function usePool(tag, movedProjects) {
     );
     const states = [drupalorg.state, workItems.state];
     const state = states.includes("error") ? "error" : states.includes("loading") ? "loading" : "ok";
-    return { state, issues: gitlab.concat(fromDrupalOrg) };
+    const issues = gitlab.concat(fromDrupalOrg).filter((issue) => !issue.field_issue_assigned);
+    return { state, issues };
   }, [drupalorg, workItems, movedProjects]);
 }
 
