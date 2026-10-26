@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
-import Column from "./Column";
+import Column, { CollapsedColumns, useCollapsedColumns } from "./Column";
 import Filters from "./Filters";
 import { fetchIssuesByNid, fetchListIssues, fetchProjectNid } from "./drupalorg";
 import { filterIds, issueProject, matchesText, readFilters, writeFilters } from "./filters";
@@ -379,6 +379,7 @@ function Board({ config, filtersSlot }) {
     return showProject ? read : { ...read, project: null };
   });
   const projects = useProjects();
+  const collapsedColumns = useCollapsedColumns(window.location.pathname);
 
   // Filters live in the URL, so a filtered board can be shared.
   useEffect(() => {
@@ -394,50 +395,52 @@ function Board({ config, filtersSlot }) {
   return (
     <>
       {filtersSlot ? createPortal(toolbar, filtersSlot) : toolbar}
-      {config.nids ? (
-        <CollectionColumns
-          nids={config.nids}
-          workItems={config.workItems ?? NO_WORK_ITEMS}
-          movedProjects={config.movedProjects ?? NO_PROJECTS}
-          lists={config.lists}
-          category={category}
-          priority={priority}
-          project={filters.project}
-          text={filters.text}
-          showProject={showProject}
-          onIssues={projects.add}
-        />
-      ) : config.gitlabLabel ? (
-        <TagColumns
-          label={config.gitlabLabel}
-          movedProjects={config.movedProjects ?? NO_PROJECTS}
-          lists={config.lists}
-          category={category}
-          priority={priority}
-          project={filters.project}
-          text={filters.text}
-          showProject={showProject}
-          onIssues={projects.add}
-        />
-      ) : config.source === "gitlab" ? (
-        <GitLabColumns
-          project={config.gitlabProject}
-          lists={config.lists}
-          category={category}
-          priority={priority}
-          text={filters.text}
-        />
-      ) : (
-        config.lists.map((list, index) => (
-          <DrupalOrgColumn
-            key={index}
-            list={list}
+      <CollapsedColumns.Provider value={collapsedColumns}>
+        {config.nids ? (
+          <CollectionColumns
+            nids={config.nids}
+            workItems={config.workItems ?? NO_WORK_ITEMS}
+            movedProjects={config.movedProjects ?? NO_PROJECTS}
+            lists={config.lists}
+            category={category}
+            priority={priority}
+            project={filters.project}
+            text={filters.text}
+            showProject={showProject}
+            onIssues={projects.add}
+          />
+        ) : config.gitlabLabel ? (
+          <TagColumns
+            label={config.gitlabLabel}
+            movedProjects={config.movedProjects ?? NO_PROJECTS}
+            lists={config.lists}
+            category={category}
+            priority={priority}
+            project={filters.project}
+            text={filters.text}
+            showProject={showProject}
+            onIssues={projects.add}
+          />
+        ) : config.source === "gitlab" ? (
+          <GitLabColumns
+            project={config.gitlabProject}
+            lists={config.lists}
             category={category}
             priority={priority}
             text={filters.text}
           />
-        ))
-      )}
+        ) : (
+          config.lists.map((list, index) => (
+            <DrupalOrgColumn
+              key={index}
+              list={list}
+              category={category}
+              priority={priority}
+              text={filters.text}
+            />
+          ))
+        )}
+      </CollapsedColumns.Provider>
     </>
   );
 }

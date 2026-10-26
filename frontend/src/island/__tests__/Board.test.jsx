@@ -36,10 +36,12 @@ function column(name) {
 describe("Board", () => {
   beforeEach(() => {
     window.history.replaceState(null, "", "/board/pathauto");
+    window.localStorage.clear();
   });
 
   afterEach(() => {
     vi.unstubAllGlobals();
+    vi.restoreAllMocks();
   });
 
   it("loads each list from drupal.org", async () => {
@@ -474,6 +476,62 @@ describe("Board", () => {
       expect(await within(column("Active")).findByText("Bug in active")).toBeInTheDocument();
       expect(screen.queryByRole("combobox", { name: "Project" })).not.toBeInTheDocument();
       expect(window.location.search).toBe("");
+    });
+  });
+
+  describe("Collapsing a column", () => {
+    const config = { source: "drupalorg", gitlabProject: null, lists: LISTS };
+
+    it("hides its cards, keeps its count, and remembers it for the board", async () => {
+      vi.stubGlobal("fetch", vi.fn(drupalOrgFetch));
+      const { unmount } = render(<Board config={config} filtersSlot={null} />);
+      expect(await within(column("Active")).findByText("Bug in active")).toBeInTheDocument();
+
+      const toggle = within(column("Active")).getByRole("button", { name: /^Active/ });
+      expect(toggle).toHaveAttribute("aria-expanded", "true");
+      await userEvent.click(toggle);
+
+      expect(toggle).toHaveAttribute("aria-expanded", "false");
+      expect(within(column("Active")).queryByText("Bug in active")).not.toBeInTheDocument();
+      expect(within(column("Active")).getByText("2")).toBeInTheDocument();
+      expect(within(column("Needs review")).getByText("Feature needing review")).toBeInTheDocument();
+
+      // Reloading the board keeps it collapsed.
+      unmount();
+      render(<Board config={config} filtersSlot={null} />);
+      expect(await within(column("Needs review")).findByText("Feature needing review")).toBeInTheDocument();
+      expect(within(column("Active")).getByRole("button", { name: /^Active/ })).toHaveAttribute("aria-expanded", "false");
+      expect(within(column("Active")).queryByText("Bug in active")).not.toBeInTheDocument();
+
+      await userEvent.click(within(column("Active")).getByRole("button", { name: /^Active/ }));
+      expect(within(column("Active")).getByText("Bug in active")).toBeInTheDocument();
+      expect(window.localStorage.length).toBe(0);
+    });
+
+    it("keeps each board's columns separate", async () => {
+      vi.stubGlobal("fetch", vi.fn(drupalOrgFetch));
+      const { unmount } = render(<Board config={config} filtersSlot={null} />);
+      await userEvent.click(within(column("Active")).getByRole("button", { name: /^Active/ }));
+      unmount();
+
+      window.history.replaceState(null, "", "/board/token");
+      render(<Board config={config} filtersSlot={null} />);
+      expect(await within(column("Active")).findByText("Bug in active")).toBeInTheDocument();
+    });
+
+    it("still collapses when storage is blocked", async () => {
+      vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
+        throw new DOMException("Blocked", "SecurityError");
+      });
+      vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => {
+        throw new DOMException("Blocked", "SecurityError");
+      });
+      vi.stubGlobal("fetch", vi.fn(drupalOrgFetch));
+      render(<Board config={config} filtersSlot={null} />);
+      expect(await within(column("Active")).findByText("Bug in active")).toBeInTheDocument();
+
+      await userEvent.click(within(column("Active")).getByRole("button", { name: /^Active/ }));
+      expect(within(column("Active")).queryByText("Bug in active")).not.toBeInTheDocument();
     });
   });
 
