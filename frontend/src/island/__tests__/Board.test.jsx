@@ -479,6 +479,68 @@ describe("Board", () => {
     });
   });
 
+  describe("Milestone filter", () => {
+    const workItem = (iid, state, milestone) => ({
+      iid,
+      title: `GitLab ${iid}`,
+      web_url: `https://git.drupalcode.org/project/tool/-/work_items/${iid}`,
+      labels: [`state::${state}`],
+      assignees: [],
+      milestone: milestone ? { title: milestone } : null,
+    });
+    const config = { source: "gitlab", gitlabProject: "project/tool", lists: LISTS };
+
+    it("lists a GitLab project's milestones and filters its work items", async () => {
+      vi.stubGlobal(
+        "fetch",
+        vi.fn(() =>
+          Promise.resolve(
+            jsonResponse([
+              workItem(1, "active", "1.10.0"),
+              workItem(2, "active", "1.9.0"),
+              workItem(3, "needsReview", "1.9.0"),
+              workItem(4, "active", null),
+            ])
+          )
+        )
+      );
+      render(<Board config={config} filtersSlot={null} />);
+      expect(await within(column("Active")).findByText("GitLab 4")).toBeInTheDocument();
+
+      const select = screen.getByRole("combobox", { name: "Milestone" });
+      expect(within(select).getAllByRole("option").map((option) => option.textContent)).toEqual([
+        "Any",
+        "1.9.0",
+        "1.10.0",
+      ]);
+      await userEvent.selectOptions(select, "1.9.0");
+
+      expect(within(column("Active")).getByText("GitLab 2")).toBeInTheDocument();
+      expect(within(column("Active")).queryByText("GitLab 1")).not.toBeInTheDocument();
+      expect(within(column("Active")).queryByText("GitLab 4")).not.toBeInTheDocument();
+      expect(within(column("Needs review")).getByText("GitLab 3")).toBeInTheDocument();
+      expect(window.location.search).toBe("?milestone=1.9.0");
+    });
+
+    it("isn't offered when no work item has a milestone", async () => {
+      vi.stubGlobal("fetch", vi.fn(() => Promise.resolve(jsonResponse([workItem(4, "active", null)]))));
+      render(<Board config={config} filtersSlot={null} />);
+
+      expect(await within(column("Active")).findByText("GitLab 4")).toBeInTheDocument();
+      expect(screen.queryByRole("combobox", { name: "Milestone" })).not.toBeInTheDocument();
+    });
+
+    it("isn't offered on a drupal.org board", async () => {
+      window.history.replaceState(null, "", "/board/pathauto?milestone=1.0.0");
+      vi.stubGlobal("fetch", vi.fn(drupalOrgFetch));
+      render(<Board config={{ source: "drupalorg", gitlabProject: null, lists: LISTS }} filtersSlot={null} />);
+
+      expect(await within(column("Active")).findByText("Bug in active")).toBeInTheDocument();
+      expect(screen.queryByRole("combobox", { name: "Milestone" })).not.toBeInTheDocument();
+      expect(window.location.search).toBe("");
+    });
+  });
+
   describe("Collapsing a column", () => {
     const config = { source: "drupalorg", gitlabProject: null, lists: LISTS };
 

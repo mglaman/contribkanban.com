@@ -1,7 +1,22 @@
 import { PRIORITIES, TYPES } from "./filters";
 
+// Sorts "1.10.0" after "1.9.0".
+export const byName = (a, b) => a.localeCompare(b, undefined, { numeric: true });
+
 /**
- * The Type, Priority, Project, and search filters.
+ * Adds the picked value to a filter's options, so a value from a shared link
+ * stays pickable before, or without, issues that have it.
+ *
+ * @param {string[]|null} options
+ * @param {string|null} value
+ * @returns {string[]|null}
+ */
+function withPicked(options, value) {
+  return options && value && !options.includes(value) ? [...options, value].sort(byName) : options;
+}
+
+/**
+ * The Type, Priority, Project, Milestone, and search filters.
  *
  * Not a form: everything applies as it changes, so there is nothing to submit.
  *
@@ -10,13 +25,12 @@ import { PRIORITIES, TYPES } from "./filters";
  * @param {Function} props.onChange Receives the changed filters.
  * @param {string[]|null} [props.projects] Project machine names to pick from,
  *   on boards that span projects.
+ * @param {string[]|null} [props.milestones] Milestone titles to pick from, on
+ *   GitLab project boards.
  */
-function Filters({ filters, onChange, projects = null }) {
-  // A project from a shared link stays pickable before its issues load.
-  const projectOptions =
-    projects && filters.project && !projects.includes(filters.project)
-      ? [...projects, filters.project].sort()
-      : projects;
+function Filters({ filters, onChange, projects = null, milestones = null }) {
+  const projectOptions = withPicked(projects, filters.project);
+  const milestoneOptions = withPicked(milestones, filters.milestone);
   return (
     <div className="board-filters" role="search" aria-label="Filter cards">
       <label className="board-filters__field">
@@ -61,6 +75,23 @@ function Filters({ filters, onChange, projects = null }) {
             {projectOptions.map((name) => (
               <option key={name} value={name}>
                 {name}
+              </option>
+            ))}
+          </select>
+        </label>
+      ) : null}
+      {milestoneOptions && milestoneOptions.length ? (
+        <label className="board-filters__field">
+          Milestone
+          <select
+            className="board-filters__select"
+            value={filters.milestone ?? ""}
+            onChange={(event) => onChange({ ...filters, milestone: event.target.value || null })}
+          >
+            <option value="">Any</option>
+            {milestoneOptions.map((title) => (
+              <option key={title} value={title}>
+                {title}
               </option>
             ))}
           </select>
