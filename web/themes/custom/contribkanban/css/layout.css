@@ -1,8 +1,14 @@
-/* Keeps the footer at the bottom of short pages. */
+/* Keeps the footer at the bottom of short pages. Percentages, unlike 100vh,
+   leave room for the padding the admin toolbar adds to body. */
+html,
+body {
+  height: 100%;
+}
+
 .dialog-off-canvas-main-canvas {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 .layout-page {
