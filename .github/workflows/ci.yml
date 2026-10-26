@@ -119,6 +119,11 @@ jobs:
               "type" => "drupalorg_core",
               "title" => "Smoke test board",
               "lists" => [BoardList::create(["type" => "drupalorg_core", "title" => "Active", "statuses" => [1]])],
+            ])->save();
+            Board::create([
+              "type" => "drupalorg_core",
+              "title" => "Review first board",
+              "lists" => [BoardList::create(["type" => "drupalorg_core", "title" => "Needs review", "statuses" => [8]])],
             ])->save();'
           ./bin/drush search-api:index
           curl -fsS "http://127.0.0.1:8080/boards?search=smoke" | grep "Smoke test board"
@@ -126,6 +131,9 @@ jobs:
           curl -fsS "http://127.0.0.1:8080/boards" | grep 'id="contribkanban-create-board"'
           curl -fsS "http://127.0.0.1:8080/boards/new" | grep "Project machine name"
           curl -fsS "http://127.0.0.1:8080/board/Smoketestboard" | grep 'data-board="'
+          # Only boards that start with Needs review explain their lane order.
+          test "$(curl -fsS "http://127.0.0.1:8080/board/Smoketestboard" | grep -c "Why does Needs review come first?")" = 0
+          curl -fsS "http://127.0.0.1:8080/board/Reviewfirstboard" | grep "Why does Needs review come first?"
       - name: Check redirects from React app paths
         run: |
           redirect() {

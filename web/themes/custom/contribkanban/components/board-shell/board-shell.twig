@@ -16,6 +16,13 @@
           {% endif %}
         </p>
       {% endif %}
+      {# Tag boards from sprints put work in flight first, which surprises people. #}
+      {% if (config.lists|first).tone == 'needs-review' %}
+        <details class="board-shell__help">
+          <summary>{{ 'Why does Needs review come first?'|t }}</summary>
+          <p>{{ 'This board starts with issues that already have work in them. Reviewing and finishing those moves more issues forward than starting new ones, so start with Needs review, then Needs work, then Active.'|t }}</p>
+        </details>
+      {% endif %}
       {% if edit_url %}
         <p><a class="board-shell__edit" href="{{ edit_url }}">{{ 'Edit'|t }}</a></p>
       {% endif %}
