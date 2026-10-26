@@ -108,7 +108,7 @@ final class BoardCommands extends DrushCommands {
   /**
    * Flags project entities whose issues moved to GitLab.
    *
-   * Creates the projects the scraper hasn't stored yet, so tag boards and
+   * Creates the projects that aren't stored yet, so tag boards and
    * issue collections know about every moved project.
    *
    * @param array<string, array{nid: string, title: string, machine_name: string, project_type: string}> $moved
