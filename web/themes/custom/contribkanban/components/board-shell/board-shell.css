@@ -23,11 +23,31 @@
 }
 
 .board-shell__back,
-.board-shell__edit,
-.board-shell__roulette {
+.board-shell__edit {
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
+}
+
+/* A button with a die, like the roulette's Re-roll. */
+.board-shell__roulette {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--ck-border);
+  border-radius: var(--ck-radius-pill);
+  background: var(--ck-surface);
+  color: var(--ck-text);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.board-shell__roulette:hover {
+  border-color: var(--ck-accent);
+  color: var(--ck-accent-strong);
 }
 
 .board-shell__source,
