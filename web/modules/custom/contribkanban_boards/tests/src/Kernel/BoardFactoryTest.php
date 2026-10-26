@@ -2,20 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Drupal\Tests\contribkanban_api\Kernel;
+namespace Drupal\Tests\contribkanban_boards\Kernel;
 
-use Drupal\contribkanban_api\BoardFactory;
-use Drupal\contribkanban_api\Projects;
-use Drupal\contribkanban_api\Tags;
+use Drupal\contribkanban_boards\BoardFactory;
 use Drupal\contribkanban_boards\Entity\BoardListInterface;
+use Drupal\contribkanban_projects\Projects;
+use Drupal\contribkanban_projects\Tags;
 use Drupal\KernelTests\Core\Entity\EntityKernelTestBase;
+use GuzzleHttp\Exception\TransferException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Verifies BoardFactory finds existing boards and builds new ones.
  */
-#[Group('contribkanban_api')]
+#[Group('contribkanban_boards')]
 #[RunTestsInSeparateProcesses]
 class BoardFactoryTest extends EntityKernelTestBase {
 
@@ -23,8 +24,8 @@ class BoardFactoryTest extends EntityKernelTestBase {
    * {@inheritdoc}
    */
   protected static $modules = [
-    'contribkanban_api',
     'contribkanban_boards',
+    'contribkanban_projects',
     'entity',
     'inline_entity_form',
     'options',
@@ -52,6 +53,18 @@ class BoardFactoryTest extends EntityKernelTestBase {
     $projects->method('getProject')->willReturn($project);
     $tags = $this->createMock(Tags::class);
     $tags->method('getTag')->willReturn($tag);
+    return new BoardFactory($projects, $tags, $this->container->get('entity_type.manager'));
+  }
+
+  /**
+   * Creates a factory whose drupal.org lookups fail, as on production.
+   */
+  private function createOfflineFactory(): BoardFactory {
+    $exception = new TransferException('drupal.org returned 403 Forbidden.');
+    $projects = $this->createMock(Projects::class);
+    $projects->method('getProject')->willThrowException($exception);
+    $tags = $this->createMock(Tags::class);
+    $tags->method('getTag')->willThrowException($exception);
     return new BoardFactory($projects, $tags, $this->container->get('entity_type.manager'));
   }
 
@@ -106,6 +119,19 @@ class BoardFactoryTest extends EntityKernelTestBase {
   }
 
   /**
+   * Tests that a project's board is found when drupal.org can't be reached.
+   */
+  public function testExistingProjectBoardOffline(): void {
+    $board = $this->createFactory($this->project())->forProject('retrofit');
+    $this->assertNotNull($board);
+    $board->save();
+
+    $existing = $this->createOfflineFactory()->forProject('retrofit');
+    $this->assertNotNull($existing);
+    $this->assertSame($board->id(), $existing->id());
+  }
+
+  /**
    * Tests that an unknown project has no board.
    */
   public function testUnknownProject(): void {
@@ -148,6 +174,19 @@ class BoardFactoryTest extends EntityKernelTestBase {
     $board->save();
 
     $existing = $factory->forTag('Novice');
+    $this->assertNotNull($existing);
+    $this->assertSame($board->id(), $existing->id());
+  }
+
+  /**
+   * Tests that a tag's board is found when drupal.org can't be reached.
+   */
+  public function testExistingTagBoardOffline(): void {
+    $board = $this->createFactory(tag: ['name' => 'Novice', 'tid' => '772'])->forTag('Novice');
+    $this->assertNotNull($board);
+    $board->save();
+
+    $existing = $this->createOfflineFactory()->forTag('novice');
     $this->assertNotNull($existing);
     $this->assertSame($board->id(), $existing->id());
   }

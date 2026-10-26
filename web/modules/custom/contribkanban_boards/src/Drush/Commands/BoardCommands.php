@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Drupal\contribkanban_api\Drush\Commands;
+namespace Drupal\contribkanban_boards\Drush\Commands;
 
-use Drupal\contribkanban_api\Projects;
 use Drupal\contribkanban_boards\Entity\BoardInterface;
+use Drupal\contribkanban_projects\Projects;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drush\Attributes as CLI;
@@ -108,7 +108,7 @@ final class BoardCommands extends DrushCommands {
   /**
    * Flags project entities whose issues moved to GitLab.
    *
-   * Creates the projects the scraper hasn't stored yet, so tag boards and
+   * Creates the projects that aren't stored yet, so tag boards and
    * issue collections know about every moved project.
    *
    * @param array<string, array{nid: string, title: string, machine_name: string, project_type: string}> $moved

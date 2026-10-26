@@ -10,7 +10,7 @@
   nav: main_nav,
   account: account_link,
 }, with_context = false) }}
-<div class="layout-page{{ board_page ? ' layout-page--board' }}">
+<div class="layout-page">
   <main id="main-content" class="layout-main" tabindex="-1">
     {{ page.highlighted }}
     {% if page.title and not board_page %}
@@ -26,4 +26,5 @@
   {{ page.footer }}
   <p>{{ 'Built by <a href=":url">Matt Glaman</a>.'|t({':url': 'https://mglaman.dev'}) }}</p>
   <p>{{ 'Hosted by <a href=":url">amazee.io</a>.'|t({':url': 'https://www.amazee.io'}) }}</p>
+  <p>{{ 'Source on <a href=":url">GitHub</a>.'|t({':url': 'https://github.com/mglaman/contribkanban.com'}) }}</p>
 </footer>

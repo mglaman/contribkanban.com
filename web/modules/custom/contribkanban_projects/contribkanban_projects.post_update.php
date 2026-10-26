@@ -40,3 +40,10 @@ function contribkanban_projects_post_update_seed_gitlab_issues(): void {
     $project->set('gitlab_issues', TRUE)->save();
   }
 }
+
+/**
+ * Delete the page the removed project scraper stopped on.
+ */
+function contribkanban_projects_post_update_delete_scraper_state(): void {
+  \Drupal::state()->delete('project_scraper_last_page');
+}

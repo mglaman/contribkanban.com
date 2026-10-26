@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\contribkanban_api;
+namespace Drupal\contribkanban_projects;
 
 use Drupal\Component\Serialization\Json;
 use GuzzleHttp\Client;
@@ -93,38 +93,6 @@ class Projects {
         $page++;
       } while (!empty($data['next']));
     }
-  }
-
-  /**
-   * Lists projects from drupal.org.
-   *
-   * @param string $type
-   *   The project type, such as "full" or "sandbox".
-   * @param int $page
-   *   The page to load.
-   * @param int $limit
-   *   The number of projects per page.
-   *
-   * @return array
-   *   The api-d7 response, or an empty array when there are no results.
-   */
-  public function getProjects($type = 'full', $page = 1, $limit = 100) {
-    $params = [
-      'field_project_type' => $type,
-      'page' => $page,
-      'limit' => $limit,
-      'sort' => 'nid',
-      'direction' => 'ASC',
-    ];
-    $params = array_filter($params);
-    $uri = 'node.json?' . http_build_query($params);
-    $response = $this->client->get($uri);
-    $data = Json::decode($response->getBody()->getContents());
-    if (empty($data['list'])) {
-      return [];
-    }
-
-    return $data;
   }
 
 }
