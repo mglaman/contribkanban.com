@@ -168,9 +168,64 @@
   --ck-lane-dot: #0d9488;
 }
 
+/* The header is a button that collapses the column. */
+.board-column__toggle {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.board-column__title {
+  overflow-wrap: anywhere;
+}
+
+.board-column__chevron {
+  flex: none;
+  color: var(--ck-muted);
+  transition: transform 0.15s;
+}
+
+.board-column__toggle:hover .board-column__chevron {
+  color: var(--ck-text);
+}
+
+/* A collapsed column is a narrow strip with its title running down it. */
+.board-column--collapsed {
+  flex-basis: auto;
+  width: auto;
+}
+
+.board-column--collapsed .board-column__header {
+  flex-direction: column;
+  padding: 8px 6px;
+}
+
+.board-column--collapsed .board-column__toggle {
+  flex: none;
+  writing-mode: vertical-rl;
+}
+
+.board-column--collapsed .board-column__title {
+  white-space: nowrap;
+}
+
+.board-column--collapsed .board-column__chevron {
+  transform: rotate(-90deg);
+}
+
 .board-column__count {
-  margin-left: auto;
-  padding: 1px 9px;
+  margin-inline-start: auto;
+  padding-block: 1px;
+  padding-inline: 9px;
   border-radius: var(--ck-radius-pill);
   background: var(--ck-surface);
   color: var(--ck-muted);
