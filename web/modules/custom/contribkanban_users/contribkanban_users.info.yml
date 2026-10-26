@@ -3,4 +3,5 @@ description: User things
 core_version_requirement: '*'
 type: module
 dependencies:
+  - contribkanban_projects:contribkanban_projects
   - drupal:user

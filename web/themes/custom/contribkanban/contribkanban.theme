@@ -25,8 +25,8 @@ function contribkanban_preprocess_page(array &$variables): void {
     ],
     [
       'label' => (string) t('Create a board'),
-      'url' => Url::fromRoute('contribkanban_api.create_board')->toString(),
-      'current' => $route_name === 'contribkanban_api.create_board',
+      'url' => Url::fromRoute('contribkanban_boards.create_board')->toString(),
+      'current' => $route_name === 'contribkanban_boards.create_board',
     ],
   ];
   // Boards render their own title.

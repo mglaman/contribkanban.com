@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Drupal\contribkanban_api;
+namespace Drupal\contribkanban_boards;
 
 use Drupal\contribkanban_boards\Entity\BoardInterface;
+use Drupal\contribkanban_projects\Projects;
+use Drupal\contribkanban_projects\Tags;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 final class BoardFactory {
@@ -35,9 +37,9 @@ final class BoardFactory {
   /**
    * Constructs a BoardFactory.
    *
-   * @param \Drupal\contribkanban_api\Projects $projects
+   * @param \Drupal\contribkanban_projects\Projects $projects
    *   Looks up projects on drupal.org.
-   * @param \Drupal\contribkanban_api\Tags $tags
+   * @param \Drupal\contribkanban_projects\Tags $tags
    *   Looks up issue tags on drupal.org.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
