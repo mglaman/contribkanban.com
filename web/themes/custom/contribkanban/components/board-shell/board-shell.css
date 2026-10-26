@@ -80,6 +80,12 @@
   font-weight: 600;
 }
 
+/* A filter that is set, not left on Everything or Any. */
+.board-filters .board-filters__select:has(option[value=""]:not(:checked)) {
+  background: var(--ck-accent-soft);
+  color: var(--ck-accent-strong);
+}
+
 .board-filters__search {
   display: flex;
 }
