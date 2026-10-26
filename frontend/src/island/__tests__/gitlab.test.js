@@ -7,13 +7,14 @@ import {
   fetchLabeledWorkItems,
 } from "../gitlab";
 
-function makeWorkItem(iid, labels, assignees = []) {
+function makeWorkItem(iid, labels, assignees = [], milestone = null) {
   return {
     iid,
     title: `Work item ${iid}`,
     web_url: `https://git.drupalcode.org/project/tool/-/work_items/${iid}`,
     labels,
     assignees: assignees.map((username) => ({ username })),
+    milestone: milestone ? { title: milestone } : null,
   };
 }
 
@@ -46,7 +47,8 @@ describe("toDrupalOrgIssue", () => {
       makeWorkItem(
         3583120,
         ["category::bug", "priority::major", "state::needsWork", "v1.0.x-dev"],
-        ["mglaman"]
+        ["mglaman"],
+        "1.0.0-rc1"
       )
     );
     expect(issue).toEqual({
@@ -58,6 +60,7 @@ describe("toDrupalOrgIssue", () => {
       field_issue_priority: "300",
       field_issue_version: "1.0.x-dev",
       field_issue_assigned: "mglaman",
+      milestone: "1.0.0-rc1",
     });
   });
 
@@ -88,7 +91,7 @@ describe("closed work items", () => {
 
 describe("filterIssues", () => {
   const issues = [
-    makeWorkItem(1, ["state::needsReview", "priority::minor", "category::task"]),
+    makeWorkItem(1, ["state::needsReview", "priority::minor", "category::task"], [], "1.0.0-rc1"),
     makeWorkItem(2, ["state::needsReview", "priority::critical", "category::bug"]),
     makeWorkItem(3, ["state::rtbc", "priority::normal", "category::bug"]),
   ].map(toDrupalOrgIssue);
@@ -108,6 +111,10 @@ describe("filterIssues", () => {
     expect(
       filterIssues(issues, { ...filter, priority: 100 }).map((i) => i.nid)
     ).toEqual(["1"]);
+  });
+
+  it("applies the milestone filter", () => {
+    expect(filterIssues(issues, { ...filter, milestone: "1.0.0-rc1" }).map((i) => i.nid)).toEqual(["1"]);
   });
 });
 

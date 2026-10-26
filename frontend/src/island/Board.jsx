@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import Column, { CollapsedColumns, useCollapsedColumns } from "./Column";
-import Filters from "./Filters";
+import Filters, { byName } from "./Filters";
 import { fetchIssuesByNid, fetchListIssues, fetchProjectNid } from "./drupalorg";
 import { filterIds, issueProject, matchesText, readFilters, writeFilters } from "./filters";
 import { fetchLabeledWorkItems, fetchOpenWorkItems, fetchWorkItemsByIid, filterIssues } from "./gitlab";
@@ -109,6 +109,10 @@ function DrupalOrgColumn({ list, category, priority, text }) {
 function useWorkItems(load, source) {
   const [result, setResult] = useState(LOADING);
   useEffect(() => {
+    // Boards that don't read GitLab pass no source.
+    if (!source) {
+      return undefined;
+    }
     const controller = new AbortController();
     const resolve = (value) => {
       if (!controller.signal.aborted) {
@@ -126,14 +130,14 @@ function useWorkItems(load, source) {
 /**
  * Every list on a board that reads GitLab, sharing one load.
  */
-function GitLabColumns({ project, lists, category, priority, text }) {
-  const workItems = useWorkItems(fetchOpenWorkItems, project);
+function GitLabColumns({ workItems, lists, category, priority, milestone, text }) {
   return lists.map((list, index) => {
     const issues = filterIssues(workItems.issues, {
       statuses: list.statuses,
       category,
       priority,
       version: list.versions,
+      milestone,
     }).filter((issue) => matchesText(issue, text));
     return (
       <Column
@@ -373,12 +377,20 @@ function useProjects() {
  */
 function Board({ config, filtersSlot }) {
   const showProject = config.showProject ?? false;
+  const gitlabProject = config.source === "gitlab" ? config.gitlabProject : null;
   const [filters, setFilters] = useState(() => {
     const read = readFilters(window.location.search);
-    // Only boards that span projects filter by project.
-    return showProject ? read : { ...read, project: null };
+    // Only boards that span projects filter by project, and only GitLab
+    // project boards by milestone.
+    return { ...read, project: showProject ? read.project : null, milestone: gitlabProject ? read.milestone : null };
   });
   const projects = useProjects();
+  const workItems = useWorkItems(fetchOpenWorkItems, gitlabProject);
+  const milestones = useMemo(
+    () =>
+      [...new Set(workItems.issues.map((issue) => issue.milestone).filter(Boolean))].sort(byName),
+    [workItems.issues]
+  );
   const collapsedColumns = useCollapsedColumns(window.location.pathname);
 
   // Filters live in the URL, so a filtered board can be shared.
@@ -390,7 +402,12 @@ function Board({ config, filtersSlot }) {
 
   const { category, priority } = filterIds(filters);
   const toolbar = (
-    <Filters filters={filters} onChange={setFilters} projects={showProject ? projects.names : null} />
+    <Filters
+      filters={filters}
+      onChange={setFilters}
+      projects={showProject ? projects.names : null}
+      milestones={gitlabProject ? milestones : null}
+    />
   );
   return (
     <>
@@ -423,10 +440,11 @@ function Board({ config, filtersSlot }) {
           />
         ) : config.source === "gitlab" ? (
           <GitLabColumns
-            project={config.gitlabProject}
+            workItems={workItems}
             lists={config.lists}
             category={category}
             priority={priority}
+            milestone={filters.milestone}
             text={filters.text}
           />
         ) : (

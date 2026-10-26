@@ -3,19 +3,21 @@ import { filterIds, issueProject, matchesText, readFilters, writeFilters } from 
 
 describe("readFilters", () => {
   it("reads known values", () => {
-    expect(readFilters("?type=bug&priority=major&project=token&q=views")).toEqual({
+    expect(readFilters("?type=bug&priority=major&project=token&milestone=1.0.0-rc1&q=views")).toEqual({
       type: "bug",
       priority: "major",
       project: "token",
+      milestone: "1.0.0-rc1",
       text: "views",
     });
   });
 
   it("drops unknown values", () => {
-    expect(readFilters("?type=1&priority=urgent&project=Not%20a%20project")).toEqual({
+    expect(readFilters("?type=1&priority=urgent&project=Not%20a%20project&milestone=%20")).toEqual({
       type: null,
       priority: null,
       project: null,
+      milestone: null,
       text: "",
     });
   });
@@ -24,12 +26,17 @@ describe("readFilters", () => {
 describe("writeFilters", () => {
   it("sets filters and keeps other parameters", () => {
     expect(
-      writeFilters({ type: "task", priority: null, project: "token", text: " cdn " }, "?priority=minor&utm=x")
-    ).toBe("utm=x&type=task&project=token&q=cdn");
+      writeFilters(
+        { type: "task", priority: null, project: "token", milestone: "1.0.0 rc1", text: " cdn " },
+        "?priority=minor&utm=x"
+      )
+    ).toBe("utm=x&type=task&project=token&milestone=1.0.0+rc1&q=cdn");
   });
 
   it("returns an empty string without filters", () => {
-    expect(writeFilters({ type: null, priority: null, project: null, text: "" }, "?type=bug&project=token")).toBe("");
+    expect(
+      writeFilters({ type: null, priority: null, project: null, milestone: null, text: "" }, "?type=bug&milestone=1.0")
+    ).toBe("");
   });
 });
 
