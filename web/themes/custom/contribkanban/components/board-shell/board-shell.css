@@ -23,7 +23,8 @@
 }
 
 .board-shell__back,
-.board-shell__edit {
+.board-shell__edit,
+.board-shell__roulette {
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
@@ -166,27 +167,27 @@
 }
 
 .board-column__header--postponed {
-  --ck-lane-dot: #6b7280;
+  --ck-lane-dot: var(--ck-status-postponed);
 }
 
 .board-column__header--active {
-  --ck-lane-dot: #2563eb;
+  --ck-lane-dot: var(--ck-status-active);
 }
 
 .board-column__header--needs-work {
-  --ck-lane-dot: #ea580c;
+  --ck-lane-dot: var(--ck-status-needs-work);
 }
 
 .board-column__header--needs-review {
-  --ck-lane-dot: #ca8a04;
+  --ck-lane-dot: var(--ck-status-needs-review);
 }
 
 .board-column__header--rtbc {
-  --ck-lane-dot: #16a34a;
+  --ck-lane-dot: var(--ck-status-rtbc);
 }
 
 .board-column__header--fixed {
-  --ck-lane-dot: #0d9488;
+  --ck-lane-dot: var(--ck-status-fixed);
 }
 
 /* The header is a button that collapses the column. */

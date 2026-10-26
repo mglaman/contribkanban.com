@@ -148,6 +148,36 @@ final class BoardIslandConfig {
   }
 
   /**
+   * Builds the board island's configuration for the issue roulette.
+   *
+   * The roulette rolls for an issue with one of the tag boards' tags. Like a
+   * tag board, it loads issues from drupal.org and work items with the tag's
+   * label from GitLab.
+   *
+   * @param list<\Drupal\contribkanban_boards\Entity\BoardInterface> $tag_boards
+   *   The tag boards, in the order to list their tags.
+   * @param list<int> $moved_projects
+   *   Node IDs of projects whose issues moved to GitLab. Drupal.org keeps
+   *   their issues, frozen, so the island drops them.
+   *
+   * @return array{tags: list<array{label: string, tid: string}>, movedProjects: list<int>}
+   *   The configuration.
+   */
+  public static function roulette(array $tag_boards, array $moved_projects = []): array {
+    $tags = [];
+    foreach ($tag_boards as $board) {
+      $tid = self::values($board->get('tag'))[0] ?? NULL;
+      if ($tid !== NULL) {
+        $tags[] = ['label' => (string) $board->label(), 'tid' => $tid];
+      }
+    }
+    return [
+      'tags' => $tags,
+      'movedProjects' => $moved_projects,
+    ];
+  }
+
+  /**
    * Gets a string field's values.
    *
    * @param \Drupal\Core\Field\FieldItemListInterface $items

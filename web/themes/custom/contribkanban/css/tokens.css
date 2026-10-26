@@ -17,6 +17,12 @@
   --ck-accent-soft: #f0fdfa;
   --ck-danger: #b91c1c;
   --ck-warning: #b45309;
+  --ck-status-postponed: #6b7280;
+  --ck-status-active: #2563eb;
+  --ck-status-needs-work: #ea580c;
+  --ck-status-needs-review: #ca8a04;
+  --ck-status-rtbc: #16a34a;
+  --ck-status-fixed: #0d9488;
   --ck-radius-card: 14px;
   --ck-radius-lane: 16px;
   --ck-radius-issue: 12px;

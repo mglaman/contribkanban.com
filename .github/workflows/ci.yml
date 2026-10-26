@@ -134,6 +134,9 @@ jobs:
           # Only boards that start with Needs review explain their lane order.
           test "$(curl -fsS "http://127.0.0.1:8080/board/Smoketestboard" | grep -c "Why does Needs review come first?")" = 0
           curl -fsS "http://127.0.0.1:8080/board/Reviewfirstboard" | grep "Why does Needs review come first?"
+
+          # The theme renders the roulette with its component.
+          curl -fsS "http://127.0.0.1:8080/roulette" | grep 'class="issue-roulette__app"'
       - name: Check redirects from React app paths
         run: |
           redirect() {

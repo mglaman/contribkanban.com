@@ -30,7 +30,7 @@ const inProject = (project) => (issue) => !project || issueProject(issue) === pr
  * @param {boolean} [enabled] Whether to load; false while a project is looked up.
  * @returns {{state: string, issues: object[], total: number, partial: boolean}}
  */
-function useListIssues(list, category, priority, project = null, enabled = true) {
+export function useListIssues(list, category, priority, project = null, enabled = true) {
   const key = `${category}:${priority}:${project}`;
   // Keyed by query so a changed filter shows loading, not the previous result.
   const [result, setResult] = useState({ key: null });
@@ -106,7 +106,7 @@ function DrupalOrgColumn({ list, category, priority, text }) {
  * @param {string} source The project path or label to load.
  * @returns {{state: string, issues: object[]}}
  */
-function useWorkItems(load, source) {
+export function useWorkItems(load, source) {
   const [result, setResult] = useState(LOADING);
   useEffect(() => {
     // Boards that don't read GitLab pass no source.

@@ -24,17 +24,23 @@ function contribkanban_preprocess_page(array &$variables): void {
       'current' => $route_name === 'view.board_listing.page',
     ],
     [
+      'label' => (string) t('Roulette'),
+      'url' => Url::fromRoute('contribkanban_boards.roulette')->toString(),
+      'current' => $route_name === 'contribkanban_boards.roulette',
+    ],
+    [
       'label' => (string) t('Create a board'),
       'url' => Url::fromRoute('contribkanban_boards.create_board')->toString(),
       'current' => $route_name === 'contribkanban_boards.create_board',
     ],
   ];
-  // Boards render their own title.
+  // Boards and the roulette render their own title.
   $variables['board_page'] = in_array($route_name, [
     'entity.board.canonical',
     'entity.board.canonical_alternative',
     'entity.board.version',
     'entity.node_board.canonical',
+    'contribkanban_boards.roulette',
   ], TRUE);
   $variables['account_link'] = \Drupal::currentUser()->isAnonymous()
     ? ['label' => (string) t('Log in'), 'url' => Url::fromRoute('user.login')->toString()]
@@ -57,6 +63,9 @@ function contribkanban_preprocess_board(array &$variables): void {
       'source_url' => _contribkanban_board_source_url($board, $config['gitlabProject']),
       'gitlab_url' => $config['gitlabLabel'] !== NULL
         ? 'https://git.drupalcode.org/groups/project/-/work_items?label_name[]=' . rawurlencode($config['gitlabLabel'])
+        : '',
+      'roulette_url' => $board->bundle() === 'drupalorg_sprint'
+        ? Url::fromRoute('contribkanban_boards.roulette', [], ['query' => ['tag' => (string) $board->label()]])->toString()
         : '',
       'config' => $config,
     ];
@@ -82,6 +91,17 @@ function contribkanban_preprocess_node_board(array &$variables): void {
     'title' => (string) $collection->label(),
     'edit_url' => $variables['elements']['#edit_url'] ?? '',
     'config' => $variables['elements']['#island'],
+  ];
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for the issue roulette.
+ */
+function contribkanban_preprocess_issue_roulette(array &$variables): void {
+  $variables['roulette'] = [
+    'title' => (string) t('Issue roulette'),
+    'back_url' => Url::fromRoute('view.board_listing.page')->toString(),
+    'config' => $variables['config'],
   ];
 }
 

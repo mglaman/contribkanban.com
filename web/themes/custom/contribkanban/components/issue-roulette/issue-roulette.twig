@@ -1,0 +1,17 @@
+<div class="issue-roulette">
+  <div class="issue-roulette__header">
+    <div class="issue-roulette__heading">
+      {% if back_url %}
+        <a class="issue-roulette__back" href="{{ back_url }}"><span aria-hidden="true">←</span> {{ 'All boards'|t }}</a>
+      {% endif %}
+      <h1>{{ title }}</h1>
+      <p class="issue-roulette__intro">{{ "Can't pick what to work on? Roll the dice and take the issue that stops under the marker. You get three re-rolls."|t }}</p>
+    </div>
+    <div class="issue-roulette__filters" data-roulette-filters></div>
+  </div>
+  <noscript>
+    <p class="issue-roulette__noscript">{{ 'The roulette loads issues with JavaScript. Turn it on to roll.'|t }}</p>
+  </noscript>
+  {# The island renders the strip here. #}
+  <div class="issue-roulette__app" data-roulette="{{ config|json_encode }}"></div>
+</div>

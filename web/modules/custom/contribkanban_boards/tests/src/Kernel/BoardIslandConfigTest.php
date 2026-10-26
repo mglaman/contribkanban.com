@@ -186,4 +186,19 @@ final class BoardIslandConfigTest extends KernelTestBase {
     self::assertSame('rtbc', $config['lists'][4]['tone']);
   }
 
+  /**
+   * Tests that the roulette rolls for the tag boards' tags.
+   */
+  public function testRoulette(): void {
+    $rosetta = $this->createBoard('drupalorg_sprint', ['title' => 'Rosetta', 'tag' => ['5678']], []);
+    $novice = $this->createBoard('drupalorg_sprint', ['title' => 'Novice', 'tag' => ['1234']], []);
+    $config = BoardIslandConfig::roulette([$novice, $rosetta], [2350161]);
+
+    self::assertSame([
+      ['label' => 'Novice', 'tid' => '1234'],
+      ['label' => 'Rosetta', 'tid' => '5678'],
+    ], $config['tags']);
+    self::assertSame([2350161], $config['movedProjects']);
+  }
+
 }

@@ -1,0 +1,351 @@
+.issue-roulette {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.issue-roulette__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px 32px;
+}
+
+.issue-roulette__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 60ch;
+}
+
+.issue-roulette__back {
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.issue-roulette__intro,
+.issue-roulette__noscript {
+  color: var(--ck-muted);
+}
+
+.issue-roulette__filters {
+  margin-left: auto;
+}
+
+/* The strip runs under a marker in the middle of the window. */
+.roulette {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.roulette__window {
+  position: relative;
+  height: 252px;
+  overflow: hidden;
+  border-radius: var(--ck-radius-panel);
+  background: var(--ck-lane);
+}
+
+/* Roulette.jsx sets the index of the slot under the marker. */
+.roulette__track {
+  --roulette-slot: 240px;
+  --roulette-gap: 16px;
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  display: flex;
+  gap: var(--roulette-gap);
+  transform: translateX(calc(-1 * (var(--roulette-index) * (var(--roulette-slot) + var(--roulette-gap)) + var(--roulette-slot) / 2)));
+}
+
+.roulette__track--animate {
+  transition: transform var(--roulette-roll) cubic-bezier(0.15, 0.85, 0.25, 1.04);
+}
+
+.roulette__track--rolling {
+  animation: roulette-blur var(--roulette-roll) ease-out;
+}
+
+.roulette__slot {
+  display: flex;
+  flex: 0 0 var(--roulette-slot);
+  flex-direction: column;
+  gap: 8px;
+  height: 196px;
+  transition:
+    transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1) 0.05s,
+    opacity 0.35s;
+}
+
+.roulette__slot .issue-card {
+  flex: 1;
+  min-height: 0;
+}
+
+.roulette__slot .issue-card__title {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.roulette__slot .issue-card__meta {
+  margin-top: auto;
+}
+
+.roulette--landed .roulette__slot:not(.roulette__slot--hit) {
+  opacity: 0.55;
+}
+
+.roulette__slot--hit {
+  transform: translateY(-6px) scale(1.05);
+}
+
+.roulette__slot--hit .issue-card {
+  box-shadow: 0 0 0 3px var(--ck-accent), 0 14px 28px rgb(15 23 42 / 18%);
+}
+
+.roulette__status {
+  --roulette-dot: var(--ck-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-inline: 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.roulette__status::before {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--roulette-dot);
+  content: "";
+}
+
+.roulette__status--active {
+  --roulette-dot: var(--ck-status-active);
+}
+
+.roulette__status--needs-work {
+  --roulette-dot: var(--ck-status-needs-work);
+}
+
+.roulette__status--needs-review {
+  --roulette-dot: var(--ck-status-needs-review);
+}
+
+.roulette__message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin: 0;
+  color: var(--ck-muted);
+}
+
+.roulette__line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: var(--ck-text);
+  opacity: 0.85;
+}
+
+.roulette__marker {
+  position: absolute;
+  left: 50%;
+  margin-left: -14px;
+  fill: var(--ck-text);
+  stroke: var(--ck-surface);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.roulette__marker--top {
+  top: 0;
+}
+
+.roulette__marker--bottom {
+  bottom: 0;
+}
+
+.roulette--landed .roulette__marker--top {
+  animation: roulette-thunk 0.4s ease-out;
+}
+
+.roulette__confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.roulette__confetto {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: var(--ck-accent);
+  animation: roulette-pop cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+
+.roulette__confetto:nth-child(5n + 2) {
+  background: var(--ck-status-active);
+}
+
+.roulette__confetto:nth-child(5n + 3) {
+  background: var(--ck-status-needs-work);
+}
+
+.roulette__confetto:nth-child(5n + 4) {
+  background: var(--ck-status-needs-review);
+}
+
+.roulette__confetto:nth-child(5n + 5) {
+  background: var(--ck-status-rtbc);
+}
+
+/* A min height keeps the strip still when the hint and buttons change. */
+.roulette__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 24px;
+  min-height: 96px;
+}
+
+.roulette__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.roulette__hint {
+  margin: 0;
+  color: var(--ck-muted);
+}
+
+.roulette__roll,
+.roulette__reroll {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 26px;
+  border: 0;
+  border-radius: var(--ck-radius-pill);
+  background: var(--ck-accent);
+  color: var(--ck-surface);
+  font: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.roulette__roll:hover {
+  background: var(--ck-accent-strong);
+  color: var(--ck-surface);
+}
+
+.roulette__reroll {
+  padding-inline: 22px;
+  border: 1px solid var(--ck-border);
+  background: var(--ck-surface);
+  color: var(--ck-text);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* aria-disabled keeps a rolling button focusable, so it keeps focus. */
+.roulette__roll:is(:disabled, [aria-disabled="true"]),
+.roulette__reroll[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.roulette__roll:is(:disabled, [aria-disabled="true"]):hover {
+  background: var(--ck-accent);
+}
+
+.roulette__pips {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.roulette__pip {
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--ck-muted);
+  border-radius: 50%;
+}
+
+.roulette__pip--left {
+  border-color: var(--ck-accent);
+  background: var(--ck-accent);
+}
+
+@keyframes roulette-blur {
+  15% {
+    filter: blur(4px);
+  }
+
+  70% {
+    filter: blur(1.5px);
+  }
+
+  100% {
+    filter: blur(0);
+  }
+}
+
+@keyframes roulette-thunk {
+  35% {
+    transform: translateY(7px);
+  }
+
+  65% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes roulette-pop {
+  0% {
+    transform: translate(-50%, -50%) scale(0.3);
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1) rotate(var(--r));
+  }
+}
+
+/* Roulette.jsx also skips the roll, so the strip lands at once. */
+@media (prefers-reduced-motion: reduce) {
+  .roulette__slot {
+    transition: none;
+  }
+
+  .roulette--landed .roulette__marker--top {
+    animation: none;
+  }
+
+  .roulette__confetti {
+    display: none;
+  }
+}
+
+@media (width < 640px) {
+  .issue-roulette__filters {
+    width: 100%;
+  }
+}
