@@ -34,6 +34,27 @@
   color: var(--ck-muted);
 }
 
+.board-shell__help {
+  max-width: 60ch;
+  font-size: 14px;
+}
+
+.board-shell__help summary {
+  width: fit-content;
+  color: var(--ck-accent);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.board-shell__help summary:hover {
+  color: var(--ck-accent-strong);
+}
+
+.board-shell__help p {
+  margin: 6px 0 0;
+  color: var(--ck-muted);
+}
+
 .board-shell__filters {
   margin-left: auto;
 }
