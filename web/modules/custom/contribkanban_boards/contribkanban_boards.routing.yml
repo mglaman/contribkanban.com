@@ -80,3 +80,11 @@ contribkanban_boards.create_board:
     _title: "Start a board"
   requirements:
     _access: "TRUE"
+contribkanban_boards.roulette:
+  path: '/roulette'
+  defaults:
+    _controller: '\Drupal\contribkanban_boards\Controller\RouletteController::page'
+    _title: 'Issue roulette'
+  requirements:
+    # Like boards, the roulette is for everyone.
+    _access: 'TRUE'

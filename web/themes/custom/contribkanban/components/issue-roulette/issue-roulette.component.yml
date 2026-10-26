@@ -1,0 +1,40 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Issue roulette
+description: Rolls for an issue with a tag. The board island renders the tag picker and the strip of issues.
+status: stable
+props:
+  type: object
+  required:
+    - title
+    - config
+  properties:
+    title:
+      type: string
+      title: Page title
+    back_url:
+      type: string
+      title: Board listing URL
+    config:
+      type: object
+      title: Roulette configuration
+      description: Read by the board island. See BoardIslandConfig::roulette().
+      required:
+        - tags
+      properties:
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              label:
+                type: string
+              tid:
+                type: string
+        movedProjects:
+          type: array
+          items:
+            type: integer
+# The board island is board-shell's JavaScript, and the cards use its styles.
+libraryOverrides:
+  dependencies:
+    - core/components.contribkanban--board-shell
