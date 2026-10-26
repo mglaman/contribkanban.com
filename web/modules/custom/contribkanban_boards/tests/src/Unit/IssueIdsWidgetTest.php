@@ -16,10 +16,10 @@ use PHPUnit\Framework\Attributes\Group;
 class IssueIdsWidgetTest extends UnitTestCase {
 
   /**
-   * Lines and the issue IDs they hold.
+   * Lines and the values the widget stores for them.
    *
    * @return array<string, array{string, string|null}>
-   *   The line, and the expected ID or NULL.
+   *   The line, and the expected value or NULL.
    */
   public static function lines(): array {
     return [
@@ -32,19 +32,22 @@ class IssueIdsWidgetTest extends UnitTestCase {
       'issue URL with comment' => ['https://www.drupal.org/project/olivero/issues/3092318#comment-1', '3092318'],
       'node URL' => ['https://www.drupal.org/node/2353867', '2353867'],
       'short URL' => ['https://drupal.org/i/2353867', '2353867'],
-      'work item URL' => ['https://git.drupalcode.org/project/canvas/-/work_items/3512345', '3512345'],
-      'GitLab issue URL' => ['https://git.drupalcode.org/project/canvas/-/issues/3512345', '3512345'],
+      'work item URL' => ['https://git.drupalcode.org/project/canvas/-/work_items/3512345', 'project/canvas#3512345'],
+      'work item URL with note' => ['https://git.drupalcode.org/project/tool/-/work_items/1#note_1', 'project/tool#1'],
+      'GitLab issue URL' => ['https://git.drupalcode.org/project/canvas/-/issues/3512345', 'project/canvas#3512345'],
+      'stored work item' => ['project/tool#3583123', 'project/tool#3583123'],
+      'other GitLab group' => ['https://git.drupalcode.org/issue/tool-3583123/-/issues/1', NULL],
       'project URL' => ['https://www.drupal.org/project/notify_to_slack', NULL],
       'other site' => ['https://example.com/node/123', NULL],
     ];
   }
 
   /**
-   * Tests parsing a line into an issue ID.
+   * Tests parsing a line into a stored value.
    */
   #[DataProvider('lines')]
-  public function testParseIssueId(string $line, ?string $expected): void {
-    $this->assertSame($expected, IssueIdsWidget::parseIssueId($line));
+  public function testParseIssue(string $line, ?string $expected): void {
+    $this->assertSame($expected, IssueIdsWidget::parseIssue($line));
   }
 
 }

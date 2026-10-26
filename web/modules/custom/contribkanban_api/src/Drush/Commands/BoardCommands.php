@@ -6,6 +6,7 @@ namespace Drupal\contribkanban_api\Drush\Commands;
 
 use Drupal\contribkanban_api\Projects;
 use Drupal\contribkanban_boards\Entity\BoardInterface;
+use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drush\Attributes as CLI;
 use Drush\Commands\DrushCommands;
@@ -39,20 +40,69 @@ final class BoardCommands extends DrushCommands {
    * Only sets flags, never clears them. Unflagged projects and boards are
    * checked again on each run.
    *
-   * @param array{dry-run: bool} $options
+   * Drupal.org blocks production's IP address, so production can't fetch the
+   * list itself. Export it from a machine that can reach drupal.org, then
+   * pass the file to production with --from.
+   *
+   * @param array{dry-run: bool, export: string|null, from: string|null} $options
    *   The command options.
    */
   #[CLI\Command(name: 'contribkanban:flag-gitlab-boards', aliases: ['ck-gitlab'])]
   #[CLI\Option(name: 'dry-run', description: 'Report what would be flagged without saving.')]
+  #[CLI\Option(name: 'export', description: 'Write the moved projects from drupal.org to this JSON file and flag nothing.')]
+  #[CLI\Option(name: 'from', description: 'Read the moved projects from this JSON file instead of drupal.org. Use - for stdin.')]
   #[CLI\Usage(name: 'drush contribkanban:flag-gitlab-boards --dry-run', description: 'Show which projects and boards would be flagged.')]
-  public function flagGitlabBoards(array $options = ['dry-run' => FALSE]): void {
+  #[CLI\Usage(name: 'drush ck-gitlab --export=moved.json', description: 'Save the moved projects to a file.')]
+  #[CLI\Usage(name: 'drush ck-gitlab --from=- < moved.json', description: 'Flag projects and boards from a saved file.')]
+  public function flagGitlabBoards(array $options = ['dry-run' => FALSE, 'export' => NULL, 'from' => NULL]): void {
     $moved = [];
-    foreach ($this->projects->listMigratedProjects() as $project) {
+    $projects = is_string($options['from']) ? $this->readProjects($options['from']) : $this->projects->listMigratedProjects();
+    foreach ($projects as $project) {
       $moved[$project['nid']] = $project;
     }
     $this->logger()->notice(dt('@count projects on drupal.org have their issues on GitLab.', ['@count' => count($moved)]));
+    if (is_string($options['export'])) {
+      if (file_put_contents($options['export'], Json::encode(array_values($moved))) === FALSE) {
+        throw new \RuntimeException(sprintf('Could not write %s.', $options['export']));
+      }
+      $this->logger()->success(dt('Wrote them to @file.', ['@file' => $options['export']]));
+      return;
+    }
     $this->flagProjects($moved, $options['dry-run']);
     $this->flagBoards(array_keys($moved), $options['dry-run']);
+  }
+
+  /**
+   * Reads moved projects from a file written by --export.
+   *
+   * @param string $path
+   *   The file, or "-" for stdin.
+   *
+   * @return list<array{nid: string, title: string, machine_name: string, project_type: string}>
+   *   The projects.
+   */
+  private function readProjects(string $path): array {
+    $contents = file_get_contents($path === '-' ? 'php://stdin' : $path);
+    if ($contents === FALSE) {
+      throw new \RuntimeException(sprintf('Could not read %s.', $path));
+    }
+    $data = Json::decode($contents);
+    if (!is_array($data)) {
+      throw new \RuntimeException(sprintf('%s does not hold a JSON list of projects.', $path));
+    }
+    $projects = [];
+    foreach ($data as $row) {
+      if (!is_array($row) || !is_numeric($row['nid'] ?? NULL) || !is_string($row['machine_name'] ?? NULL) || !is_string($row['title'] ?? NULL) || !is_string($row['project_type'] ?? NULL)) {
+        throw new \RuntimeException(sprintf('%s has a project without a numeric nid, title, machine_name, and project_type.', $path));
+      }
+      $projects[] = [
+        'nid' => (string) $row['nid'],
+        'title' => $row['title'],
+        'machine_name' => $row['machine_name'],
+        'project_type' => $row['project_type'],
+      ];
+    }
+    return $projects;
   }
 
   /**

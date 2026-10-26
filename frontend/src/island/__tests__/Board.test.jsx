@@ -149,6 +149,7 @@ describe("Board", () => {
       ...ISSUES[0],
       nid,
       title: `Issue ${nid}`,
+      url: `https://www.drupal.org/node/${nid}`,
       field_issue_status: nid === "5059" ? "8" : "1",
       field_issue_category: nid === "5001" ? "2" : "1",
     });
@@ -220,6 +221,53 @@ describe("Board", () => {
     const gitlab = fetch.mock.calls.map(([url]) => url).filter((url) => url.includes("drupalcode"));
     expect(gitlab).toEqual([
       "https://git.drupalcode.org/api/v4/projects/project%2Fcopyscape/issues?state=all&per_page=100&iids%5B%5D=3549178",
+    ]);
+  });
+
+  it("loads a collection's GitLab work items by project and IID", async () => {
+    const workItem = (iid, project, state) => ({
+      iid,
+      title: `GitLab ${project} ${iid}`,
+      web_url: `https://git.drupalcode.org/project/${project}/-/work_items/${iid}`,
+      labels: [`state::${state}`],
+      assignees: [],
+      state: "opened",
+    });
+    const fetch = vi.fn((url) => {
+      if (url.includes("project%2Ftool")) {
+        return Promise.resolve(jsonResponse([workItem(3583123, "tool", "active"), workItem(3583122, "tool", "needsReview")]));
+      }
+      if (url.includes("project%2Fmcp")) {
+        return Promise.resolve(jsonResponse([workItem(3587791, "mcp", "active")]));
+      }
+      return Promise.resolve(jsonResponse({ list: [ISSUES[0]] }));
+    });
+    vi.stubGlobal("fetch", fetch);
+    render(
+      <Board
+        config={{
+          source: "drupalorg",
+          gitlabProject: null,
+          nids: ["101"],
+          workItems: [
+            { path: "project/tool", iid: "3583123" },
+            { path: "project/mcp", iid: "3587791" },
+            { path: "project/tool", iid: "3583122" },
+          ],
+          lists: LISTS,
+        }}
+        filtersSlot={null}
+      />
+    );
+
+    expect(await within(column("Active")).findByText("GitLab tool 3583123")).toBeInTheDocument();
+    expect(within(column("Active")).getByText("GitLab mcp 3587791")).toBeInTheDocument();
+    expect(within(column("Active")).getByText("Bug in active")).toBeInTheDocument();
+    expect(within(column("Needs review")).getByText("GitLab tool 3583122")).toBeInTheDocument();
+    const gitlab = fetch.mock.calls.map(([url]) => url).filter((url) => url.includes("drupalcode"));
+    expect(gitlab).toEqual([
+      "https://git.drupalcode.org/api/v4/projects/project%2Ftool/issues?state=all&per_page=100&iids%5B%5D=3583123&iids%5B%5D=3583122",
+      "https://git.drupalcode.org/api/v4/projects/project%2Fmcp/issues?state=all&per_page=100&iids%5B%5D=3587791",
     ]);
   });
 

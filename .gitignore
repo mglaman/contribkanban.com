@@ -37,3 +37,4 @@ yarn-error.log
 
 # Built from frontend/src/island by `npm run build`.
 /web/themes/custom/contribkanban/components/board-shell/board-shell.js
+/moved-projects.json
