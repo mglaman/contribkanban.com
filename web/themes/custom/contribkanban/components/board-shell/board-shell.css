@@ -174,8 +174,8 @@
 
 .board-column__empty {
   padding: 28px 16px;
-  border: 2px dashed #c4cbd4;
-  border-radius: var(--ck-radius-input);
+  border: 2px dashed var(--ck-lane-border);
+  border-radius: var(--ck-radius-issue);
   color: var(--ck-muted);
   text-align: center;
 }
@@ -205,7 +205,7 @@
   flex-direction: column;
   gap: 14px;
   padding: 16px;
-  border-radius: var(--ck-radius-input);
+  border-radius: var(--ck-radius-issue);
   background: var(--ck-surface);
   box-shadow: var(--ck-shadow-subtle);
 }

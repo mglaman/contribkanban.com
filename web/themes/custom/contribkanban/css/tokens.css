@@ -7,6 +7,7 @@
   --ck-surface: #fff;
   --ck-surface-muted: #f3f4f6;
   --ck-lane: #e9edf1;
+  --ck-lane-border: #c4cbd4;
   --ck-text: #1f2937;
   --ck-muted: #4b5563;
   --ck-border: #d1d5db;
@@ -18,6 +19,7 @@
   --ck-warning: #b45309;
   --ck-radius-card: 14px;
   --ck-radius-lane: 16px;
+  --ck-radius-issue: 12px;
   --ck-radius-panel: 20px;
   --ck-radius-input: 12px;
   --ck-radius-pill: 999px;
