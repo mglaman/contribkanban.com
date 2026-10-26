@@ -51,7 +51,8 @@
 .site-footer {
   max-width: var(--ck-max-width);
   margin: 0 auto;
-  padding: 24px var(--ck-gutter) 40px;
+  padding: 24px var(--ck-gutter) 32px;
+  border-top: 1px solid var(--ck-border-subtle);
   display: flex;
   flex-wrap: wrap;
   gap: 8px 24px;
