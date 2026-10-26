@@ -1,3 +1,5 @@
+import { issueProject } from "./filters";
+
 const CATEGORIES = {
   1: "Bug",
   2: "Task",
@@ -12,9 +14,6 @@ const PRIORITIES = {
   300: "Major",
 };
 
-// Issue URLs on drupal.org and GitLab both name the project's machine name.
-const PROJECT_URL = /^https:\/\/(?:www\.drupal\.org|git\.drupalcode\.org)\/project\/([^/]+)\//;
-
 /**
  * An issue on the board.
  *
@@ -25,7 +24,7 @@ const PROJECT_URL = /^https:\/\/(?:www\.drupal\.org|git\.drupalcode\.org)\/proje
 function Card({ issue, showProject = false }) {
   const category = CATEGORIES[issue.field_issue_category];
   const priority = PRIORITIES[issue.field_issue_priority];
-  const project = showProject ? PROJECT_URL.exec(issue.url ?? "")?.[1] : null;
+  const project = showProject ? issueProject(issue) : null;
   return (
     <article className="issue-card">
       {project ? <span className="issue-card__project">{project}</span> : null}

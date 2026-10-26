@@ -11,18 +11,19 @@ function appendAll(params, key, values) {
  * Builds the api-d7 query for one list.
  *
  * @param {object} list The list from the board configuration.
- * @param {{category: string|null, priority: string|null}} filters Issue IDs
- *   for the Type and Priority filters.
+ * @param {{category: string|null, priority: string|null, project?: string|null}} filters
+ *   Issue IDs for the Type and Priority filters, and a project's node ID
+ *   that replaces the list's projects.
  * @returns {string}
  */
-export function listQuery(list, { category, priority }) {
+export function listQuery(list, { category, priority, project = null }) {
   const params = new URLSearchParams({
     type: "project_issue",
     limit: String(PAGE_SIZE),
     sort: "field_issue_priority",
     direction: "DESC",
   });
-  appendAll(params, "field_project[target_id]", list.projects);
+  appendAll(params, "field_project[target_id]", project ? [project] : list.projects);
   appendAll(params, "field_issue_status[value]", list.statuses);
   appendAll(params, "taxonomy_vocabulary_9[tid]", list.tags);
   appendAll(params, "field_issue_version[value]", list.versions);
@@ -42,7 +43,7 @@ export function listQuery(list, { category, priority }) {
  * Fetches the first page of a list's issues.
  *
  * @param {object} list The list from the board configuration.
- * @param {{category: string|null, priority: string|null}} filters
+ * @param {{category: string|null, priority: string|null, project?: string|null}} filters
  * @param {AbortSignal} [signal]
  * @returns {Promise<{issues: object[], total: number, partial: boolean}>}
  *   When there are more pages, `total` is the lower bound from the last page
@@ -92,3 +93,31 @@ export async function fetchIssuesByNid(nids, signal) {
   return pages.flat().sort((a, b) => Number(b.field_issue_priority) - Number(a.field_issue_priority));
 }
 
+
+// Project node IDs by machine name, shared by every list on the page.
+const projectNids = new Map();
+
+/**
+ * Looks up a project's node ID by machine name, once per page.
+ *
+ * @param {string} machineName
+ * @returns {Promise<string|null>} The node ID, or null if drupal.org has no
+ *   such project.
+ */
+export function fetchProjectNid(machineName) {
+  if (!projectNids.has(machineName)) {
+    const params = new URLSearchParams({ field_project_machine_name: machineName, limit: "1" });
+    const lookup = fetch(`${API_URL}?${params}`, { headers: { Accept: "application/json" } })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`drupal.org responded ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => data.list[0]?.nid ?? null);
+    // Forget failures, so the next lookup tries again.
+    lookup.catch(() => projectNids.delete(machineName));
+    projectNids.set(machineName, lookup);
+  }
+  return projectNids.get(machineName);
+}
