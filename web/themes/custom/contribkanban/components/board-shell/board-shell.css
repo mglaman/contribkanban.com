@@ -69,15 +69,26 @@
   font-size: 14px;
 }
 
+/* Draws its own chevron so it sits a fixed distance after the value. */
 .board-filters .board-filters__select {
   width: auto;
   min-height: 36px;
-  padding: 8px 12px;
+  field-sizing: content;
+  padding: 8px 34px 8px 14px;
   border: 0;
   border-radius: var(--ck-radius-pill);
-  background: var(--ck-ground);
+  background: var(--ck-ground) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%234b5563' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 4.5 3 3 3-3'/%3E%3C/svg%3E") no-repeat right 14px center;
   color: var(--ck-text);
   font-weight: 600;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* A filter that is set, not left on Everything or Any. */
+.board-filters .board-filters__select:has(option[value=""]:not(:checked)) {
+  background-color: var(--ck-accent-soft);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23134e4a' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 4.5 3 3 3-3'/%3E%3C/svg%3E");
+  color: var(--ck-accent-strong);
 }
 
 .board-filters__search {
