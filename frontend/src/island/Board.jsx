@@ -117,7 +117,7 @@ function GitLabColumns({ project, lists, category, priority, text }) {
  * Projects that moved to GitLab leave their issues on drupal.org, frozen, so
  * those come from GitLab only. Drupal lists the moved projects.
  */
-function TagColumn({ list, workItems, movedProjects, category, priority, text }) {
+function TagColumn({ list, workItems, movedProjects, category, priority, text, showProject }) {
   const drupalorg = useListIssues(list, category, priority);
   const gitlab = filterIssues(workItems.issues, {
     statuses: list.statuses,
@@ -143,6 +143,7 @@ function TagColumn({ list, workItems, movedProjects, category, priority, text })
       issues={issues}
       total={text ? issues.length : total}
       partial={!text && drupalorg.partial}
+      showProject={showProject}
     />
   );
 }
@@ -150,7 +151,7 @@ function TagColumn({ list, workItems, movedProjects, category, priority, text })
 /**
  * Every list on a tag board, sharing one load of the label's work items.
  */
-function TagColumns({ label, movedProjects, lists, category, priority, text }) {
+function TagColumns({ label, movedProjects, lists, category, priority, text, showProject }) {
   const workItems = useWorkItems(fetchLabeledWorkItems, label);
   const moved = useMemo(() => new Set(movedProjects.map(String)), [movedProjects]);
   return lists.map((list, index) => (
@@ -162,6 +163,7 @@ function TagColumns({ label, movedProjects, lists, category, priority, text }) {
       category={category}
       priority={priority}
       text={text}
+      showProject={showProject}
     />
   ));
 }
@@ -255,7 +257,7 @@ function useCollection(nids, workItems, movedProjects) {
 /**
  * Every list on an issue collection, sharing one load.
  */
-function CollectionColumns({ nids, workItems, movedProjects, lists, category, priority, text }) {
+function CollectionColumns({ nids, workItems, movedProjects, lists, category, priority, text, showProject }) {
   const moved = useMemo(() => new Set(movedProjects.map(String)), [movedProjects]);
   const collection = useCollection(nids, workItems, moved);
   return lists.map((list, index) => {
@@ -274,6 +276,7 @@ function CollectionColumns({ nids, workItems, movedProjects, lists, category, pr
         issues={issues}
         total={issues.length}
         partial={false}
+        showProject={showProject}
       />
     );
   });
@@ -310,6 +313,7 @@ function Board({ config, filtersSlot }) {
           category={category}
           priority={priority}
           text={filters.text}
+          showProject={config.showProject ?? false}
         />
       ) : config.gitlabLabel ? (
         <TagColumns
@@ -319,6 +323,7 @@ function Board({ config, filtersSlot }) {
           category={category}
           priority={priority}
           text={filters.text}
+          showProject={config.showProject ?? false}
         />
       ) : config.source === "gitlab" ? (
         <GitLabColumns

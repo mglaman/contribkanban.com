@@ -230,6 +230,15 @@
   outline-offset: 2px;
 }
 
+/* On boards that span projects, the project sits just above the title. */
+.issue-card__project {
+  margin-bottom: -8px;
+  color: var(--ck-muted);
+  font-size: 13px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
 .issue-card__title {
   color: var(--ck-text);
   font-weight: 500;

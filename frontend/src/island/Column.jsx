@@ -13,8 +13,9 @@ const STEP = 20;
  * @param {object[]} props.issues The list's issues after filtering.
  * @param {number} props.total The count to show in the header.
  * @param {boolean} props.partial Whether there are more issues than `total`.
+ * @param {boolean} [props.showProject] Whether cards name their project.
  */
-function Column({ list, state, issues, total, partial }) {
+function Column({ list, state, issues, total, partial, showProject = false }) {
   const headingId = useId();
   const [shown, setShown] = useState(STEP);
   const remaining = issues.length - Math.min(shown, issues.length);
@@ -35,7 +36,7 @@ function Column({ list, state, issues, total, partial }) {
         <p className="board-column__empty">Nothing here right now</p>
       ) : null}
       {issues.slice(0, shown).map((issue) => (
-        <Card key={issue.url ?? issue.nid} issue={issue} />
+        <Card key={issue.url ?? issue.nid} issue={issue} showProject={showProject} />
       ))}
       {remaining > 0 ? (
         <button type="button" className="board-column__more" onClick={() => setShown(shown + STEP)}>

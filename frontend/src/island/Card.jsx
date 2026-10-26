@@ -12,11 +12,23 @@ const PRIORITIES = {
   300: "Major",
 };
 
-function Card({ issue }) {
+// Issue URLs on drupal.org and GitLab both name the project's machine name.
+const PROJECT_URL = /^https:\/\/(?:www\.drupal\.org|git\.drupalcode\.org)\/project\/([^/]+)\//;
+
+/**
+ * An issue on the board.
+ *
+ * @param {object} props
+ * @param {object} props.issue An issue from drupal.org, or a work item from toDrupalOrgIssue().
+ * @param {boolean} [props.showProject] Whether to name the issue's project.
+ */
+function Card({ issue, showProject = false }) {
   const category = CATEGORIES[issue.field_issue_category];
   const priority = PRIORITIES[issue.field_issue_priority];
+  const project = showProject ? PROJECT_URL.exec(issue.url ?? "")?.[1] : null;
   return (
     <article className="issue-card">
+      {project ? <span className="issue-card__project">{project}</span> : null}
       <a className="issue-card__title" href={issue.url} target="_blank" rel="noreferrer">
         {issue.title}
       </a>
