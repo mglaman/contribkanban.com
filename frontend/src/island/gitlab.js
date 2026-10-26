@@ -98,6 +98,7 @@ export function toDrupalOrgIssue(workItem) {
     field_issue_priority: PRIORITY_TO_ID[scopedLabelValue(labels, "priority")] ?? "200",
     field_issue_version: version ? version.slice(1) : null,
     field_issue_assigned: workItem.assignees.length > 0 ? workItem.assignees[0].username : null,
+    milestone: workItem.milestone?.title ?? null,
   };
 }
 
@@ -105,7 +106,8 @@ export function toDrupalOrgIssue(workItem) {
  * Applies a board list's filters to issues, matching the Drupal.org API query.
  *
  * @param {object[]} issues Issues from toDrupalOrgIssue().
- * @param {object} filter The list's statuses, category, priority, and version.
+ * @param {object} filter The list's statuses, category, priority, and version,
+ *   and optionally a milestone title.
  * @returns {object[]}
  */
 export function filterIssues(issues, filter) {
@@ -115,7 +117,8 @@ export function filterIssues(issues, filter) {
         filter.statuses.includes(issue.field_issue_status) &&
         (filter.category === null || String(filter.category) === issue.field_issue_category) &&
         (filter.priority === null || String(filter.priority) === issue.field_issue_priority) &&
-        (filter.version.length === 0 || filter.version.includes(issue.field_issue_version))
+        (filter.version.length === 0 || filter.version.includes(issue.field_issue_version)) &&
+        (!filter.milestone || issue.milestone === filter.milestone)
     )
     .sort((a, b) => Number(b.field_issue_priority) - Number(a.field_issue_priority));
 }

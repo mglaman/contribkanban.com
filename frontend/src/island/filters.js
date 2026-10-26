@@ -26,7 +26,7 @@ function idFor(options, value) {
  * Reads the filters from a query string, dropping unknown values.
  *
  * @param {string} search Like `?type=bug&project=token&q=views`.
- * @returns {{type: string|null, priority: string|null, project: string|null, text: string}}
+ * @returns {{type: string|null, priority: string|null, project: string|null, milestone: string|null, text: string}}
  */
 export function readFilters(search) {
   const params = new URLSearchParams(search);
@@ -37,6 +37,7 @@ export function readFilters(search) {
     type: idFor(TYPES, type) ? type : null,
     priority: idFor(PRIORITIES, priority) ? priority : null,
     project: project && MACHINE_NAME.test(project) ? project : null,
+    milestone: params.get("milestone")?.trim() || null,
     text: params.get("q") ?? "",
   };
 }
@@ -44,7 +45,7 @@ export function readFilters(search) {
 /**
  * Writes the filters into a query string, keeping other parameters.
  *
- * @param {{type: string|null, priority: string|null, project: string|null, text: string}} filters
+ * @param {{type: string|null, priority: string|null, project: string|null, milestone: string|null, text: string}} filters
  * @param {string} search The current query string.
  * @returns {string} The query string without its leading `?`.
  */
@@ -54,6 +55,7 @@ export function writeFilters(filters, search) {
     type: filters.type,
     priority: filters.priority,
     project: filters.project,
+    milestone: filters.milestone,
     q: filters.text.trim(),
   };
   for (const [key, value] of Object.entries(values)) {
