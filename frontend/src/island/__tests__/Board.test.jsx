@@ -358,6 +358,125 @@ describe("Board", () => {
     expect(await within(column("Needs review")).findByText("canvas")).toBeInTheDocument();
   });
 
+  describe("Project filter", () => {
+    const tagLists = LISTS.map((list) => ({ ...list, projects: [], tags: ["772"] }));
+    const tagConfig = { source: "drupalorg", gitlabProject: null, gitlabLabel: "Novice", showProject: true, lists: tagLists };
+    const doIssue = (nid, project, projectNid) => ({
+      ...ISSUES[0],
+      nid,
+      title: `Drupal.org ${nid}`,
+      url: `https://www.drupal.org/project/${project}/issues/${nid}`,
+      field_project: { id: projectNid },
+    });
+    const workItem = (iid, project) => ({
+      iid,
+      title: `GitLab ${iid}`,
+      web_url: `https://git.drupalcode.org/project/${project}/-/work_items/${iid}`,
+      labels: ["Novice", "state::active"],
+      assignees: [],
+    });
+
+    // Answers api-d7 project lookups and issue queries, and GitLab label queries.
+    function tagFetch({ projects, issues, workItems }) {
+      return vi.fn((url) => {
+        if (url.startsWith("https://git.drupalcode.org")) {
+          return Promise.resolve(jsonResponse(workItems));
+        }
+        const params = new URL(url).searchParams;
+        const machineName = params.get("field_project_machine_name");
+        if (machineName) {
+          return Promise.resolve(jsonResponse({ list: projects[machineName] ? [{ nid: projects[machineName] }] : [] }));
+        }
+        if (params.get("field_issue_status[value][0]") !== "1") {
+          return Promise.resolve(jsonResponse({ list: [] }));
+        }
+        const projectNid = params.get("field_project[target_id][0]");
+        return Promise.resolve(
+          jsonResponse({ list: issues.filter((issue) => !projectNid || issue.field_project.id === projectNid) })
+        );
+      });
+    }
+
+    it("lists every project on a tag board and queries drupal.org for the one picked", async () => {
+      const fetch = tagFetch({
+        projects: { webform: "7404" },
+        issues: [doIssue("101", "webform", "7404"), doIssue("102", "pathauto", "17345")],
+        workItems: [workItem(300, "canvas")],
+      });
+      vi.stubGlobal("fetch", fetch);
+      render(<Board config={tagConfig} filtersSlot={null} />);
+
+      expect(await within(column("Active")).findByText("Drupal.org 102")).toBeInTheDocument();
+      const select = screen.getByRole("combobox", { name: "Project" });
+      await waitFor(() =>
+        expect(within(select).getAllByRole("option").map((option) => option.textContent)).toEqual([
+          "All",
+          "canvas",
+          "pathauto",
+          "webform",
+        ])
+      );
+
+      await userEvent.selectOptions(select, "webform");
+
+      expect(await within(column("Active")).findByText("Drupal.org 101")).toBeInTheDocument();
+      expect(within(column("Active")).queryByText("Drupal.org 102")).not.toBeInTheDocument();
+      expect(within(column("Active")).queryByText("GitLab 300")).not.toBeInTheDocument();
+      expect(fetch.mock.calls.some(([url]) => url.includes("field_project%5Btarget_id%5D%5B0%5D=7404"))).toBe(true);
+      expect(window.location.search).toBe("?project=webform");
+      // Every project stays pickable while one is picked.
+      expect(within(select).getAllByRole("option")).toHaveLength(4);
+    });
+
+    it("skips drupal.org for a project from the URL that drupal.org doesn't have", async () => {
+      window.history.replaceState(null, "", "/sprint/Novice?project=canvas_new");
+      const fetch = tagFetch({
+        projects: {},
+        issues: [doIssue("102", "pathauto", "17345")],
+        workItems: [workItem(300, "canvas_new"), workItem(301, "other")],
+      });
+      vi.stubGlobal("fetch", fetch);
+      render(<Board config={tagConfig} filtersSlot={null} />);
+
+      expect(await within(column("Active")).findByText("GitLab 300")).toBeInTheDocument();
+      expect(within(column("Active")).queryByText("GitLab 301")).not.toBeInTheDocument();
+      expect(within(column("Active")).queryByText("Drupal.org 102")).not.toBeInTheDocument();
+      expect(screen.getByRole("combobox", { name: "Project" })).toHaveValue("canvas_new");
+      expect(fetch.mock.calls.some(([url]) => url.includes("field_issue_status"))).toBe(false);
+    });
+
+    it("filters an issue collection by project", async () => {
+      vi.stubGlobal(
+        "fetch",
+        vi.fn(() =>
+          Promise.resolve(jsonResponse({ list: [doIssue("101", "webform", "7404"), doIssue("102", "pathauto", "17345")] }))
+        )
+      );
+      render(
+        <Board
+          config={{ source: "drupalorg", gitlabProject: null, showProject: true, nids: ["101", "102"], lists: LISTS }}
+          filtersSlot={null}
+        />
+      );
+
+      expect(await within(column("Active")).findByText("Drupal.org 102")).toBeInTheDocument();
+      await userEvent.selectOptions(screen.getByRole("combobox", { name: "Project" }), "webform");
+
+      expect(within(column("Active")).getByText("Drupal.org 101")).toBeInTheDocument();
+      expect(within(column("Active")).queryByText("Drupal.org 102")).not.toBeInTheDocument();
+    });
+
+    it("isn't offered on a project board", async () => {
+      window.history.replaceState(null, "", "/board/pathauto?project=token");
+      vi.stubGlobal("fetch", vi.fn(drupalOrgFetch));
+      render(<Board config={{ source: "drupalorg", gitlabProject: null, lists: LISTS }} filtersSlot={null} />);
+
+      expect(await within(column("Active")).findByText("Bug in active")).toBeInTheDocument();
+      expect(screen.queryByRole("combobox", { name: "Project" })).not.toBeInTheDocument();
+      expect(window.location.search).toBe("");
+    });
+  });
+
   it("doesn't name the project on a project board", async () => {
     const issues = ISSUES.map((issue) => ({ ...issue, url: `https://www.drupal.org/project/pathauto/issues/${issue.nid}` }));
     vi.stubGlobal(
