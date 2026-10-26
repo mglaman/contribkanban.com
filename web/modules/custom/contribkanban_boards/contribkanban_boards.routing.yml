@@ -53,7 +53,7 @@ contribkanban_boards.legacy.create:
   path: '/create'
   defaults:
     _controller: '\Drupal\contribkanban_boards\Controller\LegacyRedirectController::toRoute'
-    route_name: 'contribkanban_api.create_board'
+    route_name: 'contribkanban_boards.create_board'
   requirements:
     # A redirect; the page it leads to checks access.
     _access: 'TRUE'
@@ -73,3 +73,10 @@ contribkanban_boards.legacy.listing:
     # A redirect; the page it leads to checks access.
     _access: 'TRUE'
     type: 'project|sprint|core'
+contribkanban_boards.create_board:
+  path: "/boards/new"
+  defaults:
+    _form: '\Drupal\contribkanban_boards\Form\CreateBoardForm'
+    _title: "Start a board"
+  requirements:
+    _access: "TRUE"

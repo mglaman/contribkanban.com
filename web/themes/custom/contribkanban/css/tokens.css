@@ -26,7 +26,6 @@
   --ck-shadow: 0 1px 2px rgb(15 23 42 / 5%), 0 4px 12px rgb(15 23 42 / 5%);
   --ck-shadow-subtle: 0 1px 2px rgb(15 23 42 / 6%);
   --ck-gutter: 40px;
-  --ck-max-width: 1240px;
 }
 
 @media (width < 640px) {

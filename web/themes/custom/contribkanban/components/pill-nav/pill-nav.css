@@ -23,10 +23,9 @@
 }
 
 .pill-nav--subtle .pill-nav__link[aria-current="page"] {
-  background: var(--ck-surface);
+  background: var(--ck-surface-muted);
   color: var(--ck-text);
   font-weight: 600;
-  box-shadow: var(--ck-shadow-subtle);
 }
 
 .pill-nav--solid .pill-nav__link {

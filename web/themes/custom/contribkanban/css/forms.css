@@ -150,8 +150,10 @@ input[type="submit"]:hover {
   position: relative;
   display: grid;
   grid-template-columns: auto 1fr;
+  align-content: start;
   align-items: center;
   gap: 6px 8px;
+  margin: 0;
   padding: 14px;
   border: 2px solid var(--ck-border-subtle);
   border-radius: var(--ck-radius-card);

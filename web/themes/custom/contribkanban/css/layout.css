@@ -1,16 +1,24 @@
+/* Keeps the footer at the bottom of short pages. Percentages, unlike 100vh,
+   leave room for the padding the admin toolbar adds to body. */
+html,
+body {
+  height: 100%;
+}
+
+.dialog-off-canvas-main-canvas {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
 .layout-page {
+  flex: 1 0 auto;
   width: 100%;
-  max-width: var(--ck-max-width);
-  margin: 0 auto;
   padding: 24px var(--ck-gutter) 48px;
   display: flex;
   flex-wrap: wrap;
   gap: 32px;
   align-items: flex-start;
-}
-
-.layout-page--board {
-  max-width: none;
 }
 
 .layout-main {
@@ -49,9 +57,8 @@
 }
 
 .site-footer {
-  max-width: var(--ck-max-width);
-  margin: 0 auto;
-  padding: 24px var(--ck-gutter) 40px;
+  padding: 24px var(--ck-gutter) 32px;
+  border-top: 1px solid var(--ck-border-subtle);
   display: flex;
   flex-wrap: wrap;
   gap: 8px 24px;

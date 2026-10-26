@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Drupal\contribkanban_api\Form;
+namespace Drupal\contribkanban_boards\Form;
 
-use Drupal\contribkanban_api\BoardFactory;
+use Drupal\contribkanban_boards\BoardFactory;
 use Drupal\contribkanban_boards\Entity\BoardInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -16,7 +16,7 @@ final class CreateBoardForm extends FormBase {
   /**
    * Constructs a CreateBoardForm.
    *
-   * @param \Drupal\contribkanban_api\BoardFactory $boardFactory
+   * @param \Drupal\contribkanban_boards\BoardFactory $boardFactory
    *   Gets boards for drupal.org projects and tags.
    */
   public function __construct(
@@ -28,7 +28,7 @@ final class CreateBoardForm extends FormBase {
    */
   public static function create(ContainerInterface $container): self {
     return new self(
-      $container->get('contribkanban_api.board_factory'),
+      $container->get('contribkanban_boards.board_factory'),
     );
   }
 
@@ -105,7 +105,7 @@ final class CreateBoardForm extends FormBase {
         : $this->boardFactory->forProject($name);
     }
     catch (GuzzleException $e) {
-      $this->logger('contribkanban_api')->error('Looking up @name on drupal.org failed: @message', [
+      $this->logger('contribkanban_boards')->error('Looking up @name on drupal.org failed: @message', [
         '@name' => $name,
         '@message' => $e->getMessage(),
       ]);

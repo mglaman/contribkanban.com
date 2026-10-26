@@ -12,3 +12,6 @@ services:
     parent: paramconverter.entity
     tags:
       - { name: paramconverter, priority: 10 }
+  contribkanban_boards.board_factory:
+    class: Drupal\contribkanban_boards\BoardFactory
+    arguments: ['@drupalorg_projects', '@drupalorg_tags', '@entity_type.manager']

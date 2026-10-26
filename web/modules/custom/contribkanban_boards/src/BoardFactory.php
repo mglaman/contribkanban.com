@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Drupal\contribkanban_api;
+namespace Drupal\contribkanban_boards;
 
 use Drupal\contribkanban_boards\Entity\BoardInterface;
+use Drupal\contribkanban_projects\Projects;
+use Drupal\contribkanban_projects\Tags;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 final class BoardFactory {
@@ -35,9 +37,9 @@ final class BoardFactory {
   /**
    * Constructs a BoardFactory.
    *
-   * @param \Drupal\contribkanban_api\Projects $projects
+   * @param \Drupal\contribkanban_projects\Projects $projects
    *   Looks up projects on drupal.org.
-   * @param \Drupal\contribkanban_api\Tags $tags
+   * @param \Drupal\contribkanban_projects\Tags $tags
    *   Looks up issue tags on drupal.org.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
@@ -51,6 +53,9 @@ final class BoardFactory {
   /**
    * Gets the board for a drupal.org project.
    *
+   * Looks for a board with the machine name before asking drupal.org, so
+   * finding a board works when drupal.org can't be reached.
+   *
    * @param string $machine_name
    *   The project's machine name.
    *
@@ -62,6 +67,10 @@ final class BoardFactory {
    *   When drupal.org can't be reached.
    */
   public function forProject(string $machine_name): ?BoardInterface {
+    $existing = $this->loadExisting('drupalorg_project', 'machine_name', $machine_name);
+    if ($existing !== NULL) {
+      return $existing;
+    }
     $project = $this->projects->getProject($machine_name);
     if ($project === []) {
       return NULL;
@@ -82,6 +91,9 @@ final class BoardFactory {
   /**
    * Gets the board for a drupal.org issue tag.
    *
+   * Looks for a tag board titled with the name before asking drupal.org, so
+   * finding a board works when drupal.org can't be reached.
+   *
    * @param string $name
    *   The tag name.
    * @param string|null $tid
@@ -96,6 +108,10 @@ final class BoardFactory {
    */
   public function forTag(string $name, ?string $tid = NULL): ?BoardInterface {
     if ($tid === NULL) {
+      $existing = $this->loadExisting('drupalorg_sprint', 'title', $name);
+      if ($existing !== NULL) {
+        return $existing;
+      }
       $tag = $this->tags->getTag($name);
       if ($tag === []) {
         return NULL;

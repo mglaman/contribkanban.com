@@ -1,6 +1,4 @@
 name: contribkanban_projects
-description: Stores project information
+description: Stores drupal.org projects and looks them up on drupal.org.
 core_version_requirement: '*'
 type: module
-dependencies:
-  - contribkanban_api:contribkanban_api

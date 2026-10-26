@@ -21,6 +21,7 @@ class NodeBoardQueryAccessTest extends EntityKernelTestBase {
    */
   protected static $modules = [
     'contribkanban_boards',
+    'contribkanban_projects',
     'entity',
     'inline_entity_form',
     'options',
