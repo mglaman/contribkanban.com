@@ -53,7 +53,7 @@ final class BoardIslandConfig {
    *   For tag boards, node IDs of projects whose issues moved to GitLab.
    *   Drupal.org keeps their issues, frozen, so the island drops them.
    *
-   * @return array{source: string, gitlabProject: string|null, gitlabLabel: string|null, movedProjects: list<int>, lists: list<array<string, mixed>>}
+   * @return array{source: string, gitlabProject: string|null, gitlabLabel: string|null, movedProjects: list<int>, showProject: bool, lists: list<array<string, mixed>>}
    *   The configuration.
    */
   public static function build(BoardInterface $board, string $version = '', array $moved_projects = []): array {
@@ -90,6 +90,8 @@ final class BoardIslandConfig {
       // tag, which is the board's title.
       'gitlabLabel' => $tag_board ? (string) $board->label() : NULL,
       'movedProjects' => $tag_board ? $moved_projects : [],
+      // Tag boards span projects, so cards name theirs.
+      'showProject' => $tag_board,
       'lists' => $lists,
     ];
   }
@@ -107,7 +109,7 @@ final class BoardIslandConfig {
    *   Node IDs of projects whose issues moved to GitLab. The island loads
    *   those issues from GitLab.
    *
-   * @return array{source: string, gitlabProject: null, gitlabLabel: null, movedProjects: list<int>, nids: list<string>, workItems: list<array{path: string, iid: string}>, lists: list<array<string, mixed>>}
+   * @return array{source: string, gitlabProject: null, gitlabLabel: null, movedProjects: list<int>, showProject: true, nids: list<string>, workItems: list<array{path: string, iid: string}>, lists: list<array<string, mixed>>}
    *   The configuration.
    */
   public static function collection(NodeBoard $collection, array $moved_projects = []): array {
@@ -138,6 +140,7 @@ final class BoardIslandConfig {
       'gitlabProject' => NULL,
       'gitlabLabel' => NULL,
       'movedProjects' => $moved_projects,
+      'showProject' => TRUE,
       'nids' => $nids,
       'workItems' => $work_items,
       'lists' => $lists,

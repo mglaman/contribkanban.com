@@ -80,6 +80,7 @@ final class BoardIslandConfigTest extends KernelTestBase {
     self::assertNull($config['gitlabProject']);
     self::assertNull($config['gitlabLabel']);
     self::assertSame([], $config['movedProjects']);
+    self::assertFalse($config['showProject']);
     self::assertSame([
       [
         'title' => 'Postponed',
@@ -138,6 +139,7 @@ final class BoardIslandConfigTest extends KernelTestBase {
     self::assertSame('drupalorg', $config['source']);
     self::assertSame('Coding standards', $config['gitlabLabel']);
     self::assertSame([2350161], $config['movedProjects']);
+    self::assertTrue($config['showProject']);
     self::assertSame(['1234'], $config['lists'][0]['tags']);
   }
 

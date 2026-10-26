@@ -326,6 +326,53 @@ describe("Board", () => {
     expect(fetch).toHaveBeenCalledTimes(3);
   });
 
+  it("names each card's project on boards that span projects", async () => {
+    const tagLists = LISTS.map((list) => ({ ...list, projects: [], tags: ["772"] }));
+    const fetch = vi.fn((url) => {
+      if (url.startsWith("https://git.drupalcode.org")) {
+        return Promise.resolve(
+          jsonResponse([
+            {
+              iid: 400,
+              title: "GitLab 400",
+              web_url: "https://git.drupalcode.org/project/canvas/-/work_items/400",
+              labels: ["Novice", "state::needsReview"],
+              assignees: [],
+            },
+          ])
+        );
+      }
+      const status = new URL(url).searchParams.get("field_issue_status[value][0]");
+      const list = status === "1" ? [{ ...ISSUES[0], url: "https://www.drupal.org/project/token/issues/101" }] : [];
+      return Promise.resolve(jsonResponse({ list }));
+    });
+    vi.stubGlobal("fetch", fetch);
+    render(
+      <Board
+        config={{ source: "drupalorg", gitlabProject: null, gitlabLabel: "Novice", showProject: true, lists: tagLists }}
+        filtersSlot={null}
+      />
+    );
+
+    expect(await within(column("Active")).findByText("token")).toBeInTheDocument();
+    expect(await within(column("Needs review")).findByText("canvas")).toBeInTheDocument();
+  });
+
+  it("doesn't name the project on a project board", async () => {
+    const issues = ISSUES.map((issue) => ({ ...issue, url: `https://www.drupal.org/project/pathauto/issues/${issue.nid}` }));
+    vi.stubGlobal(
+      "fetch",
+      vi.fn((url) => {
+        const status = new URL(url).searchParams.get("field_issue_status[value][0]");
+        return Promise.resolve(jsonResponse({ list: issues.filter((issue) => issue.field_issue_status === status) }));
+      })
+    );
+    render(<Board config={{ source: "drupalorg", gitlabProject: null, lists: LISTS }} filtersSlot={null} />);
+
+    expect(await within(column("Active")).findByText("Bug in active")).toBeInTheDocument();
+    expect(screen.queryByText("pathauto")).not.toBeInTheDocument();
+  });
+
   it("renders the filters into the board shell's slot", async () => {
     vi.stubGlobal("fetch", vi.fn(drupalOrgFetch));
     const slot = document.createElement("div");
