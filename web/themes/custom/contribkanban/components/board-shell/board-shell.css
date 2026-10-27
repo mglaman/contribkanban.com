@@ -432,3 +432,99 @@
   object-fit: cover;
   box-shadow: 0 0 0 1px var(--ck-border-subtle);
 }
+
+/* An issue collection's issues, listed under its form's issue IDs field. */
+.issue-ids {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.issue-ids__summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin: 0;
+  color: var(--ck-muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.issue-ids__list {
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--ck-border-subtle);
+  border-radius: var(--ck-radius-input);
+  background: var(--ck-surface);
+  list-style: none;
+}
+
+.issue-ids__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+}
+
+.issue-ids__item + .issue-ids__item {
+  border-top: 1px solid var(--ck-border-subtle);
+}
+
+/* Fixed and closed issues stand out, since they can come off. */
+.issue-ids__item--done {
+  background: var(--ck-accent-soft);
+}
+
+.issue-ids__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.issue-ids__title {
+  color: var(--ck-text);
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.issue-ids__item--unknown .issue-ids__title {
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
+}
+
+.issue-ids__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  color: var(--ck-muted);
+  font-size: 13px;
+}
+
+.issue-ids__item--done .issue-ids__status {
+  color: var(--ck-accent-strong);
+  font-weight: 600;
+}
+
+.issue-ids__remove,
+.issue-ids__remove-done {
+  flex: none;
+  padding: 6px 12px;
+  border: 1px solid var(--ck-border);
+  border-radius: var(--ck-radius-pill);
+  background: var(--ck-surface);
+  color: var(--ck-text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.issue-ids__remove:hover,
+.issue-ids__remove-done:hover {
+  border-color: var(--ck-danger);
+  color: var(--ck-danger);
+}
