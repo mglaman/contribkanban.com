@@ -1,7 +1,8 @@
 {#
 /**
  * @file
- * The board listing: search, type links, board cards, and the pager.
+ * The board listing: search, popular searches, type links, board cards, and
+ * the pager.
  */
 #}
 <div{{ attributes.addClass('board-listing') }}>
@@ -10,12 +11,17 @@
   {% if header %}
     <div class="board-listing__intro">{{ header }}</div>
   {% endif %}
-  {{ exposed }}
-  {{ include('contribkanban:pill-nav', {label: 'Board type'|t, items: type_links, variant: 'solid'}, with_context = false) }}
-  {% if rows %}
-    <div class="board-listing__grid">{{ rows }}</div>
-  {% elseif empty %}
-    <div class="board-listing__empty">{{ empty }}</div>
-  {% endif %}
+  <div class="board-listing__search">
+    {{ exposed }}
+    {{ include('contribkanban:popular-searches', {items: popular}, with_context = false) }}
+  </div>
+  <div class="board-listing__results">
+    {{ include('contribkanban:pill-nav', {label: 'Board type'|t, items: type_links, variant: 'solid'}, with_context = false) }}
+    {% if rows %}
+      <div class="board-listing__grid">{{ rows }}</div>
+    {% elseif empty %}
+      <div class="board-listing__empty">{{ empty }}</div>
+    {% endif %}
+  </div>
   {{ pager }}
 </div>

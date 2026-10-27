@@ -104,7 +104,7 @@ function contribkanban_preprocess_board(array &$variables): void {
   $variables['card'] = [
     'title' => (string) $board->label(),
     'url' => $board->toUrl()->toString(),
-    'type' => (string) ($bundles[$board->bundle()]['label'] ?? ''),
+    'type' => (string) $bundles[$board->bundle()]['label'],
     'source' => $gitlab ? 'gitlab' : 'drupalorg',
   ];
 }
@@ -209,8 +209,21 @@ function contribkanban_preprocess_views_view__board_listing(array &$variables): 
       'current' => $type === $current_type,
     ];
   }
+  // A popular search replaces the current search and type.
+  $bundles = \Drupal::service('entity_type.bundle.info')->getBundleInfo('board');
+  $variables['popular'] = [];
+  foreach (\Drupal::service('contribkanban_boards.popular_boards')->load() as $board) {
+    $variables['popular'][] = [
+      'label' => (string) $board->label(),
+      'type' => (string) $bundles[$board->bundle()]['label'],
+      'url' => Url::fromRoute('<current>', [], [
+        'query' => ['search' => (string) $board->label()],
+      ])->toString(),
+    ];
+  }
   $variables['#cache']['contexts'][] = 'url.query_args:type';
   $variables['#cache']['contexts'][] = 'url.query_args:search';
+  $variables['#cache']['tags'][] = 'board_list';
 }
 
 /**
@@ -229,7 +242,9 @@ function contribkanban_form_views_exposed_form_alter(array &$form, FormStateInte
     return;
   }
   $form['#attributes']['role'] = 'search';
+  $form['#attributes']['class'][] = 'board-search';
   $form['search']['#title_display'] = 'invisible';
+  $form['search']['#type'] = 'search';
   $form['search']['#attributes']['placeholder'] = t('Search projects, tags, and components');
   // The type links below the search field set the type.
   $form['type']['#type'] = 'hidden';

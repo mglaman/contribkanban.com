@@ -8,3 +8,8 @@ contribkanban_boards.node_boards:
   route_name: 'entity.node_board.collection'
   parent: 'system.admin_structure'
   description: 'View and manage node boards.'
+contribkanban_boards.popular:
+  title: 'Popular searches'
+  route_name: 'contribkanban_boards.popular'
+  parent: 'contribkanban_boards.boards'
+  description: 'Pick and order the popular searches on the board listing.'

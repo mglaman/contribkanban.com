@@ -26,3 +26,6 @@ services:
   contribkanban_boards.bookmark_lazy_builder:
     class: Drupal\contribkanban_boards\BookmarkLazyBuilder
     arguments: ['@entity_type.manager', '@form_builder', '@current_user']
+  contribkanban_boards.popular_boards:
+    class: Drupal\contribkanban_boards\PopularBoards
+    arguments: ['@entity_type.manager']

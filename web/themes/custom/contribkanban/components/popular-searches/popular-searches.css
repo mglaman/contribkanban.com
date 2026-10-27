@@ -1,0 +1,45 @@
+.popular-searches {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  font-size: 14px;
+}
+
+.popular-searches__label {
+  color: var(--ck-muted);
+  font-weight: 600;
+}
+
+.popular-searches__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.popular-searches__link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 5px 12px;
+  border: 1px solid var(--ck-border-subtle);
+  border-radius: var(--ck-radius-pill);
+  background: var(--ck-surface);
+  color: var(--ck-text);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.popular-searches__link:hover {
+  border-color: var(--ck-accent);
+  color: var(--ck-text);
+}
+
+.popular-searches__type {
+  color: var(--ck-accent);
+  font-size: 12px;
+  font-weight: 600;
+}

@@ -1,0 +1,17 @@
+{% if items %}
+  <nav class="popular-searches" aria-label="{{ 'Popular searches'|t }}">
+    <span class="popular-searches__label" aria-hidden="true">{{ 'Popular:'|t }}</span>
+    <ul class="popular-searches__list">
+      {% for item in items %}
+        <li>
+          <a class="popular-searches__link" href="{{ item.url }}">
+            {% if item.type %}
+              <span class="popular-searches__type">{{ item.type }}</span>
+            {% endif %}
+            {{ item.label }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+{% endif %}
