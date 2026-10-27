@@ -246,7 +246,7 @@ const ISSUE_PROJECT = /^https:\/\/www\.drupal\.org\/project\/([^/]+)\/issues\//;
  * @param {AbortSignal} signal
  * @returns {Promise<object[]>}
  */
-async function withGitLabWorkItems(issues, movedProjects, signal) {
+export async function withGitLabWorkItems(issues, movedProjects, signal) {
   const iidsByProject = new Map();
   for (const issue of issues) {
     const match = ISSUE_PROJECT.exec(issue.url ?? "");

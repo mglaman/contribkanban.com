@@ -213,6 +213,14 @@ function contribkanban_preprocess_views_view__board_listing(array &$variables): 
 }
 
 /**
+ * Implements hook_form_BASE_FORM_ID_alter() for issue collection forms.
+ */
+function contribkanban_form_node_board_form_alter(array &$form, FormStateInterface $form_state): void {
+  // The board island lists the collection's issues under its issue IDs field.
+  $form['#attached']['library'][] = 'core/components.contribkanban--board-shell';
+}
+
+/**
  * Implements hook_form_FORM_ID_alter() for views_exposed_form.
  */
 function contribkanban_form_views_exposed_form_alter(array &$form, FormStateInterface $form_state): void {

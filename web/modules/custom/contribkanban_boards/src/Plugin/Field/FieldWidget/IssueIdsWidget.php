@@ -30,6 +30,9 @@ final class IssueIdsWidget extends WidgetBase {
     // Replaces the field's description, which is written for developers.
     $element['#description'] = new TranslatableMarkup('One per line. Paste a drupal.org issue URL or number, or a git.drupalcode.org work item URL.');
     $element['#element_validate'] = [[self::class, 'validateElement']];
+    // The board island lists the issues under the field. Issues from projects
+    // that moved to GitLab load from there.
+    $element['#attributes']['data-issue-ids'] = json_encode(_contribkanban_boards_gitlab_project_nids(), JSON_THROW_ON_ERROR);
     return $element;
   }
 

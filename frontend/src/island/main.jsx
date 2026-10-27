@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client";
 import Board from "./Board";
+import IssueIdsEditor from "./IssueIdsEditor";
 import Roulette from "./Roulette";
 
 // The board shell component renders the configuration and empty columns, and
@@ -22,4 +23,13 @@ for (const element of document.querySelectorAll("[data-roulette]")) {
   const config = JSON.parse(element.dataset.roulette);
   const filtersSlot = element.closest(".issue-roulette")?.querySelector("[data-roulette-filters]") ?? null;
   createRoot(element).render(<Roulette config={config} filtersSlot={filtersSlot} />);
+}
+
+// An issue collection's form lists its issues under the issue IDs field, to
+// triage them.
+for (const textarea of document.querySelectorAll("textarea[data-issue-ids]")) {
+  const container = document.createElement("div");
+  (textarea.closest(".form-item") ?? textarea).after(container);
+  const movedProjects = JSON.parse(textarea.dataset.issueIds);
+  createRoot(container).render(<IssueIdsEditor textarea={textarea} movedProjects={movedProjects} />);
 }
