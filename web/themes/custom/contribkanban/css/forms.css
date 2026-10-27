@@ -124,7 +124,7 @@ input[type="submit"]:hover {
   max-width: 720px;
   padding: 6px;
   border: 1px solid var(--ck-border);
-  border-radius: var(--ck-radius-input);
+  border-radius: var(--ck-radius-pill);
   background: var(--ck-surface);
 }
 
@@ -145,7 +145,7 @@ input[type="submit"]:hover {
 .board-search .form-item-search::before {
   position: absolute;
   top: 50%;
-  left: 12px;
+  left: 16px;
   width: 18px;
   height: 18px;
   background: var(--ck-muted);
@@ -157,7 +157,7 @@ input[type="submit"]:hover {
 
 .board-search input[type="search"] {
   min-height: 44px;
-  padding: 10px 8px 10px 40px;
+  padding: 10px 8px 10px 44px;
   border: 0;
   background: transparent;
   font-size: 16px;
@@ -172,7 +172,6 @@ input[type="submit"]:hover {
 .board-search .form-actions input[type="submit"] {
   min-height: 44px;
   padding: 10px 20px;
-  border-radius: calc(var(--ck-radius-input) - 4px);
 }
 
 /* Start a board: the board kinds as selectable cards. */
