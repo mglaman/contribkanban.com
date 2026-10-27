@@ -1,7 +1,7 @@
 import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import { render, screen, within, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Board from "../Board";
+import Board, { rouletteUrl } from "../Board";
 
 const LISTS = [
   { title: "Active", tone: "active", statuses: ["1"], projects: ["17345"], tags: [], versions: [], component: null },
@@ -462,6 +462,8 @@ describe("Board", () => {
       );
 
       expect(await within(column("Active")).findByText("Drupal.org 102")).toBeInTheDocument();
+      // Projects join the filter after their issues render.
+      await screen.findByRole("option", { name: "webform" });
       await userEvent.selectOptions(screen.getByRole("combobox", { name: "Project" }), "webform");
 
       expect(within(column("Active")).getByText("Drupal.org 101")).toBeInTheDocument();
@@ -621,5 +623,30 @@ describe("Board", () => {
     expect(within(slot).getByRole("search")).toBeInTheDocument();
     await screen.findByText("Feature needing review");
     slot.remove();
+  });
+
+  describe("Roll for an issue", () => {
+    it("carries the board's filters to the roulette", async () => {
+      vi.stubGlobal("fetch", vi.fn(drupalOrgFetch));
+      window.history.replaceState(null, "", "/board/pathauto?priority=major");
+      const link = document.createElement("a");
+      link.setAttribute("href", "/roulette?project=pathauto");
+      render(<Board config={{ source: "drupalorg", gitlabProject: null, lists: LISTS }} filtersSlot={null} rouletteLink={link} />);
+
+      expect(link.getAttribute("href")).toBe("/roulette?project=pathauto&priority=major");
+      await userEvent.selectOptions(screen.getByRole("combobox", { name: "Type" }), "bug");
+      expect(link.getAttribute("href")).toBe("/roulette?project=pathauto&type=bug&priority=major");
+      await userEvent.selectOptions(screen.getByRole("combobox", { name: "Priority" }), "");
+      expect(link.getAttribute("href")).toBe("/roulette?project=pathauto&type=bug");
+    });
+
+    it("keeps a project board's project and adds a tag board's Project filter", () => {
+      const filters = { type: null, priority: null, project: null, milestone: "1.0.0-rc1", text: "" };
+      expect(rouletteUrl("/roulette?project=tool", filters)).toBe("/roulette?project=tool&milestone=1.0.0-rc1");
+      expect(rouletteUrl("/roulette?tag=Novice", { ...filters, milestone: null, project: "token" })).toBe(
+        "/roulette?tag=Novice&project=token"
+      );
+      expect(rouletteUrl("/roulette?tag=Novice", { ...filters, milestone: null })).toBe("/roulette?tag=Novice");
+    });
   });
 });

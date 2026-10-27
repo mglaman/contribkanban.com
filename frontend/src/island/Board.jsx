@@ -15,7 +15,7 @@ const NO_WORK_ITEMS = [];
 
 const byPriority = (a, b) => Number(b.field_issue_priority) - Number(a.field_issue_priority);
 
-const inProject = (project) => (issue) => !project || issueProject(issue) === project;
+export const inProject = (project) => (issue) => !project || issueProject(issue) === project;
 
 /**
  * Loads a list's first page from drupal.org.
@@ -61,7 +61,7 @@ export function useListIssues(list, category, priority, project = null, enabled 
  * @returns {{state: string, nid: string|null}} A null `nid` once loaded means
  *   drupal.org has no such project.
  */
-function useProjectNid(project) {
+export function useProjectNid(project) {
   const [result, setResult] = useState({ project: null });
   useEffect(() => {
     if (!project) {
@@ -350,7 +350,7 @@ function CollectionColumns({ nids, workItems, movedProjects, lists, category, pr
  *
  * @returns {{names: string[], add: (issues: object[]) => void}}
  */
-function useProjects() {
+export function useProjects() {
   const [names, setNames] = useState(() => new Set());
   const add = useCallback((issues) => {
     setNames((previous) => {
@@ -369,13 +369,32 @@ function useProjects() {
 }
 
 /**
+ * Adds a board's filters to its roulette URL.
+ *
+ * A project board's roulette URL names the project, which the filters must
+ * keep; a tag board's names the tag, and its Project filter narrows it.
+ *
+ * @param {string} base The roulette URL, like `/roulette?project=tool`.
+ * @param {object} filters The board's filters.
+ * @returns {string}
+ */
+export function rouletteUrl(base, filters) {
+  const [path, search = ""] = base.split("?");
+  const project = filters.project ?? new URLSearchParams(search).get("project");
+  const query = writeFilters({ ...filters, project }, search);
+  return query ? `${path}?${query}` : path;
+}
+
+/**
  * The board island.
  *
  * @param {object} props
  * @param {object} props.config The board configuration from the board shell.
  * @param {Element|null} props.filtersSlot Where the board shell wants the filters.
+ * @param {Element|null} [props.rouletteLink] The board shell's "Roll for an
+ *   issue" link, which gets the filters too.
  */
-function Board({ config, filtersSlot }) {
+function Board({ config, filtersSlot, rouletteLink = null }) {
   const showProject = config.showProject ?? false;
   const gitlabProject = config.source === "gitlab" ? config.gitlabProject : null;
   const [filters, setFilters] = useState(() => {
@@ -392,6 +411,8 @@ function Board({ config, filtersSlot }) {
     [workItems.issues]
   );
   const collapsedColumns = useCollapsedColumns(window.location.pathname);
+  // The link's URL from Drupal, before any filters.
+  const [rouletteBase] = useState(() => rouletteLink?.getAttribute("href") ?? null);
 
   // Filters live in the URL, so a filtered board can be shared.
   useEffect(() => {
@@ -399,6 +420,14 @@ function Board({ config, filtersSlot }) {
     const url = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
     window.history.replaceState(window.history.state, "", url);
   }, [filters]);
+
+  // The roulette rolls within the board's filters. The link lives outside the
+  // island, in the board shell's header.
+  useEffect(() => {
+    if (rouletteLink && rouletteBase) {
+      rouletteLink.setAttribute("href", rouletteUrl(rouletteBase, filters));
+    }
+  }, [rouletteLink, rouletteBase, filters]);
 
   const { category, priority } = filterIds(filters);
   const toolbar = (
