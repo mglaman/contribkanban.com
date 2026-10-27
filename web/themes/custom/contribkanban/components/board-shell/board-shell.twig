@@ -30,8 +30,8 @@
           <p>{{ 'This board starts with issues that already have work in them. Reviewing and finishing those moves more issues forward than starting new ones, so start with Needs review, then Needs work, then Active.'|t }}</p>
         </details>
       {% endif %}
-      {% if roulette_url or embed_url %}
-        <p class="board-shell__actions">
+      {% if roulette_url or embed_url or bookmark %}
+        <div class="board-shell__actions">
           {% if roulette_url %}
           <a class="board-shell__roulette" href="{{ roulette_url }}">
             {# The same die as the roulette's Roll button. #}
@@ -48,7 +48,9 @@
           {% if embed_url %}
             <span data-board-embed="{{ embed_url }}" data-board-embed-title="{{ title }}"></span>
           {% endif %}
-        </p>
+          {# For logged-in users. Drupal renders it after the cached board. #}
+          {{ bookmark }}
+        </div>
       {% endif %}
       {% if edit_url %}
         <p><a class="board-shell__edit" href="{{ edit_url }}">{{ 'Edit'|t }}</a></p>

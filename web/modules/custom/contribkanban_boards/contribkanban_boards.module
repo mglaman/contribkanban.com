@@ -6,6 +6,7 @@
  */
 
 use Drupal\contribkanban_boards\BoardIslandConfig;
+use Drupal\contribkanban_boards\Bookmarks;
 use Drupal\contribkanban_boards\Entity\BoardInterface;
 use Drupal\contribkanban_boards\Entity\NodeBoard;
 use Drupal\Core\Cache\Cache;
@@ -105,6 +106,27 @@ function contribkanban_boards_user_view(array &$build, EntityInterface $entity, 
       ])->toRenderable(),
     ];
   }
+  $bookmarks = \Drupal::service('contribkanban_boards.bookmarks');
+  $build['bookmarks'] = [
+    '#type' => 'container',
+    '#attributes' => ['class' => ['issue-collections']],
+    '#weight' => -20,
+    '#cache' => ['tags' => [Bookmarks::cacheTag($entity), 'board_list']],
+    'heading' => [
+      '#type' => 'html_tag',
+      '#tag' => 'h2',
+      '#value' => t('Bookmarked boards'),
+    ],
+    'list' => [
+      '#theme' => 'item_list',
+      '#items' => array_map(
+        static fn (BoardInterface $board): array => $board->toLink()->toRenderable(),
+        $bookmarks->boards($entity),
+      ),
+      '#empty' => t('Bookmark a board from its page to find it here.'),
+      '#attributes' => ['class' => ['issue-collections__list']],
+    ],
+  ];
   $build['issue_collections'] = [
     '#type' => 'container',
     '#attributes' => ['class' => ['issue-collections']],
@@ -153,6 +175,11 @@ function contribkanban_boards_board_view(array &$build, EntityInterface $entity,
   $build['#island'] = BoardIslandConfig::build($entity, is_string($version) ? $version : '', $moved_projects);
   // The version comes from the route.
   $build['#cache']['contexts'][] = 'route';
+  // Varies by user, so it renders after the cached board.
+  $build['#bookmark'] = [
+    '#lazy_builder' => ['contribkanban_boards.bookmark_lazy_builder:build', [(string) $entity->id()]],
+    '#create_placeholder' => TRUE,
+  ];
   $lists = $entity->get('lists');
   assert($lists instanceof EntityReferenceFieldItemListInterface);
   foreach ($lists->referencedEntities() as $list) {

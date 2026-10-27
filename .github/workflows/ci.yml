@@ -161,6 +161,8 @@ jobs:
 
           # Boards offer an Embed button, and embedded boards leave out the site and the roulette, and other sites can frame them.
           curl -fsS "http://127.0.0.1:8080/board/smoke_test_project" | grep 'data-board-embed="/board/smoke_test_project/embed"'
+          # Only logged-in users get the Bookmark button.
+          test "$(curl -fsS "http://127.0.0.1:8080/board/smoke_test_project" | grep -c 'board-shell__bookmark')" = 0
           embed="$(curl -fsS -D - "http://127.0.0.1:8080/board/smoke_test_project/embed")"
           echo "$embed" | grep 'class="board-shell board-shell--embed"'
           test "$(echo "$embed" | grep -ciE 'x-frame-options|site-footer|board-shell__roulette')" = 0
