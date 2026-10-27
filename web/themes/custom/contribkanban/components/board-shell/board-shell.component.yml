@@ -26,6 +26,9 @@ props:
     roulette_url:
       type: string
       title: Issue roulette URL with the board's tag or project, for tag and project boards
+    embed_url:
+      type: string
+      title: The board's embed URL, for the Embed button that copies an iframe for it
     embed:
       type: boolean
       title: Embedded on another site

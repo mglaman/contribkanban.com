@@ -667,6 +667,53 @@ describe("Board", () => {
     slot.remove();
   });
 
+  describe("Embed button", () => {
+    function embedSlot() {
+      const slot = document.createElement("span");
+      slot.dataset.boardEmbed = "/board/pathauto/embed";
+      slot.dataset.boardEmbedTitle = 'Pathauto "beta"';
+      document.body.append(slot);
+      return slot;
+    }
+
+    function stubClipboard(writeText) {
+      Object.defineProperty(navigator, "clipboard", { value: { writeText }, configurable: true });
+    }
+
+    afterEach(() => {
+      delete navigator.clipboard;
+      document.body.replaceChildren();
+    });
+
+    it("copies an iframe for the board with its filters", async () => {
+      vi.stubGlobal("fetch", vi.fn(drupalOrgFetch));
+      const writeText = vi.fn(() => Promise.resolve());
+      stubClipboard(writeText);
+      window.history.replaceState(null, "", "/board/pathauto?priority=major");
+      const slot = embedSlot();
+      render(<Board config={{ source: "drupalorg", gitlabProject: null, lists: LISTS }} filtersSlot={null} embedSlot={slot} />);
+
+      fireEvent.click(within(slot).getByRole("button", { name: "Embed" }));
+      expect(await within(slot).findByRole("button", { name: "Copied" })).toBeInTheDocument();
+      expect(writeText).toHaveBeenCalledWith(
+        `<iframe title="Pathauto &quot;beta&quot;" src="${window.location.origin}/board/pathauto/embed?priority=major" width="100%" height="600"></iframe>`
+      );
+      expect(within(slot).getByRole("status")).toHaveTextContent("Copied the embed code.");
+    });
+
+    it("shows the code to copy by hand when the browser won't copy it", async () => {
+      vi.stubGlobal("fetch", vi.fn(drupalOrgFetch));
+      stubClipboard(vi.fn(() => Promise.reject(new Error("Denied"))));
+      const slot = embedSlot();
+      render(<Board config={{ source: "drupalorg", gitlabProject: null, lists: LISTS }} filtersSlot={null} embedSlot={slot} />);
+
+      fireEvent.click(within(slot).getByRole("button", { name: "Embed" }));
+      const field = await within(slot).findByRole("textbox", { name: "Embed code" });
+      expect(field.value).toContain(`src="${window.location.origin}/board/pathauto/embed"`);
+      expect(field).toHaveFocus();
+    });
+  });
+
   describe("Roll for an issue", () => {
     it("carries the board's filters to the roulette", async () => {
       vi.stubGlobal("fetch", vi.fn(drupalOrgFetch));
