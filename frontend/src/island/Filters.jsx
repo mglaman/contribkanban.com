@@ -11,7 +11,7 @@ export const byName = (a, b) => a.localeCompare(b, undefined, { numeric: true })
  * @param {string|null} value
  * @returns {string[]|null}
  */
-export function withPicked(options, value) {
+function withPicked(options, value) {
   return options && value && !options.includes(value) ? [...options, value].sort(byName) : options;
 }
 

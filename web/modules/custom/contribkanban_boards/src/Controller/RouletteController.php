@@ -30,6 +30,7 @@ final class RouletteController implements ContainerInjectionInterface {
    *
    * The tags to pick from are the tag boards' tags. With `?project=` naming a
    * project board's machine name, it rolls for that project's issues instead.
+   * With a `tag` too, `project` is the island's Project filter on that tag.
    *
    * @param \Symfony\Component\HttpFoundation\Request $request
    *   The request.
@@ -41,7 +42,7 @@ final class RouletteController implements ContainerInjectionInterface {
     $storage = $this->entityTypeManager->getStorage('board');
     $project = NULL;
     $machine_name = $request->query->get('project');
-    if (is_string($machine_name) && $machine_name !== '') {
+    if (is_string($machine_name) && $machine_name !== '' && !$request->query->has('tag')) {
       $ids = $storage->getQuery()
         ->accessCheck(TRUE)
         ->condition('type', 'drupalorg_project')
@@ -65,7 +66,7 @@ final class RouletteController implements ContainerInjectionInterface {
       '#config' => BoardIslandConfig::roulette(array_values($boards), _contribkanban_boards_gitlab_project_nids(), $project),
       '#board' => $project,
       '#cache' => [
-        'contexts' => ['url.query_args:project'],
+        'contexts' => ['url.query_args:project', 'url.query_args:tag'],
         'tags' => [...$storage->getEntityType()->getListCacheTags(), 'project_list'],
       ],
     ];

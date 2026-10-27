@@ -64,7 +64,8 @@ describe("Roulette", () => {
 
     expect(await screen.findByText("3 issues on the strip.")).toBeInTheDocument();
     expect(screen.getByRole("combobox", { name: "Tag" })).toHaveValue("Novice");
-    expect(window.location.search).toBe("");
+    // The tag goes in the URL, so a Project filter can't be read as a project board.
+    expect(window.location.search).toBe("?tag=Novice");
     const query = new URL(fetch.mock.calls.find(([url]) => url.startsWith("https://www.drupal.org"))[0]).searchParams;
     expect(query.get("taxonomy_vocabulary_9[tid][0]")).toBe("222");
     expect(query.get("field_issue_status[value][0]")).toBe("1");
@@ -147,6 +148,22 @@ describe("Roulette", () => {
     expect(screen.getByRole("button", { name: "Roll" })).toBeDisabled();
   });
 
+  it("rolls within the filters a tag board carried over", async () => {
+    const fetch = vi.fn(fetchIssues);
+    vi.stubGlobal("fetch", fetch);
+    window.history.replaceState(null, "", "/roulette?tag=Novice&type=task&q=kernel");
+    render(<Roulette config={CONFIG} filtersSlot={null} />);
+
+    expect(await screen.findByText("1 issue on the strip.")).toBeInTheDocument();
+    expect(screen.getByRole("combobox", { name: "Type" })).toHaveValue("task");
+    expect(screen.getByRole("searchbox")).toHaveValue("kernel");
+    const query = new URL(fetch.mock.calls.find(([url]) => url.startsWith("https://www.drupal.org"))[0]).searchParams;
+    expect(query.get("field_issue_category")).toBe("2");
+
+    await userEvent.clear(screen.getByRole("searchbox"));
+    expect(window.location.search).toBe("?tag=Novice&type=task");
+  });
+
   describe("for a project", () => {
     const TOOL = { tags: CONFIG.tags, movedProjects: [], project: { label: "Tool API", nid: "3538471", gitlabProject: "project/tool" } };
 
@@ -179,6 +196,19 @@ describe("Roulette", () => {
       await userEvent.selectOptions(picker, "");
       expect(await screen.findByText("4 issues on the strip.")).toBeInTheDocument();
       expect(window.location.search).toBe("?project=tool");
+    });
+
+    it("rolls within the filters a project board carried over", async () => {
+      vi.stubGlobal("fetch", vi.fn(() => Promise.resolve(jsonResponse(TOOL_ITEMS))));
+      window.history.replaceState(null, "", "/roulette?project=tool&milestone=1.0.0-rc1&q=docs");
+      render(<Roulette config={TOOL} filtersSlot={null} />);
+
+      expect(await screen.findByText("1 issue on the strip.")).toBeInTheDocument();
+      // The project names the board, so there's no Project filter to clear it.
+      expect(screen.queryByRole("combobox", { name: "Project" })).not.toBeInTheDocument();
+      await userEvent.selectOptions(screen.getByRole("combobox", { name: "Type" }), "bug");
+      expect(await screen.findByText("No open issues match the filters.")).toBeInTheDocument();
+      expect(window.location.search).toBe("?project=tool&milestone=1.0.0-rc1&q=docs&type=bug");
     });
 
     it("rolls for a drupal.org project's issues", async () => {

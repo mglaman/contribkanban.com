@@ -6,12 +6,14 @@ import Roulette from "./Roulette";
 // the island replaces the columns once it loads issues.
 for (const element of document.querySelectorAll("[data-board]")) {
   const config = JSON.parse(element.dataset.board);
-  const filtersSlot = element.closest(".board-shell")?.querySelector("[data-board-filters]") ?? null;
-  createRoot(element).render(<Board config={config} filtersSlot={filtersSlot} />);
+  const shell = element.closest(".board-shell");
+  const filtersSlot = shell?.querySelector("[data-board-filters]") ?? null;
+  const rouletteLink = shell?.querySelector(".board-shell__roulette") ?? null;
+  createRoot(element).render(<Board config={config} filtersSlot={filtersSlot} rouletteLink={rouletteLink} />);
 }
 
 // The issue roulette component renders the tags in data-roulette, and the
-// island renders the tag picker and the strip.
+// island renders the tag picker, the filters, and the strip.
 for (const element of document.querySelectorAll("[data-roulette]")) {
   const config = JSON.parse(element.dataset.roulette);
   const filtersSlot = element.closest(".issue-roulette")?.querySelector("[data-roulette-filters]") ?? null;
