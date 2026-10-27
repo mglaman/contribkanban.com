@@ -153,7 +153,6 @@ jobs:
           # Embedded boards leave out the site and the roulette, and other sites can frame them.
           embed="$(curl -fsS -D - "http://127.0.0.1:8080/board/smoke_test_project/embed")"
           echo "$embed" | grep 'class="board-shell board-shell--embed"'
-          echo "$embed" | grep 'href="/board/smoke_test_project" target="_blank"'
           test "$(echo "$embed" | grep -ciE 'x-frame-options|site-footer|board-shell__roulette')" = 0
           curl -fsS -o /dev/null -D - "http://127.0.0.1:8080/board/smoke_test_project" | grep -i 'x-frame-options: SAMEORIGIN'
       - name: Check redirects from React app paths

@@ -78,7 +78,7 @@ function contribkanban_preprocess_board(array &$variables): void {
     if (\Drupal::routeMatch()->getRouteName() === 'entity.board.embed') {
       $variables['shell'] = [
         'title' => (string) $board->label(),
-        'board_url' => $board->toUrl()->toString(),
+        'embed' => TRUE,
         'config' => $config,
       ];
       return;

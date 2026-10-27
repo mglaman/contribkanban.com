@@ -577,15 +577,11 @@ describe("Board", () => {
         vi.fn(() => Promise.resolve(jsonResponse([workItem(1, "active", "Product analytics"), workItem(2, "active", null)])))
       );
       window.history.replaceState(null, "", "/board/drupal_cms/embed?milestone=Product%20analytics");
-      const link = document.createElement("a");
-      link.setAttribute("href", "/board/drupal_cms");
-      render(<Board config={config} filtersSlot={null} boardLink={link} />);
+      render(<Board config={config} filtersSlot={null} embed />);
 
       expect(await within(column("Active")).findByText("GitLab 1")).toBeInTheDocument();
       expect(within(column("Active")).queryByText("GitLab 2")).not.toBeInTheDocument();
       expect(screen.queryByRole("search")).not.toBeInTheDocument();
-      // The full board opens with the same milestone.
-      expect(link.getAttribute("href")).toBe("/board/drupal_cms?milestone=Product+analytics");
     });
   });
 

@@ -50,16 +50,6 @@
   color: var(--ck-accent-strong);
 }
 
-.board-shell__open {
-  align-self: flex-end;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.board-shell__open a {
-  text-decoration: none;
-}
-
 .board-shell__source,
 .board-shell__noscript {
   color: var(--ck-muted);

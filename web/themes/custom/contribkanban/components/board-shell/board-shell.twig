@@ -1,10 +1,7 @@
-{# Embedded on another site, the board is only its columns and a link to it. #}
-<div class="board-shell{{ board_url ? ' board-shell--embed' }}">
-  {% if board_url %}
+{# Embedded on another site, the board is only its columns. #}
+<div class="board-shell{{ embed ? ' board-shell--embed' }}">
+  {% if embed %}
   <h1 class="visually-hidden">{{ title }}</h1>
-  <p class="board-shell__open">
-    <a href="{{ board_url }}" target="_blank" rel="noopener">{{ 'Open in ContribKanban'|t }} <span aria-hidden="true">↗</span></a>
-  </p>
   {% else %}
   <div class="board-shell__header">
     <div class="board-shell__heading">
