@@ -29,8 +29,9 @@
   --ck-radius-panel: 20px;
   --ck-radius-input: 12px;
   --ck-radius-pill: 999px;
-  --ck-shadow: 0 1px 2px rgb(15 23 42 / 5%), 0 4px 12px rgb(15 23 42 / 5%);
-  --ck-shadow-subtle: 0 1px 2px rgb(15 23 42 / 6%);
+  /* Surfaces are flat and edged with --ck-border-subtle. Only layers that
+     float above the page, like the mobile menu, cast a shadow. */
+  --ck-shadow-float: 0 12px 24px rgb(15 23 42 / 15%);
   --ck-gutter: 40px;
 }
 

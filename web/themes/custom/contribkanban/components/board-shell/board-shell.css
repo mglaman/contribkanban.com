@@ -104,9 +104,9 @@
   align-items: center;
   gap: 8px;
   padding: 4px 4px 4px 16px;
+  border: 1px solid var(--ck-border-subtle);
   border-radius: var(--ck-radius-pill);
   background: var(--ck-surface);
-  box-shadow: var(--ck-shadow-subtle);
   color: var(--ck-muted);
   font-size: 14px;
 }
@@ -141,9 +141,8 @@
   width: 220px;
   min-height: 44px;
   padding: 10px 18px;
-  border: 0;
+  border: 1px solid var(--ck-border-subtle);
   border-radius: var(--ck-radius-pill);
-  box-shadow: var(--ck-shadow-subtle);
   font-size: 14px;
 }
 
@@ -315,11 +314,10 @@
   padding: 16px;
   border-radius: var(--ck-radius-issue);
   background: var(--ck-surface);
-  box-shadow: var(--ck-shadow-subtle);
 }
 
 .issue-card:hover {
-  box-shadow: 0 0 0 2px var(--ck-accent), var(--ck-shadow-subtle);
+  box-shadow: 0 0 0 2px var(--ck-accent);
 }
 
 .issue-card:has(:focus-visible) {
