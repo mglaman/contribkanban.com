@@ -146,4 +146,52 @@ describe("Roulette", () => {
     expect(await screen.findByText("No open issues with this tag right now.")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Roll" })).toBeDisabled();
   });
+
+  describe("for a project", () => {
+    const TOOL = { tags: CONFIG.tags, movedProjects: [], project: { label: "Tool API", nid: "3538471", gitlabProject: "project/tool" } };
+
+    const TOOL_ITEMS = [
+      { iid: 1, title: "Ship the release candidate", labels: ["state::active"], milestone: { title: "1.0.0-rc1" } },
+      { iid: 2, title: "Review the rc1 docs", labels: ["state::needsReview"], milestone: { title: "1.0.0-rc1" } },
+      { iid: 3, title: "Plan 1.1", labels: ["state::needsWork"], milestone: { title: "1.1.0" } },
+      { iid: 4, title: "No milestone yet", labels: ["state::active"], milestone: null },
+    ].map((item) => ({
+      ...item,
+      state: "opened",
+      assignees: [],
+      web_url: `https://git.drupalcode.org/project/tool/-/work_items/${item.iid}`,
+    }));
+
+    it("rolls within the milestone in the URL for a project on GitLab", async () => {
+      const fetch = vi.fn(() => Promise.resolve(jsonResponse(TOOL_ITEMS)));
+      vi.stubGlobal("fetch", fetch);
+      window.history.replaceState(null, "", "/roulette?project=tool&milestone=1.0.0-rc1");
+      render(<Roulette config={TOOL} filtersSlot={null} />);
+
+      expect(await screen.findByText("2 issues on the strip.")).toBeInTheDocument();
+      expect(screen.queryByText("Plan 1.1")).not.toBeInTheDocument();
+      expect(screen.queryByRole("combobox", { name: "Tag" })).not.toBeInTheDocument();
+      // Its drupal.org issues are frozen, so only GitLab loads.
+      expect(fetch.mock.calls.every(([url]) => url.includes("/projects/project%2Ftool/issues"))).toBe(true);
+
+      const picker = screen.getByRole("combobox", { name: "Milestone" });
+      expect(picker).toHaveValue("1.0.0-rc1");
+      await userEvent.selectOptions(picker, "");
+      expect(await screen.findByText("4 issues on the strip.")).toBeInTheDocument();
+      expect(window.location.search).toBe("?project=tool");
+    });
+
+    it("rolls for a drupal.org project's issues", async () => {
+      const fetch = vi.fn(fetchIssues);
+      vi.stubGlobal("fetch", fetch);
+      render(<Roulette config={{ ...TOOL, project: { label: "Pathauto", nid: "17345", gitlabProject: null } }} filtersSlot={null} />);
+
+      expect(await screen.findByText("3 issues on the strip.")).toBeInTheDocument();
+      const [url] = fetch.mock.calls.map(([called]) => new URL(called));
+      expect(fetch).toHaveBeenCalledTimes(1);
+      expect(url.searchParams.get("field_project[target_id][0]")).toBe("17345");
+      expect(url.searchParams.get("taxonomy_vocabulary_9[tid][0]")).toBeNull();
+      expect(screen.queryByRole("combobox", { name: "Milestone" })).not.toBeInTheDocument();
+    });
+  });
 });

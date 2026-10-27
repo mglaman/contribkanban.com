@@ -64,9 +64,7 @@ function contribkanban_preprocess_board(array &$variables): void {
       'gitlab_url' => $config['gitlabLabel'] !== NULL
         ? 'https://git.drupalcode.org/groups/project/-/work_items?label_name[]=' . rawurlencode($config['gitlabLabel'])
         : '',
-      'roulette_url' => $board->bundle() === 'drupalorg_sprint'
-        ? Url::fromRoute('contribkanban_boards.roulette', [], ['query' => ['tag' => (string) $board->label()]])->toString()
-        : '',
+      'roulette_url' => _contribkanban_board_roulette_url($board),
       'config' => $config,
     ];
     return;
@@ -98,11 +96,36 @@ function contribkanban_preprocess_node_board(array &$variables): void {
  * Implements hook_preprocess_HOOK() for the issue roulette.
  */
 function contribkanban_preprocess_issue_roulette(array &$variables): void {
+  // A project's roulette links back to its board.
+  $board = $variables['board'];
   $variables['roulette'] = [
     'title' => (string) t('Issue roulette'),
-    'back_url' => Url::fromRoute('view.board_listing.page')->toString(),
+    'back_url' => $board instanceof BoardInterface
+      ? $board->toUrl()->toString()
+      : Url::fromRoute('view.board_listing.page')->toString(),
+    'back_label' => $board instanceof BoardInterface ? (string) $board->label() : (string) t('All boards'),
     'config' => $variables['config'],
   ];
+}
+
+/**
+ * Gets the issue roulette URL for a tag or project board.
+ *
+ * @param \Drupal\contribkanban_boards\Entity\BoardInterface $board
+ *   The board.
+ *
+ * @return string
+ *   The URL, or an empty string for boards the roulette can't roll for.
+ */
+function _contribkanban_board_roulette_url(BoardInterface $board): string {
+  $query = match ($board->bundle()) {
+    'drupalorg_sprint' => ['tag' => (string) $board->label()],
+    'drupalorg_project' => ['project' => (string) $board->get('machine_name')->value],
+    default => NULL,
+  };
+  return $query !== NULL
+    ? Url::fromRoute('contribkanban_boards.roulette', [], ['query' => $query])->toString()
+    : '';
 }
 
 /**

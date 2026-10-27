@@ -25,7 +25,7 @@ props:
       title: Edit form URL, for people who can edit the board
     roulette_url:
       type: string
-      title: Issue roulette URL with the board's tag, for tag boards
+      title: Issue roulette URL with the board's tag or project, for tag and project boards
     config:
       type: object
       title: Board configuration
