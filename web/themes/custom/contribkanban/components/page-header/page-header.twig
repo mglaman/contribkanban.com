@@ -3,10 +3,37 @@
     <svg width="26" height="26" viewBox="0 0 22 22" fill="none" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4" stroke="currentColor" stroke-width="1.5" class="page-header__logo-frame"/><path d="M7 6v10M11 6v7M15 6v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
     {{ site_name }}
   </a>
-  {% if nav %}
-    {{ include('contribkanban:pill-nav', {label: 'Main'|t, items: nav, variant: 'subtle'}, with_context = false) }}
-  {% endif %}
-  {% if account %}
-    <a class="page-header__account" href="{{ account.url }}">{{ account.label }}</a>
-  {% endif %}
+  <button class="page-header__toggle" type="button" aria-expanded="false" aria-controls="page-header-menu" hidden>
+    <span class="visually-hidden">{{ 'Menu'|t }}</span>
+    <svg class="page-header__toggle-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    <svg class="page-header__toggle-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+  </button>
+  <div class="page-header__menu" id="page-header-menu">
+    {% if nav %}
+      <nav class="page-header__nav" aria-label="{{ 'Main'|t }}">
+        {% for item in nav %}
+          <a class="page-header__link" href="{{ item.url }}"{% if item.current %} aria-current="page"{% endif %}>
+            <span class="page-header__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                {% if item.icon == 'boards' %}
+                  <rect x="3" y="4" width="5" height="16" rx="1.5"/><rect x="10" y="4" width="5" height="11" rx="1.5"/><rect x="17" y="4" width="4" height="7" rx="1.5"/>
+                {% elseif item.icon == 'roulette' %}
+                  <rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.2" fill="currentColor"/>
+                {% elseif item.icon == 'create' %}
+                  <circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>
+                {% endif %}
+              </svg>
+            </span>
+            <span class="page-header__label">{{ item.label }}</span>
+            {% if item.description %}
+              <span class="page-header__description">{{ item.description }}</span>
+            {% endif %}
+          </a>
+        {% endfor %}
+      </nav>
+    {% endif %}
+    {% if account %}
+      <a class="page-header__account" href="{{ account.url }}">{{ account.label }}</a>
+    {% endif %}
+  </div>
 </header>

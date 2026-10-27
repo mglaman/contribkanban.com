@@ -24,6 +24,14 @@ props:
             type: string
           url:
             type: string
+          description:
+            type: string
+          icon:
+            type: string
+            enum:
+              - boards
+              - roulette
+              - create
           current:
             type: boolean
     account:
