@@ -43,12 +43,16 @@ Keep the island small: React and plain elements styled by the theme's CSS. No UI
 - All Drupal config must be exported to `/config` and committed. After config changes: `ddev drush cim` to import, `ddev drush cex` to export.
 - Drupal core handles accounts and log in with sessions.
 - **Search API** powers board search. Schema/field changes may require an index rebuild: `ddev drush sapi-r all && ddev drush sapi-i all`.
-- **Which projects moved to GitLab** is stored on project entities (`gitlab_issues`), not checked at view time. `drush ck-gitlab` refreshes it from drupal.org, creates missing projects, and flags project boards (about 10 minutes). Tag boards and issue collections read the flags. Drupal.org blocks production's IP address, so export the list locally and load it on production:
+- **Which projects moved to GitLab** is stored on project entities (`gitlab_issues`), not checked at view time. `drush ck-gitlab` refreshes it from drupal.org, creates missing projects, and flags project boards (about 10 minutes). Tag boards and issue collections read the flags. Drupal.org's api-d7 blocks production's IP address with a 403, so export the list locally and load it on production:
   ```bash
   ddev drush ck-gitlab --export=moved-projects.json
   lagoon ssh -p contribkanban -e master -C "drush ck-gitlab --from=-" < moved-projects.json
   ```
-  Tag name lookups on board list save and the "Start a board" form also call drupal.org, so they fail on production too.
+  The block comes and goes. Production's requests sometimes get through, then get 403s again minutes later, so one success doesn't mean it's lifted.
+  Tag name lookups on board list save and the "Start a board" form also call drupal.org, so they usually fail on production too. To add a tag board there, look up the tag's term ID locally and pass it, which skips drupal.org:
+  ```bash
+  lagoon ssh -p contribkanban -e master -C 'drush php:eval "\$b = \Drupal::service(\"contribkanban_boards.board_factory\")->forTag(\"ai::outside\", \"205948\"); \$b->isNew() && \$b->save();"'
+  ```
 
 ### Code quality (run before marking Drupal work done)
 
