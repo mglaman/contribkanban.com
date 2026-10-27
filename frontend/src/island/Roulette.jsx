@@ -2,8 +2,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useListIssues, useWorkItems } from "./Board";
 import Card from "./Card";
+import { byName, withPicked } from "./Filters";
 import { issueProject } from "./filters";
-import { fetchLabeledWorkItems, filterIssues } from "./gitlab";
+import { fetchLabeledWorkItems, fetchOpenWorkItems, filterIssues } from "./gitlab";
 
 // Issues someone can pick up: Active, Needs work, and Needs review.
 const STATUSES = ["1", "13", "8"];
@@ -25,6 +26,17 @@ const REROLLS = 3;
 const CONFETTI = 22;
 
 const IDLE = { phase: "idle", strip: null, index: null, animate: false, used: 0, rolls: 0 };
+
+// Someone already works on an assigned issue.
+const unassigned = (issue) => !issue.field_issue_assigned;
+
+/**
+ * Combines the states of the loads behind a pool.
+ *
+ * @param {string[]} states
+ * @returns {"loading"|"ok"|"error"}
+ */
+const poolState = (states) => (states.includes("error") ? "error" : states.includes("loading") ? "loading" : "ok");
 
 const prefersReducedMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
 
@@ -78,7 +90,7 @@ function initialTag(tags, search) {
  * @param {Set<string>} movedProjects Node IDs of projects on GitLab.
  * @returns {{state: string, issues: object[]}}
  */
-function usePool(tag, movedProjects) {
+function useTagPool(tag, movedProjects) {
   const list = useMemo(
     () => ({ statuses: STATUSES, projects: [], tags: [tag.tid], versions: [], component: null }),
     [tag.tid]
@@ -91,11 +103,42 @@ function usePool(tag, movedProjects) {
     const fromDrupalOrg = drupalorg.issues.filter(
       (issue) => !gitlabNids.has(issue.nid) && !movedProjects.has(issue.field_project?.id)
     );
-    const states = [drupalorg.state, workItems.state];
-    const state = states.includes("error") ? "error" : states.includes("loading") ? "loading" : "ok";
-    const issues = gitlab.concat(fromDrupalOrg).filter((issue) => !issue.field_issue_assigned);
-    return { state, issues };
+    return {
+      state: poolState([drupalorg.state, workItems.state]),
+      issues: gitlab.concat(fromDrupalOrg).filter(unassigned),
+    };
   }, [drupalorg, workItems, movedProjects]);
+}
+
+/**
+ * Loads the issues to roll for in one project: every GitLab work item for a
+ * project on GitLab, or else the first page of drupal.org issues by priority.
+ * Issues someone is assigned to stay off the strip.
+ *
+ * @param {{nid: string|null, gitlabProject: string|null}} project
+ * @param {string|null} milestone A GitLab milestone to roll within.
+ * @returns {{pool: {state: string, issues: object[]}, milestones: string[]}}
+ */
+function useProjectPool(project, milestone) {
+  const list = useMemo(
+    () => ({ statuses: STATUSES, projects: project.nid ? [project.nid] : [], tags: [], versions: [], component: null }),
+    [project.nid]
+  );
+  // A project on GitLab keeps its drupal.org issues frozen, so it loads only one.
+  const drupalorg = useListIssues(list, null, null, null, !project.gitlabProject && project.nid !== null);
+  const workItems = useWorkItems(fetchOpenWorkItems, project.gitlabProject);
+  const milestones = useMemo(
+    () => [...new Set(workItems.issues.map((issue) => issue.milestone).filter(Boolean))].sort(byName),
+    [workItems.issues]
+  );
+  const pool = useMemo(() => {
+    if (!project.gitlabProject) {
+      return { state: drupalorg.state, issues: drupalorg.issues.filter(unassigned) };
+    }
+    const filter = { statuses: STATUSES, category: null, priority: null, version: [], milestone };
+    return { state: workItems.state, issues: filterIssues(workItems.issues, filter).filter(unassigned) };
+  }, [project.gitlabProject, drupalorg, workItems, milestone]);
+  return { pool, milestones };
 }
 
 /**
@@ -148,11 +191,10 @@ function Confetti({ roll }) {
  * The strip of issues with one tag, and the buttons that roll it.
  *
  * @param {object} props
- * @param {{label: string, tid: string}} props.tag
- * @param {Set<string>} props.movedProjects
+ * @param {{state: string, issues: object[]}} props.pool The issues to roll for.
+ * @param {string} props.empty The message when there are none.
  */
-function RouletteStrip({ tag, movedProjects }) {
-  const pool = usePool(tag, movedProjects);
+function RouletteStrip({ pool, empty }) {
   const [roll, setRoll] = useState(IDLE);
   const timers = useRef([]);
   const issueLink = useRef(null);
@@ -208,7 +250,7 @@ function RouletteStrip({ tag, movedProjects }) {
   } else if (pool.state === "error") {
     message = "Couldn't load issues.";
   } else if (count === 0) {
-    message = "No open issues with this tag right now.";
+    message = empty;
   }
 
   // Laps: one left of the start, the start lap, laps(count) rolled, one for
@@ -307,23 +349,119 @@ function RouletteStrip({ tag, movedProjects }) {
 }
 
 /**
+ * Puts a picked value in the URL, so a roulette can be shared.
+ *
+ * @param {string} name The query parameter.
+ * @param {string|null} value The value, or null to remove it.
+ */
+function writeParam(name, value) {
+  const params = new URLSearchParams(window.location.search);
+  if (value) {
+    params.set(name, value);
+  } else {
+    params.delete(name);
+  }
+  const query = params.toString();
+  window.history.replaceState(
+    window.history.state,
+    "",
+    `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`
+  );
+}
+
+/**
+ * The strip for one tag.
+ *
+ * @param {object} props
+ * @param {{label: string, tid: string}} props.tag
+ * @param {Set<string>} props.movedProjects
+ */
+function TagStrip({ tag, movedProjects }) {
+  return <RouletteStrip pool={useTagPool(tag, movedProjects)} empty="No open issues with this tag right now." />;
+}
+
+/**
+ * Rolls for an issue in one project, within a milestone on GitLab.
+ *
+ * @param {object} props
+ * @param {{label: string, nid: string|null, gitlabProject: string|null}} props.project
+ * @param {Element|null} props.filtersSlot Where the component wants the milestone picker.
+ */
+function ProjectRoulette({ project, filtersSlot }) {
+  const [milestone, setMilestone] = useState(() =>
+    project.gitlabProject ? new URLSearchParams(window.location.search).get("milestone")?.trim() || null : null
+  );
+  const { pool, milestones } = useProjectPool(project, milestone);
+  const options = withPicked(milestones, milestone);
+
+  function pickMilestone(value) {
+    setMilestone(value || null);
+    writeParam("milestone", value || null);
+  }
+
+  const picker = options.length ? (
+    <div className="board-filters">
+      <label className="board-filters__field">
+        Milestone
+        <select
+          className="board-filters__select"
+          value={milestone ?? ""}
+          onChange={(event) => pickMilestone(event.target.value)}
+        >
+          <option value="">Any</option>
+          {options.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      </label>
+    </div>
+  ) : null;
+
+  return (
+    <>
+      {filtersSlot ? createPortal(picker, filtersSlot) : picker}
+      {/* Keyed by milestone, so a new milestone resets the roll and the re-rolls. */}
+      <RouletteStrip
+        key={milestone ?? ""}
+        pool={pool}
+        empty={milestone ? "No open issues in this milestone right now." : `No open ${project.label} issues right now.`}
+      />
+    </>
+  );
+}
+
+/**
  * The issue roulette island.
+ *
+ * @param {object} props
+ * @param {object} props.config The roulette configuration from the component.
+ * @param {Element|null} props.filtersSlot Where the component wants the picker.
+ */
+function Roulette({ config, filtersSlot }) {
+  return config.project ? (
+    <ProjectRoulette project={config.project} filtersSlot={filtersSlot} />
+  ) : (
+    <TagRoulette config={config} filtersSlot={filtersSlot} />
+  );
+}
+
+/**
+ * Rolls for an issue with one of the tag boards' tags.
  *
  * @param {object} props
  * @param {object} props.config The roulette configuration from the component.
  * @param {Element|null} props.filtersSlot Where the component wants the tag picker.
  */
-function Roulette({ config, filtersSlot }) {
+function TagRoulette({ config, filtersSlot }) {
   const [label, setLabel] = useState(() => initialTag(config.tags, window.location.search));
   const moved = useMemo(() => new Set(config.movedProjects.map(String)), [config.movedProjects]);
   const tag = config.tags.find((candidate) => candidate.label === label) ?? null;
 
-  // A picked tag goes in the URL, so a roulette can be shared.
   function pickTag(value) {
     setLabel(value);
-    const params = new URLSearchParams(window.location.search);
-    params.set("tag", value);
-    window.history.replaceState(window.history.state, "", `${window.location.pathname}?${params}${window.location.hash}`);
+    writeParam("tag", value);
   }
 
   const picker = config.tags.length ? (
@@ -346,7 +484,7 @@ function Roulette({ config, filtersSlot }) {
       {filtersSlot ? createPortal(picker, filtersSlot) : picker}
       {tag ? (
         // Keyed by tag, so a new tag resets the roll and the re-rolls.
-        <RouletteStrip key={tag.label} tag={tag} movedProjects={moved} />
+        <TagStrip key={tag.label} tag={tag} movedProjects={moved} />
       ) : (
         <p className="roulette__message">There are no tag boards to roll from yet.</p>
       )}

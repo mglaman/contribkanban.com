@@ -41,7 +41,7 @@ function contribkanban_boards_theme($existing, $type, $theme, $path) {
       'render element' => 'form',
     ],
     'issue_roulette' => [
-      'variables' => ['config' => []],
+      'variables' => ['config' => [], 'board' => NULL],
     ],
   ];
 }

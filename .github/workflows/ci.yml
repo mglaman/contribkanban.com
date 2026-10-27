@@ -124,6 +124,13 @@ jobs:
               "type" => "drupalorg_core",
               "title" => "Review first board",
               "lists" => [BoardList::create(["type" => "drupalorg_core", "title" => "Needs review", "statuses" => [8]])],
+            ])->save();
+            Board::create([
+              "type" => "drupalorg_project",
+              "title" => "Smoke test project",
+              "machine_name" => "smoke_test_project",
+              "project_nid" => [1],
+              "lists" => [BoardList::create(["type" => "drupalorg_project", "title" => "Active", "statuses" => [1]])],
             ])->save();'
           ./bin/drush search-api:index
           curl -fsS "http://127.0.0.1:8080/boards?search=smoke" | grep "Smoke test board"
@@ -137,6 +144,9 @@ jobs:
 
           # The theme renders the roulette with its component.
           curl -fsS "http://127.0.0.1:8080/roulette" | grep 'class="issue-roulette__app"'
+          # Project boards roll for their project's issues, and the roulette links back.
+          curl -fsS "http://127.0.0.1:8080/board/smoke_test_project" | grep 'href="/roulette?project=smoke_test_project"'
+          curl -fsS "http://127.0.0.1:8080/roulette?project=smoke_test_project" | grep 'Smoke test project</a>'
       - name: Check redirects from React app paths
         run: |
           redirect() {

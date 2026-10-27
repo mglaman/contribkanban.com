@@ -199,6 +199,33 @@ final class BoardIslandConfigTest extends KernelTestBase {
       ['label' => 'Rosetta', 'tid' => '5678'],
     ], $config['tags']);
     self::assertSame([2350161], $config['movedProjects']);
+    self::assertNull($config['project']);
+  }
+
+  /**
+   * Tests that the roulette rolls for a project board's project.
+   */
+  public function testRouletteProject(): void {
+    $tool = $this->createBoard('drupalorg_project', [
+      'title' => 'Tool API',
+      'machine_name' => 'tool',
+      'project_nid' => ['3538471'],
+      'gitlab_work_items' => TRUE,
+    ], []);
+    $pathauto = $this->createBoard('drupalorg_project', [
+      'title' => 'Pathauto',
+      'machine_name' => 'pathauto',
+      'project_nid' => ['17345'],
+    ], []);
+
+    self::assertSame(
+      ['label' => 'Tool API', 'nid' => '3538471', 'gitlabProject' => 'project/tool'],
+      BoardIslandConfig::roulette([], [], $tool)['project'],
+    );
+    self::assertSame(
+      ['label' => 'Pathauto', 'nid' => '17345', 'gitlabProject' => NULL],
+      BoardIslandConfig::roulette([], [], $pathauto)['project'],
+    );
   }
 
 }

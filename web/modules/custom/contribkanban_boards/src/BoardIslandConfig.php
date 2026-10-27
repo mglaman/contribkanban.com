@@ -152,18 +152,21 @@ final class BoardIslandConfig {
    *
    * The roulette rolls for an issue with one of the tag boards' tags. Like a
    * tag board, it loads issues from drupal.org and work items with the tag's
-   * label from GitLab.
+   * label from GitLab. Given a project board, it rolls for one of that
+   * project's issues instead, from GitLab if the project moved there.
    *
    * @param list<\Drupal\contribkanban_boards\Entity\BoardInterface> $tag_boards
    *   The tag boards, in the order to list their tags.
    * @param list<int> $moved_projects
    *   Node IDs of projects whose issues moved to GitLab. Drupal.org keeps
    *   their issues, frozen, so the island drops them.
+   * @param \Drupal\contribkanban_boards\Entity\BoardInterface|null $project
+   *   A project board to roll for, instead of a tag.
    *
-   * @return array{tags: list<array{label: string, tid: string}>, movedProjects: list<int>}
+   * @return array{tags: list<array{label: string, tid: string}>, movedProjects: list<int>, project: array{label: string, nid: string|null, gitlabProject: string|null}|null}
    *   The configuration.
    */
-  public static function roulette(array $tag_boards, array $moved_projects = []): array {
+  public static function roulette(array $tag_boards, array $moved_projects = [], ?BoardInterface $project = NULL): array {
     $tags = [];
     foreach ($tag_boards as $board) {
       $tid = self::values($board->get('tag'))[0] ?? NULL;
@@ -171,9 +174,19 @@ final class BoardIslandConfig {
         $tags[] = ['label' => (string) $board->label(), 'tid' => $tid];
       }
     }
+    $project_config = NULL;
+    if ($project !== NULL) {
+      $board = self::build($project);
+      $project_config = [
+        'label' => (string) $project->label(),
+        'nid' => self::values($project->get('project_nid'))[0] ?? NULL,
+        'gitlabProject' => $board['gitlabProject'],
+      ];
+    }
     return [
       'tags' => $tags,
       'movedProjects' => $moved_projects,
+      'project' => $project_config,
     ];
   }
 

@@ -13,7 +13,10 @@ props:
       title: Page title
     back_url:
       type: string
-      title: Board listing URL
+      title: Board listing URL, or the project board's URL
+    back_label:
+      type: string
+      title: Back link text, which defaults to All boards
     config:
       type: object
       title: Roulette configuration
@@ -34,6 +37,15 @@ props:
           type: array
           items:
             type: integer
+        project:
+          type: [object, 'null']
+          properties:
+            label:
+              type: string
+            nid:
+              type: [string, 'null']
+            gitlabProject:
+              type: [string, 'null']
 # The board island is board-shell's JavaScript, and the cards use its styles.
 libraryOverrides:
   dependencies:
