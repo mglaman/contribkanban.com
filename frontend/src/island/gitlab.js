@@ -89,6 +89,7 @@ function issueStatus(workItem) {
 export function toDrupalOrgIssue(workItem) {
   const labels = workItem.labels;
   const version = labels.find((title) => /^v\d/.test(title));
+  const [assignee] = workItem.assignees;
   return {
     nid: String(workItem.iid),
     title: workItem.title,
@@ -97,7 +98,9 @@ export function toDrupalOrgIssue(workItem) {
     field_issue_category: CATEGORY_TO_ID[scopedLabelValue(labels, "category")] ?? null,
     field_issue_priority: PRIORITY_TO_ID[scopedLabelValue(labels, "priority")] ?? "200",
     field_issue_version: version ? version.slice(1) : null,
-    field_issue_assigned: workItem.assignees.length > 0 ? workItem.assignees[0].username : null,
+    field_issue_assigned: assignee ? assignee.username : null,
+    // Drupal.org's API has no user pictures, but GitLab's has avatars.
+    assignee: assignee ? { username: assignee.username, avatarUrl: assignee.avatar_url ?? null } : null,
     milestone: workItem.milestone?.title ?? null,
   };
 }
