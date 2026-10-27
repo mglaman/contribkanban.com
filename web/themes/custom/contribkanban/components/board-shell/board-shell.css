@@ -404,3 +404,8 @@
   background: #ccfbf1;
   color: var(--ck-accent);
 }
+
+.issue-card__assignee--avatar {
+  object-fit: cover;
+  box-shadow: 0 0 0 1px var(--ck-border-subtle);
+}

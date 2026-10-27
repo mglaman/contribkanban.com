@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
-import { render, screen, within, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, within, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Board, { rouletteUrl } from "../Board";
 
@@ -113,6 +113,35 @@ describe("Board", () => {
     expect(within(column("Active")).getAllByRole("article")).toHaveLength(20);
     await userEvent.click(screen.getByRole("button", { name: "Show 20 more" }));
     expect(within(column("Active")).getAllByRole("article")).toHaveLength(40);
+  });
+
+  it("shows a GitLab assignee's avatar, and the icon if it doesn't load", async () => {
+    const workItem = (iid, assignees) => ({
+      iid,
+      title: `Work item ${iid}`,
+      web_url: `https://git.drupalcode.org/project/canvas/-/work_items/${iid}`,
+      labels: ["state::active"],
+      assignees,
+    });
+    const avatar = { username: "f0ns", avatar_url: "https://git.drupalcode.org/uploads/f0ns.png" };
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(() =>
+        Promise.resolve(jsonResponse([workItem(1, [avatar]), workItem(2, [{ ...avatar, avatar_url: null }]), workItem(3, [])], { "X-Total-Pages": "1" }))
+      )
+    );
+    render(<Board config={{ source: "gitlab", gitlabProject: "project/canvas", lists: LISTS }} filtersSlot={null} />);
+
+    const card = (title) => screen.getByText(title).closest("article");
+    await screen.findByText("Work item 1");
+    const image = within(card("Work item 1")).getByRole("img", { name: "Assigned to f0ns" });
+    expect(image).toHaveAttribute("src", "https://git.drupalcode.org/uploads/f0ns.png");
+    expect(within(card("Work item 2")).getByRole("img", { name: "Assigned to f0ns" })).not.toHaveAttribute("src");
+    expect(within(card("Work item 3")).queryByRole("img")).not.toBeInTheDocument();
+
+    fireEvent.error(image);
+    const icon = within(card("Work item 1")).getByRole("img", { name: "Assigned to f0ns" });
+    expect(icon.tagName).toBe("SPAN");
   });
 
   it("loads GitLab work items once for every list", async () => {

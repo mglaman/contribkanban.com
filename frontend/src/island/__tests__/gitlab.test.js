@@ -13,7 +13,7 @@ function makeWorkItem(iid, labels, assignees = [], milestone = null) {
     title: `Work item ${iid}`,
     web_url: `https://git.drupalcode.org/project/tool/-/work_items/${iid}`,
     labels,
-    assignees: assignees.map((username) => ({ username })),
+    assignees: assignees.map((username) => ({ username, avatar_url: `https://git.drupalcode.org/uploads/${username}.png` })),
     milestone: milestone ? { title: milestone } : null,
   };
 }
@@ -60,6 +60,7 @@ describe("toDrupalOrgIssue", () => {
       field_issue_priority: "300",
       field_issue_version: "1.0.x-dev",
       field_issue_assigned: "mglaman",
+      assignee: { username: "mglaman", avatarUrl: "https://git.drupalcode.org/uploads/mglaman.png" },
       milestone: "1.0.0-rc1",
     });
   });
@@ -77,6 +78,7 @@ describe("toDrupalOrgIssue", () => {
     expect(issue.field_issue_priority).toBe("200");
     expect(issue.field_issue_category).toBeNull();
     expect(issue.field_issue_assigned).toBeNull();
+    expect(issue.assignee).toBeNull();
   });
 });
 
