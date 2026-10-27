@@ -33,7 +33,7 @@ class DrupalOrgSprint extends PluginBase implements BoardProviderInterface {
     if (isset($base_field_definitions['tag'])) {
       $fields['tag'] = clone $base_field_definitions['tag'];
       $fields['tag']->setDisplayOptions('form', []);
-      $fields['tag']->setRequired(TRUE);
+      // GitLab labels drupal.org has no tag for get boards without a term ID.
     }
     // Tag boards query every project.
     if (isset($base_field_definitions['project_nid'])) {

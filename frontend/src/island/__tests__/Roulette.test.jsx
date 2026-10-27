@@ -148,6 +148,17 @@ describe("Roulette", () => {
     expect(screen.getByRole("button", { name: "Roll" })).toBeDisabled();
   });
 
+  it("loads only GitLab for a label drupal.org has no tag for", async () => {
+    const fetch = vi.fn(fetchIssues);
+    vi.stubGlobal("fetch", fetch);
+    window.history.replaceState(null, "", "/roulette?tag=ai::outside");
+    render(<Roulette config={{ ...CONFIG, tags: [...CONFIG.tags, { label: "ai::outside", tid: null }] }} filtersSlot={null} />);
+
+    expect(await screen.findByText("1 issue on the strip.")).toBeInTheDocument();
+    expect(screen.getByRole("combobox", { name: "Tag" })).toHaveValue("ai::outside");
+    expect(fetch.mock.calls.map(([url]) => new URL(url).host)).toEqual(["git.drupalcode.org"]);
+  });
+
   it("rolls within the filters a tag board carried over", async () => {
     const fetch = vi.fn(fetchIssues);
     vi.stubGlobal("fetch", fetch);

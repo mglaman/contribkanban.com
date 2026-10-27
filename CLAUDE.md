@@ -53,6 +53,10 @@ Keep the island small: React and plain elements styled by the theme's CSS. No UI
   ```bash
   lagoon ssh -p contribkanban -e master -C 'drush php:eval "\$b = \Drupal::service(\"contribkanban_boards.board_factory\")->forTag(\"ai::outside\", \"205948\"); \$b->isNew() && \$b->save();"'
   ```
+  GitLab labels drupal.org has no tag for, like `cms::product-analytics`, get tag boards with no term ID that only load GitLab work items. `forTag()` falls back to them, but on production it stops at drupal.org's 403, so use `forLabel()`, which only asks git.drupalcode.org:
+  ```bash
+  lagoon ssh -p contribkanban -e master -C 'drush php:eval "\$b = \Drupal::service(\"contribkanban_boards.board_factory\")->forLabel(\"cms::product-analytics\"); \$b?->isNew() && \$b->save();"'
+  ```
 
 ### Code quality (run before marking Drupal work done)
 

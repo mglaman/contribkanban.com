@@ -6,6 +6,7 @@ namespace Drupal\Tests\contribkanban_boards\Kernel;
 
 use Drupal\contribkanban_boards\BoardFactory;
 use Drupal\contribkanban_boards\Entity\BoardListInterface;
+use Drupal\contribkanban_projects\Labels;
 use Drupal\contribkanban_projects\Projects;
 use Drupal\contribkanban_projects\Tags;
 use Drupal\KernelTests\Core\Entity\EntityKernelTestBase;
@@ -41,19 +42,23 @@ class BoardFactoryTest extends EntityKernelTestBase {
   }
 
   /**
-   * Creates a factory whose drupal.org lookups return the given data.
+   * Creates a factory whose drupal.org and GitLab lookups return given data.
    *
    * @param array<string, mixed> $project
    *   What the project lookup returns.
    * @param array<string, mixed> $tag
    *   What the tag lookup returns.
+   * @param bool $label
+   *   Whether GitLab work items have the label.
    */
-  private function createFactory(array $project = [], array $tag = []): BoardFactory {
+  private function createFactory(array $project = [], array $tag = [], bool $label = FALSE): BoardFactory {
     $projects = $this->createMock(Projects::class);
     $projects->method('getProject')->willReturn($project);
     $tags = $this->createMock(Tags::class);
     $tags->method('getTag')->willReturn($tag);
-    return new BoardFactory($projects, $tags, $this->container->get('entity_type.manager'));
+    $labels = $this->createMock(Labels::class);
+    $labels->method('hasWorkItems')->willReturn($label);
+    return new BoardFactory($projects, $tags, $labels, $this->container->get('entity_type.manager'));
   }
 
   /**
@@ -65,7 +70,7 @@ class BoardFactoryTest extends EntityKernelTestBase {
     $projects->method('getProject')->willThrowException($exception);
     $tags = $this->createMock(Tags::class);
     $tags->method('getTag')->willThrowException($exception);
-    return new BoardFactory($projects, $tags, $this->container->get('entity_type.manager'));
+    return new BoardFactory($projects, $tags, $this->createMock(Labels::class), $this->container->get('entity_type.manager'));
   }
 
   /**
@@ -158,7 +163,7 @@ class BoardFactoryTest extends EntityKernelTestBase {
   public function testTagBoardWithTermId(): void {
     $tags = $this->createMock(Tags::class);
     $tags->expects($this->never())->method('getTag');
-    $factory = new BoardFactory($this->createMock(Projects::class), $tags, $this->container->get('entity_type.manager'));
+    $factory = new BoardFactory($this->createMock(Projects::class), $tags, $this->createMock(Labels::class), $this->container->get('entity_type.manager'));
     $board = $factory->forTag('Novice', '772');
     $this->assertNotNull($board);
     $this->assertSame('772', (string) $board->get('tag')->value);
@@ -196,6 +201,42 @@ class BoardFactoryTest extends EntityKernelTestBase {
    */
   public function testUnknownTag(): void {
     $this->assertNull($this->createFactory()->forTag('not a tag'));
+  }
+
+  /**
+   * Tests that a GitLab label drupal.org has no tag for gets a board.
+   */
+  public function testGitLabLabelBoard(): void {
+    $factory = $this->createFactory(label: TRUE);
+    $board = $factory->forTag('cms::product-analytics');
+    $this->assertNotNull($board);
+    $this->assertTrue($board->isNew());
+    $this->assertSame('drupalorg_sprint', $board->bundle());
+    $this->assertSame('cms::product-analytics', $board->label());
+    $this->assertTrue($board->get('tag')->isEmpty());
+    $this->assertSame('cms::product-analytics-tag', $board->get('machine_name')->value);
+    $this->assertCount(0, $board->validate());
+    $board->save();
+
+    $existing = $factory->forTag('cms::product-analytics');
+    $this->assertNotNull($existing);
+    $this->assertSame($board->id(), $existing->id());
+  }
+
+  /**
+   * Tests that a label's board doesn't need drupal.org.
+   */
+  public function testLabelBoardOffline(): void {
+    $tags = $this->createMock(Tags::class);
+    $tags->expects($this->never())->method('getTag');
+    $labels = $this->createMock(Labels::class);
+    $labels->method('hasWorkItems')->willReturnCallback(static fn (string $label): bool => $label === 'cms::product-analytics');
+    $factory = new BoardFactory($this->createMock(Projects::class), $tags, $labels, $this->container->get('entity_type.manager'));
+
+    $board = $factory->forLabel('cms::product-analytics');
+    $this->assertNotNull($board);
+    $this->assertTrue($board->get('tag')->isEmpty());
+    $this->assertNull($factory->forLabel('cms::typo'));
   }
 
 }

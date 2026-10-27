@@ -131,6 +131,12 @@ jobs:
               "machine_name" => "smoke_test_project",
               "project_nid" => [1],
               "lists" => [BoardList::create(["type" => "drupalorg_project", "title" => "Active", "statuses" => [1]])],
+            ])->save();
+            // A GitLab label drupal.org has no tag for.
+            Board::create([
+              "type" => "drupalorg_sprint",
+              "title" => "ci::label-only",
+              "lists" => [BoardList::create(["type" => "drupalorg_sprint", "title" => "Active", "statuses" => [1]])],
             ])->save();'
           ./bin/drush search-api:index
           curl -fsS "http://127.0.0.1:8080/boards?search=smoke" | grep "Smoke test board"
@@ -149,6 +155,9 @@ jobs:
           curl -fsS "http://127.0.0.1:8080/roulette?project=smoke_test_project" | grep 'Smoke test project</a>'
           # With a tag, project is the Project filter on the tag's issues.
           test "$(curl -fsS "http://127.0.0.1:8080/roulette?tag=Novice&project=smoke_test_project" | grep -c 'Smoke test project</a>')" = 0
+          # A GitLab label's board has no drupal.org tag, and the roulette lists it.
+          curl -fsS "http://127.0.0.1:8080/sprint/ci::label-only-tag" | grep 'Work items from <a href="https://git.drupalcode.org/groups/project/-/work_items?label_name\[\]=ci%3A%3Alabel-only">'
+          curl -fsS "http://127.0.0.1:8080/roulette?tag=ci::label-only" | grep 'ci::label-only'
 
           # Embedded boards leave out the site and the roulette, and other sites can frame them.
           embed="$(curl -fsS -D - "http://127.0.0.1:8080/board/smoke_test_project/embed")"

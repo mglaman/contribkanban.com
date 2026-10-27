@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\contribkanban_boards;
 
 use Drupal\contribkanban_boards\Entity\BoardInterface;
+use Drupal\contribkanban_projects\Labels;
 use Drupal\contribkanban_projects\Projects;
 use Drupal\contribkanban_projects\Tags;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -41,12 +42,15 @@ final class BoardFactory {
    *   Looks up projects on drupal.org.
    * @param \Drupal\contribkanban_projects\Tags $tags
    *   Looks up issue tags on drupal.org.
+   * @param \Drupal\contribkanban_projects\Labels $labels
+   *   Checks labels on git.drupalcode.org.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
    */
   public function __construct(
     private readonly Projects $projects,
     private readonly Tags $tags,
+    private readonly Labels $labels,
     private readonly EntityTypeManagerInterface $entityTypeManager,
   ) {}
 
@@ -89,22 +93,23 @@ final class BoardFactory {
   }
 
   /**
-   * Gets the board for a drupal.org issue tag.
+   * Gets the board for a drupal.org issue tag or a GitLab label.
    *
    * Looks for a tag board titled with the name before asking drupal.org, so
-   * finding a board works when drupal.org can't be reached.
+   * finding a board works when drupal.org can't be reached. A name drupal.org
+   * has no tag for can still be a GitLab label; see ::forLabel().
    *
    * @param string $name
-   *   The tag name.
+   *   The tag or label name.
    * @param string|null $tid
    *   The tag's term ID, if the caller already looked it up.
    *
    * @return \Drupal\contribkanban_boards\Entity\BoardInterface|null
-   *   The existing board, a new unsaved board, or NULL if drupal.org has no
-   *   such tag. Validate a new board before saving it.
+   *   The existing board, a new unsaved board, or NULL if neither drupal.org
+   *   nor GitLab has the name. Validate a new board before saving it.
    *
    * @throws \GuzzleHttp\Exception\GuzzleException
-   *   When drupal.org can't be reached.
+   *   When drupal.org or git.drupalcode.org can't be reached.
    */
   public function forTag(string $name, ?string $tid = NULL): ?BoardInterface {
     if ($tid === NULL) {
@@ -114,7 +119,7 @@ final class BoardFactory {
       }
       $tag = $this->tags->getTag($name);
       if ($tag === []) {
-        return NULL;
+        return $this->forLabel($name);
       }
       $name = (string) $tag['name'];
       $tid = (string) $tag['tid'];
@@ -127,6 +132,33 @@ final class BoardFactory {
       'title' => $name,
       'tag' => [$tid],
     ]);
+  }
+
+  /**
+   * Gets the board for a GitLab label drupal.org has no tag for.
+   *
+   * Labels like `cms::product-analytics` only exist on GitLab. Their tag
+   * board has no term ID, and only loads work items with the label. Doesn't
+   * ask drupal.org, so it works when drupal.org can't be reached.
+   *
+   * @param string $name
+   *   The label. Labels are case-sensitive.
+   *
+   * @return \Drupal\contribkanban_boards\Entity\BoardInterface|null
+   *   The existing board, a new unsaved board, or NULL if no GitLab work item
+   *   has the label. Validate a new board before saving it.
+   *
+   * @throws \GuzzleHttp\Exception\GuzzleException
+   *   When git.drupalcode.org can't be reached.
+   */
+  public function forLabel(string $name): ?BoardInterface {
+    $existing = $this->loadExisting('drupalorg_sprint', 'title', $name);
+    if ($existing !== NULL) {
+      return $existing;
+    }
+    return $this->labels->hasWorkItems($name)
+      ? $this->create('drupalorg_sprint', self::TAG_LISTS, ['title' => $name])
+      : NULL;
   }
 
   /**

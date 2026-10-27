@@ -90,7 +90,7 @@ function initialTag(tags, search) {
  * board, the Project filter queries drupal.org by the project's node ID.
  * Issues someone is assigned to stay off the strip.
  *
- * @param {{label: string, tid: string}} tag
+ * @param {{label: string, tid: string|null}} tag
  * @param {Set<string>} movedProjects Node IDs of projects on GitLab.
  * @param {{category: string|null, priority: string|null, project: string|null, text: string}} filters
  * @returns {{state: string, issues: object[]}}
@@ -101,10 +101,13 @@ function useTagPool(tag, movedProjects, { category, priority, project, text }) {
     [tag.tid]
   );
   const projectNid = useProjectNid(project);
-  // A project drupal.org doesn't know has no drupal.org issues to load.
-  const enabled = !project || projectNid.nid !== null;
+  // A GitLab label has no drupal.org tag, and a project drupal.org doesn't
+  // know has no drupal.org issues to load.
+  const enabled = tag.tid !== null && (!project || projectNid.nid !== null);
   const loaded = useListIssues(list, category, priority, projectNid.nid, enabled);
-  const drupalorg = enabled ? loaded : { state: projectNid.state, issues: NO_ISSUES };
+  const drupalorg = enabled
+    ? loaded
+    : { state: tag.tid === null ? "ok" : projectNid.state, issues: NO_ISSUES };
   const workItems = useWorkItems(fetchLabeledWorkItems, tag.label);
   return useMemo(() => {
     const gitlab = filterIssues(workItems.issues, { statuses: STATUSES, category, priority, version: [] }).filter(
@@ -419,7 +422,7 @@ const isFiltered = (filters) =>
  * The strip for one tag.
  *
  * @param {object} props
- * @param {{label: string, tid: string}} props.tag
+ * @param {{label: string, tid: string|null}} props.tag
  * @param {Set<string>} props.movedProjects
  * @param {object} props.filters
  * @param {(issues: object[]) => void} props.onIssues Receives the loaded issues, for the Project filter.
