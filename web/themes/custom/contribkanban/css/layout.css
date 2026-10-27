@@ -46,8 +46,15 @@ body {
   margin-bottom: 6px;
 }
 
-.layout-main:focus {
+.layout-main:focus,
+.layout-embed:focus {
   outline: none;
+}
+
+/* An embedded board fills the iframe, without the site around it. */
+.layout-embed {
+  flex: 1 0 auto;
+  padding: 16px var(--ck-gutter);
 }
 
 .layout-title {

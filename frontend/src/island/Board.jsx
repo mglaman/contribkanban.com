@@ -393,8 +393,11 @@ export function rouletteUrl(base, filters) {
  * @param {Element|null} props.filtersSlot Where the board shell wants the filters.
  * @param {Element|null} [props.rouletteLink] The board shell's "Roll for an
  *   issue" link, which gets the filters too.
+ * @param {Element|null} [props.boardLink] An embedded board's link to the
+ *   full board. Embedded boards keep the filters in their URL but don't show
+ *   them, and the link opens the board with the same filters.
  */
-function Board({ config, filtersSlot, rouletteLink = null }) {
+function Board({ config, filtersSlot, rouletteLink = null, boardLink = null }) {
   const showProject = config.showProject ?? false;
   const gitlabProject = config.source === "gitlab" ? config.gitlabProject : null;
   const [filters, setFilters] = useState(() => {
@@ -413,6 +416,7 @@ function Board({ config, filtersSlot, rouletteLink = null }) {
   const collapsedColumns = useCollapsedColumns(window.location.pathname);
   // The link's URL from Drupal, before any filters.
   const [rouletteBase] = useState(() => rouletteLink?.getAttribute("href") ?? null);
+  const [boardBase] = useState(() => boardLink?.getAttribute("href") ?? null);
 
   // Filters live in the URL, so a filtered board can be shared.
   useEffect(() => {
@@ -429,6 +433,13 @@ function Board({ config, filtersSlot, rouletteLink = null }) {
     }
   }, [rouletteLink, rouletteBase, filters]);
 
+  useEffect(() => {
+    if (boardLink && boardBase) {
+      const query = writeFilters(filters, "");
+      boardLink.setAttribute("href", query ? `${boardBase}?${query}` : boardBase);
+    }
+  }, [boardLink, boardBase, filters]);
+
   const { category, priority } = filterIds(filters);
   const toolbar = (
     <Filters
@@ -440,7 +451,7 @@ function Board({ config, filtersSlot, rouletteLink = null }) {
   );
   return (
     <>
-      {filtersSlot ? createPortal(toolbar, filtersSlot) : toolbar}
+      {boardLink ? null : filtersSlot ? createPortal(toolbar, filtersSlot) : toolbar}
       <CollapsedColumns.Provider value={collapsedColumns}>
         {config.nids ? (
           <CollectionColumns
