@@ -216,7 +216,6 @@ class Board extends ContentEntityBase implements BoardInterface {
       ->setReadOnly(TRUE);
 
     $fields['gitlab_work_items'] = self::gitlabWorkItemsFieldDefinition();
-    $fields['popular_weight'] = self::popularWeightFieldDefinition();
 
     return $fields;
   }
@@ -235,17 +234,6 @@ class Board extends ContentEntityBase implements BoardInterface {
         'type' => 'boolean_checkbox',
         'weight' => -5,
       ]);
-  }
-
-  /**
-   * Defines the field that orders the popular searches on the board listing.
-   *
-   * Shared with the update hook that installs the field.
-   */
-  public static function popularWeightFieldDefinition(): BaseFieldDefinition {
-    return BaseFieldDefinition::create('integer')
-      ->setLabel(t('Popular search weight'))
-      ->setDescription(t('Orders popular searches on the board listing. Empty for boards that are not popular.'));
   }
 
   /**

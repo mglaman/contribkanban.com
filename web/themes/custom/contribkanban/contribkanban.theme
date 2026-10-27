@@ -7,6 +7,7 @@
 
 use Drupal\contribkanban_boards\Entity\BoardInterface;
 use Drupal\contribkanban_boards\Entity\NodeBoard;
+use Drupal\contribkanban_boards\PopularBoards;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 
@@ -209,21 +210,19 @@ function contribkanban_preprocess_views_view__board_listing(array &$variables): 
       'current' => $type === $current_type,
     ];
   }
-  // A popular search replaces the current search and type.
   $bundles = \Drupal::service('entity_type.bundle.info')->getBundleInfo('board');
   $variables['popular'] = [];
   foreach (\Drupal::service('contribkanban_boards.popular_boards')->load() as $board) {
     $variables['popular'][] = [
       'label' => (string) $board->label(),
       'type' => (string) $bundles[$board->bundle()]['label'],
-      'url' => Url::fromRoute('<current>', [], [
-        'query' => ['search' => (string) $board->label()],
-      ])->toString(),
+      'url' => $board->toUrl()->toString(),
     ];
+    $variables['#cache']['tags'] = array_merge($variables['#cache']['tags'] ?? [], $board->getCacheTags());
   }
   $variables['#cache']['contexts'][] = 'url.query_args:type';
   $variables['#cache']['contexts'][] = 'url.query_args:search';
-  $variables['#cache']['tags'][] = 'board_list';
+  $variables['#cache']['tags'][] = PopularBoards::CACHE_TAG;
 }
 
 /**

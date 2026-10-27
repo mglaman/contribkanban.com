@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Drupal\Tests\contribkanban_boards\Kernel;
 
 use Drupal\contribkanban_boards\Entity\Board;
+use Drupal\contribkanban_boards\Form\PopularBoardsForm;
 use Drupal\contribkanban_boards\PopularBoards;
+use Drupal\Core\Form\FormState;
 use Drupal\KernelTests\KernelTestBase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 #[CoversClass(PopularBoards::class)]
+#[CoversClass(PopularBoardsForm::class)]
 final class PopularBoardsTest extends KernelTestBase {
 
   /**
@@ -21,8 +24,17 @@ final class PopularBoardsTest extends KernelTestBase {
     'entity',
     'inline_entity_form',
     'options',
+    // Provides the autocomplete route the form links to.
+    'system',
     'user',
   ];
+
+  /**
+   * The board IDs, keyed by title.
+   *
+   * @var array<string, int|string|null>
+   */
+  private array $ids = [];
 
   /**
    * {@inheritdoc}
@@ -31,33 +43,63 @@ final class PopularBoardsTest extends KernelTestBase {
     parent::setUp();
     $this->installEntitySchema('board');
     $this->installEntitySchema('board_list');
-  }
-
-  /**
-   * Tests picking, reordering, and removing popular boards.
-   */
-  public function testSetAndLoad(): void {
-    $ids = [];
     foreach (['Webform', 'Novice', 'Gin'] as $title) {
       $board = Board::create(['type' => 'drupalorg_sprint', 'title' => $title]);
       $board->save();
-      $ids[$title] = $board->id();
+      $this->ids[$title] = $board->id();
     }
+  }
+
+  /**
+   * Tests that the list keeps its order and skips deleted boards.
+   */
+  public function testSetAndLoad(): void {
     $popular = $this->container->get('contribkanban_boards.popular_boards');
     self::assertSame([], $popular->load());
 
-    $popular->set([$ids['Gin'], $ids['Webform']]);
-    self::assertSame(['Gin', 'Webform'], $this->titles($popular->load()));
+    $popular->set([$this->ids['Gin'], $this->ids['Webform'], $this->ids['Novice']]);
+    self::assertSame(['Gin', 'Webform', 'Novice'], $this->titles($popular->load()));
 
-    $popular->set([$ids['Webform'], $ids['Novice']]);
-    self::assertSame(['Webform', 'Novice'], $this->titles($popular->load()));
-    $this->container->get('entity_type.manager')->getStorage('board')->resetCache();
-    $gin = Board::load($ids['Gin']);
-    self::assertNotNull($gin);
-    self::assertTrue($gin->get('popular_weight')->isEmpty());
+    Board::load($this->ids['Webform'])?->delete();
+    self::assertSame(['Gin', 'Novice'], $this->titles($popular->load()));
+  }
 
-    $popular->set([]);
-    self::assertSame([], $popular->load());
+  /**
+   * Tests saving the form while the list is empty.
+   */
+  public function testFormAddsToEmptyList(): void {
+    $this->submit(['add' => "Gin ({$this->ids['Gin']})"]);
+    self::assertSame(['Gin'], $this->titles($this->container->get('contribkanban_boards.popular_boards')->load()));
+  }
+
+  /**
+   * Tests reordering, removing, and adding boards in one save.
+   */
+  public function testFormReordersRemovesAndAdds(): void {
+    $popular = $this->container->get('contribkanban_boards.popular_boards');
+    $popular->set([$this->ids['Webform'], $this->ids['Novice'], $this->ids['Gin']]);
+
+    $this->submit([
+      'boards' => [
+        $this->ids['Webform'] => ['weight' => 2, 'remove' => 0],
+        $this->ids['Novice'] => ['weight' => 0, 'remove' => 1],
+        $this->ids['Gin'] => ['weight' => 1, 'remove' => 0],
+      ],
+      'add' => "Novice ({$this->ids['Novice']})",
+    ]);
+    self::assertSame(['Gin', 'Webform', 'Novice'], $this->titles($popular->load()));
+  }
+
+  /**
+   * Submits the popular boards form.
+   *
+   * @param array<string, mixed> $values
+   *   The submitted values.
+   */
+  private function submit(array $values): void {
+    $form_state = (new FormState())->setValues($values + ['op' => 'Save']);
+    $this->container->get('form_builder')->submitForm(PopularBoardsForm::class, $form_state);
+    self::assertSame([], $form_state->getErrors());
   }
 
   /**

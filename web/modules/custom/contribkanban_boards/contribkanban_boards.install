@@ -109,15 +109,3 @@ function contribkanban_boards_update_10002(): string {
     $renamed ? implode(', ', $renamed) : 'no boards'
   );
 }
-
-/**
- * Add the popular search weight field to boards.
- */
-function contribkanban_boards_update_10003(): void {
-  \Drupal::entityDefinitionUpdateManager()->installFieldStorageDefinition(
-    'popular_weight',
-    'board',
-    'contribkanban_boards',
-    Board::popularWeightFieldDefinition()
-  );
-}

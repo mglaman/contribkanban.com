@@ -113,8 +113,9 @@ final class PopularBoardsForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
-    // An empty table submits no rows.
-    $rows = array_filter($form_state->getValue('boards') ?? [], static fn ($row) => empty($row['remove']));
+    // A table without rows submits an empty string.
+    $rows = $form_state->getValue('boards');
+    $rows = array_filter(is_array($rows) ? $rows : [], static fn ($row) => empty($row['remove']));
     uasort($rows, static fn ($a, $b) => (int) $a['weight'] <=> (int) $b['weight']);
     $ids = array_keys($rows);
     $add = $form_state->getValue('add');
