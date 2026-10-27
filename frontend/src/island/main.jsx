@@ -9,7 +9,10 @@ for (const element of document.querySelectorAll("[data-board]")) {
   const shell = element.closest(".board-shell");
   const filtersSlot = shell?.querySelector("[data-board-filters]") ?? null;
   const rouletteLink = shell?.querySelector(".board-shell__roulette") ?? null;
-  createRoot(element).render(<Board config={config} filtersSlot={filtersSlot} rouletteLink={rouletteLink} />);
+  const embed = shell?.classList.contains("board-shell--embed") ?? false;
+  createRoot(element).render(
+    <Board config={config} filtersSlot={filtersSlot} rouletteLink={rouletteLink} embed={embed} />
+  );
 }
 
 // The issue roulette component renders the tags in data-roulette, and the

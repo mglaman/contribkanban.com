@@ -1,4 +1,8 @@
-<div class="board-shell">
+{# Embedded on another site, the board is only its columns. #}
+<div class="board-shell{{ embed ? ' board-shell--embed' }}">
+  {% if embed %}
+  <h1 class="visually-hidden">{{ title }}</h1>
+  {% else %}
   <div class="board-shell__header">
     <div class="board-shell__heading">
       {% if back_url %}
@@ -43,6 +47,7 @@
     </div>
     <div class="board-shell__filters" data-board-filters></div>
   </div>
+  {% endif %}
   <noscript>
     <p class="board-shell__noscript">{{ 'The board loads issues with JavaScript. Turn it on to see them.'|t }}</p>
   </noscript>

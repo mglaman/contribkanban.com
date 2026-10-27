@@ -26,6 +26,10 @@ props:
     roulette_url:
       type: string
       title: Issue roulette URL with the board's tag or project, for tag and project boards
+    embed:
+      type: boolean
+      title: Embedded on another site
+      description: Embedded boards leave out the header and filters.
     config:
       type: object
       title: Board configuration

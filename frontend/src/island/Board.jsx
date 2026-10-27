@@ -393,8 +393,10 @@ export function rouletteUrl(base, filters) {
  * @param {Element|null} props.filtersSlot Where the board shell wants the filters.
  * @param {Element|null} [props.rouletteLink] The board shell's "Roll for an
  *   issue" link, which gets the filters too.
+ * @param {boolean} [props.embed] Whether the board is embedded on another
+ *   site. Embedded boards keep the filters in their URL but don't show them.
  */
-function Board({ config, filtersSlot, rouletteLink = null }) {
+function Board({ config, filtersSlot, rouletteLink = null, embed = false }) {
   const showProject = config.showProject ?? false;
   const gitlabProject = config.source === "gitlab" ? config.gitlabProject : null;
   const [filters, setFilters] = useState(() => {
@@ -440,7 +442,7 @@ function Board({ config, filtersSlot, rouletteLink = null }) {
   );
   return (
     <>
-      {filtersSlot ? createPortal(toolbar, filtersSlot) : toolbar}
+      {embed ? null : filtersSlot ? createPortal(toolbar, filtersSlot) : toolbar}
       <CollapsedColumns.Provider value={collapsedColumns}>
         {config.nids ? (
           <CollectionColumns

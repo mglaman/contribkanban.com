@@ -7,6 +7,15 @@ entity.board.version:
   requirements:
     _entity_access: 'board.view'
 
+# A board without the site around it, for other sites to put in an iframe.
+entity.board.embed:
+  path: '/board/{board}/embed'
+  defaults:
+    _entity_view: 'board.full'
+    _title_callback: '\Drupal\Core\Entity\Controller\EntityController::title'
+  requirements:
+    _entity_access: 'board.view'
+
 # Paths from the React app, which Drupal pages replaced. Logging out goes to
 # the confirm form, since a redirect to /user/logout would carry a CSRF token.
 contribkanban_boards.legacy.login:
