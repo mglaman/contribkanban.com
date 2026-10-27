@@ -32,7 +32,10 @@ props:
               label:
                 type: string
               tid:
-                type: string
+                type:
+                  - string
+                  - 'null'
+                description: The drupal.org tag's term ID, or null for a GitLab label drupal.org has no tag for.
         movedProjects:
           type: array
           items:

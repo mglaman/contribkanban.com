@@ -14,7 +14,7 @@ services:
       - { name: paramconverter, priority: 10 }
   contribkanban_boards.board_factory:
     class: Drupal\contribkanban_boards\BoardFactory
-    arguments: ['@drupalorg_projects', '@drupalorg_tags', '@entity_type.manager']
+    arguments: ['@drupalorg_projects', '@drupalorg_tags', '@gitlab_labels', '@entity_type.manager']
   contribkanban_boards.embed_frame_subscriber:
     class: Drupal\contribkanban_boards\EventSubscriber\EmbedFrameSubscriber
     arguments: ['@current_route_match']

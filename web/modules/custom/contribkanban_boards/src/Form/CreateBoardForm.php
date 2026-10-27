@@ -73,7 +73,7 @@ final class CreateBoardForm extends FormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Issue tag'),
       '#placeholder' => 'Novice',
-      '#description' => $this->t('As it appears on drupal.org issues'),
+      '#description' => $this->t('As it appears on drupal.org issues, or a GitLab label like <em>ai::outside</em>'),
       '#states' => [
         'visible' => [':input[name="kind"]' => ['value' => 'tag']],
       ],
@@ -105,17 +105,19 @@ final class CreateBoardForm extends FormBase {
         : $this->boardFactory->forProject($name);
     }
     catch (GuzzleException $e) {
-      $this->logger('contribkanban_boards')->error('Looking up @name on drupal.org failed: @message', [
+      $this->logger('contribkanban_boards')->error('Looking up @name on drupal.org or GitLab failed: @message', [
         '@name' => $name,
         '@message' => $e->getMessage(),
       ]);
-      $form_state->setErrorByName($kind, $this->t("Couldn't reach drupal.org. Try again in a minute."));
+      $form_state->setErrorByName($kind, $kind === 'tag'
+        ? $this->t("Couldn't reach drupal.org or git.drupalcode.org. Try again in a minute.")
+        : $this->t("Couldn't reach drupal.org. Try again in a minute."));
       return;
     }
 
     if ($board === NULL) {
       $form_state->setErrorByName($kind, $kind === 'tag'
-        ? $this->t('drupal.org has no issue tag named %name.', ['%name' => $name])
+        ? $this->t('drupal.org has no issue tag named %name, and no GitLab work item has that label.', ['%name' => $name])
         : $this->t('drupal.org has no project named %name.', ['%name' => $name]));
       return;
     }

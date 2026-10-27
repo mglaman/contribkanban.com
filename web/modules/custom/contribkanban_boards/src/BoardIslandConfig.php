@@ -163,16 +163,14 @@ final class BoardIslandConfig {
    * @param \Drupal\contribkanban_boards\Entity\BoardInterface|null $project
    *   A project board to roll for, instead of a tag.
    *
-   * @return array{tags: list<array{label: string, tid: string}>, movedProjects: list<int>, project: array{label: string, nid: string|null, gitlabProject: string|null}|null}
+   * @return array{tags: list<array{label: string, tid: string|null}>, movedProjects: list<int>, project: array{label: string, nid: string|null, gitlabProject: string|null}|null}
    *   The configuration.
    */
   public static function roulette(array $tag_boards, array $moved_projects = [], ?BoardInterface $project = NULL): array {
     $tags = [];
     foreach ($tag_boards as $board) {
-      $tid = self::values($board->get('tag'))[0] ?? NULL;
-      if ($tid !== NULL) {
-        $tags[] = ['label' => (string) $board->label(), 'tid' => $tid];
-      }
+      // A GitLab label's board has no term ID.
+      $tags[] = ['label' => (string) $board->label(), 'tid' => self::values($board->get('tag'))[0] ?? NULL];
     }
     $project_config = NULL;
     if ($project !== NULL) {

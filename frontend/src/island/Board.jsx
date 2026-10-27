@@ -163,10 +163,16 @@ function GitLabColumns({ workItems, lists, category, priority, milestone, text }
  * the loaded work items by the project in their URL.
  */
 function TagColumn({ list, workItems, movedProjects, category, priority, project, projectNid, text, showProject, onIssues }) {
-  // A project drupal.org doesn't know has no drupal.org issues to load.
-  const enabled = !project || projectNid.nid !== null;
+  // A GitLab label's board has no drupal.org tag, and a project drupal.org
+  // doesn't know has no drupal.org issues to load.
+  const tagged = list.tags.length > 0;
+  const enabled = tagged && (!project || projectNid.nid !== null);
   const loaded = useListIssues(list, category, priority, projectNid.nid, enabled);
-  const drupalorg = enabled ? loaded : projectNid.state === "ok" ? EMPTY : { ...LOADING, state: projectNid.state };
+  const drupalorg = enabled
+    ? loaded
+    : !tagged || projectNid.state === "ok"
+      ? EMPTY
+      : { ...LOADING, state: projectNid.state };
   useEffect(() => {
     onIssues(drupalorg.issues.filter((issue) => !movedProjects.has(issue.field_project?.id)));
   }, [drupalorg.issues, movedProjects, onIssues]);

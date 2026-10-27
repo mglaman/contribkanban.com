@@ -9,12 +9,15 @@
         <a class="board-shell__back" href="{{ back_url }}"><span aria-hidden="true">←</span> {{ 'All boards'|t }}</a>
       {% endif %}
       <h1>{{ title }}</h1>
-      {% if source_url %}
+      {% if source_url or gitlab_url %}
         <p class="board-shell__source">
           {% if config.source == 'gitlab' %}
             {{ 'Work items from <a href=":url">git.drupalcode.org</a>'|t({':url': source_url}) }}
-          {% elseif gitlab_url %}
+          {% elseif source_url and gitlab_url %}
             {{ 'Issues from <a href=":url">drupal.org</a> and <a href=":gitlab">git.drupalcode.org</a>'|t({':url': source_url, ':gitlab': gitlab_url}) }}
+          {% elseif gitlab_url %}
+            {# A GitLab label drupal.org has no tag for. #}
+            {{ 'Work items from <a href=":gitlab">git.drupalcode.org</a>'|t({':gitlab': gitlab_url}) }}
           {% else %}
             {{ 'Issues from <a href=":url">drupal.org</a>'|t({':url': source_url}) }}
           {% endif %}

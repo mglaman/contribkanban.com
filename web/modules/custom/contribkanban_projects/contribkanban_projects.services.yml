@@ -4,6 +4,11 @@ parameters:
     headers:
       Accept: 'application/json'
       User-Agent: 'ContribKanban/1.0 (https://contribkanban.com)'
+  contribkanban_projects.gitlab_client.config:
+    base_uri: 'https://git.drupalcode.org/api/v4/'
+    headers:
+      Accept: 'application/json'
+      User-Agent: 'ContribKanban/1.0 (https://contribkanban.com)'
 
 services:
   drupalorg_client:
@@ -16,3 +21,10 @@ services:
   drupalorg_tags:
     class: Drupal\contribkanban_projects\Tags
     arguments: ['@drupalorg_client']
+  gitlab_client:
+    class: GuzzleHttp\Client
+    factory: http_client_factory:fromOptions
+    arguments: ['%contribkanban_projects.gitlab_client.config%']
+  gitlab_labels:
+    class: Drupal\contribkanban_projects\Labels
+    arguments: ['@gitlab_client']

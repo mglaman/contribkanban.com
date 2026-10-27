@@ -192,9 +192,12 @@ final class BoardIslandConfigTest extends KernelTestBase {
   public function testRoulette(): void {
     $rosetta = $this->createBoard('drupalorg_sprint', ['title' => 'Rosetta', 'tag' => ['5678']], []);
     $novice = $this->createBoard('drupalorg_sprint', ['title' => 'Novice', 'tag' => ['1234']], []);
-    $config = BoardIslandConfig::roulette([$novice, $rosetta], [2350161]);
+    // A GitLab label's board has no term ID.
+    $label = $this->createBoard('drupalorg_sprint', ['title' => 'cms::product-analytics'], []);
+    $config = BoardIslandConfig::roulette([$label, $novice, $rosetta], [2350161]);
 
     self::assertSame([
+      ['label' => 'cms::product-analytics', 'tid' => NULL],
       ['label' => 'Novice', 'tid' => '1234'],
       ['label' => 'Rosetta', 'tid' => '5678'],
     ], $config['tags']);

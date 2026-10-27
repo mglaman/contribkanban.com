@@ -357,6 +357,34 @@ describe("Board", () => {
     expect(fetch).toHaveBeenCalledTimes(3);
   });
 
+  it("loads only GitLab for a label drupal.org has no tag for", async () => {
+    const labelLists = LISTS.map((list) => ({ ...list, projects: [], tags: [] }));
+    const fetch = vi.fn(() =>
+      Promise.resolve(
+        jsonResponse([
+          {
+            iid: 500,
+            title: "Track product analytics",
+            web_url: "https://git.drupalcode.org/project/drupal_cms/-/work_items/500",
+            labels: ["cms::product-analytics", "state::active"],
+            assignees: [],
+          },
+        ])
+      )
+    );
+    vi.stubGlobal("fetch", fetch);
+    render(
+      <Board
+        config={{ source: "drupalorg", gitlabProject: null, gitlabLabel: "cms::product-analytics", showProject: true, lists: labelLists }}
+        filtersSlot={null}
+      />
+    );
+
+    expect(await within(column("Active")).findByText("Track product analytics")).toBeInTheDocument();
+    expect(within(column("Needs review")).getByText("Nothing here right now")).toBeInTheDocument();
+    expect(fetch.mock.calls.map(([url]) => new URL(url).host)).toEqual(["git.drupalcode.org"]);
+  });
+
   it("names each card's project on boards that span projects", async () => {
     const tagLists = LISTS.map((list) => ({ ...list, projects: [], tags: ["772"] }));
     const fetch = vi.fn((url) => {

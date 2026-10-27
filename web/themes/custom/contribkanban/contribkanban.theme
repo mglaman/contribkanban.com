@@ -166,13 +166,18 @@ function _contribkanban_board_roulette_url(BoardInterface $board): string {
  *   The GitLab project path, when the board reads GitLab.
  *
  * @return string
- *   The URL, or an empty string for a project board without a project.
+ *   The URL, or an empty string for a project board without a project or a
+ *   GitLab label's board.
  */
 function _contribkanban_board_source_url(BoardInterface $board, ?string $gitlab_project): string {
   if ($gitlab_project !== NULL) {
     return "https://git.drupalcode.org/$gitlab_project/-/work_items";
   }
   $project_nid = $board->get('project_nid')->value;
+  // A GitLab label drupal.org has no tag for has no drupal.org issues.
+  if ($board->bundle() === 'drupalorg_sprint' && $board->get('tag')->isEmpty()) {
+    return '';
+  }
   return match ($board->bundle()) {
     'drupalorg_sprint' => 'https://www.drupal.org/project/issues/search?issue_tags=' . rawurlencode((string) $board->label()),
     'drupalorg_core' => 'https://www.drupal.org/project/issues/drupal',
