@@ -2,6 +2,10 @@ $schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schema
 name: Board shell
 description: The board page. The board island, this component's JavaScript, renders the filters and the issues in each column.
 status: stable
+slots:
+  bookmark:
+    title: Bookmark button
+    description: The Bookmark form for logged-in users, a lazy builder placeholder.
 props:
   type: object
   required:

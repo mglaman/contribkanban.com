@@ -20,3 +20,9 @@ services:
     arguments: ['@current_route_match']
     tags:
       - { name: event_subscriber }
+  contribkanban_boards.bookmarks:
+    class: Drupal\contribkanban_boards\Bookmarks
+    arguments: ['@user.data', '@entity_type.manager', '@cache_tags.invalidator']
+  contribkanban_boards.bookmark_lazy_builder:
+    class: Drupal\contribkanban_boards\BookmarkLazyBuilder
+    arguments: ['@entity_type.manager', '@form_builder', '@current_user']

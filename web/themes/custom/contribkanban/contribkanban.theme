@@ -91,6 +91,7 @@ function contribkanban_preprocess_board(array &$variables): void {
         ? 'https://git.drupalcode.org/groups/project/-/work_items?label_name[]=' . rawurlencode($config['gitlabLabel'])
         : '',
       'roulette_url' => _contribkanban_board_roulette_url($board),
+      'bookmark' => $variables['elements']['#bookmark'] ?? [],
       'embed_url' => Url::fromRoute('entity.board.embed', [
         'board' => $board->get('machine_name')->value ?? $board->id(),
       ])->toString(),

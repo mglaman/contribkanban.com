@@ -29,7 +29,7 @@
   text-decoration: none;
 }
 
-/* Buttons for a board: rolling for an issue and embedding it. */
+/* Buttons for a board: rolling for an issue, embedding it, and bookmarking it. */
 .board-shell__actions {
   display: flex;
   flex-wrap: wrap;
@@ -37,9 +37,15 @@
   gap: 8px;
 }
 
+/* The Bookmark form sits in the row like the buttons. */
+.board-shell__actions .bookmark-form {
+  display: contents;
+}
+
 /* A button with a die, like the roulette's Re-roll. */
 .board-shell__roulette,
-.board-shell__embed {
+.board-shell__embed,
+.board-shell__actions .board-shell__bookmark {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -57,7 +63,8 @@
 }
 
 .board-shell__roulette:hover,
-.board-shell__embed:hover {
+.board-shell__embed:hover,
+.board-shell__actions .board-shell__bookmark:hover {
   border-color: var(--ck-accent);
   color: var(--ck-accent-strong);
 }
@@ -527,4 +534,10 @@
 .issue-ids__remove-done:hover {
   border-color: var(--ck-danger);
   color: var(--ck-danger);
+}
+
+.board-shell__actions .board-shell__bookmark[aria-pressed="true"] {
+  border-color: var(--ck-accent);
+  background: var(--ck-accent-soft);
+  color: var(--ck-accent-strong);
 }
