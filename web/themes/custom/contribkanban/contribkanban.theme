@@ -20,16 +20,22 @@ function contribkanban_preprocess_page(array &$variables): void {
   $variables['main_nav'] = [
     [
       'label' => (string) t('Boards'),
+      'description' => (string) t('Projects, tags and issue collections'),
+      'icon' => 'boards',
       'url' => Url::fromRoute('view.board_listing.page')->toString(),
       'current' => $route_name === 'view.board_listing.page',
     ],
     [
       'label' => (string) t('Roulette'),
+      'description' => (string) t('Roll for an issue to work on'),
+      'icon' => 'roulette',
       'url' => Url::fromRoute('contribkanban_boards.roulette')->toString(),
       'current' => $route_name === 'contribkanban_boards.roulette',
     ],
     [
       'label' => (string) t('Create a board'),
+      'description' => (string) t('Track a project or an issue tag'),
+      'icon' => 'create',
       'url' => Url::fromRoute('contribkanban_boards.create_board')->toString(),
       'current' => $route_name === 'contribkanban_boards.create_board',
     ],
