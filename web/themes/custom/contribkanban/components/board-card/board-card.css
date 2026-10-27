@@ -4,16 +4,17 @@
   gap: 12px;
   min-height: 108px;
   padding: 20px;
+  border: 1px solid var(--ck-border-subtle);
   border-radius: var(--ck-radius-card);
   background: var(--ck-surface);
   color: var(--ck-text);
   text-decoration: none;
-  box-shadow: var(--ck-shadow);
 }
 
 .board-card:hover {
+  border-color: var(--ck-accent);
   color: var(--ck-text);
-  box-shadow: 0 0 0 2px var(--ck-accent), var(--ck-shadow);
+  box-shadow: 0 0 0 1px var(--ck-accent);
 }
 
 .board-card__title {
