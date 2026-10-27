@@ -29,8 +29,17 @@
   text-decoration: none;
 }
 
+/* Buttons for a board: rolling for an issue and embedding it. */
+.board-shell__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
 /* A button with a die, like the roulette's Re-roll. */
-.board-shell__roulette {
+.board-shell__roulette,
+.board-shell__embed {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -40,14 +49,30 @@
   border-radius: var(--ck-radius-pill);
   background: var(--ck-surface);
   color: var(--ck-text);
+  font-family: inherit;
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
+  cursor: pointer;
 }
 
-.board-shell__roulette:hover {
+.board-shell__roulette:hover,
+.board-shell__embed:hover {
   border-color: var(--ck-accent);
   color: var(--ck-accent-strong);
+}
+
+/* The island's Embed button and code sit in the row like the roulette link. */
+.board-shell__actions [data-board-embed] {
+  display: contents;
+}
+
+/* Shown when the browser won't copy the embed code. */
+.board-shell__embed-code {
+  flex-basis: 100%;
+  max-width: 60ch;
+  font-family: ui-monospace, monospace;
+  font-size: 13px;
 }
 
 .board-shell__source,

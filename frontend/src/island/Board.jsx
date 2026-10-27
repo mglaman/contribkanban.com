@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import Column, { CollapsedColumns, useCollapsedColumns } from "./Column";
+import EmbedButton, { embedCode } from "./EmbedButton";
 import Filters, { byName } from "./Filters";
 import { fetchIssuesByNid, fetchListIssues, fetchProjectNid } from "./drupalorg";
 import { filterIds, issueProject, matchesText, readFilters, writeFilters } from "./filters";
@@ -401,8 +402,10 @@ export function rouletteUrl(base, filters) {
  *   issue" link, which gets the filters too.
  * @param {boolean} [props.embed] Whether the board is embedded on another
  *   site. Embedded boards keep the filters in their URL but don't show them.
+ * @param {HTMLElement|null} [props.embedSlot] Where the board shell wants the
+ *   Embed button, with the embed path and board title in its data attributes.
  */
-function Board({ config, filtersSlot, rouletteLink = null, embed = false }) {
+function Board({ config, filtersSlot, rouletteLink = null, embed = false, embedSlot = null }) {
   const showProject = config.showProject ?? false;
   const gitlabProject = config.source === "gitlab" ? config.gitlabProject : null;
   const [filters, setFilters] = useState(() => {
@@ -449,6 +452,12 @@ function Board({ config, filtersSlot, rouletteLink = null, embed = false }) {
   return (
     <>
       {embed ? null : filtersSlot ? createPortal(toolbar, filtersSlot) : toolbar}
+      {embedSlot
+        ? createPortal(
+            <EmbedButton code={embedCode(embedSlot.dataset.boardEmbed, embedSlot.dataset.boardEmbedTitle ?? "", filters)} />,
+            embedSlot
+          )
+        : null}
       <CollapsedColumns.Provider value={collapsedColumns}>
         {config.nids ? (
           <CollectionColumns
