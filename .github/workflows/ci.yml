@@ -150,7 +150,8 @@ jobs:
           # With a tag, project is the Project filter on the tag's issues.
           test "$(curl -fsS "http://127.0.0.1:8080/roulette?tag=Novice&project=smoke_test_project" | grep -c 'Smoke test project</a>')" = 0
 
-          # Embedded boards leave out the site and the roulette, and other sites can frame them.
+          # Boards offer an Embed button, and embedded boards leave out the site and the roulette, and other sites can frame them.
+          curl -fsS "http://127.0.0.1:8080/board/smoke_test_project" | grep 'data-board-embed="/board/smoke_test_project/embed"'
           embed="$(curl -fsS -D - "http://127.0.0.1:8080/board/smoke_test_project/embed")"
           echo "$embed" | grep 'class="board-shell board-shell--embed"'
           test "$(echo "$embed" | grep -ciE 'x-frame-options|site-footer|board-shell__roulette')" = 0

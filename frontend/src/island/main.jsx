@@ -10,8 +10,9 @@ for (const element of document.querySelectorAll("[data-board]")) {
   const filtersSlot = shell?.querySelector("[data-board-filters]") ?? null;
   const rouletteLink = shell?.querySelector(".board-shell__roulette") ?? null;
   const embed = shell?.classList.contains("board-shell--embed") ?? false;
+  const embedSlot = shell?.querySelector("[data-board-embed]") ?? null;
   createRoot(element).render(
-    <Board config={config} filtersSlot={filtersSlot} rouletteLink={rouletteLink} embed={embed} />
+    <Board config={config} filtersSlot={filtersSlot} rouletteLink={rouletteLink} embed={embed} embedSlot={embedSlot} />
   );
 }
 

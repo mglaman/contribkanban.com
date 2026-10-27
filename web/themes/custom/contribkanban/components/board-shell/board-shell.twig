@@ -27,8 +27,9 @@
           <p>{{ 'This board starts with issues that already have work in them. Reviewing and finishing those moves more issues forward than starting new ones, so start with Needs review, then Needs work, then Active.'|t }}</p>
         </details>
       {% endif %}
-      {% if roulette_url %}
-        <p>
+      {% if roulette_url or embed_url %}
+        <p class="board-shell__actions">
+          {% if roulette_url %}
           <a class="board-shell__roulette" href="{{ roulette_url }}">
             {# The same die as the roulette's Roll button. #}
             <svg width="18" height="18" viewBox="0 0 22 22" fill="none" aria-hidden="true">
@@ -39,6 +40,11 @@
             </svg>
             {{ 'Roll for an issue'|t }}
           </a>
+          {% endif %}
+          {# The island renders the Embed button, which copies an iframe for the board. #}
+          {% if embed_url %}
+            <span data-board-embed="{{ embed_url }}" data-board-embed-title="{{ title }}"></span>
+          {% endif %}
         </p>
       {% endif %}
       {% if edit_url %}
