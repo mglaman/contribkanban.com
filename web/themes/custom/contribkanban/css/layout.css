@@ -37,9 +37,9 @@ body {
   flex-direction: column;
   gap: 20px;
   padding: 28px;
+  border: 1px solid var(--ck-border-subtle);
   border-radius: var(--ck-radius-panel);
   background: var(--ck-surface);
-  box-shadow: var(--ck-shadow);
 }
 
 .layout-sidebar h2 {
@@ -75,10 +75,10 @@ body {
 
 .messages {
   padding: 14px 18px;
+  border: 1px solid var(--ck-border-subtle);
+  border-left: 4px solid var(--ck-accent);
   border-radius: var(--ck-radius-card);
   background: var(--ck-surface);
-  box-shadow: var(--ck-shadow);
-  border-left: 4px solid var(--ck-accent);
 }
 
 .messages--error {
@@ -107,6 +107,7 @@ body {
 .tabs a {
   display: inline-block;
   padding: 6px 14px;
+  border: 1px solid var(--ck-border-subtle);
   border-radius: var(--ck-radius-pill);
   background: var(--ck-surface);
   color: var(--ck-text);
@@ -115,6 +116,7 @@ body {
 }
 
 .tabs .is-active a {
+  border-color: var(--ck-text);
   background: var(--ck-text);
   color: var(--ck-surface);
 }
@@ -137,14 +139,19 @@ body {
   min-width: 44px;
   justify-content: center;
   padding: 0 14px;
+  border: 1px solid var(--ck-border-subtle);
   border-radius: var(--ck-radius-pill);
   background: var(--ck-surface);
   color: var(--ck-text);
   text-decoration: none;
-  box-shadow: var(--ck-shadow-subtle);
+}
+
+.pager__item a:hover {
+  border-color: var(--ck-accent);
 }
 
 .pager__item.is-active a {
+  border-color: var(--ck-text);
   background: var(--ck-text);
   color: var(--ck-surface);
   font-weight: 600;
@@ -183,9 +190,9 @@ body {
   gap: 16px;
   max-width: 640px;
   padding: 28px;
+  border: 1px solid var(--ck-border-subtle);
   border-radius: var(--ck-radius-panel);
   background: var(--ck-surface);
-  box-shadow: var(--ck-shadow);
 }
 
 .issue-collections__list {

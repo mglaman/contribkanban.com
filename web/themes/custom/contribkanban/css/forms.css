@@ -97,13 +97,14 @@ input[type="submit"]:hover {
 
 /* Cancel links on confirmation forms. */
 .button.dialog-cancel {
+  border: 1px solid var(--ck-border);
   background: var(--ck-surface);
   color: var(--ck-text);
-  box-shadow: var(--ck-shadow-subtle);
 }
 
 .button.dialog-cancel:hover {
-  background: var(--ck-surface-muted);
+  border-color: var(--ck-text);
+  background: var(--ck-surface);
   color: var(--ck-text);
 }
 
@@ -129,10 +130,8 @@ input[type="submit"]:hover {
 .board-listing .views-exposed-form input[type="text"] {
   min-height: 56px;
   padding: 16px 22px;
-  border: 0;
-  border-radius: 16px;
+  border-radius: var(--ck-radius-lane);
   font-size: 17px;
-  box-shadow: var(--ck-shadow);
 }
 
 .board-listing .views-exposed-form .form-actions input[type="submit"] {
