@@ -29,9 +29,6 @@ use Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem;
  *   handlers = {
  *     "access" = "\Drupal\entity\EntityAccessControlHandler",
  *     "permission_provider" = "\Drupal\entity\EntityPermissionProvider",
- *     "form" = {
- *       "default" = "\Drupal\contribkanban_boards\Form\BoardListForm",
- *     },
  *   },
  * )
  */

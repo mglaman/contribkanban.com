@@ -193,15 +193,6 @@ class Board extends ContentEntityBase implements BoardInterface {
       ->setSetting('target_type', 'board_list')
       ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
       ->setLabel(t('Lists'))
-      ->setDisplayOptions('form', [
-        'type' => 'inline_entity_form_complex',
-        'weight' => 10,
-        'settings' => [
-          'override_labels' => TRUE,
-          'label_singular' => 'list',
-          'label_plural' => 'lists',
-        ],
-      ])
       ->setDisplayOptions('view', [
         'label' => 'hidden',
         'type' => 'entity_reference_entity_view',

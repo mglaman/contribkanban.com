@@ -21,7 +21,6 @@ final class BookmarksTest extends EntityKernelTestBase {
     'contribkanban_boards',
     'contribkanban_projects',
     'entity',
-    'inline_entity_form',
     'options',
   ];
 
