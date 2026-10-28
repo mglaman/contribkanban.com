@@ -126,7 +126,7 @@
     padding: 12px var(--ck-gutter) 20px;
     border-radius: 0 0 var(--ck-radius-panel) var(--ck-radius-panel);
     background: var(--ck-surface);
-    box-shadow: var(--ck-shadow);
+    box-shadow: var(--ck-shadow-float);
   }
 
   .page-header__toggle[aria-expanded="false"] + .page-header__menu {
