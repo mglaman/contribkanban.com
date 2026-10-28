@@ -41,6 +41,16 @@ const unassigned = (issue) => !issue.field_issue_assigned;
  */
 const poolState = (states) => (states.includes("error") ? "error" : states.includes("loading") ? "loading" : "ok");
 
+/**
+ * Sends an event to Fathom, where the site loads it.
+ *
+ * Fathom drops the roulette's query string from pageviews, so the event name
+ * carries the tag or project.
+ *
+ * @param {string} name
+ */
+const track = (name) => window.fathom?.trackEvent(name);
+
 const prefersReducedMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
 
 /**
@@ -210,8 +220,9 @@ function Confetti({ roll }) {
  * @param {object} props
  * @param {{state: string, issues: object[]}} props.pool The issues to roll for.
  * @param {string} props.empty The message when there are none.
+ * @param {string} props.name The tag or project, for Fathom events.
  */
-function RouletteStrip({ pool, empty }) {
+function RouletteStrip({ pool, empty, name }) {
   const [roll, setRoll] = useState(IDLE);
   const timers = useRef([]);
   const issueLink = useRef(null);
@@ -247,6 +258,7 @@ function RouletteStrip({ pool, empty }) {
       target += 1 + Math.floor(Math.random() * (next.length - 1));
     }
     const rolled = { strip: next, used: reroll ? roll.used + 1 : 0, rolls: roll.rolls + 1 };
+    track(`Roulette ${reroll ? "re-roll" : "roll"}: ${name}`);
     if (prefersReducedMotion()) {
       setRoll({ ...rolled, phase: "landed", index: target, animate: false });
       return;
@@ -323,7 +335,14 @@ function RouletteStrip({ pool, empty }) {
       <div className="roulette__actions">
         <div className="roulette__buttons">
           {landed ? (
-            <a ref={issueLink} className="roulette__roll" href={pick.url} target="_blank" rel="noreferrer">
+            <a
+              ref={issueLink}
+              className="roulette__roll"
+              href={pick.url}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => track(`Roulette go to issue: ${name}`)}
+            >
               Go to the issue
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path d="M6 3h7v7M13 3L4 12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
@@ -434,6 +453,7 @@ function TagStrip({ tag, movedProjects, filters, onIssues }) {
     <RouletteStrip
       pool={pool}
       empty={isFiltered(filters) ? "No open issues with this tag match the filters." : "No open issues with this tag right now."}
+      name={tag.label}
     />
   );
 }
@@ -464,6 +484,7 @@ function ProjectRoulette({ project, filtersSlot }) {
         key={JSON.stringify(filters)}
         pool={pool}
         empty={isFiltered(filters) ? "No open issues match the filters." : `No open ${project.label} issues right now.`}
+        name={`${project.label} project`}
       />
     </>
   );

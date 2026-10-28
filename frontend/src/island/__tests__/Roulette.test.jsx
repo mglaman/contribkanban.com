@@ -117,6 +117,32 @@ describe("Roulette", () => {
     expect(screen.getByRole("img", { name: "0 of 3 re-rolls left" })).toBeInTheDocument();
   });
 
+  it("sends Fathom events named for the tag", async () => {
+    const trackEvent = vi.fn();
+    vi.stubGlobal("fathom", { trackEvent });
+    vi.stubGlobal("fetch", vi.fn(fetchIssues));
+    render(<Roulette config={CONFIG} filtersSlot={null} />);
+    await screen.findByText("3 issues on the strip.");
+
+    await userEvent.click(screen.getByRole("button", { name: "Roll" }));
+    await userEvent.click(screen.getByRole("button", { name: /Re-roll/ }));
+    fireEvent.click(screen.getByRole("link", { name: "Go to the issue" }));
+    expect(trackEvent.mock.calls).toEqual([
+      ["Roulette roll: Novice"],
+      ["Roulette re-roll: Novice"],
+      ["Roulette go to issue: Novice"],
+    ]);
+  });
+
+  it("rolls without Fathom", async () => {
+    vi.stubGlobal("fetch", vi.fn(fetchIssues));
+    render(<Roulette config={CONFIG} filtersSlot={null} />);
+    await screen.findByText("3 issues on the strip.");
+
+    await userEvent.click(screen.getByRole("button", { name: "Roll" }));
+    expect(screen.getByRole("link", { name: "Go to the issue" })).toBeInTheDocument();
+  });
+
   it("rolls the strip, then lands on the issue under the marker", async () => {
     vi.stubGlobal("matchMedia", () => ({ matches: false }));
     vi.stubGlobal("fetch", vi.fn(fetchIssues));
@@ -233,6 +259,18 @@ describe("Roulette", () => {
       expect(url.searchParams.get("field_project[target_id][0]")).toBe("17345");
       expect(url.searchParams.get("taxonomy_vocabulary_9[tid][0]")).toBeNull();
       expect(screen.queryByRole("combobox", { name: "Milestone" })).not.toBeInTheDocument();
+    });
+
+    it("sends Fathom events named for the project", async () => {
+      const trackEvent = vi.fn();
+      vi.stubGlobal("fathom", { trackEvent });
+      vi.stubGlobal("fetch", vi.fn(() => Promise.resolve(jsonResponse(TOOL_ITEMS))));
+      window.history.replaceState(null, "", "/roulette?project=tool");
+      render(<Roulette config={TOOL} filtersSlot={null} />);
+      await screen.findByText("4 issues on the strip.");
+
+      await userEvent.click(screen.getByRole("button", { name: "Roll" }));
+      expect(trackEvent).toHaveBeenCalledWith("Roulette roll: Tool API project");
     });
   });
 });
