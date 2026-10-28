@@ -28,4 +28,4 @@ services:
     arguments: ['@entity_type.manager', '@form_builder', '@current_user']
   contribkanban_boards.popular_boards:
     class: Drupal\contribkanban_boards\PopularBoards
-    arguments: ['@entity_type.manager', '@state', '@cache_tags.invalidator']
+    arguments: ['@entity_type.manager', '@keyvalue', '@cache_tags.invalidator']
