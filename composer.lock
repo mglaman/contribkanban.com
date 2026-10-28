@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a9b4066b4531ee422bbadee8e6cde96a",
+    "content-hash": "94af39dfd0434e16985fbe8af93f15f9",
     "packages": [
         {
             "name": "amazeeio/drupal_integrations",
@@ -1591,99 +1591,6 @@
             ]
         },
         {
-            "name": "drupal/inline_entity_form",
-            "version": "3.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/inline_entity_form.git",
-                "reference": "3.0.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/inline_entity_form-3.0.0.zip",
-                "reference": "3.0.0",
-                "shasum": "43417cf232df36d6a621151dffa569b77dfd9725"
-            },
-            "require": {
-                "drupal/core": "^8.8 || ^9 || ^10 || ^11",
-                "drupal/rat": "^1.0.0@stable",
-                "php": ">=7.1"
-            },
-            "require-dev": {
-                "drupal/entity_reference_revisions": "^1.0"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "3.0.0",
-                    "datestamp": "1780695753",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "bojanz",
-                    "homepage": "https://www.drupal.org/user/86106"
-                },
-                {
-                    "name": "centarro",
-                    "homepage": "https://www.drupal.org/user/3661446"
-                },
-                {
-                    "name": "dawehner",
-                    "homepage": "https://www.drupal.org/user/99340"
-                },
-                {
-                    "name": "dww",
-                    "homepage": "https://www.drupal.org/user/46549"
-                },
-                {
-                    "name": "geek-merlin",
-                    "homepage": "https://www.drupal.org/user/229048"
-                },
-                {
-                    "name": "joachim",
-                    "homepage": "https://www.drupal.org/user/107701"
-                },
-                {
-                    "name": "jsacksick",
-                    "homepage": "https://www.drupal.org/user/972218"
-                },
-                {
-                    "name": "oknate",
-                    "homepage": "https://www.drupal.org/user/471638"
-                },
-                {
-                    "name": "ram4nd",
-                    "homepage": "https://www.drupal.org/user/601534"
-                },
-                {
-                    "name": "rszrama",
-                    "homepage": "https://www.drupal.org/user/49344"
-                },
-                {
-                    "name": "slashrsm",
-                    "homepage": "https://www.drupal.org/user/744628"
-                },
-                {
-                    "name": "webflo",
-                    "homepage": "https://www.drupal.org/user/254778"
-                }
-            ],
-            "description": "Provides a widget for inline management (creation, modification, removal) of referenced entities.",
-            "homepage": "https://www.drupal.org/project/inline_entity_form",
-            "support": {
-                "source": "https://git.drupalcode.org/project/inline_entity_form"
-            }
-        },
-        {
             "name": "drupal/lagoon_logs",
             "version": "3.0.1",
             "source": {
@@ -1816,48 +1723,6 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/mailsystem"
             }
-        },
-        {
-            "name": "drupal/rat",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/rat.git",
-                "reference": "f13fcfb83445e505ffa84d2137231d91cd8c8146"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://git.drupalcode.org/api/v4/projects/project%2Frat/repository/archive.zip?sha=f13fcfb83445e505ffa84d2137231d91cd8c8146",
-                "reference": "f13fcfb83445e505ffa84d2137231d91cd8c8146",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.4 || ^8.0"
-            },
-            "require-dev": {
-                "drupal/core": "^9.4",
-                "drupal/core-dev": "^9.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Drupal\\rat\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "gpl-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Merlin",
-                    "email": "merlin@geeks4change.net"
-                }
-            ],
-            "support": {
-                "source": "https://git.drupalcode.org/project/rat/-/tree/1.0.1"
-            },
-            "time": "2025-12-29T15:30:47+00:00"
         },
         {
             "name": "drupal/redis",
@@ -13457,9 +13322,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "drupal/inline_entity_form": 10
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
