@@ -56,15 +56,15 @@ jobs:
 
   upgrade_status:
     runs-on: ubuntu-latest
-    # Reports Drupal 11 deprecations in contrib projects, so it fails until
-    # those projects are updated. Informational until then.
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup-drupal
       - name: Install backend
         run: ./bin/drush -y site-install --account-pass=admin
-      - run: ./bin/drush upgrade_status:analyze --all --ignore-uninstalled
+      # Checks our code for the next major version of Drupal. Contrib projects
+      # get fixed upstream. Upgrade Status scans Claro, Gin's base theme, as
+      # custom code, so it's skipped too.
+      - run: ./bin/drush upgrade_status:analyze --all --ignore-contrib --ignore-uninstalled --ignore-list=claro
 
   e2e_test:
     runs-on: ubuntu-latest
