@@ -18,7 +18,7 @@
   <div class="board-listing__results">
     {{ include('contribkanban:pill-nav', {label: 'Board type'|t, items: type_links, variant: 'solid'}, with_context = false) }}
     {% if rows %}
-      <div class="board-listing__grid">{{ rows }}</div>
+      <div class="board-listing__grid{{ show_popular ? ' board-listing__grid--popular' }}">{{ rows }}</div>
     {% elseif empty %}
       <div class="board-listing__empty">{{ empty }}</div>
     {% endif %}

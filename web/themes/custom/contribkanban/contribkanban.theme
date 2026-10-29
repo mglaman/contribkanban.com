@@ -195,8 +195,11 @@ function contribkanban_preprocess_views_view__board_listing(array &$variables): 
   $query = \Drupal::request()->query;
   $current_type = (string) $query->get('type', '');
   $search = (string) $query->get('search', '');
+  $popular_boards = \Drupal::service('contribkanban_boards.popular_boards')->load();
+  // With no search or type, list the popular boards instead of every board.
+  $show_popular = $search === '' && $current_type === '' && $popular_boards !== [];
   $types = [
-    '' => t('All'),
+    '' => $show_popular ? t('Popular') : t('All'),
     'drupalorg_project' => t('Projects'),
     'drupalorg_sprint' => t('Tags'),
     'drupalorg_core' => t('Core components'),
@@ -214,13 +217,20 @@ function contribkanban_preprocess_views_view__board_listing(array &$variables): 
   $bundles = \Drupal::service('entity_type.bundle.info')->getBundleInfo('board');
   $variables['popular'] = [];
   $tags = [PopularBoards::CACHE_TAG];
-  foreach (\Drupal::service('contribkanban_boards.popular_boards')->load() as $board) {
+  foreach ($popular_boards as $board) {
     $variables['popular'][] = [
       'label' => (string) $board->label(),
       'type' => (string) $bundles[$board->bundle()]['label'],
       'url' => $board->toUrl()->toString(),
     ];
     $tags = Cache::mergeTags($tags, $board->getCacheTags());
+  }
+  $variables['show_popular'] = $show_popular;
+  if ($show_popular) {
+    $variables['rows'] = \Drupal::entityTypeManager()->getViewBuilder('board')->viewMultiple($popular_boards, 'card');
+    $variables['pager'] = [];
+    // The cards already show the popular boards.
+    $variables['popular'] = [];
   }
   $variables['#cache']['tags'] = Cache::mergeTags($variables['#cache']['tags'] ?? [], $tags);
   $variables['#cache']['contexts'][] = 'url.query_args:type';
