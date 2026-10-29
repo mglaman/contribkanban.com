@@ -22,7 +22,6 @@ final class PopularBoardsTest extends KernelTestBase {
     'contribkanban_boards',
     'contribkanban_projects',
     'entity',
-    'inline_entity_form',
     'options',
     // Provides the autocomplete route the form links to.
     'system',
