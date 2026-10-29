@@ -28,8 +28,23 @@
   font-weight: 600;
 }
 
-.pill-nav--solid .pill-nav__link {
+.pill-nav--solid {
+  flex-wrap: nowrap;
+  gap: 2px;
+  width: fit-content;
+  max-width: 100%;
+  padding: 4px;
+  overflow-x: auto;
+  border: 1px solid var(--ck-border-subtle);
+  border-radius: var(--ck-radius-pill);
   background: var(--ck-surface);
+}
+
+.pill-nav--solid .pill-nav__link {
+  flex: none;
+  min-height: 36px;
+  padding: 6px 14px;
+  color: var(--ck-muted);
 }
 
 .pill-nav--solid .pill-nav__link[aria-current="page"] {

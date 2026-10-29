@@ -97,3 +97,10 @@ contribkanban_boards.roulette:
   requirements:
     # Like boards, the roulette is for everyone.
     _access: 'TRUE'
+contribkanban_boards.popular:
+  path: '/admin/boards/popular'
+  defaults:
+    _form: '\Drupal\contribkanban_boards\Form\PopularBoardsForm'
+    _title: 'Popular searches'
+  requirements:
+    _permission: 'administer board'

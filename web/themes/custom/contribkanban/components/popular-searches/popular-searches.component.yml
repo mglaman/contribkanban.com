@@ -1,0 +1,22 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Popular searches
+description: Curated searches shown as pills below the board search. Renders nothing without items.
+status: stable
+props:
+  type: object
+  required:
+    - items
+  properties:
+    items:
+      type: array
+      title: Searches
+      items:
+        type: object
+        properties:
+          label:
+            type: string
+          type:
+            type: string
+            title: Board type
+          url:
+            type: string

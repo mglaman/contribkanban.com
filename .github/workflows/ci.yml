@@ -130,6 +130,10 @@ jobs:
           curl -fsS "http://127.0.0.1:8080/boards?search=smoke" | grep "Smoke test board"
           curl -fsS "http://127.0.0.1:8080/boards?type=drupalorg_sprint&search=smoke" | grep "No boards match"
           curl -fsS "http://127.0.0.1:8080/boards" | grep 'id="contribkanban-create-board"'
+          # No popular searches until an admin picks some.
+          test "$(curl -fsS "http://127.0.0.1:8080/boards" | grep -c 'class="popular-searches"')" = 0
+          ./bin/drush php:eval '\Drupal::service("contribkanban_boards.popular_boards")->set(array_keys(\Drupal::entityTypeManager()->getStorage("board")->loadByProperties(["title" => "Smoke test project"])));'
+          curl -fsS "http://127.0.0.1:8080/boards" | grep 'class="popular-searches__link" href="/board/smoke_test_project"'
           curl -fsS "http://127.0.0.1:8080/boards/new" | grep "Project machine name"
           curl -fsS "http://127.0.0.1:8080/board/Smoketestboard" | grep 'data-board="'
           # Only boards that start with Needs review explain their lane order.

@@ -11,3 +11,12 @@ entity.node_board.delete_form:
   route_name: entity.node_board.delete_form
   base_route: entity.node_board.canonical
   weight: 10
+entity.board.collection:
+  title: 'Boards'
+  route_name: entity.board.collection
+  base_route: entity.board.collection
+contribkanban_boards.popular:
+  title: 'Popular searches'
+  route_name: contribkanban_boards.popular
+  base_route: entity.board.collection
+  weight: 10

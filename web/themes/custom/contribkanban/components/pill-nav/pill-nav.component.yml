@@ -14,7 +14,7 @@ props:
     variant:
       type: string
       title: Variant
-      description: Subtle highlights the current link in white. Solid highlights it in dark gray and shows the others in white.
+      description: Subtle highlights the current link in white. Solid groups the links in one white bar, like a segmented control, and highlights the current one in dark gray.
       enum:
         - subtle
         - solid
