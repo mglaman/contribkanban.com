@@ -6,4 +6,3 @@ dependencies:
   - contribkanban_projects:contribkanban_projects
   - drupal:options
   - entity:entity
-  - inline_entity_form:inline_entity_form

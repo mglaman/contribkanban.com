@@ -22,7 +22,6 @@ final class BoardIslandConfigTest extends KernelTestBase {
     'contribkanban_boards',
     'contribkanban_projects',
     'entity',
-    'inline_entity_form',
     'options',
     'user',
   ];

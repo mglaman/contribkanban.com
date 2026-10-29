@@ -13,7 +13,6 @@ module:
   file: 0
   filter: 0
   image: 0
-  inline_entity_form: 0
   lagoon_logs: 0
   layout_discovery: 0
   link: 0

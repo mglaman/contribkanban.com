@@ -22,7 +22,6 @@ final class FlagGitlabBoardsTest extends KernelTestBase {
     'contribkanban_boards',
     'contribkanban_projects',
     'entity',
-    'inline_entity_form',
     'options',
     'user',
   ];

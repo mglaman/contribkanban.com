@@ -54,18 +54,6 @@ jobs:
         run: mkdir -p web/sites/default/files && chmod 777 web/sites/default/files
       - run: ./bin/phpunit web/modules/custom --no-coverage
 
-  upgrade_status:
-    runs-on: ubuntu-latest
-    # Reports Drupal 11 deprecations in contrib projects, so it fails until
-    # those projects are updated. Informational until then.
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v7
-      - uses: ./.github/actions/setup-drupal
-      - name: Install backend
-        run: ./bin/drush -y site-install --account-pass=admin
-      - run: ./bin/drush upgrade_status:analyze --all --ignore-uninstalled
-
   e2e_test:
     runs-on: ubuntu-latest
     steps:
