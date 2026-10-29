@@ -225,6 +225,7 @@ function contribkanban_preprocess_views_view__board_listing(array &$variables): 
     ];
     $tags = Cache::mergeTags($tags, $board->getCacheTags());
   }
+  $variables['show_popular'] = $show_popular;
   if ($show_popular) {
     $variables['rows'] = \Drupal::entityTypeManager()->getViewBuilder('board')->viewMultiple($popular_boards, 'card');
     $variables['pager'] = [];

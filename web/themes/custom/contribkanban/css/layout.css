@@ -194,6 +194,11 @@ body {
   gap: 16px;
 }
 
+/* A few popular boards, so at most three columns. */
+.board-listing__grid--popular {
+  grid-template-columns: repeat(auto-fill, minmax(max(240px, calc((100% - 32px) / 3)), 1fr));
+}
+
 .board-listing__empty {
   padding: 32px 16px;
   border: 2px dashed var(--ck-border);
