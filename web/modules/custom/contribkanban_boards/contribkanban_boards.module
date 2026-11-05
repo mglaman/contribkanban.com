@@ -213,6 +213,11 @@ function contribkanban_boards_page_attachments(array &$attachments): void {
   if (!is_string($site_id) || $site_id === '' || \Drupal::service('router.admin_context')->isAdminRoute()) {
     return;
   }
+  // Any script on the My projects page could read the viewer's GitLab token.
+  $attachments['#cache']['contexts'][] = 'route.name';
+  if (\Drupal::routeMatch()->getRouteName() === 'contribkanban_boards.my_projects') {
+    return;
+  }
   $attachments['#attached']['html_head'][] = [
     [
       '#tag' => 'script',

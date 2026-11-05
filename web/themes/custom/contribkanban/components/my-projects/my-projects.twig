@@ -1,0 +1,15 @@
+<div class="board-shell my-projects">
+  <div class="board-shell__header">
+    <div class="board-shell__heading">
+      <h1>{{ 'My projects'|t }}</h1>
+      <p class="board-shell__source">{{ 'Issues from every project you maintain, in one board.'|t }}</p>
+      <div class="board-shell__actions" data-my-projects-actions></div>
+    </div>
+    <div class="board-shell__filters" data-board-filters></div>
+  </div>
+  <noscript>
+    <p class="board-shell__noscript">{{ 'The board loads issues with JavaScript. Turn it on to see them.'|t }}</p>
+  </noscript>
+  {# The island renders the token form here, then the columns. #}
+  <div class="my-projects__app" data-my-projects></div>
+</div>
