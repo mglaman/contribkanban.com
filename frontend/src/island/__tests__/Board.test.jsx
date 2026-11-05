@@ -2,6 +2,7 @@ import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import { fireEvent, render, screen, within, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Board, { rouletteUrl } from "../Board";
+import { fetchProjectsWorkItems } from "../gitlab";
 
 const LISTS = [
   { title: "Active", tone: "active", statuses: ["1"], projects: ["17345"], tags: [], versions: [], component: null },
@@ -357,7 +358,7 @@ describe("Board", () => {
     expect(fetch).toHaveBeenCalledTimes(3);
   });
 
-  describe("Maintainer board", () => {
+  describe("Board across a list of projects", () => {
     const workItem = (iid, project, state) => ({
       iid,
       title: `GitLab ${iid}`,
@@ -370,7 +371,7 @@ describe("Board", () => {
       gitlabProject: null,
       gitlabProjects,
       gitlabLabel: null,
-      movedProjects: [100],
+      movedProjects: [],
       showProject: true,
       lists,
     });
@@ -403,7 +404,7 @@ describe("Board", () => {
       vi.stubGlobal("fetch", fetch);
       const lists = LISTS.map((list) => ({ ...list, projects: ["200"] }));
 
-      render(<Board config={config(lists, ["project/canvas"])} filtersSlot={null} />);
+      render(<Board config={config(lists, ["project/canvas"])} filtersSlot={null} loadProjects={fetchProjectsWorkItems} />);
 
       expect(await within(column("Active")).findByText("Drupal.org 100")).toBeInTheDocument();
       expect(await within(column("Active")).findByText("GitLab 300")).toBeInTheDocument();
@@ -416,10 +417,23 @@ describe("Board", () => {
       vi.stubGlobal("fetch", fetch);
       const lists = LISTS.map((list) => ({ ...list, projects: [] }));
 
-      render(<Board config={config(lists, ["project/canvas"])} filtersSlot={null} />);
+      render(<Board config={config(lists, ["project/canvas"])} filtersSlot={null} loadProjects={fetchProjectsWorkItems} />);
 
       expect(await within(column("Active")).findByText("GitLab 300")).toBeInTheDocument();
       expect(fetch.mock.calls.filter(([url]) => url.includes("www.drupal.org"))).toHaveLength(0);
+    });
+
+    it("doesn't load frozen drupal.org issues when filtering by a moved project", async () => {
+      const fetch = vi.fn(() => Promise.resolve(jsonResponse([workItem(300, "canvas", "active")])));
+      vi.stubGlobal("fetch", fetch);
+      window.history.replaceState(null, "", "/my-projects?project=canvas");
+      const lists = LISTS.map((list) => ({ ...list, projects: ["200"] }));
+
+      render(<Board config={config(lists, ["project/canvas"])} filtersSlot={null} loadProjects={fetchProjectsWorkItems} />);
+
+      expect(await within(column("Active")).findByText("GitLab 300")).toBeInTheDocument();
+      expect(fetch.mock.calls.filter(([url]) => url.includes("www.drupal.org"))).toHaveLength(0);
+      window.history.replaceState(null, "", "/");
     });
 
     it("counts with a plus when a project couldn't load", async () => {
@@ -435,7 +449,7 @@ describe("Board", () => {
       );
       const lists = LISTS.map((list) => ({ ...list, projects: [] }));
 
-      render(<Board config={config(lists, ["project/canvas", "project/bad"])} filtersSlot={null} />);
+      render(<Board config={config(lists, ["project/canvas", "project/bad"])} filtersSlot={null} loadProjects={fetchProjectsWorkItems} />);
 
       expect(await within(column("Active")).findByText("1+")).toBeInTheDocument();
     });

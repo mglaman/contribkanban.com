@@ -5,13 +5,7 @@ import EmbedButton, { embedCode } from "./EmbedButton";
 import Filters, { byName } from "./Filters";
 import { fetchIssuesByNid, fetchListIssues, fetchProjectNid } from "./drupalorg";
 import { filterIds, issueProject, matchesText, readFilters, writeFilters } from "./filters";
-import {
-  fetchLabeledWorkItems,
-  fetchOpenWorkItems,
-  fetchProjectsWorkItems,
-  fetchWorkItemsByIid,
-  filterIssues,
-} from "./gitlab";
+import { fetchLabeledWorkItems, fetchOpenWorkItems, fetchWorkItemsByIid, filterIssues } from "./gitlab";
 
 const LOADING = { state: "loading", issues: [], total: 0, partial: false };
 const EMPTY = { ...LOADING, state: "ok" };
@@ -171,9 +165,9 @@ function GitLabColumns({ workItems, lists, category, priority, milestone, text }
  * the loaded work items by the project in their URL.
  */
 function SpanningColumn({ list, workItems, movedProjects, category, priority, project, projectNid, text, showProject, onIssues }) {
-  // A GitLab label's board has no drupal.org tag, a maintainer whose projects
-  // all moved has none on drupal.org, and a project drupal.org doesn't know
-  // has no drupal.org issues to load. An empty query would match every issue.
+  // A GitLab label's board has no drupal.org tag, a viewer whose projects all
+  // moved has none on drupal.org, and a project drupal.org doesn't know has no
+  // drupal.org issues to load. An empty query would match every issue.
   const onDrupalOrg = list.tags.length > 0 || list.projects.length > 0;
   const enabled = onDrupalOrg && (!project || projectNid.nid !== null);
   const loaded = useListIssues(list, category, priority, projectNid.nid, enabled);
@@ -215,12 +209,16 @@ function SpanningColumn({ list, workItems, movedProjects, category, priority, pr
 }
 
 /**
- * Every list on a tag or maintainer board, sharing one load of work items.
+ * Every list on a tag board or My projects, sharing one load of work items.
+ *
+ * With a list of projects as the source, the Project filter can name one that
+ * moved to GitLab. Its drupal.org issues are frozen, so they don't load.
  */
 function SpanningColumns({ load, source, movedProjects, lists, category, priority, project, text, showProject, onIssues }) {
   const workItems = useWorkItems(load, source);
   const moved = useMemo(() => new Set(movedProjects.map(String)), [movedProjects]);
-  const projectNid = useProjectNid(project);
+  const onGitLab = Array.isArray(source) && source.includes(`project/${project}`);
+  const projectNid = useProjectNid(onGitLab ? null : project);
   useEffect(() => {
     onIssues(workItems.issues);
   }, [workItems.issues, onIssues]);
@@ -413,8 +411,10 @@ export function rouletteUrl(base, filters) {
  *   site. Embedded boards keep the filters in their URL but don't show them.
  * @param {HTMLElement|null} [props.embedSlot] Where the board shell wants the
  *   Embed button, with the embed path and board title in its data attributes.
+ * @param {Function} [props.loadProjects] Loads the work items of the projects
+ *   in `config.gitlabProjects`, with the viewer's token.
  */
-function Board({ config, filtersSlot, rouletteLink = null, embed = false, embedSlot = null }) {
+function Board({ config, filtersSlot, rouletteLink = null, embed = false, embedSlot = null, loadProjects = null }) {
   const showProject = config.showProject ?? false;
   const gitlabProject = config.source === "gitlab" ? config.gitlabProject : null;
   const [filters, setFilters] = useState(() => {
@@ -483,7 +483,7 @@ function Board({ config, filtersSlot, rouletteLink = null, embed = false, embedS
           />
         ) : config.gitlabLabel || config.gitlabProjects ? (
           <SpanningColumns
-            load={config.gitlabLabel ? fetchLabeledWorkItems : fetchProjectsWorkItems}
+            load={config.gitlabLabel ? fetchLabeledWorkItems : loadProjects}
             source={config.gitlabLabel || config.gitlabProjects}
             movedProjects={config.movedProjects ?? NO_PROJECTS}
             lists={config.lists}

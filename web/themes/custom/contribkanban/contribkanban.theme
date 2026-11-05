@@ -35,6 +35,13 @@ function contribkanban_preprocess_page(array &$variables): void {
       'current' => $route_name === 'contribkanban_boards.roulette',
     ],
     [
+      'label' => (string) t('My projects'),
+      'description' => (string) t('Issues from every project you maintain'),
+      'icon' => 'boards',
+      'url' => Url::fromRoute('contribkanban_boards.my_projects')->toString(),
+      'current' => $route_name === 'contribkanban_boards.my_projects',
+    ],
+    [
       'label' => (string) t('Create a board'),
       'description' => (string) t('Track a project or an issue tag'),
       'icon' => 'create',
@@ -50,6 +57,7 @@ function contribkanban_preprocess_page(array &$variables): void {
     'entity.board.embed',
     'entity.node_board.canonical',
     'contribkanban_boards.roulette',
+    'contribkanban_boards.my_projects',
   ], TRUE);
   $variables['account_link'] = \Drupal::currentUser()->isAnonymous()
     ? ['label' => (string) t('Log in'), 'url' => Url::fromRoute('user.login')->toString()]
@@ -181,10 +189,6 @@ function _contribkanban_board_source_url(BoardInterface $board, ?string $gitlab_
   if ($board->bundle() === 'drupalorg_sprint' && $board->get('tag')->isEmpty()) {
     return '';
   }
-  // A maintainer's projects have no one page that lists their issues.
-  if ($board->bundle() === 'drupalorg_maintainer') {
-    return '';
-  }
   return match ($board->bundle()) {
     'drupalorg_sprint' => 'https://www.drupal.org/project/issues/search?issue_tags=' . rawurlencode((string) $board->label()),
     'drupalorg_core' => 'https://www.drupal.org/project/issues/drupal',
@@ -207,7 +211,6 @@ function contribkanban_preprocess_views_view__board_listing(array &$variables): 
     'drupalorg_project' => t('Projects'),
     'drupalorg_sprint' => t('Tags'),
     'drupalorg_core' => t('Core components'),
-    'drupalorg_maintainer' => t('Maintainers'),
   ];
   $variables['type_links'] = [];
   foreach ($types as $type => $label) {

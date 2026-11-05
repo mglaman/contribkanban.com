@@ -56,7 +56,7 @@ final class FlagGitlabBoardsTest extends KernelTestBase {
       yield ['nid' => '2350161', 'title' => 'Copyscape', 'machine_name' => 'copyscape', 'project_type' => 'full'];
       yield ['nid' => '3500000', 'title' => 'New', 'machine_name' => 'new', 'project_type' => 'full'];
     });
-    $command = new BoardCommands($this->container->get('entity_type.manager'), $projects, $this->container->get('contribkanban_boards.board_factory'));
+    $command = new BoardCommands($this->container->get('entity_type.manager'), $projects);
     $command->setLogger(new DrushLoggerManager());
 
     $command->flagGitlabBoards(['dry-run' => FALSE, 'export' => NULL, 'from' => NULL]);
@@ -84,7 +84,7 @@ final class FlagGitlabBoardsTest extends KernelTestBase {
       yield ['nid' => '2350161', 'title' => 'Copyscape', 'machine_name' => 'copyscape', 'project_type' => 'full'];
       yield ['nid' => '3500000', 'title' => 'New', 'machine_name' => 'new', 'project_type' => 'full'];
     });
-    $command = new BoardCommands($this->container->get('entity_type.manager'), $projects, $this->container->get('contribkanban_boards.board_factory'));
+    $command = new BoardCommands($this->container->get('entity_type.manager'), $projects);
     $command->setLogger(new DrushLoggerManager());
 
     $command->flagGitlabBoards(['dry-run' => TRUE, 'export' => NULL, 'from' => NULL]);
@@ -103,7 +103,7 @@ final class FlagGitlabBoardsTest extends KernelTestBase {
     $projects->method('listMigratedProjects')->willReturnCallback(static function (): \Generator {
       yield ['nid' => '2350161', 'title' => 'Copyscape', 'machine_name' => 'copyscape', 'project_type' => 'full'];
     });
-    $command = new BoardCommands($this->container->get('entity_type.manager'), $projects, $this->container->get('contribkanban_boards.board_factory'));
+    $command = new BoardCommands($this->container->get('entity_type.manager'), $projects);
     $command->setLogger(new DrushLoggerManager());
 
     $command->flagGitlabBoards(['dry-run' => FALSE, 'export' => $file, 'from' => NULL]);
@@ -113,7 +113,7 @@ final class FlagGitlabBoardsTest extends KernelTestBase {
     // Production can't reach drupal.org, so it reads the file instead.
     $blocked = $this->createMock(Projects::class);
     $blocked->expects(self::never())->method('listMigratedProjects');
-    $command = new BoardCommands($this->container->get('entity_type.manager'), $blocked, $this->container->get('contribkanban_boards.board_factory'));
+    $command = new BoardCommands($this->container->get('entity_type.manager'), $blocked);
     $command->setLogger(new DrushLoggerManager());
 
     $command->flagGitlabBoards(['dry-run' => FALSE, 'export' => NULL, 'from' => $file]);
@@ -132,7 +132,7 @@ final class FlagGitlabBoardsTest extends KernelTestBase {
   public function testFromRejectsMalformedFile(): void {
     $file = tempnam(sys_get_temp_dir(), 'ck-gitlab');
     file_put_contents($file, '[{"nid": "2350161"}]');
-    $command = new BoardCommands($this->container->get('entity_type.manager'), $this->createMock(Projects::class), $this->container->get('contribkanban_boards.board_factory'));
+    $command = new BoardCommands($this->container->get('entity_type.manager'), $this->createMock(Projects::class));
     $command->setLogger(new DrushLoggerManager());
 
     try {

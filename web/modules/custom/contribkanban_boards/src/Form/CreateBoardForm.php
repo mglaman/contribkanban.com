@@ -45,7 +45,7 @@ final class CreateBoardForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state): array {
     $form['#attributes']['class'][] = 'create-board';
     $form['intro'] = [
-      '#markup' => $this->t('No account needed for project, tag, and maintainer boards.'),
+      '#markup' => $this->t('No account needed for project and tag boards.'),
       '#prefix' => '<p class="create-board__intro">',
       '#suffix' => '</p>',
     ];
@@ -55,12 +55,10 @@ final class CreateBoardForm extends FormBase {
       '#options' => [
         'project' => $this->t('A project'),
         'tag' => $this->t('A tag'),
-        'maintainer' => $this->t('A maintainer'),
       ],
       '#default_value' => 'project',
       'project' => ['#description' => $this->t("One project's issues")],
       'tag' => ['#description' => $this->t('One tag across projects')],
-      'maintainer' => ['#description' => $this->t('Every project someone maintains')],
     ];
     $form['project'] = [
       '#type' => 'textfield',
@@ -80,15 +78,6 @@ final class CreateBoardForm extends FormBase {
         'visible' => [':input[name="kind"]' => ['value' => 'tag']],
       ],
     ];
-    $form['maintainer'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Drupal.org username'),
-      '#placeholder' => 'mglaman',
-      '#description' => $this->t('The projects come from "Projects maintained" on their drupal.org profile.'),
-      '#states' => [
-        'visible' => [':input[name="kind"]' => ['value' => 'maintainer']],
-      ],
-    ];
     $form['actions'] = ['#type' => 'actions'];
     $form['actions']['submit'] = [
       '#type' => 'submit',
@@ -101,27 +90,19 @@ final class CreateBoardForm extends FormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state): void {
-    $kind = match ($form_state->getValue('kind')) {
-      'tag' => 'tag',
-      'maintainer' => 'maintainer',
-      default => 'project',
-    };
+    $kind = $form_state->getValue('kind') === 'tag' ? 'tag' : 'project';
     $name = trim((string) $form_state->getValue($kind));
     if ($name === '') {
-      $form_state->setErrorByName($kind, match ($kind) {
-        'tag' => $this->t('Enter an issue tag.'),
-        'maintainer' => $this->t('Enter a drupal.org username.'),
-        default => $this->t('Enter a project machine name.'),
-      });
+      $form_state->setErrorByName($kind, $kind === 'tag'
+        ? $this->t('Enter an issue tag.')
+        : $this->t('Enter a project machine name.'));
       return;
     }
 
     try {
-      $board = match ($kind) {
-        'tag' => $this->boardFactory->forTag($name),
-        'maintainer' => $this->boardFactory->forMaintainer($name),
-        default => $this->boardFactory->forProject($name),
-      };
+      $board = $kind === 'tag'
+        ? $this->boardFactory->forTag($name)
+        : $this->boardFactory->forProject($name);
     }
     catch (GuzzleException $e) {
       $this->logger('contribkanban_boards')->error('Looking up @name on drupal.org or GitLab failed: @message', [
@@ -135,11 +116,9 @@ final class CreateBoardForm extends FormBase {
     }
 
     if ($board === NULL) {
-      $form_state->setErrorByName($kind, match ($kind) {
-        'tag' => $this->t('drupal.org has no issue tag named %name, and no GitLab work item has that label.', ['%name' => $name]),
-        'maintainer' => $this->t('drupal.org has no user named %name, or they have no projects listed on their profile.', ['%name' => $name]),
-        default => $this->t('drupal.org has no project named %name.', ['%name' => $name]),
-      });
+      $form_state->setErrorByName($kind, $kind === 'tag'
+        ? $this->t('drupal.org has no issue tag named %name, and no GitLab work item has that label.', ['%name' => $name])
+        : $this->t('drupal.org has no project named %name.', ['%name' => $name]));
       return;
     }
     if ($board->isNew()) {

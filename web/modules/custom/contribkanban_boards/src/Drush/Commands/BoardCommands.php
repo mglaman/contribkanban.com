@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Drupal\contribkanban_boards\Drush\Commands;
 
-use Drupal\contribkanban_boards\BoardFactory;
 use Drupal\contribkanban_boards\Entity\BoardInterface;
 use Drupal\contribkanban_projects\Projects;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drush\Attributes as CLI;
 use Drush\Commands\DrushCommands;
-use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 final class BoardCommands extends DrushCommands {
@@ -19,7 +17,6 @@ final class BoardCommands extends DrushCommands {
   public function __construct(
     private readonly EntityTypeManagerInterface $entityTypeManager,
     private readonly Projects $projects,
-    private readonly BoardFactory $boardFactory,
   ) {
     parent::__construct();
   }
@@ -31,45 +28,7 @@ final class BoardCommands extends DrushCommands {
     return new self(
       $container->get('entity_type.manager'),
       $container->get('drupalorg_projects'),
-      $container->get('contribkanban_boards.board_factory'),
     );
-  }
-
-  /**
-   * Updates maintainer boards' projects from drupal.org profiles.
-   *
-   * Maintainer boards store their projects, so a project someone starts
-   * maintaining shows up after this runs.
-   */
-  #[CLI\Command(name: 'contribkanban:refresh-maintainer-boards', aliases: ['ck-maintainers'])]
-  #[CLI\Usage(name: 'drush ck-maintainers', description: 'Update every maintainer board.')]
-  public function refreshMaintainerBoards(): void {
-    $storage = $this->entityTypeManager->getStorage('board');
-    $boards = $storage->loadByProperties(['type' => 'drupalorg_maintainer']);
-    $updated = 0;
-    $failed = 0;
-    foreach ($boards as $board) {
-      assert($board instanceof BoardInterface);
-      try {
-        if ($this->boardFactory->refreshMaintainer($board)) {
-          $updated++;
-        }
-      }
-      catch (GuzzleException $e) {
-        $failed++;
-        $this->logger()->error(dt('Could not update @name: @message', [
-          '@name' => $board->label(),
-          '@message' => $e->getMessage(),
-        ]));
-      }
-    }
-    $this->logger()->success(dt('Updated @updated of @total maintainer boards.', [
-      '@updated' => $updated,
-      '@total' => count($boards),
-    ]));
-    if ($failed > 0) {
-      throw new \RuntimeException(sprintf('Could not update %d maintainer boards.', $failed));
-    }
   }
 
   /**

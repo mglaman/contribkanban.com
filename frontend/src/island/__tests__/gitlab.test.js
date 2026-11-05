@@ -6,6 +6,7 @@ import {
   fetchOpenWorkItems,
   fetchLabeledWorkItems,
   fetchProjectsWorkItems,
+  fetchMyProjects,
 } from "../gitlab";
 
 function makeWorkItem(iid, labels, assignees = [], milestone = null) {
@@ -235,26 +236,6 @@ describe("fetchProjectsWorkItems", () => {
     expect(partial).toBe(true);
   });
 
-  it("doesn't count a project GitLab doesn't have as missing", async () => {
-    vi.stubGlobal(
-      "fetch",
-      vi.fn((url) =>
-        Promise.resolve(
-          pathOf(url) === "project/gone"
-            ? { ok: false, status: 404, headers: new Headers() }
-            : makePage([makeWorkItem(1, [])])
-        )
-      )
-    );
-    const onPage = vi.fn();
-
-    await fetchProjectsWorkItems(["project/gone", "project/good"], onPage);
-
-    const [issues, partial] = onPage.mock.lastCall;
-    expect(issues.map((issue) => issue.nid)).toEqual(["1"]);
-    expect(partial).toBe(false);
-  });
-
   it("fails when every project fails", async () => {
     vi.stubGlobal("fetch", vi.fn(() => Promise.resolve({ ok: false, status: 429, headers: new Headers() })));
 
@@ -289,5 +270,49 @@ describe("fetchProjectsWorkItems", () => {
     await fetchProjectsWorkItems(Array.from({ length: 20 }, (_, index) => `project/p${index}`), vi.fn());
 
     expect(most).toBe(6);
+  });
+
+  it("sends the viewer's token with each request", async () => {
+    const fetch = vi.fn(() => Promise.resolve(makePage([makeWorkItem(1, [])])));
+    vi.stubGlobal("fetch", fetch);
+
+    await fetchProjectsWorkItems(["project/one"], vi.fn(), undefined, "secret");
+
+    expect(fetch.mock.calls[0][1].headers).toEqual({ "PRIVATE-TOKEN": "secret" });
+  });
+});
+
+describe("fetchMyProjects", () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  const gitlabProject = (path, issuesEnabled) => ({
+    path,
+    path_with_namespace: `project/${path}`,
+    issues_enabled: issuesEnabled,
+  });
+
+  it("lists the projects and where their issues live, across pages", async () => {
+    const fetch = vi.fn((url) =>
+      Promise.resolve(
+        new URL(url).searchParams.get("page") === "1"
+          ? makePage([gitlabProject("canvas", true)], 2)
+          : makePage([gitlabProject("entity", false)], 2)
+      )
+    );
+    vi.stubGlobal("fetch", fetch);
+
+    await expect(fetchMyProjects("secret")).resolves.toEqual([
+      { path: "project/canvas", machineName: "canvas", issuesEnabled: true },
+      { path: "project/entity", machineName: "entity", issuesEnabled: false },
+    ]);
+    const [url, options] = fetch.mock.calls[0];
+    expect(url).toContain("/groups/project/projects?min_access_level=30");
+    expect(options.headers).toEqual({ "PRIVATE-TOKEN": "secret" });
+  });
+
+  it("reports GitLab rejecting the token", async () => {
+    vi.stubGlobal("fetch", vi.fn(() => Promise.resolve({ ok: false, status: 401, headers: new Headers() })));
+
+    await expect(fetchMyProjects("expired")).rejects.toMatchObject({ status: 401 });
   });
 });

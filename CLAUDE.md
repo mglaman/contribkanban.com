@@ -25,6 +25,8 @@ The site is at `https://contribkanban.com.ddev.site`.
 
 `frontend/src/island/` renders board and issue collection pages. Drupal renders the `board-shell` component with the board configuration in `data-board`, and the island renders the filters and columns into it. It loads issues from drupal.org and GitLab in the browser.
 
+`/my-projects` is a board across the projects the viewer maintains, with no board entity behind it. The viewer pastes a GitLab token, which stays in the browser's `localStorage` and only goes to git.drupalcode.org. GitLab's `groups/project/projects?min_access_level=30` lists their projects, and `issues_enabled` says whether a project's issues moved, so this page doesn't read the `gitlab_issues` flags. Never send that token to Drupal or store it on the server, since it can read everything its owner can, including `security/` projects. For the same reason, the page leaves out Fathom. Any third-party script there could read the token.
+
 ```bash
 ddev frontend build    # writes components/board-shell/board-shell.js
 ddev frontend watch    # rebuilds on change
@@ -57,8 +59,6 @@ Keep the island small: React and plain elements styled by the theme's CSS. No UI
   ```bash
   lagoon ssh -p contribkanban -e master -C 'drush php:eval "\$b = \Drupal::service(\"contribkanban_boards.board_factory\")->forLabel(\"cms::product-analytics\"); \$b?->isNew() && \$b->save();"'
   ```
-
-- **Maintainer boards** (`drupalorg_maintainer`) show every project a drupal.org user maintains. No API lists those: api-d7 only filters by a project's author, and GitLab only shows memberships to the member. So `Maintainers` reads "Projects maintained" from the user's profile page, and the board stores the node IDs. `drush ck-maintainers` updates them, and keeps a board's projects if the profile lists none, since that's also what a markup change looks like. The `gitlab_issues` flags decide which projects load from GitLab, one request per project and page against the anonymous limit of 180 per minute.
 
 ### Code quality (run before marking Drupal work done)
 

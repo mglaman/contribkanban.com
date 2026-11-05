@@ -169,12 +169,7 @@ function contribkanban_boards_board_view(array &$build, EntityInterface $entity,
     $moved_projects = _contribkanban_boards_gitlab_project_nids();
     $build['#cache']['tags'][] = 'project_list';
   }
-  $gitlab_projects = [];
-  if ($entity->bundle() === 'drupalorg_maintainer') {
-    $gitlab_projects = _contribkanban_boards_gitlab_projects(array_column($entity->get('project_nid')->getValue(), 'value'));
-    $build['#cache']['tags'][] = 'project_list';
-  }
-  $build['#island'] = BoardIslandConfig::build($entity, is_string($version) ? $version : '', $moved_projects, $gitlab_projects);
+  $build['#island'] = BoardIslandConfig::build($entity, is_string($version) ? $version : '', $moved_projects);
   // The version comes from the route.
   $build['#cache']['contexts'][] = 'route';
   // Varies by user, so it renders after the cached board.
@@ -209,31 +204,6 @@ function _contribkanban_boards_gitlab_project_nids(): array {
 }
 
 /**
- * Gets which of the given projects moved their issues to GitLab.
- *
- * @param list<string> $nids
- *   The projects' node IDs.
- *
- * @return array<int, string>
- *   The machine names of the projects flagged by drush ck-gitlab, by node ID.
- */
-function _contribkanban_boards_gitlab_projects(array $nids): array {
-  $entity_type_manager = \Drupal::entityTypeManager();
-  if ($nids === [] || !$entity_type_manager->hasDefinition('project')) {
-    return [];
-  }
-  $projects = $entity_type_manager->getStorage('project')->loadByProperties([
-    'nid' => $nids,
-    'gitlab_issues' => 1,
-  ]);
-  $machine_names = [];
-  foreach ($projects as $project) {
-    $machine_names[(int) $project->get('nid')->value] = (string) $project->get('machine_name')->value;
-  }
-  return $machine_names;
-}
-
-/**
  * Implements hook_page_attachments().
  *
  * Adds Fathom analytics where the site sets `fathom_site_id`.
@@ -241,6 +211,11 @@ function _contribkanban_boards_gitlab_projects(array $nids): array {
 function contribkanban_boards_page_attachments(array &$attachments): void {
   $site_id = Settings::get('fathom_site_id');
   if (!is_string($site_id) || $site_id === '' || \Drupal::service('router.admin_context')->isAdminRoute()) {
+    return;
+  }
+  // Any script on the My projects page could read the viewer's GitLab token.
+  $attachments['#cache']['contexts'][] = 'route.name';
+  if (\Drupal::routeMatch()->getRouteName() === 'contribkanban_boards.my_projects') {
     return;
   }
   $attachments['#attached']['html_head'][] = [

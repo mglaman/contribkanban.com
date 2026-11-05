@@ -6,7 +6,6 @@ namespace Drupal\contribkanban_boards;
 
 use Drupal\contribkanban_boards\Entity\BoardInterface;
 use Drupal\contribkanban_projects\Labels;
-use Drupal\contribkanban_projects\Maintainers;
 use Drupal\contribkanban_projects\Projects;
 use Drupal\contribkanban_projects\Tags;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -47,15 +46,12 @@ final class BoardFactory {
    *   Checks labels on git.drupalcode.org.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\contribkanban_projects\Maintainers $maintainers
-   *   Looks up the projects a drupal.org user maintains.
    */
   public function __construct(
     private readonly Projects $projects,
     private readonly Tags $tags,
     private readonly Labels $labels,
     private readonly EntityTypeManagerInterface $entityTypeManager,
-    private readonly Maintainers $maintainers,
   ) {}
 
   /**
@@ -163,110 +159,6 @@ final class BoardFactory {
     return $this->labels->hasWorkItems($name)
       ? $this->create('drupalorg_sprint', self::TAG_LISTS, ['title' => $name])
       : NULL;
-  }
-
-  /**
-   * Gets the board for the projects a drupal.org user maintains.
-   *
-   * Looks for a board with the username before asking drupal.org, so finding
-   * a board works when drupal.org can't be reached.
-   *
-   * @param string $name
-   *   The drupal.org username.
-   *
-   * @return \Drupal\contribkanban_boards\Entity\BoardInterface|null
-   *   The existing board, a new unsaved board, or NULL if drupal.org has no
-   *   such user or they maintain nothing. Validate a new board before saving
-   *   it.
-   *
-   * @throws \GuzzleHttp\Exception\GuzzleException
-   *   When drupal.org can't be reached.
-   */
-  public function forMaintainer(string $name): ?BoardInterface {
-    $existing = $this->loadExisting('drupalorg_maintainer', 'title', $name);
-    if ($existing !== NULL) {
-      return $existing;
-    }
-    $maintainer = $this->maintainers->find($name);
-    if ($maintainer === NULL) {
-      return NULL;
-    }
-    $existing = $this->loadExisting('drupalorg_maintainer', 'title', $maintainer['name']);
-    if ($existing !== NULL) {
-      return $existing;
-    }
-    $nids = $this->projectNids($maintainer['projects']);
-    if ($nids === []) {
-      return NULL;
-    }
-    return $this->create('drupalorg_maintainer', self::TAG_LISTS, [
-      'title' => $maintainer['name'],
-      'project_nid' => $nids,
-      // Project machine names can't contain a hyphen, and tag board names end
-      // in -tag, so this never takes another board's name.
-      'machine_name' => $maintainer['slug'] . '-maintainer',
-    ]);
-  }
-
-  /**
-   * Updates a maintainer board's projects from drupal.org.
-   *
-   * Keeps the projects when drupal.org lists none, since that also happens
-   * when drupal.org changes its profile markup.
-   *
-   * @param \Drupal\contribkanban_boards\Entity\BoardInterface $board
-   *   The maintainer board. Its title is the drupal.org username.
-   *
-   * @return bool
-   *   TRUE if the board's projects changed and it was saved.
-   *
-   * @throws \GuzzleHttp\Exception\GuzzleException
-   *   When drupal.org can't be reached.
-   */
-  public function refreshMaintainer(BoardInterface $board): bool {
-    $maintainer = $this->maintainers->find((string) $board->label());
-    $nids = $maintainer === NULL ? [] : $this->projectNids($maintainer['projects']);
-    $current = array_map('strval', array_column($board->get('project_nid')->getValue(), 'value'));
-    if ($nids === [] || (array_diff($nids, $current) === [] && array_diff($current, $nids) === [])) {
-      return FALSE;
-    }
-    $board->set('project_nid', $nids)->save();
-    return TRUE;
-  }
-
-  /**
-   * Gets the node IDs of projects by machine name.
-   *
-   * Reads stored projects first, which holds every project that moved to
-   * GitLab, so this only asks drupal.org about projects that haven't moved.
-   * There is no asking for many at once: api-d7 fails with a list of machine
-   * names.
-   *
-   * @param list<string> $machine_names
-   *   The machine names.
-   *
-   * @return list<string>
-   *   The node IDs of the projects that exist.
-   *
-   * @throws \GuzzleHttp\Exception\GuzzleException
-   *   When drupal.org can't be reached.
-   */
-  private function projectNids(array $machine_names): array {
-    if ($machine_names === []) {
-      return [];
-    }
-    $nids = [];
-    $stored = $this->entityTypeManager->getStorage('project')->loadByProperties(['machine_name' => $machine_names]);
-    foreach ($stored as $project) {
-      $nids[(string) $project->get('machine_name')->value] = (string) $project->get('nid')->value;
-    }
-    foreach (array_diff($machine_names, array_keys($nids)) as $machine_name) {
-      $project = $this->projects->getProject($machine_name);
-      if ($project !== []) {
-        $nids[$machine_name] = (string) $project['nid'];
-      }
-    }
-    return array_values($nids);
   }
 
   /**

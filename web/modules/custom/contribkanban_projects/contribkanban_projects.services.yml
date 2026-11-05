@@ -18,9 +18,6 @@ services:
   drupalorg_projects:
     class: Drupal\contribkanban_projects\Projects
     arguments: ['@drupalorg_client']
-  drupalorg_maintainers:
-    class: Drupal\contribkanban_projects\Maintainers
-    arguments: ['@drupalorg_client']
   drupalorg_tags:
     class: Drupal\contribkanban_projects\Tags
     arguments: ['@drupalorg_client']

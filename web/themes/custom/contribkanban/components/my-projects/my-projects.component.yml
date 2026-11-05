@@ -1,0 +1,8 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: My projects
+description: A board across the projects the viewer maintains. The board island asks for a GitLab token, keeps it in the browser, and renders the filters and columns.
+status: stable
+# The board island is board-shell's JavaScript, and the columns use its styles.
+libraryOverrides:
+  dependencies:
+    - core/components.contribkanban--board-shell
