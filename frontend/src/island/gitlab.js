@@ -5,6 +5,9 @@ const GITLAB_API_URL = "https://git.drupalcode.org/api/v4";
 // per minute, so very large projects only show their first 2,000 items.
 const MAX_PAGES = 20;
 
+// Projects a board spanning many projects loads at once.
+const PROJECT_CONCURRENCY = 6;
+
 // GitLab `state::` values to Drupal.org issue status IDs. GitLab added triage
 // states with no Drupal.org equivalent, and those count as Active.
 const STATE_TO_STATUS = {
@@ -129,7 +132,9 @@ export function filterIssues(issues, filter) {
 async function fetchPage(url, page, signal) {
   const res = await fetch(`${url}&page=${page}`, { signal });
   if (!res.ok) {
-    throw new Error(`GitLab responded ${res.status} for ${url}`);
+    const error = new Error(`GitLab responded ${res.status} for ${url}`);
+    error.status = res.status;
+    throw error;
   }
   return res;
 }
@@ -177,6 +182,58 @@ export function fetchOpenWorkItems(fullPath, onPage, signal) {
     onPage,
     signal
   );
+}
+
+/**
+ * Fetches every open work item in many projects.
+ *
+ * GitLab's REST API can't filter issues by a list of projects, so each project
+ * takes at least one request. A maintainer's board can be over 100 requests,
+ * so only a few run at once. A project that fails leaves the others in place,
+ * and only counts as a failed load if every project fails.
+ *
+ * @param {string[]} paths GitLab project paths, like `project/tool`.
+ * @param {(issues: object[], partial: boolean) => void} onPage Called with the
+ *   issues loaded so far, and whether any project is missing from them.
+ * @param {AbortSignal} [signal]
+ * @returns {Promise<void>}
+ */
+export async function fetchProjectsWorkItems(paths, onPage, signal) {
+  const loaded = new Map();
+  const queue = [...paths];
+  let pending = paths.length;
+  let failed = 0;
+  const publish = () => onPage([...loaded.values()].flat(), pending > 0 || failed > 0);
+
+  const worker = async () => {
+    for (let path = queue.shift(); path; path = queue.shift()) {
+      try {
+        await fetchOpenWorkItems(
+          path,
+          (issues) => {
+            loaded.set(path, issues);
+            publish();
+          },
+          signal
+        );
+      } catch (error) {
+        if (signal?.aborted) {
+          throw error;
+        }
+        // A project without a repository on GitLab has no work items to miss.
+        if (error.status !== 404) {
+          failed++;
+        }
+      }
+      pending--;
+    }
+  };
+  await Promise.all(Array.from({ length: PROJECT_CONCURRENCY }, worker));
+
+  if (paths.length > 0 && failed === paths.length) {
+    throw new Error(`GitLab failed for all ${failed} projects`);
+  }
+  publish();
 }
 
 /**

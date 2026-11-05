@@ -181,6 +181,10 @@ function _contribkanban_board_source_url(BoardInterface $board, ?string $gitlab_
   if ($board->bundle() === 'drupalorg_sprint' && $board->get('tag')->isEmpty()) {
     return '';
   }
+  // A maintainer's projects have no one page that lists their issues.
+  if ($board->bundle() === 'drupalorg_maintainer') {
+    return '';
+  }
   return match ($board->bundle()) {
     'drupalorg_sprint' => 'https://www.drupal.org/project/issues/search?issue_tags=' . rawurlencode((string) $board->label()),
     'drupalorg_core' => 'https://www.drupal.org/project/issues/drupal',
@@ -203,6 +207,7 @@ function contribkanban_preprocess_views_view__board_listing(array &$variables): 
     'drupalorg_project' => t('Projects'),
     'drupalorg_sprint' => t('Tags'),
     'drupalorg_core' => t('Core components'),
+    'drupalorg_maintainer' => t('Maintainers'),
   ];
   $variables['type_links'] = [];
   foreach ($types as $type => $label) {

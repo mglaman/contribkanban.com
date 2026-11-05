@@ -5,6 +5,7 @@ import {
   filterIssues,
   fetchOpenWorkItems,
   fetchLabeledWorkItems,
+  fetchProjectsWorkItems,
 } from "../gitlab";
 
 function makeWorkItem(iid, labels, assignees = [], milestone = null) {
@@ -181,5 +182,112 @@ describe("fetchLabeledWorkItems", () => {
       "https://git.drupalcode.org/api/v4/groups/project/issues?labels=Coding+standards&state=opened&per_page=100&page=1"
     );
     expect(onPage.mock.calls[0][0].map((i) => i.nid)).toEqual(["1"]);
+  });
+});
+
+describe("fetchProjectsWorkItems", () => {
+  const pathOf = (url) => decodeURIComponent(new URL(url).pathname).replace("/api/v4/projects/", "").replace("/issues", "");
+
+  afterEach(() => vi.unstubAllGlobals());
+
+  it("merges every project's work items", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn((url) =>
+        Promise.resolve(makePage([makeWorkItem(pathOf(url) === "project/one" ? 1 : 2, ["state::active"])]))
+      )
+    );
+    const onPage = vi.fn();
+
+    await fetchProjectsWorkItems(["project/one", "project/two"], onPage);
+
+    const [issues, partial] = onPage.mock.lastCall;
+    expect(issues.map((issue) => issue.nid).sort()).toEqual(["1", "2"]);
+    expect(partial).toBe(false);
+  });
+
+  it("marks results partial until every project loads", async () => {
+    vi.stubGlobal("fetch", vi.fn(() => Promise.resolve(makePage([makeWorkItem(1, [])]))));
+    const onPage = vi.fn();
+
+    await fetchProjectsWorkItems(["project/one", "project/two"], onPage);
+
+    expect(onPage.mock.calls[0][1]).toBe(true);
+  });
+
+  it("keeps the other projects when one fails, and marks the result partial", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn((url) =>
+        Promise.resolve(
+          pathOf(url) === "project/bad"
+            ? { ok: false, status: 429, headers: new Headers() }
+            : makePage([makeWorkItem(1, [])])
+        )
+      )
+    );
+    const onPage = vi.fn();
+
+    await fetchProjectsWorkItems(["project/bad", "project/good"], onPage);
+
+    const [issues, partial] = onPage.mock.lastCall;
+    expect(issues.map((issue) => issue.nid)).toEqual(["1"]);
+    expect(partial).toBe(true);
+  });
+
+  it("doesn't count a project GitLab doesn't have as missing", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn((url) =>
+        Promise.resolve(
+          pathOf(url) === "project/gone"
+            ? { ok: false, status: 404, headers: new Headers() }
+            : makePage([makeWorkItem(1, [])])
+        )
+      )
+    );
+    const onPage = vi.fn();
+
+    await fetchProjectsWorkItems(["project/gone", "project/good"], onPage);
+
+    const [issues, partial] = onPage.mock.lastCall;
+    expect(issues.map((issue) => issue.nid)).toEqual(["1"]);
+    expect(partial).toBe(false);
+  });
+
+  it("fails when every project fails", async () => {
+    vi.stubGlobal("fetch", vi.fn(() => Promise.resolve({ ok: false, status: 429, headers: new Headers() })));
+
+    await expect(fetchProjectsWorkItems(["project/one", "project/two"], vi.fn())).rejects.toThrow("all 2 projects");
+  });
+
+  it("finishes with no projects, and makes no requests", async () => {
+    const fetch = vi.fn();
+    vi.stubGlobal("fetch", fetch);
+    const onPage = vi.fn();
+
+    await fetchProjectsWorkItems([], onPage);
+
+    expect(onPage).toHaveBeenCalledWith([], false);
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it("loads only a few projects at once", async () => {
+    let active = 0;
+    let most = 0;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => {
+        active++;
+        most = Math.max(most, active);
+        await new Promise((resolve) => setTimeout(resolve, 1));
+        active--;
+        return makePage([]);
+      })
+    );
+
+    await fetchProjectsWorkItems(Array.from({ length: 20 }, (_, index) => `project/p${index}`), vi.fn());
+
+    expect(most).toBe(6);
   });
 });

@@ -120,6 +120,13 @@ jobs:
               "project_nid" => [1],
               "lists" => [BoardList::create(["type" => "drupalorg_project", "title" => "Active", "statuses" => [1]])],
             ])->save();
+            Board::create([
+              "type" => "drupalorg_maintainer",
+              "title" => "ci-user",
+              "machine_name" => "ci-user-maintainer",
+              "project_nid" => [1],
+              "lists" => [BoardList::create(["type" => "drupalorg_maintainer", "title" => "Active", "statuses" => [1]])],
+            ])->save();
             // A GitLab label drupal.org has no tag for.
             Board::create([
               "type" => "drupalorg_sprint",
@@ -140,6 +147,9 @@ jobs:
           curl -fsS "http://127.0.0.1:8080/boards?search=smoke" | grep 'class="board-card" href="/board/Smoketestboard"'
           curl -fsS "http://127.0.0.1:8080/boards?search=smoke" | grep 'class="popular-searches__link" href="/board/smoke_test_project"'
           curl -fsS "http://127.0.0.1:8080/boards/new" | grep "Project machine name"
+          curl -fsS "http://127.0.0.1:8080/boards/new" | grep "Drupal.org username"
+          curl -fsS "http://127.0.0.1:8080/board/ci-user-maintainer" | grep 'gitlabProjects'
+          curl -fsS "http://127.0.0.1:8080/boards?type=drupalorg_maintainer&search=ci-user" | grep 'class="board-card" href="/board/ci-user-maintainer"'
           curl -fsS "http://127.0.0.1:8080/board/Smoketestboard" | grep 'data-board="'
           # Only boards that start with Needs review explain their lane order.
           test "$(curl -fsS "http://127.0.0.1:8080/board/Smoketestboard" | grep -c "Why does Needs review come first?")" = 0

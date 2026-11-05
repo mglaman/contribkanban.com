@@ -5,7 +5,13 @@ import EmbedButton, { embedCode } from "./EmbedButton";
 import Filters, { byName } from "./Filters";
 import { fetchIssuesByNid, fetchListIssues, fetchProjectNid } from "./drupalorg";
 import { filterIds, issueProject, matchesText, readFilters, writeFilters } from "./filters";
-import { fetchLabeledWorkItems, fetchOpenWorkItems, fetchWorkItemsByIid, filterIssues } from "./gitlab";
+import {
+  fetchLabeledWorkItems,
+  fetchOpenWorkItems,
+  fetchProjectsWorkItems,
+  fetchWorkItemsByIid,
+  filterIssues,
+} from "./gitlab";
 
 const LOADING = { state: "loading", issues: [], total: 0, partial: false };
 const EMPTY = { ...LOADING, state: "ok" };
@@ -103,9 +109,10 @@ function DrupalOrgColumn({ list, category, priority, text }) {
 /**
  * Loads every open work item from GitLab once.
  *
- * @param {Function} load fetchOpenWorkItems or fetchLabeledWorkItems.
- * @param {string} source The project path or label to load.
- * @returns {{state: string, issues: object[]}}
+ * @param {Function} load fetchOpenWorkItems, fetchLabeledWorkItems, or
+ *   fetchProjectsWorkItems.
+ * @param {string|string[]} source The project path, label, or project paths to load.
+ * @returns {{state: string, issues: object[], partial: boolean}}
  */
 export function useWorkItems(load, source) {
   const [result, setResult] = useState(LOADING);
@@ -120,7 +127,7 @@ export function useWorkItems(load, source) {
         setResult(value);
       }
     };
-    load(source, (issues) => resolve({ state: "ok", issues }), controller.signal).catch(() =>
+    load(source, (issues, partial = false) => resolve({ state: "ok", issues, partial }), controller.signal).catch(() =>
       resolve({ ...LOADING, state: "error" })
     );
     return () => controller.abort();
@@ -154,7 +161,8 @@ function GitLabColumns({ workItems, lists, category, priority, milestone, text }
 }
 
 /**
- * A tag board list: drupal.org issues merged with GitLab work items.
+ * A list on a board spanning projects: drupal.org issues merged with GitLab
+ * work items.
  *
  * Projects that moved to GitLab leave their issues on drupal.org, frozen, so
  * those come from GitLab only. Drupal lists the moved projects.
@@ -162,15 +170,16 @@ function GitLabColumns({ workItems, lists, category, priority, milestone, text }
  * The Project filter queries drupal.org by the project's node ID, and filters
  * the loaded work items by the project in their URL.
  */
-function TagColumn({ list, workItems, movedProjects, category, priority, project, projectNid, text, showProject, onIssues }) {
-  // A GitLab label's board has no drupal.org tag, and a project drupal.org
-  // doesn't know has no drupal.org issues to load.
-  const tagged = list.tags.length > 0;
-  const enabled = tagged && (!project || projectNid.nid !== null);
+function SpanningColumn({ list, workItems, movedProjects, category, priority, project, projectNid, text, showProject, onIssues }) {
+  // A GitLab label's board has no drupal.org tag, a maintainer whose projects
+  // all moved has none on drupal.org, and a project drupal.org doesn't know
+  // has no drupal.org issues to load. An empty query would match every issue.
+  const onDrupalOrg = list.tags.length > 0 || list.projects.length > 0;
+  const enabled = onDrupalOrg && (!project || projectNid.nid !== null);
   const loaded = useListIssues(list, category, priority, projectNid.nid, enabled);
   const drupalorg = enabled
     ? loaded
-    : !tagged || projectNid.state === "ok"
+    : !onDrupalOrg || projectNid.state === "ok"
       ? EMPTY
       : { ...LOADING, state: projectNid.state };
   useEffect(() => {
@@ -199,24 +208,24 @@ function TagColumn({ list, workItems, movedProjects, category, priority, project
       state={state}
       issues={issues}
       total={text ? issues.length : total}
-      partial={!text && drupalorg.partial}
+      partial={!text && (drupalorg.partial || workItems.partial)}
       showProject={showProject}
     />
   );
 }
 
 /**
- * Every list on a tag board, sharing one load of the label's work items.
+ * Every list on a tag or maintainer board, sharing one load of work items.
  */
-function TagColumns({ label, movedProjects, lists, category, priority, project, text, showProject, onIssues }) {
-  const workItems = useWorkItems(fetchLabeledWorkItems, label);
+function SpanningColumns({ load, source, movedProjects, lists, category, priority, project, text, showProject, onIssues }) {
+  const workItems = useWorkItems(load, source);
   const moved = useMemo(() => new Set(movedProjects.map(String)), [movedProjects]);
   const projectNid = useProjectNid(project);
   useEffect(() => {
     onIssues(workItems.issues);
   }, [workItems.issues, onIssues]);
   return lists.map((list, index) => (
-    <TagColumn
+    <SpanningColumn
       key={index}
       list={list}
       workItems={workItems}
@@ -472,9 +481,10 @@ function Board({ config, filtersSlot, rouletteLink = null, embed = false, embedS
             showProject={showProject}
             onIssues={projects.add}
           />
-        ) : config.gitlabLabel ? (
-          <TagColumns
-            label={config.gitlabLabel}
+        ) : config.gitlabLabel || config.gitlabProjects ? (
+          <SpanningColumns
+            load={config.gitlabLabel ? fetchLabeledWorkItems : fetchProjectsWorkItems}
+            source={config.gitlabLabel || config.gitlabProjects}
             movedProjects={config.movedProjects ?? NO_PROJECTS}
             lists={config.lists}
             category={category}

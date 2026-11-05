@@ -96,6 +96,7 @@ display:
           view_modes:
             'entity:board':
               drupalorg_core: card
+              drupalorg_maintainer: card
               drupalorg_project: card
               drupalorg_sprint: card
       query:

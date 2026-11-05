@@ -52,13 +52,19 @@ final class BoardIslandConfig {
    * @param list<int> $moved_projects
    *   For tag boards, node IDs of projects whose issues moved to GitLab.
    *   Drupal.org keeps their issues, frozen, so the island drops them.
+   * @param array<int, string> $gitlab_projects
+   *   For maintainer boards, the machine names of the board's projects that
+   *   moved to GitLab, by node ID. The island loads those from GitLab, and the
+   *   rest from drupal.org.
    *
-   * @return array{source: string, gitlabProject: string|null, gitlabLabel: string|null, movedProjects: list<int>, showProject: bool, lists: list<array<string, mixed>>}
+   * @return array{source: string, gitlabProject: string|null, gitlabProjects: list<string>|null, gitlabLabel: string|null, movedProjects: list<int>, showProject: bool, lists: list<array<string, mixed>>}
    *   The configuration.
    */
-  public static function build(BoardInterface $board, string $version = '', array $moved_projects = []): array {
+  public static function build(BoardInterface $board, string $version = '', array $moved_projects = [], array $gitlab_projects = []): array {
     $gitlab = $board->bundle() === 'drupalorg_project' && (bool) $board->get('gitlab_work_items')->value;
     $tag_board = $board->bundle() === 'drupalorg_sprint';
+    $maintainer_board = $board->bundle() === 'drupalorg_maintainer';
+    $gitlab_nids = array_map('strval', array_keys($gitlab_projects));
     $board_versions = self::values($board->get('version'));
     if ($version !== '') {
       $board_versions[] = $version;
@@ -75,7 +81,7 @@ final class BoardIslandConfig {
         'title' => (string) $list->label(),
         'tone' => self::TONES[$statuses[0] ?? ''] ?? 'neutral',
         'statuses' => $statuses,
-        'projects' => self::merge($list->get('project_nid'), $board->get('project_nid')),
+        'projects' => array_values(array_diff(self::merge($list->get('project_nid'), $board->get('project_nid')), $gitlab_nids)),
         'tags' => self::merge($list->get('tag'), $board->get('tag')),
         'versions' => array_values(array_unique(array_map(self::devVersion(...), $versions))),
         'component' => is_string($component) && $component !== '' ? $component : NULL,
@@ -86,12 +92,15 @@ final class BoardIslandConfig {
       // Project boards are named after the project's machine name, which is
       // also its path on git.drupalcode.org.
       'gitlabProject' => $gitlab ? 'project/' . $board->get('machine_name')->value : NULL,
+      'gitlabProjects' => $maintainer_board
+        ? array_values(array_map(static fn (string $name): string => "project/$name", $gitlab_projects))
+        : NULL,
       // Tag boards also load GitLab work items with a label named after the
       // tag, which is the board's title.
       'gitlabLabel' => $tag_board ? (string) $board->label() : NULL,
-      'movedProjects' => $tag_board ? $moved_projects : [],
-      // Tag boards span projects, so cards name theirs.
-      'showProject' => $tag_board,
+      'movedProjects' => $tag_board ? $moved_projects : array_keys($gitlab_projects),
+      // Tag and maintainer boards span projects, so cards name theirs.
+      'showProject' => $tag_board || $maintainer_board,
       'lists' => $lists,
     ];
   }

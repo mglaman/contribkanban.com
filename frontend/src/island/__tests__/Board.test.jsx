@@ -357,6 +357,90 @@ describe("Board", () => {
     expect(fetch).toHaveBeenCalledTimes(3);
   });
 
+  describe("Maintainer board", () => {
+    const workItem = (iid, project, state) => ({
+      iid,
+      title: `GitLab ${iid}`,
+      web_url: `https://git.drupalcode.org/project/${project}/-/work_items/${iid}`,
+      labels: [`state::${state}`],
+      assignees: [],
+    });
+    const config = (lists, gitlabProjects) => ({
+      source: "drupalorg",
+      gitlabProject: null,
+      gitlabProjects,
+      gitlabLabel: null,
+      movedProjects: [100],
+      showProject: true,
+      lists,
+    });
+
+    it("merges GitLab projects with the projects still on drupal.org", async () => {
+      const fetch = vi.fn((url) => {
+        if (url.includes("git.drupalcode.org")) {
+          return Promise.resolve(jsonResponse([workItem(300, url.includes("project%2Fcanvas") ? "canvas" : "geoip", "active")]));
+        }
+        const status = new URL(url).searchParams.get("field_issue_status[value][0]");
+        return Promise.resolve(
+          jsonResponse({
+            list:
+              status === "1"
+                ? [
+                    {
+                      nid: "100",
+                      title: "Drupal.org 100",
+                      url: "https://www.drupal.org/project/retrofit/issues/100",
+                      field_project: { id: "200" },
+                      field_issue_status: "1",
+                      field_issue_priority: "200",
+                      field_issue_assigned: null,
+                    },
+                  ]
+                : [],
+          })
+        );
+      });
+      vi.stubGlobal("fetch", fetch);
+      const lists = LISTS.map((list) => ({ ...list, projects: ["200"] }));
+
+      render(<Board config={config(lists, ["project/canvas"])} filtersSlot={null} />);
+
+      expect(await within(column("Active")).findByText("Drupal.org 100")).toBeInTheDocument();
+      expect(await within(column("Active")).findByText("GitLab 300")).toBeInTheDocument();
+      const drupalOrgQueries = fetch.mock.calls.filter(([url]) => url.includes("www.drupal.org"));
+      expect(new URL(drupalOrgQueries[0][0]).searchParams.get("field_project[target_id][0]")).toBe("200");
+    });
+
+    it("doesn't query drupal.org when every project moved", async () => {
+      const fetch = vi.fn(() => Promise.resolve(jsonResponse([workItem(300, "canvas", "active")])));
+      vi.stubGlobal("fetch", fetch);
+      const lists = LISTS.map((list) => ({ ...list, projects: [] }));
+
+      render(<Board config={config(lists, ["project/canvas"])} filtersSlot={null} />);
+
+      expect(await within(column("Active")).findByText("GitLab 300")).toBeInTheDocument();
+      expect(fetch.mock.calls.filter(([url]) => url.includes("www.drupal.org"))).toHaveLength(0);
+    });
+
+    it("counts with a plus when a project couldn't load", async () => {
+      vi.stubGlobal(
+        "fetch",
+        vi.fn((url) =>
+          Promise.resolve(
+            url.includes("project%2Fbad")
+              ? { ok: false, status: 429, headers: new Headers() }
+              : jsonResponse([workItem(300, "canvas", "active")])
+          )
+        )
+      );
+      const lists = LISTS.map((list) => ({ ...list, projects: [] }));
+
+      render(<Board config={config(lists, ["project/canvas", "project/bad"])} filtersSlot={null} />);
+
+      expect(await within(column("Active")).findByText("1+")).toBeInTheDocument();
+    });
+  });
+
   it("loads only GitLab for a label drupal.org has no tag for", async () => {
     const labelLists = LISTS.map((list) => ({ ...list, projects: [], tags: [] }));
     const fetch = vi.fn(() =>

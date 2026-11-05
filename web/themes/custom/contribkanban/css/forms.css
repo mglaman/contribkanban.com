@@ -177,7 +177,7 @@ input[type="submit"]:hover {
 /* Start a board: the board kinds as selectable cards. */
 .create-board div:has(> .form-type-radio) {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 10px;
 }
 

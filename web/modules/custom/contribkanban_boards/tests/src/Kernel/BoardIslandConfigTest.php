@@ -143,6 +143,29 @@ final class BoardIslandConfigTest extends KernelTestBase {
   }
 
   /**
+   * Tests that a maintainer board splits its projects by where issues live.
+   */
+  public function testMaintainer(): void {
+    $board = $this->createBoard('drupalorg_maintainer', [
+      'title' => 'mglaman',
+      'machine_name' => 'mglaman-maintainer',
+      'project_nid' => ['100', '200', '300'],
+    ], [
+      ['title' => 'Active', 'statuses' => [1]],
+    ]);
+
+    $config = BoardIslandConfig::build($board, '', [], [100 => 'canvas', 300 => 'geoip']);
+
+    self::assertSame('drupalorg', $config['source']);
+    self::assertNull($config['gitlabProject']);
+    self::assertNull($config['gitlabLabel']);
+    self::assertSame(['project/canvas', 'project/geoip'], $config['gitlabProjects']);
+    self::assertSame([100, 300], $config['movedProjects']);
+    self::assertTrue($config['showProject']);
+    self::assertSame(['200'], $config['lists'][0]['projects']);
+  }
+
+  /**
    * Tests that core component lists keep their component.
    */
   public function testCoreComponent(): void {

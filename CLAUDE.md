@@ -58,6 +58,8 @@ Keep the island small: React and plain elements styled by the theme's CSS. No UI
   lagoon ssh -p contribkanban -e master -C 'drush php:eval "\$b = \Drupal::service(\"contribkanban_boards.board_factory\")->forLabel(\"cms::product-analytics\"); \$b?->isNew() && \$b->save();"'
   ```
 
+- **Maintainer boards** (`drupalorg_maintainer`) show every project a drupal.org user maintains. No API lists those: api-d7 only filters by a project's author, and GitLab only shows memberships to the member. So `Maintainers` reads "Projects maintained" from the user's profile page, and the board stores the node IDs. `drush ck-maintainers` updates them, and keeps a board's projects if the profile lists none, since that's also what a markup change looks like. The `gitlab_issues` flags decide which projects load from GitLab, one request per project and page against the anonymous limit of 180 per minute.
+
 ### Code quality (run before marking Drupal work done)
 
 ```bash
