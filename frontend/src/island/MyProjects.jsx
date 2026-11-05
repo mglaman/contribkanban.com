@@ -15,6 +15,7 @@ const LISTS = [
   { title: "Active", tone: "active", statuses: ["1"] },
   { title: "Reviewed & Tested", tone: "rtbc", statuses: ["14", "15"] },
   { title: "Fixed", tone: "fixed", statuses: ["2"] },
+  { title: "Postponed", tone: "postponed", statuses: ["4", "16"] },
 ];
 
 // Storage can be missing or blocked, so the token then lasts until the page
@@ -47,7 +48,7 @@ function writeToken(token) {
  * needs their node IDs.
  *
  * @param {string|null} token The viewer's GitLab token.
- * @returns {{state: string, gitlabProjects?: string[], nids?: string[], unresolved?: number}}
+ * @returns {{state: string, machineNames?: string[], gitlabProjects?: string[], nids?: string[], unresolved?: number}}
  *   The state is "loading", "ok", "invalid" if GitLab rejects the token, or "error".
  */
 function useMyProjects(token) {
@@ -68,6 +69,7 @@ function useMyProjects(token) {
         setResult({
           token,
           state: "ok",
+          machineNames: projects.map((project) => project.machineName),
           gitlabProjects: projects.filter((project) => project.issuesEnabled).map((project) => project.path),
           nids: nids.filter(({ status, value }) => status === "fulfilled" && value).map(({ value }) => value),
           unresolved: nids.filter(({ status }) => status === "rejected").length,
@@ -156,7 +158,7 @@ function MyProjects({ filtersSlot, actionsSlot }) {
     (paths, onPage, signal) => fetchProjectsWorkItems(paths, onPage, signal, token),
     [token]
   );
-  const { gitlabProjects, nids } = projects;
+  const { machineNames, gitlabProjects, nids } = projects;
   const config = useMemo(
     () =>
       gitlabProjects
@@ -165,12 +167,13 @@ function MyProjects({ filtersSlot, actionsSlot }) {
             gitlabProject: null,
             gitlabLabel: null,
             gitlabProjects,
+            projectNames: machineNames,
             movedProjects: [],
             showProject: true,
             lists: LISTS.map((list) => ({ ...list, projects: nids, tags: [], versions: [], component: null })),
           }
         : null,
-    [gitlabProjects, nids]
+    [machineNames, gitlabProjects, nids]
   );
 
   if (!token) {

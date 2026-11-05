@@ -362,10 +362,13 @@ function CollectionColumns({ nids, workItems, movedProjects, lists, category, pr
  *
  * Projects stay once seen, so filtering by one keeps the others to pick.
  *
+ * @param {string[]} [known] Projects to offer before any of their issues load.
+ *   A list only loads its first page from drupal.org, so a project's issues
+ *   might never load unless it's picked.
  * @returns {{names: string[], add: (issues: object[]) => void}}
  */
-export function useProjects() {
-  const [names, setNames] = useState(() => new Set());
+export function useProjects(known = NO_PROJECTS) {
+  const [names, setNames] = useState(() => new Set(known));
   const add = useCallback((issues) => {
     setNames((previous) => {
       let next = previous;
@@ -423,7 +426,7 @@ function Board({ config, filtersSlot, rouletteLink = null, embed = false, embedS
     // project boards by milestone.
     return { ...read, project: showProject ? read.project : null, milestone: gitlabProject ? read.milestone : null };
   });
-  const projects = useProjects();
+  const projects = useProjects(config.projectNames);
   const workItems = useWorkItems(fetchOpenWorkItems, gitlabProject);
   const milestones = useMemo(
     () =>

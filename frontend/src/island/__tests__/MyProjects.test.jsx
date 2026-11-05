@@ -123,6 +123,57 @@ describe("MyProjects", () => {
     expect(screen.getByLabelText("GitLab token")).toBeInTheDocument();
   });
 
+  it("offers every project in the Project filter, even with no issues loaded", async () => {
+    window.localStorage.setItem(STORAGE_KEY, "secret");
+    vi.stubGlobal(
+      "fetch",
+      vi.fn((url) => {
+        if (url.includes("/groups/project/projects")) {
+          return Promise.resolve(
+            jsonResponse([gitlabProject("canvas", true), gitlabProject("quiet", true), gitlabProject("entity", false)])
+          );
+        }
+        return url.includes("project%2Fquiet/issues") ? Promise.resolve(jsonResponse([])) : apiFetch(url);
+      })
+    );
+
+    render(<MyProjects filtersSlot={null} actionsSlot={null} />);
+
+    const filter = await screen.findByLabelText("Project");
+    expect(within(filter).getAllByRole("option").map((option) => option.textContent)).toEqual([
+      "All",
+      "canvas",
+      "entity",
+      "quiet",
+    ]);
+  });
+
+  it("shows postponed issues in their own column", async () => {
+    window.localStorage.setItem(STORAGE_KEY, "secret");
+    vi.stubGlobal(
+      "fetch",
+      vi.fn((url) =>
+        url.includes("project%2Fcanvas/issues")
+          ? Promise.resolve(
+              jsonResponse([
+                {
+                  iid: 400,
+                  title: "GitLab 400",
+                  web_url: "https://git.drupalcode.org/project/canvas/-/work_items/400",
+                  labels: ["state::postponed"],
+                  assignees: [],
+                },
+              ])
+            )
+          : apiFetch(url)
+      )
+    );
+
+    render(<MyProjects filtersSlot={null} actionsSlot={null} />);
+
+    expect(await within(await screen.findByRole("region", { name: /^Postponed/ })).findByText("GitLab 400")).toBeInTheDocument();
+  });
+
   it("drops a token GitLab rejects, and says so", async () => {
     window.localStorage.setItem(STORAGE_KEY, "expired");
     vi.stubGlobal("fetch", vi.fn(() => Promise.resolve({ ok: false, status: 401, headers: new Headers() })));
