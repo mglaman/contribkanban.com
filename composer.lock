@@ -3788,11 +3788,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.3.1",
+            "version": "2.3.5",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/6155239b488e95d26d1ebd95c6b4bb294d7f09db",
-                "reference": "6155239b488e95d26d1ebd95c6b4bb294d7f09db",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/645a1bd6bead15fc1b8474137467961d0fa30a79",
+                "reference": "645a1bd6bead15fc1b8474137467961d0fa30a79",
                 "shasum": ""
             },
             "require": {
@@ -3848,7 +3848,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-08T21:09:11+00:00"
+            "time": "2026-11-03T12:14:22+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -9780,24 +9780,21 @@
         },
         {
             "name": "palantirnet/drupal-rector",
-            "version": "1.1.3",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/palantirnet/drupal-rector.git",
-                "reference": "c13b82014e9ab3b89768d5047aef9d4814c2e905"
+                "reference": "bd96d3487420dd5c3a65902adbf48ab79984468b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/palantirnet/drupal-rector/zipball/c13b82014e9ab3b89768d5047aef9d4814c2e905",
-                "reference": "c13b82014e9ab3b89768d5047aef9d4814c2e905",
+                "url": "https://api.github.com/repos/palantirnet/drupal-rector/zipball/bd96d3487420dd5c3a65902adbf48ab79984468b",
+                "reference": "bd96d3487420dd5c3a65902adbf48ab79984468b",
                 "shasum": ""
             },
             "require": {
-                "rector/rector": "^2",
+                "rector/rector": "^2.8.4",
                 "webflo/drupal-finder": "^1.2"
-            },
-            "conflict": {
-                "rector/rector": ">=2.6.2"
             },
             "replace": {
                 "drupal8-rector/drupal8-rector": "*",
@@ -9862,9 +9859,9 @@
             ],
             "support": {
                 "issues": "https://github.com/palantirnet/drupal-rector/issues",
-                "source": "https://github.com/palantirnet/drupal-rector/tree/1.1.3"
+                "source": "https://github.com/palantirnet/drupal-rector/tree/1.2.0"
             },
-            "time": "2026-09-03T11:32:43+00:00"
+            "time": "2026-11-08T12:57:43+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -11361,30 +11358,27 @@
         },
         {
             "name": "rector/rector",
-            "version": "2.6.1",
+            "version": "2.8.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "b8e68f058bca43e01a2e1caa51ef022d6551ed95"
+                "reference": "55acbd956d7e3907f7d21aab54edd68a310609e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/b8e68f058bca43e01a2e1caa51ef022d6551ed95",
-                "reference": "b8e68f058bca43e01a2e1caa51ef022d6551ed95",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/55acbd956d7e3907f7d21aab54edd68a310609e6",
+                "reference": "55acbd956d7e3907f7d21aab54edd68a310609e6",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.4|^8.0",
-                "phpstan/phpstan": "^2.2.6"
+                "phpstan/phpstan": "^2.3.5"
             },
             "conflict": {
                 "rector/rector-doctrine": "*",
                 "rector/rector-downgrade-php": "*",
                 "rector/rector-phpunit": "*",
                 "rector/rector-symfony": "*"
-            },
-            "suggest": {
-                "ext-dom": "To manipulate phpunit.xml via the custom-rule command"
             },
             "bin": [
                 "bin/rector"
@@ -11409,7 +11403,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/2.6.1"
+                "source": "https://github.com/rectorphp/rector/tree/2.8.4"
             },
             "funding": [
                 {
@@ -11417,7 +11411,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-03T17:30:34+00:00"
+            "time": "2026-11-03T18:48:08+00:00"
         },
         {
             "name": "sebastian/cli-parser",
