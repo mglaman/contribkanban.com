@@ -1,0 +1,26 @@
+.my-projects__form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 480px;
+}
+
+.my-projects__form .form-actions {
+  display: flex;
+}
+
+.my-projects__message,
+.my-projects__hint {
+  max-width: 60ch;
+  color: var(--ck-muted);
+}
+
+.my-projects__hint {
+  font-size: 13px;
+}
+
+.my-projects__error {
+  max-width: 60ch;
+  color: var(--ck-text);
+  font-weight: 600;
+}

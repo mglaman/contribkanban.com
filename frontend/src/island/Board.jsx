@@ -103,9 +103,10 @@ function DrupalOrgColumn({ list, category, priority, text }) {
 /**
  * Loads every open work item from GitLab once.
  *
- * @param {Function} load fetchOpenWorkItems or fetchLabeledWorkItems.
- * @param {string} source The project path or label to load.
- * @returns {{state: string, issues: object[]}}
+ * @param {Function} load fetchOpenWorkItems, fetchLabeledWorkItems, or
+ *   fetchProjectsWorkItems.
+ * @param {string|string[]} source The project path, label, or project paths to load.
+ * @returns {{state: string, issues: object[], partial: boolean}}
  */
 export function useWorkItems(load, source) {
   const [result, setResult] = useState(LOADING);
@@ -120,7 +121,7 @@ export function useWorkItems(load, source) {
         setResult(value);
       }
     };
-    load(source, (issues) => resolve({ state: "ok", issues }), controller.signal).catch(() =>
+    load(source, (issues, partial = false) => resolve({ state: "ok", issues, partial }), controller.signal).catch(() =>
       resolve({ ...LOADING, state: "error" })
     );
     return () => controller.abort();
@@ -154,7 +155,8 @@ function GitLabColumns({ workItems, lists, category, priority, milestone, text }
 }
 
 /**
- * A tag board list: drupal.org issues merged with GitLab work items.
+ * A list on a board spanning projects: drupal.org issues merged with GitLab
+ * work items.
  *
  * Projects that moved to GitLab leave their issues on drupal.org, frozen, so
  * those come from GitLab only. Drupal lists the moved projects.
@@ -162,15 +164,16 @@ function GitLabColumns({ workItems, lists, category, priority, milestone, text }
  * The Project filter queries drupal.org by the project's node ID, and filters
  * the loaded work items by the project in their URL.
  */
-function TagColumn({ list, workItems, movedProjects, category, priority, project, projectNid, text, showProject, onIssues }) {
-  // A GitLab label's board has no drupal.org tag, and a project drupal.org
-  // doesn't know has no drupal.org issues to load.
-  const tagged = list.tags.length > 0;
-  const enabled = tagged && (!project || projectNid.nid !== null);
+function SpanningColumn({ list, workItems, movedProjects, category, priority, project, projectNid, text, showProject, onIssues }) {
+  // A GitLab label's board has no drupal.org tag, a viewer whose projects all
+  // moved has none on drupal.org, and a project drupal.org doesn't know has no
+  // drupal.org issues to load. An empty query would match every issue.
+  const onDrupalOrg = list.tags.length > 0 || list.projects.length > 0;
+  const enabled = onDrupalOrg && (!project || projectNid.nid !== null);
   const loaded = useListIssues(list, category, priority, projectNid.nid, enabled);
   const drupalorg = enabled
     ? loaded
-    : !tagged || projectNid.state === "ok"
+    : !onDrupalOrg || projectNid.state === "ok"
       ? EMPTY
       : { ...LOADING, state: projectNid.state };
   useEffect(() => {
@@ -199,24 +202,28 @@ function TagColumn({ list, workItems, movedProjects, category, priority, project
       state={state}
       issues={issues}
       total={text ? issues.length : total}
-      partial={!text && drupalorg.partial}
+      partial={!text && (drupalorg.partial || workItems.partial)}
       showProject={showProject}
     />
   );
 }
 
 /**
- * Every list on a tag board, sharing one load of the label's work items.
+ * Every list on a tag board or My projects, sharing one load of work items.
+ *
+ * With a list of projects as the source, the Project filter can name one that
+ * moved to GitLab. Its drupal.org issues are frozen, so they don't load.
  */
-function TagColumns({ label, movedProjects, lists, category, priority, project, text, showProject, onIssues }) {
-  const workItems = useWorkItems(fetchLabeledWorkItems, label);
+function SpanningColumns({ load, source, movedProjects, lists, category, priority, project, text, showProject, onIssues }) {
+  const workItems = useWorkItems(load, source);
   const moved = useMemo(() => new Set(movedProjects.map(String)), [movedProjects]);
-  const projectNid = useProjectNid(project);
+  const onGitLab = Array.isArray(source) && source.includes(`project/${project}`);
+  const projectNid = useProjectNid(onGitLab ? null : project);
   useEffect(() => {
     onIssues(workItems.issues);
   }, [workItems.issues, onIssues]);
   return lists.map((list, index) => (
-    <TagColumn
+    <SpanningColumn
       key={index}
       list={list}
       workItems={workItems}
@@ -355,10 +362,13 @@ function CollectionColumns({ nids, workItems, movedProjects, lists, category, pr
  *
  * Projects stay once seen, so filtering by one keeps the others to pick.
  *
+ * @param {string[]} [known] Projects to offer before any of their issues load.
+ *   A list only loads its first page from drupal.org, so a project's issues
+ *   might never load unless it's picked.
  * @returns {{names: string[], add: (issues: object[]) => void}}
  */
-export function useProjects() {
-  const [names, setNames] = useState(() => new Set());
+export function useProjects(known = NO_PROJECTS) {
+  const [names, setNames] = useState(() => new Set(known));
   const add = useCallback((issues) => {
     setNames((previous) => {
       let next = previous;
@@ -404,8 +414,10 @@ export function rouletteUrl(base, filters) {
  *   site. Embedded boards keep the filters in their URL but don't show them.
  * @param {HTMLElement|null} [props.embedSlot] Where the board shell wants the
  *   Embed button, with the embed path and board title in its data attributes.
+ * @param {Function} [props.loadProjects] Loads the work items of the projects
+ *   in `config.gitlabProjects`, with the viewer's token.
  */
-function Board({ config, filtersSlot, rouletteLink = null, embed = false, embedSlot = null }) {
+function Board({ config, filtersSlot, rouletteLink = null, embed = false, embedSlot = null, loadProjects = null }) {
   const showProject = config.showProject ?? false;
   const gitlabProject = config.source === "gitlab" ? config.gitlabProject : null;
   const [filters, setFilters] = useState(() => {
@@ -414,7 +426,7 @@ function Board({ config, filtersSlot, rouletteLink = null, embed = false, embedS
     // project boards by milestone.
     return { ...read, project: showProject ? read.project : null, milestone: gitlabProject ? read.milestone : null };
   });
-  const projects = useProjects();
+  const projects = useProjects(config.projectNames);
   const workItems = useWorkItems(fetchOpenWorkItems, gitlabProject);
   const milestones = useMemo(
     () =>
@@ -472,9 +484,10 @@ function Board({ config, filtersSlot, rouletteLink = null, embed = false, embedS
             showProject={showProject}
             onIssues={projects.add}
           />
-        ) : config.gitlabLabel ? (
-          <TagColumns
-            label={config.gitlabLabel}
+        ) : config.gitlabLabel || config.gitlabProjects ? (
+          <SpanningColumns
+            load={config.gitlabLabel ? fetchLabeledWorkItems : loadProjects}
+            source={config.gitlabLabel || config.gitlabProjects}
             movedProjects={config.movedProjects ?? NO_PROJECTS}
             lists={config.lists}
             category={category}

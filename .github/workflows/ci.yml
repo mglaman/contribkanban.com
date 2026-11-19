@@ -156,6 +156,9 @@ jobs:
           curl -fsS "http://127.0.0.1:8080/sprint/ci::label-only-tag" | grep 'Work items from <a href="https://git.drupalcode.org/groups/project/-/work_items?label_name\[\]=ci%3A%3Alabel-only">'
           curl -fsS "http://127.0.0.1:8080/roulette?tag=ci::label-only" | grep 'ci::label-only'
 
+          # My projects has no token or board in its page; the island asks for the token.
+          curl -fsS "http://127.0.0.1:8080/my-projects" | grep 'data-my-projects'
+
           # Boards offer an Embed button, and embedded boards leave out the site and the roulette, and other sites can frame them.
           curl -fsS "http://127.0.0.1:8080/board/smoke_test_project" | grep 'data-board-embed="/board/smoke_test_project/embed"'
           # Only logged-in users get the Bookmark button.

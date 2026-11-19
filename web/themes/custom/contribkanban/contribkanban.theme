@@ -35,6 +35,13 @@ function contribkanban_preprocess_page(array &$variables): void {
       'current' => $route_name === 'contribkanban_boards.roulette',
     ],
     [
+      'label' => (string) t('My projects'),
+      'description' => (string) t('Issues from every project you maintain'),
+      'icon' => 'boards',
+      'url' => Url::fromRoute('contribkanban_boards.my_projects')->toString(),
+      'current' => $route_name === 'contribkanban_boards.my_projects',
+    ],
+    [
       'label' => (string) t('Create a board'),
       'description' => (string) t('Track a project or an issue tag'),
       'icon' => 'create',
@@ -50,6 +57,7 @@ function contribkanban_preprocess_page(array &$variables): void {
     'entity.board.embed',
     'entity.node_board.canonical',
     'contribkanban_boards.roulette',
+    'contribkanban_boards.my_projects',
   ], TRUE);
   $variables['account_link'] = \Drupal::currentUser()->isAnonymous()
     ? ['label' => (string) t('Log in'), 'url' => Url::fromRoute('user.login')->toString()]

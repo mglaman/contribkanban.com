@@ -97,6 +97,14 @@ contribkanban_boards.roulette:
   requirements:
     # Like boards, the roulette is for everyone.
     _access: 'TRUE'
+contribkanban_boards.my_projects:
+  path: '/my-projects'
+  defaults:
+    _controller: '\Drupal\contribkanban_boards\Controller\MyProjectsController::page'
+    _title: 'My projects'
+  requirements:
+    # The page holds nothing personal. The viewer's token stays in their browser.
+    _access: 'TRUE'
 contribkanban_boards.popular:
   path: '/admin/boards/popular'
   defaults:

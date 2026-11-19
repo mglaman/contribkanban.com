@@ -5,6 +5,9 @@ const GITLAB_API_URL = "https://git.drupalcode.org/api/v4";
 // per minute, so very large projects only show their first 2,000 items.
 const MAX_PAGES = 20;
 
+// Projects a board spanning many projects loads at once.
+const PROJECT_CONCURRENCY = 6;
+
 // GitLab `state::` values to Drupal.org issue status IDs. GitLab added triage
 // states with no Drupal.org equivalent, and those count as Active.
 const STATE_TO_STATUS = {
@@ -126,10 +129,13 @@ export function filterIssues(issues, filter) {
     .sort((a, b) => Number(b.field_issue_priority) - Number(a.field_issue_priority));
 }
 
-async function fetchPage(url, page, signal) {
-  const res = await fetch(`${url}&page=${page}`, { signal });
+async function fetchPage(url, page, signal, token) {
+  const options = token ? { signal, headers: { "PRIVATE-TOKEN": token } } : { signal };
+  const res = await fetch(`${url}&page=${page}`, options);
   if (!res.ok) {
-    throw new Error(`GitLab responded ${res.status} for ${url}`);
+    const error = new Error(`GitLab responded ${res.status} for ${url}`);
+    error.status = res.status;
+    throw error;
   }
   return res;
 }
@@ -143,10 +149,11 @@ async function fetchPage(url, page, signal) {
  * @param {string} url The endpoint, with a query string.
  * @param {(issues: object[]) => void} onPage Called with the issues loaded so far.
  * @param {AbortSignal} [signal]
+ * @param {string} [token] A GitLab token to send, for a viewer's own requests.
  * @returns {Promise<void>}
  */
-async function fetchAllPages(url, onPage, signal) {
-  const first = await fetchPage(url, 1, signal);
+async function fetchAllPages(url, onPage, signal, token) {
+  const first = await fetchPage(url, 1, signal, token);
   const firstItems = (await first.json()).map(toDrupalOrgIssue);
   onPage(firstItems);
 
@@ -157,7 +164,7 @@ async function fetchAllPages(url, onPage, signal) {
   }
   const pages = [];
   for (let page = 2; page <= totalPages; page++) {
-    pages.push(fetchPage(url, page, signal).then((res) => res.json()));
+    pages.push(fetchPage(url, page, signal, token).then((res) => res.json()));
   }
   const rest = (await Promise.all(pages)).flat().map(toDrupalOrgIssue);
   onPage(firstItems.concat(rest));
@@ -169,14 +176,94 @@ async function fetchAllPages(url, onPage, signal) {
  * @param {string} fullPath The GitLab project path, like `project/tool`.
  * @param {(issues: object[]) => void} onPage Called with the issues loaded so far.
  * @param {AbortSignal} [signal]
+ * @param {string} [token] A GitLab token to send, for a viewer's own requests.
  * @returns {Promise<void>}
  */
-export function fetchOpenWorkItems(fullPath, onPage, signal) {
+export function fetchOpenWorkItems(fullPath, onPage, signal, token) {
   return fetchAllPages(
     `${GITLAB_API_URL}/projects/${encodeURIComponent(fullPath)}/issues?state=opened&per_page=100`,
     onPage,
-    signal
+    signal,
+    token
   );
+}
+
+/**
+ * Fetches the drupal.org projects a token's account maintains.
+ *
+ * Access level 30 is GitLab's Developer role. Some co-maintainers only have
+ * that, so asking for the Maintainer role would miss their projects. Scoping
+ * to the `project` group leaves out their issue forks and sandboxes.
+ *
+ * @param {string} token The viewer's GitLab token.
+ * @param {AbortSignal} [signal]
+ * @returns {Promise<{path: string, machineName: string, issuesEnabled: boolean}[]>}
+ * @throws {Error} With a `status` of 401 when GitLab rejects the token.
+ */
+export async function fetchMyProjects(token, signal) {
+  const url = `${GITLAB_API_URL}/groups/project/projects?min_access_level=30&per_page=100`;
+  const first = await fetchPage(url, 1, signal, token);
+  const pages = [first.json()];
+  const totalPages = Number(first.headers.get("X-Total-Pages")) || 1;
+  for (let page = 2; page <= totalPages; page++) {
+    pages.push(fetchPage(url, page, signal, token).then((res) => res.json()));
+  }
+  return (await Promise.all(pages)).flat().map((project) => ({
+    path: project.path_with_namespace,
+    machineName: project.path,
+    issuesEnabled: project.issues_enabled === true,
+  }));
+}
+
+/**
+ * Fetches every open work item in many projects.
+ *
+ * GitLab's REST API can't filter issues by a list of projects, so each project
+ * takes at least one request. A maintainer's board can be over 100 requests,
+ * so only a few run at once. A project that fails leaves the others in place,
+ * and only counts as a failed load if every project fails.
+ *
+ * @param {string[]} paths GitLab project paths, like `project/tool`.
+ * @param {(issues: object[], partial: boolean) => void} onPage Called with the
+ *   issues loaded so far, and whether any project is missing from them.
+ * @param {AbortSignal} [signal]
+ * @param {string} [token] A GitLab token to send, for a viewer's own requests.
+ * @returns {Promise<void>}
+ */
+export async function fetchProjectsWorkItems(paths, onPage, signal, token) {
+  const loaded = new Map();
+  const queue = [...paths];
+  let pending = paths.length;
+  let failed = 0;
+  const publish = () => onPage([...loaded.values()].flat(), pending > 0 || failed > 0);
+
+  const worker = async () => {
+    for (let path = queue.shift(); path; path = queue.shift()) {
+      try {
+        await fetchOpenWorkItems(
+          path,
+          (issues) => {
+            loaded.set(path, issues);
+            publish();
+          },
+          signal,
+          token
+        );
+      } catch (error) {
+        if (signal?.aborted) {
+          throw error;
+        }
+        failed++;
+      }
+      pending--;
+    }
+  };
+  await Promise.all(Array.from({ length: PROJECT_CONCURRENCY }, worker));
+
+  if (paths.length > 0 && failed === paths.length) {
+    throw new Error(`GitLab failed for all ${failed} projects`);
+  }
+  publish();
 }
 
 /**

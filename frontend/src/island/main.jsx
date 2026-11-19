@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import Board from "./Board";
 import IssueIdsEditor from "./IssueIdsEditor";
+import MyProjects from "./MyProjects";
 import Roulette from "./Roulette";
 
 // The board shell component renders the configuration and empty columns, and
@@ -15,6 +16,15 @@ for (const element of document.querySelectorAll("[data-board]")) {
   createRoot(element).render(
     <Board config={config} filtersSlot={filtersSlot} rouletteLink={rouletteLink} embed={embed} embedSlot={embedSlot} />
   );
+}
+
+// The My projects page has no board configuration. The island builds it from
+// the viewer's GitLab token.
+for (const element of document.querySelectorAll("[data-my-projects]")) {
+  const shell = element.closest(".my-projects");
+  const filtersSlot = shell?.querySelector("[data-board-filters]") ?? null;
+  const actionsSlot = shell?.querySelector("[data-my-projects-actions]") ?? null;
+  createRoot(element).render(<MyProjects filtersSlot={filtersSlot} actionsSlot={actionsSlot} />);
 }
 
 // The issue roulette component renders the tags in data-roulette, and the

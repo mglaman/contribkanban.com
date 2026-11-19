@@ -25,6 +25,8 @@ The site is at `https://contribkanban.com.ddev.site`.
 
 `frontend/src/island/` renders board and issue collection pages. Drupal renders the `board-shell` component with the board configuration in `data-board`, and the island renders the filters and columns into it. It loads issues from drupal.org and GitLab in the browser.
 
+`/my-projects` is a board across the projects the viewer maintains, with no board entity behind it. The viewer pastes a GitLab token, which stays in the browser's `localStorage` and only goes to git.drupalcode.org. GitLab's `groups/project/projects?min_access_level=30` lists their projects, and `issues_enabled` says whether a project's issues moved, so this page doesn't read the `gitlab_issues` flags. Never send that token to Drupal or store it on the server, since it can read everything its owner can, including `security/` projects. For the same reason, the page leaves out Fathom. Any third-party script there could read the token.
+
 ```bash
 ddev frontend build    # writes components/board-shell/board-shell.js
 ddev frontend watch    # rebuilds on change
