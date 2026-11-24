@@ -2,18 +2,19 @@
 
 namespace Drupal\contribkanban_boards\Plugin\BoardProvider;
 
+use Drupal\contribkanban_boards\Attribute\BoardProvider;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Plugin\PluginBase;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Provides the first bundle plugin.
- *
- * @BoardProvider(
- *   id = "drupalorg_core",
- *   label = @Translation("Core component"),
- *   description = @Translation("Add a board for a module"),
- * )
  */
+#[BoardProvider(
+  id: "drupalorg_core",
+  label: new TranslatableMarkup("Core component"),
+  description: new TranslatableMarkup("Add a board for a module"),
+)]
 class DrupalOrgCore extends PluginBase implements BoardProviderInterface {
 
   /**

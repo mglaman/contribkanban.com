@@ -2,18 +2,19 @@
 
 namespace Drupal\contribkanban_boards\Plugin\BoardProvider;
 
+use Drupal\contribkanban_boards\Attribute\BoardProvider;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Plugin\PluginBase;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Provides the first bundle plugin.
- *
- * @BoardProvider(
- *   id = "drupalorg_sprint",
- *   label = @Translation("Tag"),
- *   description = @Translation("Add a board for a Drupal.org issue tag."),
- * )
  */
+#[BoardProvider(
+  id: "drupalorg_sprint",
+  label: new TranslatableMarkup("Tag"),
+  description: new TranslatableMarkup("Add a board for a Drupal.org issue tag."),
+)]
 class DrupalOrgSprint extends PluginBase implements BoardProviderInterface {
 
   /**
