@@ -6,12 +6,12 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\contribkanban_boards\Plugin\BoardProvider\BoardProviderInterface;
-use Drupal\contribkanban_boards\Annotation\BoardProvider;
+use Drupal\contribkanban_boards\Attribute\BoardProvider;
 
 /**
  * Manages discovery and instantiation of BundlePluginTest plugins.
  *
- * @see \Drupal\contribkanban_boards\Annotation\BoardProvider
+ * @see \Drupal\contribkanban_boards\Attribute\BoardProvider
  * @see plugin_api
  */
 class BoardProviderManager extends DefaultPluginManager {
